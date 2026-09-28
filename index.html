@@ -1,1 +1,37 @@
-#
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRR Furniture - Chair</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="bar">
+    <h2>IRR Furniture</h2>
+    <button id="cartBtn">Cart (<span id="count">0</span>)</button>
+  </header>
+
+  <div class="tools">
+    <h3>Chair</h3>
+    <select id="sort">
+      <option value="">Default</option>
+      <option value="asc">Price: low to high</option>
+      <option value="desc">Price: high to low</option>
+    </select>
+  </div>
+
+  <main id="grid" class="grid"></main>
+
+  <aside id="cart" class="cart hidden">
+    <div class="cart-head">
+      <h3>Your Cart</h3>
+      <button id="closeCart">✕</button>
+    </div>
+    <div id="cartItems"></div>
+    <p class="total">Total: <span id="total">0</span>৳</p>
+  </aside>
+
+  <script src="script.js"></script>
+</body>
+</html>
