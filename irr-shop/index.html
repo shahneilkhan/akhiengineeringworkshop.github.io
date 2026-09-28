@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRR Furniture | Premium Chairs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="topbar"><div class="wrap">
+    <a href="tel:+8801922270259">☎ Call Center: +880 1922-270259</a>
+    <span>Display Center: Mirpur-11, Dhaka</span>
+  </div></div>
+
+  <header class="header"><div class="wrap head-in">
+    <a href="#" class="logo"><span><b>IRR</b> FURNITURE</span><small>Furniture &amp; Household</small></a>
+    <nav class="nav">
+      <a href="#top">Home</a>
+      <a href="#shop">Chairs</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button id="cartBtn" class="cartbtn">Cart <span id="count">0</span></button>
+  </div></header>
+
+  <section class="hero" id="top"><div class="wrap">
+    <p class="eyebrow">Office &amp; Home Collection</p>
+    <h1>Seating crafted for<br>comfort and presence</h1>
+    <p class="sub">Premium office and executive chairs, made to elevate every workspace.</p>
+    <a href="#shop" class="btn">Shop Chairs</a>
+  </div></section>
+
+  <section class="wrap" id="shop">
+    <div class="toolbar">
+      <div><h2>Chairs</h2><p id="showing" class="muted"></p></div>
+      <div class="filters">
+        <select id="price">
+          <option value="">All prices</option>
+          <option value="0-5000">Under 5,000৳</option>
+          <option value="5000-10000">5,000৳ - 10,000৳</option>
+          <option value="10000-999999">Above 10,000৳</option>
+        </select>
+        <select id="sort">
+          <option value="">Featured</option>
+          <option value="asc">Price: low to high</option>
+          <option value="desc">Price: high to low</option>
+        </select>
+      </div>
+    </div>
+    <main id="grid" class="grid"></main>
+  </section>
+
+  <footer class="footer" id="contact"><div class="wrap foot-in">
+    <div><h3>IRR Furniture</h3><p>Corporate Office and Display Center:<br>House-9, Line-3, Avenue-5, Mirpur-11, Dhaka-1216, Bangladesh.</p></div>
+    <div><h3>Contact</h3><p><a href="tel:+8801922270259">+880 1922-270259</a><br>
+      <a href="https://www.facebook.com/irrfurniture/" target="_blank" rel="noopener">Facebook</a> ·
+      <a href="https://www.instagram.com/furniture_irr/" target="_blank" rel="noopener">Instagram</a></p></div>
+  </div>
+  <p class="copy">© 2026 IRR Furniture. All rights reserved.</p></footer>
+
+  <div id="overlay" class="overlay"></div>
+  <aside id="cart" class="cart">
+    <div class="cart-head"><h3>Your Cart</h3><button id="closeCart" aria-label="Close">✕</button></div>
+    <div id="cartItems" class="cart-items"></div>
+    <div class="cart-foot">
+      <p class="total"><span>Total</span><strong><span id="total">0</span>৳</strong></p>
+      <a id="wa" class="btn wa" href="#" target="_blank" rel="noopener">Order on WhatsApp</a>
+    </div>
+  </aside>
+
+  <script src="script.js"></script>
+</body>
+</html>
