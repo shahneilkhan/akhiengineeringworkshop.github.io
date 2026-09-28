@@ -1,8 +1,68 @@
 {
-  "name": "Product er naam",
-  "price": 5500,
-  "category": "Chair",
-  "subcategory": "Office Chair",
-  "image": "images/product1.jpg",
-  "hot": false
-},
+  "products": [
+    {
+      "name": "Sample Product 1",
+      "price": 3800,
+      "category": "Chair",
+      "subcategory": "Office Chair",
+      "image": "images/placeholder.svg",
+      "hot": true
+    },
+    {
+      "name": "Sample Product 2",
+      "price": 6800,
+      "category": "Chair",
+      "subcategory": "Executive Chair",
+      "image": "images/placeholder.svg",
+      "hot": false
+    },
+    {
+      "name": "Sample Product 3",
+      "price": 12500,
+      "category": "Home Furniture",
+      "subcategory": "Dining Table",
+      "image": "images/placeholder.svg",
+      "hot": false
+    },
+    {
+      "name": "Sample Product 4",
+      "price": 5200,
+      "category": "Home Furniture",
+      "subcategory": "Study Table",
+      "image": "images/placeholder.svg",
+      "hot": false
+    },
+    {
+      "name": "Sample Product 5",
+      "price": 18500,
+      "category": "Office Furniture",
+      "subcategory": "Director Table",
+      "image": "images/placeholder.svg",
+      "hot": true
+    },
+    {
+      "name": "Sample Product 6",
+      "price": 9500,
+      "category": "Office Furniture",
+      "subcategory": "WorkStation",
+      "image": "images/placeholder.svg",
+      "hot": false
+    },
+    {
+      "name": "Sample Product 7",
+      "price": 4500,
+      "category": "Desk",
+      "subcategory": "Desk & Table",
+      "image": "images/placeholder.svg",
+      "hot": false
+    },
+    {
+      "name": "Sample Product 8",
+      "price": 7200,
+      "category": "Cabinets",
+      "subcategory": "Wall Cabinet",
+      "image": "images/placeholder.svg",
+      "hot": false
+    }
+  ]
+}
