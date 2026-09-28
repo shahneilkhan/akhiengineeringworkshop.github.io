@@ -1,0 +1,27 @@
+backend:
+  name: github
+  repo: shahneilkhan/akhiengineeringworkshop.github.io
+  branch: main
+
+media_folder: "images"
+public_folder: "images"
+
+collections:
+  - name: shop
+    label: Shop
+    files:
+      - name: products
+        label: Chair Products
+        file: data/products.json
+        fields:
+          - label: Products
+            name: products
+            widget: list
+            summary: "{{fields.name}} - {{fields.price}}৳"
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: Price (৳), name: price, widget: number, value_type: int, min: 0 }
+              - { label: Category, name: category, widget: select, options: ["Home Furniture", "Office Furniture", "Chair", "Desk", "Cabinets"] }
+              - { label: Sub category, name: subcategory, widget: select, options: ["Dining Table", "Dressing Table", "Bed Side Table", "Computer Table", "Reading Table", "Study Table", "Director Table", "WorkStation", "Conference Table", "Executive Desk", "L Shape Table", "Reception Desk", "Printer Stand", "Mobile Drawer Unit", "Tulip Chair", "Executive Chair", "Office Chair", "Desk & Table", "All Cabinets", "Wall Cabinet", "Kitchen Cabinet"], hint: Category er sathe mil rekhe select korun }
+              - { label: Image, name: image, widget: image }
+              - { label: Hot badge, name: hot, widget: boolean, default: false }

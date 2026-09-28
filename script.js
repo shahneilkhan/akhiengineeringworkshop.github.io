@@ -7,6 +7,40 @@ const SITE = {
   facebook: "",                     // link thakle boshan
   instagram: ""
 };
+const CATEGORIES = {
+  "Home Furniture": [
+    "Dining Table",
+    "Dressing Table",
+    "Bed Side Table",
+    "Computer Table",
+    "Reading Table",
+    "Study Table"
+  ],
+  "Office Furniture": [
+    "Director Table",
+    "WorkStation",
+    "Conference Table",
+    "Executive Desk",
+    "L Shape Table",
+    "Reception Desk",
+    "Printer Stand",
+    "Mobile Drawer Unit"
+  ],
+  "Chair": [
+    "Tulip Chair",
+    "Executive Chair",
+    "Office Chair"
+  ],
+  "Desk": [
+    "Desk & Table"
+  ],
+  "Cabinets": [
+    "All Cabinets",
+    "Wall Cabinet",
+    "Kitchen Cabinet"
+  ]
+};
+let sel = { main: "", sub: "" };
 let products = [];
 let cart = {};
 try { cart = JSON.parse(localStorage.getItem("cart")) || {}; } catch (e) {}
@@ -16,7 +50,8 @@ const fmt = (n) => Number(n).toLocaleString();
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 function renderProducts() {
-  let list = [...products];
+  let list = products.filter((p) => (!sel.main || p.category === sel.main) && (!sel.sub || p.subcategory === sel.sub));
+  $("title").textContent = sel.sub || sel.main || "Our Products";
   const pr = $("price").value;
   if (pr) {
     const [min, max] = pr.split("-").map(Number);
@@ -38,6 +73,16 @@ function renderProducts() {
         <button class="add" data-name="${esc(p.name)}" data-d="1">Add to cart</button>
       </div>
     </div>`).join("") || "<p>No products found.</p>";
+}
+
+function renderCats() {
+  const chip = (label, main, sub, on) => `<button class="chip${on ? " on" : ""}" data-main="${esc(main)}" data-sub="${esc(sub)}">${esc(label)}</button>`;
+  $("mainCats").innerHTML = chip("All Products", "", "", !sel.main) +
+    Object.keys(CATEGORIES).map((m) => chip(m, m, "", sel.main === m)).join("");
+  const subs = CATEGORIES[sel.main] || [];
+  $("subCats").innerHTML = subs.length
+    ? chip("All " + sel.main, sel.main, "", !sel.sub) + subs.map((x) => chip(x, sel.main, x, sel.sub === x)).join("")
+    : "";
 }
 
 function renderCart() {
@@ -79,6 +124,13 @@ document.addEventListener("click", (e) => {
   change(b.dataset.name, Number(b.dataset.d));
   if (b.classList.contains("add")) toggleCart(true);
 });
+document.addEventListener("click", (e) => {
+  const c = e.target.closest(".chip");
+  if (!c) return;
+  sel = { main: c.dataset.main, sub: c.dataset.sub };
+  renderCats();
+  renderProducts();
+});
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") toggleCart(false); });
 $("sort").onchange = renderProducts;
 $("price").onchange = renderProducts;
@@ -88,7 +140,7 @@ $("overlay").onclick = () => toggleCart(false);
 
 fetch("data/products.json")
   .then((r) => r.json())
-  .then((d) => { products = d.products || []; renderProducts(); renderCart(); })
+  .then((d) => { products = d.products || []; renderCats(); renderProducts(); renderCart(); })
   .catch(() => { $("grid").innerHTML = "<p>Products load hocche na</p>"; });
 
 (function fillSite() {
