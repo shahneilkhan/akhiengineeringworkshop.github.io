@@ -1,40 +1,8 @@
 {
-  "products": [
-    {
-      "name": "Sample Product 1",
-      "price": 3800,
-      "image": "images/placeholder.svg",
-      "hot": true
-    },
-    {
-      "name": "Sample Product 2",
-      "price": 4500,
-      "image": "images/placeholder.svg",
-      "hot": false
-    },
-    {
-      "name": "Sample Product 3",
-      "price": 5200,
-      "image": "images/placeholder.svg",
-      "hot": false
-    },
-    {
-      "name": "Sample Product 4",
-      "price": 6800,
-      "image": "images/placeholder.svg",
-      "hot": true
-    },
-    {
-      "name": "Sample Product 5",
-      "price": 9500,
-      "image": "images/placeholder.svg",
-      "hot": false
-    },
-    {
-      "name": "Sample Product 6",
-      "price": 12500,
-      "image": "images/placeholder.svg",
-      "hot": false
-    }
-  ]
-}
+  "name": "Product er naam",
+  "price": 5500,
+  "category": "Chair",
+  "subcategory": "Office Chair",
+  "image": "images/product1.jpg",
+  "hot": false
+},
