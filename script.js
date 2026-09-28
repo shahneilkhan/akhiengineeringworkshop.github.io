@@ -1,4 +1,3 @@
-```javascript
 /* =========================================================
    AKHI ENGINEERING WORKSHOP
    ULTRA PREMIUM SHOP SCRIPT
