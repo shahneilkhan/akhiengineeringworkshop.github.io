@@ -1,19 +1,25 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Dashboard | AKI Engineering Workshop</title>
-
   <meta
     name="description"
     content="AKI Engineering Workshop Administration Dashboard"
   >
 
+  <meta name="theme-color" content="#07090c">
+
+  <title>Dashboard | AKI Engineering Workshop</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
 
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
@@ -23,32 +29,31 @@
   <style>
     :root {
       --bg: #07090c;
-      --sidebar: #0b0e12;
-      --panel: #0e1217;
-      --panel-2: #121820;
-      --border: rgba(255,255,255,.08);
-      --border-hover: rgba(200,255,61,.24);
+      --bg-2: #0a0d11;
+      --panel: #0d1116;
+      --panel-2: #11161d;
 
-      --text: #f4f6f8;
-      --muted: #7f8998;
-      --muted-2: #596372;
+      --border: rgba(255,255,255,.08);
+      --border-hover: rgba(200,255,61,.28);
+
+      --text: #f5f7fa;
+      --muted: #8d98a6;
+      --muted-2: #626d7a;
 
       --accent: #c8ff3d;
       --accent-soft: rgba(200,255,61,.08);
-      --accent-border: rgba(200,255,61,.18);
+      --accent-glow: rgba(200,255,61,.20);
 
-      --blue: #75a7ff;
-      --orange: #ffb45f;
-      --purple: #b28cff;
-      --red: #ff6978;
+      --danger: #ff637b;
+      --blue: #75a8ff;
+      --orange: #ffb45e;
 
-      --sidebar-width: 275px;
-      --topbar-height: 76px;
+      --sidebar: 270px;
+      --topbar: 78px;
 
-      --radius: 18px;
-      --radius-small: 12px;
-
-      --shadow: 0 25px 70px rgba(0,0,0,.25);
+      --radius-xl: 25px;
+      --radius-lg: 19px;
+      --radius-md: 14px;
     }
 
     * {
@@ -59,6 +64,7 @@
 
     html {
       scroll-behavior: smooth;
+      background: var(--bg);
     }
 
     body {
@@ -67,16 +73,22 @@
       color: var(--text);
       background:
         radial-gradient(
-          circle at 70% 0%,
-          rgba(200,255,61,.045),
-          transparent 30%
+          circle at 80% 0%,
+          rgba(200,255,61,.055),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 10% 100%,
+          rgba(117,168,255,.035),
+          transparent 25%
         ),
         var(--bg);
       overflow-x: hidden;
     }
 
     button,
-    input {
+    input,
+    textarea {
       font: inherit;
     }
 
@@ -90,321 +102,126 @@
     }
 
     /* =========================================
-       SCROLLBAR
-    ========================================= */
-
-    ::-webkit-scrollbar {
-      width: 7px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: #080a0d;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #242a33;
-      border-radius: 99px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: #39414d;
-    }
-
-    /* =========================================
-       MOBILE OVERLAY
-    ========================================= */
-
-    .mobile-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 80;
-      background: rgba(0,0,0,.65);
-      backdrop-filter: blur(4px);
-      opacity: 0;
-      visibility: hidden;
-      transition: .25s ease;
-    }
-
-    .mobile-overlay.show {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    /* =========================================
        SIDEBAR
     ========================================= */
 
     .sidebar {
       position: fixed;
       inset: 0 auto 0 0;
+      width: var(--sidebar);
       z-index: 100;
-      width: var(--sidebar-width);
-      height: 100vh;
-
       display: flex;
       flex-direction: column;
-
-      padding: 22px 15px;
-
-      background:
-        linear-gradient(
-          180deg,
-          rgba(255,255,255,.018),
-          transparent 45%
-        ),
-        var(--sidebar);
-
+      padding: 23px 15px;
+      background: rgba(10,13,17,.94);
       border-right: 1px solid var(--border);
+      backdrop-filter: blur(25px);
+      transition: transform .3s ease;
     }
 
-    .sidebar-brand {
+    .brand {
       display: flex;
       align-items: center;
-      gap: 11px;
-
-      padding: 3px 10px 23px;
+      gap: 12px;
+      padding: 3px 9px 25px;
       border-bottom: 1px solid var(--border);
     }
 
-    .brand-icon {
+    .brand-logo {
       width: 43px;
       height: 43px;
-
+      flex: 0 0 43px;
       display: grid;
       place-items: center;
-
       border-radius: 13px;
-
       background: var(--accent);
-      color: #090d07;
-
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 13px;
-      font-weight: 800;
-
-      box-shadow:
-        0 0 0 5px rgba(200,255,61,.045),
-        0 10px 28px rgba(200,255,61,.10);
-    }
-
-    .brand-name {
+      color: #070900;
       font-family: "Space Grotesk", sans-serif;
       font-size: 14px;
-      font-weight: 700;
-      letter-spacing: -.2px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      box-shadow: 0 0 25px rgba(200,255,61,.12);
     }
 
-    .brand-sub {
-      margin-top: 3px;
-
-      color: var(--muted-2);
-
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-    }
-
-    /* =========================================
-       SIDEBAR PROFILE
-    ========================================= */
-
-    .profile-mini {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-
-      margin: 18px 5px 20px;
-      padding: 11px;
-
-      border: 1px solid var(--border);
-      border-radius: 14px;
-
-      background: rgba(255,255,255,.018);
-    }
-
-    .profile-avatar {
-      width: 38px;
-      height: 38px;
-
-      display: grid;
-      place-items: center;
-
-      flex: 0 0 38px;
-
-      border-radius: 11px;
-
-      background:
-        linear-gradient(
-          145deg,
-          #1b222b,
-          #0d1116
-        );
-
-      border: 1px solid var(--border);
-
-      color: var(--accent);
-
-      font-size: 12px;
+    .brand-title {
+      font-family: "Space Grotesk", sans-serif;
       font-weight: 800;
+      font-size: 15px;
+      letter-spacing: -.5px;
     }
 
-    .profile-info {
-      min-width: 0;
-    }
-
-    .profile-name {
-      overflow: hidden;
-
-      color: var(--text);
-
-      font-size: 11px;
-      font-weight: 700;
-
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-
-    .profile-role {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-
+    .brand-subtitle {
       margin-top: 3px;
-
-      color: var(--muted);
-
+      color: var(--muted-2);
       font-size: 9px;
+      letter-spacing: 1.3px;
       text-transform: uppercase;
-      letter-spacing: .8px;
     }
-
-    .role-dot {
-      width: 5px;
-      height: 5px;
-
-      border-radius: 50%;
-
-      background: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-    }
-
-    /* =========================================
-       NAV
-    ========================================= */
 
     .nav-label {
-      padding: 0 11px 8px;
-
-      color: #414957;
-
+      padding: 25px 11px 9px;
+      color: #505b68;
       font-size: 9px;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: 1.5px;
       text-transform: uppercase;
     }
 
-    .sidebar-nav {
+    .nav {
       display: flex;
       flex-direction: column;
-      gap: 3px;
-
-      overflow-y: auto;
-      padding-right: 2px;
+      gap: 4px;
     }
 
     .nav-link {
-      position: relative;
-
+      min-height: 45px;
       display: flex;
       align-items: center;
-      gap: 11px;
-
-      min-height: 45px;
-
+      gap: 12px;
       padding: 0 12px;
-
       border: 1px solid transparent;
       border-radius: 12px;
-
       color: var(--muted);
-
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 600;
+      transition: .2s ease;
+    }
 
-      transition: .22s ease;
+    .nav-link svg {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 18px;
     }
 
     .nav-link:hover {
       color: var(--text);
-      background: rgba(255,255,255,.025);
-      border-color: rgba(255,255,255,.04);
+      background: rgba(255,255,255,.035);
+      border-color: var(--border);
     }
 
     .nav-link.active {
       color: var(--accent);
       background: var(--accent-soft);
-      border-color: var(--accent-border);
+      border-color: rgba(200,255,61,.13);
     }
 
-    .nav-link.active::before {
-      content: "";
-
-      position: absolute;
-      left: -1px;
-      top: 10px;
-      bottom: 10px;
-
-      width: 2px;
-
-      border-radius: 3px;
-
-      background: var(--accent);
-      box-shadow: 0 0 10px var(--accent);
-    }
-
-    .nav-icon {
-      width: 20px;
-
-      text-align: center;
-
-      font-size: 14px;
-    }
-
-    .nav-text {
-      flex: 1;
-    }
-
-    .nav-badge {
-      min-width: 19px;
-      height: 19px;
-
+    .nav-link .nav-badge {
+      margin-left: auto;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
       display: grid;
       place-items: center;
-
-      padding: 0 5px;
-
-      border-radius: 7px;
-
-      background: rgba(255,255,255,.05);
-
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
       color: var(--muted);
-
-      font-size: 8px;
-      font-weight: 800;
+      font-size: 9px;
     }
 
-    .nav-link.super-only {
-      display: none;
+    .nav-link.active .nav-badge {
+      background: rgba(200,255,61,.12);
+      color: var(--accent);
     }
-
-    .nav-link.super-only.visible {
-      display: flex;
-    }
-
-    /* =========================================
-       SIDEBAR BOTTOM
-    ========================================= */
 
     .sidebar-bottom {
       margin-top: auto;
@@ -412,43 +229,78 @@
       border-top: 1px solid var(--border);
     }
 
-    .logout-button {
-      width: 100%;
-      min-height: 43px;
+    .ai-mini-card {
+      padding: 15px;
+      border: 1px solid rgba(200,255,61,.12);
+      border-radius: 16px;
+      background:
+        radial-gradient(
+          circle at 90% 10%,
+          rgba(200,255,61,.09),
+          transparent 40%
+        ),
+        rgba(255,255,255,.02);
+    }
 
+    .ai-mini-head {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 10px;
+    }
+
+    .ai-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+    }
+
+    .ai-mini-head strong {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 12px;
+    }
+
+    .ai-mini-card p {
+      color: var(--muted-2);
+      font-size: 10px;
+      line-height: 1.55;
+      margin-bottom: 11px;
+    }
+
+    .ai-mini-card a {
+      display: block;
+      padding: 9px;
+      border-radius: 9px;
+      background: var(--accent);
+      color: #070900;
+      text-align: center;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .logout {
+      width: 100%;
+      height: 40px;
+      margin-top: 10px;
       display: flex;
       align-items: center;
       gap: 10px;
-
-      padding: 0 12px;
-
+      padding: 0 11px;
       border: 1px solid transparent;
       border-radius: 11px;
-
       background: transparent;
-
-      color: #737d8c;
-
+      color: var(--muted-2);
+      text-align: left;
       font-size: 11px;
       font-weight: 600;
-
-      transition: .22s ease;
     }
 
-    .logout-button:hover {
-      color: var(--red);
-      background: rgba(255,105,120,.05);
-      border-color: rgba(255,105,120,.12);
-    }
-
-    .sidebar-version {
-      margin-top: 10px;
-      padding: 0 12px;
-
-      color: #353c47;
-
-      font-size: 8px;
-      letter-spacing: .7px;
+    .logout:hover {
+      color: var(--danger);
+      background: rgba(255,99,123,.05);
+      border-color: rgba(255,99,123,.10);
     }
 
     /* =========================================
@@ -457,66 +309,47 @@
 
     .main {
       min-height: 100vh;
-      margin-left: var(--sidebar-width);
+      margin-left: var(--sidebar);
     }
-
-    /* =========================================
-       TOPBAR
-    ========================================= */
 
     .topbar {
       position: sticky;
       top: 0;
-      z-index: 60;
-
-      height: var(--topbar-height);
-
+      z-index: 50;
+      height: var(--topbar);
       display: flex;
       align-items: center;
       justify-content: space-between;
-
-      padding: 0 32px;
-
+      gap: 20px;
+      padding: 0 30px;
+      background: rgba(7,9,12,.78);
       border-bottom: 1px solid var(--border);
-
-      background: rgba(7,9,12,.82);
       backdrop-filter: blur(20px);
     }
 
     .topbar-left {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 13px;
     }
 
-    .menu-toggle {
+    .mobile-menu {
       display: none;
-
-      width: 40px;
-      height: 40px;
-
+      width: 38px;
+      height: 38px;
       border: 1px solid var(--border);
-      border-radius: 11px;
-
+      border-radius: 10px;
       background: rgba(255,255,255,.025);
       color: var(--text);
-
-      font-size: 17px;
     }
 
-    .page-title {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 17px;
-      font-weight: 700;
-      letter-spacing: -.4px;
-    }
-
-    .page-subtitle {
-      margin-top: 3px;
-
+    .page-label {
       color: var(--muted-2);
+      font-size: 11px;
+    }
 
-      font-size: 9px;
+    .page-label strong {
+      color: var(--text);
     }
 
     .topbar-actions {
@@ -525,31 +358,24 @@
       gap: 10px;
     }
 
-    .system-status {
+    .status {
+      height: 36px;
       display: flex;
       align-items: center;
       gap: 7px;
-
-      min-height: 35px;
       padding: 0 11px;
-
       border: 1px solid rgba(200,255,61,.12);
-      border-radius: 10px;
-
-      background: rgba(200,255,61,.035);
-
-      color: #9facba;
-
+      border-radius: 999px;
+      background: rgba(200,255,61,.045);
+      color: var(--accent);
       font-size: 9px;
-      font-weight: 600;
+      font-weight: 800;
     }
 
-    .status-dot {
+    .status span {
       width: 6px;
       height: 6px;
-
       border-radius: 50%;
-
       background: var(--accent);
       box-shadow: 0 0 9px var(--accent);
     }
@@ -557,24 +383,53 @@
     .icon-button {
       width: 36px;
       height: 36px;
-
       display: grid;
       place-items: center;
-
       border: 1px solid var(--border);
       border-radius: 10px;
-
-      background: rgba(255,255,255,.02);
-
+      background: rgba(255,255,255,.025);
       color: var(--muted);
-
-      transition: .2s ease;
     }
 
     .icon-button:hover {
       color: var(--accent);
       border-color: var(--border-hover);
-      background: var(--accent-soft);
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding-left: 5px;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: linear-gradient(
+        135deg,
+        var(--accent),
+        #7ea91e
+      );
+      color: #080b03;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .profile-info strong {
+      display: block;
+      font-size: 10px;
+    }
+
+    .profile-info span {
+      display: block;
+      margin-top: 2px;
+      color: var(--accent);
+      font-size: 8px;
+      font-weight: 700;
     }
 
     /* =========================================
@@ -582,103 +437,43 @@
     ========================================= */
 
     .content {
-      width: min(1500px, calc(100% - 64px));
-      margin: auto;
-      padding: 30px 0 50px;
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 32px 30px 50px;
     }
-
-    /* =========================================
-       WELCOME
-    ========================================= */
 
     .welcome {
-      position: relative;
-
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: space-between;
-      gap: 30px;
-
-      min-height: 190px;
-
-      padding: 30px 32px;
-
-      margin-bottom: 22px;
-
-      border: 1px solid var(--border);
-      border-radius: 22px;
-
-      overflow: hidden;
-
-      background:
-        radial-gradient(
-          circle at 85% 30%,
-          rgba(200,255,61,.09),
-          transparent 30%
-        ),
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,.035),
-          rgba(255,255,255,.012)
-        );
+      gap: 25px;
+      margin-bottom: 27px;
     }
 
-    .welcome::after {
-      content: "";
-
-      position: absolute;
-
-      right: -100px;
-      bottom: -160px;
-
-      width: 350px;
-      height: 350px;
-
-      border: 1px solid rgba(200,255,61,.08);
-      border-radius: 50%;
-
-      box-shadow:
-        0 0 0 40px rgba(200,255,61,.015),
-        0 0 0 80px rgba(200,255,61,.008);
-    }
-
-    .welcome-content {
-      position: relative;
-      z-index: 2;
-    }
-
-    .welcome-eyebrow {
+    .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 7px;
-
       margin-bottom: 10px;
-
       color: var(--accent);
-
       font-size: 9px;
       font-weight: 800;
-
       letter-spacing: 1.5px;
       text-transform: uppercase;
     }
 
-    .welcome-eyebrow span {
-      width: 5px;
-      height: 5px;
-
-      border-radius: 50%;
+    .eyebrow::before {
+      content: "";
+      width: 16px;
+      height: 1px;
       background: var(--accent);
     }
 
     .welcome h1 {
       font-family: "Space Grotesk", sans-serif;
-
-      font-size: clamp(27px, 3vw, 40px);
-
-      line-height: 1.05;
-
-      letter-spacing: -1.8px;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1;
+      letter-spacing: -2px;
     }
 
     .welcome h1 span {
@@ -686,1969 +481,152 @@
     }
 
     .welcome p {
-      max-width: 650px;
-
-      margin-top: 11px;
-
+      max-width: 580px;
+      margin-top: 12px;
       color: var(--muted);
-
-      font-size: 11px;
+      font-size: 12px;
       line-height: 1.7;
     }
 
-    .welcome-side {
-      position: relative;
-      z-index: 2;
-
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 8px;
-
-      min-width: 180px;
+    .date-box {
+      flex: 0 0 auto;
+      min-width: 155px;
+      padding: 13px 15px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: rgba(255,255,255,.02);
     }
 
-    .role-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-
-      padding: 8px 11px;
-
-      border: 1px solid var(--accent-border);
-      border-radius: 999px;
-
-      background: var(--accent-soft);
-
-      color: var(--accent);
-
-      font-size: 9px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .8px;
-    }
-
-    .role-chip-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-    }
-
-    .date-display {
+    .date-box span {
+      display: block;
       color: var(--muted-2);
       font-size: 9px;
+      margin-bottom: 5px;
+    }
+
+    .date-box strong {
+      font-size: 12px;
     }
 
     /* =========================================
-       SECTION HEADER
-    ========================================= */
-
-    .section-header {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-
-      margin: 27px 0 13px;
-    }
-
-    .section-title {
-      font-family: "Space Grotesk", sans-serif;
-
-      font-size: 15px;
-      font-weight: 700;
-    }
-
-    .section-caption {
-      margin-top: 3px;
-
-      color: var(--muted-2);
-
-      font-size: 9px;
-    }
-
-    .view-link {
-      color: var(--accent);
-      font-size: 9px;
-      font-weight: 700;
-    }
-
-    /* =========================================
-       STAT GRID
+       STATISTICS
     ========================================= */
 
     .stats-grid {
       display: grid;
       grid-template-columns:
-        repeat(4, minmax(0, 1fr));
-
+        repeat(4, minmax(0,1fr));
       gap: 13px;
+      margin-bottom: 24px;
     }
 
     .stat-card {
       position: relative;
-
-      min-height: 145px;
-
-      padding: 20px;
-
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,.035),
-          rgba(255,255,255,.012)
-        );
-
       overflow: hidden;
-
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.025);
       transition: .25s ease;
+    }
+
+    .stat-card::after {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      right: -45px;
+      top: -45px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: .035;
+      filter: blur(15px);
     }
 
     .stat-card:hover {
       transform: translateY(-3px);
       border-color: var(--border-hover);
-      box-shadow: var(--shadow);
-    }
-
-    .stat-card::after {
-      content: "";
-
-      position: absolute;
-
-      right: -40px;
-      bottom: -55px;
-
-      width: 130px;
-      height: 130px;
-
-      border-radius: 50%;
-
-      background: var(--accent-soft);
     }
 
     .stat-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-bottom: 18px;
     }
 
     .stat-icon {
-      width: 35px;
-      height: 35px;
-
+      width: 37px;
+      height: 37px;
       display: grid;
       place-items: center;
-
-      border-radius: 10px;
-
-      background: var(--accent-soft);
-
+      border-radius: 11px;
+      background: rgba(200,255,61,.07);
       color: var(--accent);
-
-      font-size: 13px;
     }
 
-    .stat-trend {
-      color: #73808e;
-      font-size: 8px;
+    .stat-icon.blue {
+      background: rgba(117,168,255,.08);
+      color: var(--blue);
+    }
+
+    .stat-icon.orange {
+      background: rgba(255,180,94,.08);
+      color: var(--orange);
+    }
+
+    .stat-icon.red {
+      background: rgba(255,99,123,.08);
+      color: var(--danger);
+    }
+
+    .stat-change {
+      color: var(--accent);
+      font-size: 9px;
       font-weight: 700;
     }
 
-    .stat-value {
-      margin-top: 20px;
-
+    .stat-card h3 {
       font-family: "Space Grotesk", sans-serif;
-
-      font-size: 29px;
-      font-weight: 700;
-
+      font-size: 28px;
       letter-spacing: -1px;
     }
 
-    .stat-label {
-      margin-top: 3px;
-
-      color: var(--muted);
-
-      font-size: 9px;
-    }
-
-    /* =========================================
-       QUICK ACTIONS
-    ========================================= */
-
-    .quick-grid {
-      display: grid;
-
-      grid-template-columns:
-        repeat(4, minmax(0, 1fr));
-
-      gap: 13px;
-    }
-
-    .quick-card {
-      min-height: 120px;
-
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-
-      padding: 17px;
-
-      border: 1px solid var(--border);
-      border-radius: var(--radius-small);
-
-      background: rgba(255,255,255,.018);
-
-      transition: .22s ease;
-    }
-
-    .quick-card:hover {
-      border-color: var(--border-hover);
-      background: rgba(200,255,61,.025);
-      transform: translateY(-2px);
-    }
-
-    .quick-icon {
-      width: 33px;
-      height: 33px;
-
-      display: grid;
-      place-items: center;
-
-      border-radius: 9px;
-
-      background: rgba(255,255,255,.045);
-
-      color: #aeb7c3;
-
-      font-size: 12px;
-    }
-
-    .quick-card:hover .quick-icon {
-      color: var(--accent);
-      background: var(--accent-soft);
-    }
-
-    .quick-name {
-      margin-top: 14px;
-
-      font-size: 10px;
-      font-weight: 700;
-    }
-
-    .quick-description {
-      margin-top: 3px;
-
+    .stat-card p {
+      margin-top: 5px;
       color: var(--muted-2);
-
-      font-size: 8px;
-      line-height: 1.5;
+      font-size: 10px;
     }
 
     /* =========================================
-       BOTTOM GRID
+       MAIN GRID
     ========================================= */
 
-    .bottom-grid {
+    .dashboard-grid {
       display: grid;
-
-      grid-template-columns:
-        minmax(0, 1.4fr)
-        minmax(300px, .8fr);
-
-      gap: 13px;
+      grid-template-columns: 1.35fr .65fr;
+      gap: 15px;
+      margin-bottom: 15px;
     }
 
     .panel {
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,.028),
-          rgba(255,255,255,.01)
-        );
-
+      border-radius: var(--radius-xl);
+      background: rgba(255,255,255,.022);
       overflow: hidden;
     }
 
-    .panel-header {
+    .panel-head {
+      min-height: 65px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-
-      padding: 17px 18px;
-
+      gap: 15px;
+      padding: 0 20px;
       border-bottom: 1px solid var(--border);
     }
 
-    .panel-header h3 {
+    .panel-title {
       font-family: "Space Grotesk", sans-serif;
-
-      font-size: 12px;
-    }
-
-    .panel-header span {
-      color: var(--muted-2);
-      font-size: 8px;
-    }
-
-    /* =========================================
-       ACTIVITY
-    ========================================= */
-
-    .activity-list {
-      padding: 4px 18px 8px;
-    }
-
-    .activity-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-
-      padding: 14px 0;
-
-      border-bottom: 1px solid rgba(255,255,255,.045);
-    }
-
-    .activity-item:last-child {
-      border-bottom: 0;
-    }
-
-    .activity-dot {
-      width: 28px;
-      height: 28px;
-
-      flex: 0 0 28px;
-
-      display: grid;
-      place-items: center;
-
-      border-radius: 8px;
-
-      background: rgba(200,255,61,.055);
-
-      color: var(--accent);
-
-      font-size: 9px;
-    }
-
-    .activity-content {
-      min-width: 0;
-    }
-
-    .activity-title {
-      font-size: 9px;
-      font-weight: 700;
-      line-height: 1.5;
-    }
-
-    .activity-meta {
-      margin-top: 3px;
-
-      color: var(--muted-2);
-
-      font-size: 8px;
-    }
-
-    /* =========================================
-       SYSTEM HEALTH
-    ========================================= */
-
-    .health-list {
-      padding: 6px 18px 12px;
-    }
-
-    .health-item {
-      padding: 12px 0;
-
-      border-bottom: 1px solid rgba(255,255,255,.045);
-    }
-
-    .health-item:last-child {
-      border-bottom: 0;
-    }
-
-    .health-top {
-      display: flex;
-      justify-content: space-between;
-
-      margin-bottom: 8px;
-    }
-
-    .health-name {
-      color: #b5bdc8;
-
-      font-size: 9px;
-      font-weight: 600;
-    }
-
-    .health-status {
-      color: var(--accent);
-
-      font-size: 8px;
-      font-weight: 700;
-    }
-
-    .progress {
-      height: 4px;
-
-      overflow: hidden;
-
-      border-radius: 99px;
-
-      background: rgba(255,255,255,.05);
-    }
-
-    .progress span {
-      display: block;
-
-      height: 100%;
-
-      border-radius: inherit;
-
-      background: var(--accent);
-
-      box-shadow: 0 0 8px rgba(200,255,61,.2);
-    }
-
-    /* =========================================
-       TOAST
-    ========================================= */
-
-    .toast {
-      position: fixed;
-
-      right: 25px;
-      bottom: 25px;
-
-      z-index: 300;
-
-      min-width: 250px;
-
-      padding: 14px 16px;
-
-      border: 1px solid var(--border-hover);
-      border-radius: 13px;
-
-      background: #10151b;
-
-      box-shadow: var(--shadow);
-
-      color: var(--text);
-
-      font-size: 10px;
-
-      transform: translateY(20px);
-      opacity: 0;
-      visibility: hidden;
-
-      transition: .25s ease;
-    }
-
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-      visibility: visible;
-    }
-
-    /* =========================================
-       ACCESS DENIED
-    ========================================= */
-
-    .access-denied {
-      position: fixed;
-      inset: 0;
-
-      z-index: 500;
-
-      display: none;
-      place-items: center;
-
-      padding: 20px;
-
-      background: var(--bg);
-    }
-
-    .access-denied.show {
-      display: grid;
-    }
-
-    .access-box {
-      max-width: 420px;
-
-      padding: 35px;
-
-      text-align: center;
-
-      border: 1px solid var(--border);
-      border-radius: 22px;
-
-      background: var(--panel);
-    }
-
-    .access-icon {
-      width: 55px;
-      height: 55px;
-
-      display: grid;
-      place-items: center;
-
-      margin: 0 auto 18px;
-
-      border-radius: 15px;
-
-      background: rgba(255,105,120,.08);
-
-      color: var(--red);
-
-      font-size: 18px;
-    }
-
-    .access-box h2 {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 24px;
-    }
-
-    .access-box p {
-      margin-top: 9px;
-
-      color: var(--muted);
-
-      font-size: 11px;
-      line-height: 1.7;
-    }
-
-    .access-box button {
-      margin-top: 22px;
-
-      height: 44px;
-
-      padding: 0 18px;
-
-      border: 0;
-      border-radius: 11px;
-
-      background: var(--accent);
-
-      color: #090d07;
-
-      font-size: 10px;
-      font-weight: 800;
-    }
-
-    /* =========================================
-       RESPONSIVE
-    ========================================= */
-
-    @media (max-width: 1200px) {
-      .stats-grid,
-      .quick-grid {
-        grid-template-columns:
-          repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 950px) {
-      :root {
-        --sidebar-width: 275px;
-      }
-
-      .sidebar {
-        transform: translateX(-100%);
-        transition: transform .28s ease;
-        box-shadow: 30px 0 80px rgba(0,0,0,.4);
-      }
-
-      .sidebar.open {
-        transform: translateX(0);
-      }
-
-      .main {
-        margin-left: 0;
-      }
-
-      .menu-toggle {
-        display: grid;
-        place-items: center;
-      }
-
-      .bottom-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 700px) {
-      .content {
-        width: min(100% - 28px, 600px);
-        padding-top: 20px;
-      }
-
-      .topbar {
-        padding: 0 14px;
-      }
-
-      .system-status {
-        display: none;
-      }
-
-      .welcome {
-        align-items: flex-start;
-        flex-direction: column;
-        padding: 24px;
-      }
-
-      .welcome-side {
-        align-items: flex-start;
-      }
-
-      .stats-grid,
-      .quick-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .stat-card {
-        min-height: 135px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .stats-grid,
-      .quick-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .welcome h1 {
-        font-size: 30px;
-      }
-
-      .section-header {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 7px;
-      }
-
-      .topbar-actions {
-        gap: 5px;
-      }
-
-      .page-title {
-        font-size: 14px;
-      }
-
-      .page-subtitle {
-        display: none;
-      }
-
-      .toast {
-        right: 12px;
-        left: 12px;
-        min-width: 0;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-      }
-    }
-  </style>
-</head>
-
-<body>
-
-  <!-- =========================================
-       MOBILE OVERLAY
-  ========================================== -->
-
-  <div
-    class="mobile-overlay"
-    id="mobileOverlay"
-  ></div>
-
-
-  <!-- =========================================
-       SIDEBAR
-  ========================================== -->
-
-  <aside
-    class="sidebar"
-    id="sidebar"
-  >
-
-    <div class="sidebar-brand">
-
-      <div class="brand-icon">
-        AKI
-      </div>
-
-      <div>
-        <div class="brand-name">
-          AKI Engineering
-        </div>
-
-        <div class="brand-sub">
-          Workshop Admin
-        </div>
-      </div>
-
-    </div>
-
-
-    <!-- PROFILE -->
-
-    <div class="profile-mini">
-
-      <div
-        class="profile-avatar"
-        id="profileAvatar"
-      >
-        A
-      </div>
-
-      <div class="profile-info">
-
-        <div
-          class="profile-name"
-          id="profileName"
-        >
-          Admin
-        </div>
-
-        <div class="profile-role">
-
-          <span class="role-dot"></span>
-
-          <span id="profileRole">
-            Admin
-          </span>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- NAVIGATION -->
-
-    <div class="nav-label">
-      Workspace
-    </div>
-
-    <nav class="sidebar-nav">
-
-      <a
-        href="dashboard.html"
-        class="nav-link active"
-      >
-        <span class="nav-icon">⌂</span>
-        <span class="nav-text">Dashboard</span>
-      </a>
-
-
-      <a
-        href="homepage.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">◈</span>
-        <span class="nav-text">Homepage</span>
-      </a>
-
-
-      <a
-        href="banner.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">▣</span>
-        <span class="nav-text">Banner Manager</span>
-      </a>
-
-
-      <a
-        href="browser-ui.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">◫</span>
-        <span class="nav-text">Browser UI</span>
-      </a>
-
-
-      <a
-        href="newsletter.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">✉</span>
-        <span class="nav-text">Newsletter</span>
-        <span class="nav-badge">12</span>
-      </a>
-
-
-      <a
-        href="akhi-ai/index.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">✦</span>
-        <span class="nav-text">AKHI.AI</span>
-        <span class="nav-badge">AI</span>
-      </a>
-
-
-      <div class="nav-label" style="margin-top:18px;">
-        Administration
-      </div>
-
-
-      <a
-        href="admin-management.html"
-        class="nav-link super-only"
-        id="adminManagementLink"
-      >
-        <span class="nav-icon">♙</span>
-        <span class="nav-text">Admin Management</span>
-        <span class="nav-badge">SA</span>
-      </a>
-
-
-      <a
-        href="system.html"
-        class="nav-link super-only"
-        id="systemLink"
-      >
-        <span class="nav-icon">⚙</span>
-        <span class="nav-text">System Settings</span>
-      </a>
-
-    </nav>
-
-
-    <!-- BOTTOM -->
-
-    <div class="sidebar-bottom">
-
-      <button
-        class="logout-button"
-        id="logoutButton"
-      >
-        <span>↪</span>
-        <span>Sign Out</span>
-      </button>
-
-      <div class="sidebar-version">
-        AKI ADMIN v1.0.0
-      </div>
-
-    </div>
-
-  </aside>
-
-
-  <!-- =========================================
-       MAIN
-  ========================================== -->
-
-  <main class="main">
-
-
-    <!-- TOPBAR -->
-
-    <header class="topbar">
-
-      <div class="topbar-left">
-
-        <button
-          class="menu-toggle"
-          id="menuToggle"
-          aria-label="Open menu"
-        >
-          ☰
-        </button>
-
-        <div>
-
-          <div class="page-title">
-            Dashboard
-          </div>
-
-          <div class="page-subtitle">
-            AKI Engineering Workshop control center
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="topbar-actions">
-
-        <div class="system-status">
-          <span class="status-dot"></span>
-          All Systems Operational
-        </div>
-
-        <button
-          class="icon-button"
-          id="refreshButton"
-          title="Refresh dashboard"
-        >
-          ↻
-        </button>
-
-        <button
-          class="icon-button"
-          id="notificationButton"
-          title="Notifications"
-        >
-          ♢
-        </button>
-
-      </div>
-
-    </header>
-
-
-    <!-- CONTENT -->
-
-    <div class="content">
-
-
-      <!-- WELCOME -->
-
-      <section class="welcome">
-
-        <div class="welcome-content">
-
-          <div class="welcome-eyebrow">
-            <span></span>
-            Control Center
-          </div>
-
-          <h1>
-            Welcome back,
-            <span id="welcomeName">
-              Admin
-            </span>.
-          </h1>
-
-          <p>
-            Manage your AKI Engineering Workshop digital experience,
-            content, banners, browser interface, newsletter and AI
-            assistant from one centralized workspace.
-          </p>
-
-        </div>
-
-
-        <div class="welcome-side">
-
-          <div class="role-chip">
-
-            <span class="role-chip-dot"></span>
-
-            <span id="welcomeRole">
-              Admin Access
-            </span>
-
-          </div>
-
-          <div
-            class="date-display"
-            id="dateDisplay"
-          >
-            Loading date...
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- =====================================
-           STATISTICS
-      ====================================== -->
-
-      <div class="section-header">
-
-        <div>
-          <div class="section-title">
-            Workspace Overview
-          </div>
-
-          <div class="section-caption">
-            Current system snapshot
-          </div>
-        </div>
-
-      </div>
-
-
-      <section class="stats-grid">
-
-
-        <div class="stat-card">
-
-          <div class="stat-top">
-
-            <div class="stat-icon">
-              ◈
-            </div>
-
-            <div class="stat-trend">
-              LIVE
-            </div>
-
-          </div>
-
-          <div class="stat-value">
-            08
-          </div>
-
-          <div class="stat-label">
-            Active Pages
-          </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-          <div class="stat-top">
-
-            <div class="stat-icon">
-              ▣
-            </div>
-
-            <div class="stat-trend">
-              CONTENT
-            </div>
-
-          </div>
-
-          <div class="stat-value">
-            06
-          </div>
-
-          <div class="stat-label">
-            Active Banners
-          </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-          <div class="stat-top">
-
-            <div class="stat-icon">
-              ✉
-            </div>
-
-            <div class="stat-trend">
-              NEW
-            </div>
-
-          </div>
-
-          <div class="stat-value">
-            12
-          </div>
-
-          <div class="stat-label">
-            Newsletter Subscribers
-          </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-          <div class="stat-top">
-
-            <div class="stat-icon">
-              ✦
-            </div>
-
-            <div class="stat-trend">
-              AI
-            </div>
-
-          </div>
-
-          <div class="stat-value">
-            ON
-          </div>
-
-          <div class="stat-label">
-            AKHI.AI Assistant
-          </div>
-
-        </div>
-
-
-      </section>
-
-
-      <!-- =====================================
-           QUICK ACTIONS
-      ====================================== -->
-
-      <div class="section-header">
-
-        <div>
-          <div class="section-title">
-            Quick Actions
-          </div>
-
-          <div class="section-caption">
-            Jump directly into management tools
-          </div>
-        </div>
-
-      </div>
-
-
-      <section class="quick-grid">
-
-
-        <a
-          href="homepage.html"
-          class="quick-card"
-        >
-
-          <div class="quick-icon">
-            ◈
-          </div>
-
-          <div>
-            <div class="quick-name">
-              Edit Homepage
-            </div>
-
-            <div class="quick-description">
-              Manage homepage content and sections.
-            </div>
-          </div>
-
-        </a>
-
-
-        <a
-          href="banner.html"
-          class="quick-card"
-        >
-
-          <div class="quick-icon">
-            ▣
-          </div>
-
-          <div>
-            <div class="quick-name">
-              Manage Banners
-            </div>
-
-            <div class="quick-description">
-              Add, edit and control website banners.
-            </div>
-          </div>
-
-        </a>
-
-
-        <a
-          href="browser-ui.html"
-          class="quick-card"
-        >
-
-          <div class="quick-icon">
-            ◫
-          </div>
-
-          <div>
-            <div class="quick-name">
-              Browser UI
-            </div>
-
-            <div class="quick-description">
-              Control public-facing browser interface.
-            </div>
-          </div>
-
-        </a>
-
-
-        <a
-          href="akhi-ai/index.html"
-          class="quick-card"
-        >
-
-          <div class="quick-icon">
-            ✦
-          </div>
-
-          <div>
-            <div class="quick-name">
-              Open AKHI.AI
-            </div>
-
-            <div class="quick-description">
-              Manage and test the AI engineering assistant.
-            </div>
-          </div>
-
-        </a>
-
-
-      </section>
-
-
-      <!-- =====================================
-           BOTTOM
-      ====================================== -->
-
-      <div class="bottom-grid" style="margin-top:13px;">
-
-
-        <!-- ACTIVITY -->
-
-        <section class="panel">
-
-          <div class="panel-header">
-
-            <div>
-              <h3>
-                Recent Activity
-              </h3>
-
-              <span>
-                Latest workspace events
-              </span>
-            </div>
-
-            <span>
-              DEMO
-            </span>
-
-          </div>
-
-
-          <div class="activity-list">
-
-
-            <div class="activity-item">
-
-              <div class="activity-dot">
-                ◈
-              </div>
-
-              <div class="activity-content">
-
-                <div class="activity-title">
-                  Admin workspace initialized
-                </div>
-
-                <div class="activity-meta">
-                  System · Just now
-                </div>
-
-              </div>
-
-            </div>
-
-
-            <div class="activity-item">
-
-              <div class="activity-dot">
-                ✦
-              </div>
-
-              <div class="activity-content">
-
-                <div class="activity-title">
-                  AKHI.AI assistant is available
-                </div>
-
-                <div class="activity-meta">
-                  AI System · Active
-                </div>
-
-              </div>
-
-            </div>
-
-
-            <div class="activity-item">
-
-              <div class="activity-dot">
-                ▣
-              </div>
-
-              <div class="activity-content">
-
-                <div class="activity-title">
-                  Banner management module ready
-                </div>
-
-                <div class="activity-meta">
-                  Content · Ready
-                </div>
-
-              </div>
-
-            </div>
-
-
-            <div class="activity-item">
-
-              <div class="activity-dot">
-                ⚙
-              </div>
-
-              <div class="activity-content">
-
-                <div class="activity-title">
-                  System settings protected
-                </div>
-
-                <div class="activity-meta">
-                  Security · Super Admin
-                </div>
-
-              </div>
-
-            </div>
-
-
-          </div>
-
-        </section>
-
-
-        <!-- HEALTH -->
-
-        <section class="panel">
-
-          <div class="panel-header">
-
-            <div>
-              <h3>
-                System Health
-              </h3>
-
-              <span>
-                Workspace services
-              </span>
-            </div>
-
-            <span>
-              100%
-            </span>
-
-          </div>
-
-
-          <div class="health-list">
-
-
-            <div class="health-item">
-
-              <div class="health-top">
-
-                <span class="health-name">
-                  Website
-                </span>
-
-                <span class="health-status">
-                  Operational
-                </span>
-
-              </div>
-
-              <div class="progress">
-                <span style="width:100%;"></span>
-              </div>
-
-            </div>
-
-
-            <div class="health-item">
-
-              <div class="health-top">
-
-                <span class="health-name">
-                  Admin Portal
-                </span>
-
-                <span class="health-status">
-                  Operational
-                </span>
-
-              </div>
-
-              <div class="progress">
-                <span style="width:100%;"></span>
-              </div>
-
-            </div>
-
-
-            <div class="health-item">
-
-              <div class="health-top">
-
-                <span class="health-name">
-                  AKHI.AI
-                </span>
-
-                <span class="health-status">
-                  Ready
-                </span>
-
-              </div>
-
-              <div class="progress">
-                <span style="width:94%;"></span>
-              </div>
-
-            </div>
-
-
-            <div class="health-item">
-
-              <div class="health-top">
-
-                <span class="health-name">
-                  Security
-                </span>
-
-                <span class="health-status">
-                  Protected
-                </span>
-
-              </div>
-
-              <div class="progress">
-                <span style="width:100%;"></span>
-              </div>
-
-            </div>
-
-
-          </div>
-
-        </section>
-
-
-      </div>
-
-    </div>
-
-  </main>
-
-
-  <!-- =========================================
-       TOAST
-  ========================================== -->
-
-  <div
-    class="toast"
-    id="toast"
-  ></div>
-
-
-  <!-- =========================================
-       ACCESS DENIED
-  ========================================== -->
-
-  <div
-    class="access-denied"
-    id="accessDenied"
-  >
-
-    <div class="access-box">
-
-      <div class="access-icon">
-        !
-      </div>
-
-      <h2>
-        Access Required
-      </h2>
-
-      <p>
-        Your admin session is not available or has expired.
-        Please sign in again to access the AKI Engineering Workshop
-        administration portal.
-      </p>
-
-      <button id="accessLoginButton">
-        Go to Admin Login
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <script>
-
-    /* ============================================================
-       AKI ENGINEERING WORKSHOP
-       ADMIN DASHBOARD
-       ============================================================ */
-
-
-    const SESSION_KEYS = [
-      "aki-admin-session"
-    ];
-
-
-    const sidebar =
-      document.getElementById("sidebar");
-
-    const mobileOverlay =
-      document.getElementById("mobileOverlay");
-
-    const menuToggle =
-      document.getElementById("menuToggle");
-
-    const logoutButton =
-      document.getElementById("logoutButton");
-
-    const refreshButton =
-      document.getElementById("refreshButton");
-
-    const notificationButton =
-      document.getElementById("notificationButton");
-
-    const toast =
-      document.getElementById("toast");
-
-    const accessDenied =
-      document.getElementById("accessDenied");
-
-    const accessLoginButton =
-      document.getElementById("accessLoginButton");
-
-    const profileName =
-      document.getElementById("profileName");
-
-    const profileRole =
-      document.getElementById("profileRole");
-
-    const profileAvatar =
-      document.getElementById("profileAvatar");
-
-    const welcomeName =
-      document.getElementById("welcomeName");
-
-    const welcomeRole =
-      document.getElementById("welcomeRole");
-
-    const dateDisplay =
-      document.getElementById("dateDisplay");
-
-    const adminManagementLink =
-      document.getElementById("adminManagementLink");
-
-    const systemLink =
-      document.getElementById("systemLink");
-
-
-    let currentSession = null;
-
-
-    /* ============================================================
-       GET SESSION
-       ============================================================ */
-
-    function getSession() {
-
-      let session = null;
-
-      for (const key of SESSION_KEYS) {
-
-        const localData =
-          localStorage.getItem(key);
-
-        const sessionData =
-          sessionStorage.getItem(key);
-
-        const raw =
-          localData || sessionData;
-
-        if (!raw) {
-          continue;
-        }
-
-        try {
-
-          const parsed =
-            JSON.parse(raw);
-
-          if (
-            parsed &&
-            parsed.authenticated === true
-          ) {
-
-            session = parsed;
-            break;
-
-          }
-
-        } catch (error) {
-
-          localStorage.removeItem(key);
-          sessionStorage.removeItem(key);
-
-        }
-
-      }
-
-      return session;
-
-    }
-
-
-    /* ============================================================
-       AUTH CHECK
-       ============================================================ */
-
-    function checkAuthentication() {
-
-      currentSession = getSession();
-
-      if (!currentSession) {
-
-        accessDenied.classList.add("show");
-
-        document.body.style.overflow = "hidden";
-
-        return false;
-
-      }
-
-      initializeUser(currentSession);
-
-      return true;
-
-    }
-
-
-    /* ============================================================
-       USER INITIALIZATION
-       ============================================================ */
-
-    function initializeUser(session) {
-
-      const isSuperAdmin =
-        session.role === "superadmin";
-
-
-      const name =
-        session.name ||
-        (
-          isSuperAdmin
-            ? "Super Admin"
-            : "Admin"
-        );
-
-
-      const role =
-        isSuperAdmin
-          ? "Super Admin"
-          : "Admin";
-
-
-      profileName.textContent =
-        name;
-
-      profileRole.textContent =
-        role;
-
-      welcomeName.textContent =
-        name.split(" ")[0];
-
-      welcomeRole.textContent =
-        isSuperAdmin
-          ? "Super Admin Access"
-          : "Admin Access";
-
-
-      profileAvatar.textContent =
-        getInitials(name);
-
-
-      /*
-        Super Admin only modules
-      */
-
-      if (isSuperAdmin) {
-
-        adminManagementLink.classList.add(
-          "visible"
-        );
-
-        systemLink.classList.add(
-          "visible"
-        );
-
-      } else {
-
-        adminManagementLink.classList.remove(
-          "visible"
-        );
-
-        systemLink.classList.remove(
-          "visible"
-        );
-
-      }
-
-    }
-
-
-    /* ============================================================
-       INITIALS
-       ============================================================ */
-
-    function getInitials(name) {
-
-      return name
-        .split(" ")
-        .filter(Boolean)
-        .slice(0, 2)
-        .map(word =>
-          word.charAt(0).toUpperCase()
-        )
-        .join("");
-
-    }
-
-
-    /* ============================================================
-       DATE
-       ============================================================ */
-
-    function updateDate() {
-
-      const now = new Date();
-
-      dateDisplay.textContent =
-        now.toLocaleDateString(
-          "en-US",
-          {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-          }
-        );
-
-    }
-
-
-    /* ============================================================
-       MOBILE MENU
-       ============================================================ */
-
-    menuToggle.addEventListener(
-      "click",
-      () => {
-
-        sidebar.classList.add("open");
-
-        mobileOverlay.classList.add("show");
-
-      }
-    );
-
-
-    mobileOverlay.addEventListener(
-      "click",
-      closeSidebar
-    );
-
-
-    function closeSidebar() {
-
-      sidebar.classList.remove("open");
-
-      mobileOverlay.classList.remove("show");
-
-    }
-
-
-    document.querySelectorAll(".nav-link")
-      .forEach(link => {
-
-        link.addEventListener(
-          "click",
-          closeSidebar
-        );
-
-      });
-
-
-    /* ============================================================
-       LOGOUT
-       ============================================================ */
-
-    logoutButton.addEventListener(
-      "click",
-      () => {
-
-        localStorage.removeItem(
-          "aki-admin-session"
-        );
-
-        sessionStorage.removeItem(
-          "aki-admin-session"
-        );
-
-        window.location.href =
-          "login/";
-
-      }
-    );
-
-
-    /* ============================================================
-       ACCESS LOGIN
-       ============================================================ */
-
-    accessLoginButton.addEventListener(
-      "click",
-      () => {
-
-        window.location.href =
-          "login/";
-
-      }
-    );
-
-
-    /* ============================================================
-       REFRESH
-       ============================================================ */
-
-    refreshButton.addEventListener(
-      "click",
-      () => {
-
-        refreshButton.style.transform =
-          "rotate(360deg)";
-
-        setTimeout(() => {
-
-          refreshButton.style.transform =
-            "";
-
-        }, 450);
-
-        showToast(
-          "Dashboard refreshed successfully."
-        );
-
-      }
-    );
-
-
-    /* ============================================================
-       NOTIFICATION
-       ============================================================ */
-
-    notificationButton.addEventListener(
-      "click",
-      () => {
-
-        showToast(
-          "No new notifications."
-        );
-
-      }
-    );
-
-
-    /* ============================================================
-       TOAST
-       ============================================================ */
-
-    let toastTimer = null;
-
-
-    function showToast(message) {
-
-      toast.textContent =
-        message;
-
-      toast.classList.add("show");
-
-      clearTimeout(toastTimer);
-
-      toastTimer =
-        setTimeout(() => {
-
-          toast.classList.remove("show");
-
-        }, 2600);
-
-    }
-
-
-    /* ============================================================
-       ESCAPE
-       ============================================================ */
-
-    document.addEventListener(
-      "keydown",
-      event => {
-
-        if (event.key === "Escape") {
-
-          closeSidebar();
-
-        }
-
-      }
-    );
-
-
-    /* ============================================================
-       INIT
-       ============================================================ */
-
-    document.addEventListener(
-      "DOMContentLoaded",
-      () => {
-
-        if (!checkAuthentication()) {
-          return;
-        }
-
-        updateDate();
-
-        /*
-          Keep date fresh if page stays open.
-        */
-
-        setInterval(
-          updateDate,
-          60000
-        );
-
-      }
-    );
-
-  </script>
-
-</body>
-</html>
-```
+      font-size: 14px;
+     
