@@ -1,0 +1,4130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Homepage Manager | AKI Engineering Workshop</title>
+
+  <meta
+    name="description"
+    content="Manage AKI Engineering Workshop homepage content."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --bg: #07090c;
+      --sidebar: #0b0e12;
+      --panel: #0e1217;
+      --panel-2: #121820;
+      --border: rgba(255,255,255,.08);
+      --border-hover: rgba(200,255,61,.25);
+
+      --text: #f4f6f8;
+      --muted: #7f8998;
+      --muted-2: #596372;
+
+      --accent: #c8ff3d;
+      --accent-soft: rgba(200,255,61,.08);
+      --accent-border: rgba(200,255,61,.18);
+
+      --danger: #ff6878;
+      --blue: #78a9ff;
+      --orange: #ffb764;
+
+      --sidebar-width: 275px;
+      --topbar-height: 76px;
+
+      --radius: 18px;
+      --small-radius: 12px;
+
+      --shadow: 0 25px 70px rgba(0,0,0,.3);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+
+      font-family: "Inter", sans-serif;
+
+      color: var(--text);
+
+      background:
+        radial-gradient(
+          circle at 75% 0%,
+          rgba(200,255,61,.045),
+          transparent 28%
+        ),
+        var(--bg);
+
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    ::selection {
+      color: #080b07;
+      background: var(--accent);
+    }
+
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #080a0d;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #272e38;
+      border-radius: 99px;
+    }
+
+    /* =====================================================
+       MOBILE OVERLAY
+    ===================================================== */
+
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+
+      background: rgba(0,0,0,.68);
+      backdrop-filter: blur(5px);
+
+      opacity: 0;
+      visibility: hidden;
+
+      transition: .25s ease;
+    }
+
+    .mobile-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* =====================================================
+       SIDEBAR
+    ===================================================== */
+
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 100;
+
+      width: var(--sidebar-width);
+      height: 100vh;
+
+      display: flex;
+      flex-direction: column;
+
+      padding: 22px 15px;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,.018),
+          transparent 45%
+        ),
+        var(--sidebar);
+
+      border-right: 1px solid var(--border);
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+
+      padding: 3px 10px 23px;
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand-icon {
+      width: 43px;
+      height: 43px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 13px;
+
+      background: var(--accent);
+      color: #090d07;
+
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+
+      box-shadow:
+        0 0 0 5px rgba(200,255,61,.045),
+        0 10px 28px rgba(200,255,61,.1);
+    }
+
+    .brand-name {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .brand-sub {
+      margin-top: 3px;
+
+      color: var(--muted-2);
+
+      font-size: 9px;
+      font-weight: 600;
+
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    /* =====================================================
+       PROFILE
+    ===================================================== */
+
+    .profile-mini {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+
+      margin: 18px 5px 20px;
+      padding: 11px;
+
+      border: 1px solid var(--border);
+      border-radius: 14px;
+
+      background: rgba(255,255,255,.018);
+    }
+
+    .profile-avatar {
+      width: 38px;
+      height: 38px;
+
+      flex: 0 0 38px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 11px;
+
+      background: linear-gradient(
+        145deg,
+        #1b222b,
+        #0d1116
+      );
+
+      border: 1px solid var(--border);
+
+      color: var(--accent);
+
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .profile-info {
+      min-width: 0;
+    }
+
+    .profile-name {
+      overflow: hidden;
+
+      font-size: 11px;
+      font-weight: 700;
+
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .profile-role {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+
+    .role-dot {
+      width: 5px;
+      height: 5px;
+
+      border-radius: 50%;
+
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    /* =====================================================
+       NAVIGATION
+    ===================================================== */
+
+    .nav-label {
+      padding: 0 11px 8px;
+
+      color: #414957;
+
+      font-size: 9px;
+      font-weight: 700;
+
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+
+      overflow-y: auto;
+    }
+
+    .nav-link {
+      position: relative;
+
+      min-height: 45px;
+
+      display: flex;
+      align-items: center;
+      gap: 11px;
+
+      padding: 0 12px;
+
+      border: 1px solid transparent;
+      border-radius: 12px;
+
+      color: var(--muted);
+
+      font-size: 11px;
+      font-weight: 600;
+
+      transition: .22s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--text);
+      background: rgba(255,255,255,.025);
+    }
+
+    .nav-link.active {
+      color: var(--accent);
+
+      background: var(--accent-soft);
+
+      border-color: var(--accent-border);
+    }
+
+    .nav-link.active::before {
+      content: "";
+
+      position: absolute;
+      left: -1px;
+      top: 10px;
+      bottom: 10px;
+
+      width: 2px;
+
+      border-radius: 3px;
+
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    .nav-icon {
+      width: 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .nav-text {
+      flex: 1;
+    }
+
+    .nav-badge {
+      min-width: 19px;
+      height: 19px;
+
+      display: grid;
+      place-items: center;
+
+      padding: 0 5px;
+
+      border-radius: 7px;
+
+      background: rgba(255,255,255,.05);
+
+      color: var(--muted);
+
+      font-size: 8px;
+      font-weight: 800;
+    }
+
+    .super-only {
+      display: none;
+    }
+
+    .super-only.visible {
+      display: flex;
+    }
+
+    /* =====================================================
+       SIDEBAR BOTTOM
+    ===================================================== */
+
+    .sidebar-bottom {
+      margin-top: auto;
+
+      padding-top: 15px;
+
+      border-top: 1px solid var(--border);
+    }
+
+    .logout-button {
+      width: 100%;
+      min-height: 43px;
+
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      padding: 0 12px;
+
+      border: 1px solid transparent;
+      border-radius: 11px;
+
+      background: transparent;
+
+      color: #737d8c;
+
+      font-size: 11px;
+      font-weight: 600;
+
+      transition: .22s ease;
+    }
+
+    .logout-button:hover {
+      color: var(--danger);
+      background: rgba(255,105,120,.05);
+      border-color: rgba(255,105,120,.12);
+    }
+
+    .sidebar-version {
+      margin-top: 10px;
+      padding: 0 12px;
+
+      color: #353c47;
+
+      font-size: 8px;
+      letter-spacing: .7px;
+    }
+
+    /* =====================================================
+       MAIN
+    ===================================================== */
+
+    .main {
+      min-height: 100vh;
+      margin-left: var(--sidebar-width);
+    }
+
+    /* =====================================================
+       TOPBAR
+    ===================================================== */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+
+      height: var(--topbar-height);
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 32px;
+
+      border-bottom: 1px solid var(--border);
+
+      background: rgba(7,9,12,.84);
+      backdrop-filter: blur(20px);
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .menu-toggle {
+      display: none;
+
+      width: 40px;
+      height: 40px;
+
+      place-items: center;
+
+      border: 1px solid var(--border);
+      border-radius: 11px;
+
+      background: rgba(255,255,255,.025);
+
+      color: var(--text);
+
+      font-size: 17px;
+    }
+
+    .page-title {
+      font-family: "Space Grotesk", sans-serif;
+
+      font-size: 17px;
+      font-weight: 700;
+
+      letter-spacing: -.4px;
+    }
+
+    .page-subtitle {
+      margin-top: 3px;
+
+      color: var(--muted-2);
+
+      font-size: 9px;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .save-status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+
+      min-height: 35px;
+
+      padding: 0 11px;
+
+      border: 1px solid var(--border);
+      border-radius: 10px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+      font-weight: 600;
+    }
+
+    .save-status-dot {
+      width: 6px;
+      height: 6px;
+
+      border-radius: 50%;
+
+      background: var(--accent);
+
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    .icon-button {
+      width: 36px;
+      height: 36px;
+
+      display: grid;
+      place-items: center;
+
+      border: 1px solid var(--border);
+      border-radius: 10px;
+
+      background: rgba(255,255,255,.02);
+
+      color: var(--muted);
+
+      transition: .2s ease;
+    }
+
+    .icon-button:hover {
+      color: var(--accent);
+      border-color: var(--border-hover);
+      background: var(--accent-soft);
+    }
+
+    /* =====================================================
+       CONTENT
+    ===================================================== */
+
+    .content {
+      width: min(1480px, calc(100% - 64px));
+
+      margin: auto;
+
+      padding: 30px 0 60px;
+    }
+
+    /* =====================================================
+       PAGE HERO
+    ===================================================== */
+
+    .page-hero {
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 25px;
+
+      padding: 27px 30px;
+
+      margin-bottom: 22px;
+
+      border: 1px solid var(--border);
+      border-radius: 21px;
+
+      overflow: hidden;
+
+      background:
+        radial-gradient(
+          circle at 85% 30%,
+          rgba(200,255,61,.075),
+          transparent 28%
+        ),
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.035),
+          rgba(255,255,255,.012)
+        );
+    }
+
+    .page-hero::after {
+      content: "";
+
+      position: absolute;
+
+      right: -90px;
+      top: -130px;
+
+      width: 300px;
+      height: 300px;
+
+      border: 1px solid rgba(200,255,61,.07);
+
+      border-radius: 50%;
+
+      box-shadow:
+        0 0 0 35px rgba(200,255,61,.012),
+        0 0 0 70px rgba(200,255,61,.007);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+
+      margin-bottom: 9px;
+
+      color: var(--accent);
+
+      font-size: 9px;
+      font-weight: 800;
+
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    .hero-eyebrow span {
+      width: 5px;
+      height: 5px;
+
+      border-radius: 50%;
+
+      background: var(--accent);
+    }
+
+    .page-hero h1 {
+      font-family: "Space Grotesk", sans-serif;
+
+      font-size: clamp(27px, 3vw, 38px);
+
+      line-height: 1.05;
+
+      letter-spacing: -1.6px;
+    }
+
+    .page-hero h1 span {
+      color: var(--accent);
+    }
+
+    .page-hero p {
+      max-width: 650px;
+
+      margin-top: 9px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+      line-height: 1.7;
+    }
+
+    .hero-status {
+      position: relative;
+      z-index: 2;
+
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 7px;
+
+      min-width: 145px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+
+      padding: 8px 11px;
+
+      border: 1px solid var(--accent-border);
+      border-radius: 999px;
+
+      background: var(--accent-soft);
+
+      color: var(--accent);
+
+      font-size: 8px;
+      font-weight: 800;
+
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+
+    .status-pill-dot {
+      width: 6px;
+      height: 6px;
+
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .hero-status small {
+      color: var(--muted-2);
+      font-size: 8px;
+    }
+
+    /* =====================================================
+       EDITOR GRID
+    ===================================================== */
+
+    .editor-grid {
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 1.45fr)
+        minmax(330px, .72fr);
+
+      gap: 15px;
+
+      align-items: start;
+    }
+
+    .editor-main,
+    .editor-side {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    /* =====================================================
+       PANEL
+    ===================================================== */
+
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.028),
+          rgba(255,255,255,.009)
+        );
+
+      overflow: hidden;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 15px;
+
+      padding: 17px 19px;
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-title {
+      font-family: "Space Grotesk", sans-serif;
+
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .panel-caption {
+      margin-top: 3px;
+
+      color: var(--muted-2);
+
+      font-size: 8px;
+      line-height: 1.5;
+    }
+
+    .panel-tag {
+      padding: 6px 8px;
+
+      border: 1px solid var(--border);
+
+      border-radius: 7px;
+
+      color: var(--muted-2);
+
+      font-size: 7px;
+      font-weight: 700;
+
+      letter-spacing: .7px;
+      text-transform: uppercase;
+    }
+
+    .panel-body {
+      padding: 20px;
+    }
+
+    /* =====================================================
+       FORM
+    ===================================================== */
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .form-label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      color: #c6ccd5;
+
+      font-size: 9px;
+      font-weight: 700;
+
+      letter-spacing: .2px;
+    }
+
+    .label-hint {
+      margin-left: 4px;
+
+      color: var(--muted-2);
+
+      font-size: 8px;
+      font-weight: 400;
+    }
+
+    .form-input,
+    .form-textarea,
+    .form-select {
+      width: 100%;
+
+      border: 1px solid var(--border);
+      border-radius: 11px;
+
+      outline: none;
+
+      background: rgba(0,0,0,.2);
+
+      color: var(--text);
+
+      transition: .22s ease;
+    }
+
+    .form-input,
+    .form-select {
+      height: 46px;
+
+      padding: 0 13px;
+
+      font-size: 10px;
+    }
+
+    .form-textarea {
+      min-height: 100px;
+
+      padding: 12px 13px;
+
+      font-size: 10px;
+      line-height: 1.6;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: #505968;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus,
+    .form-select:focus {
+      border-color: rgba(200,255,61,.4);
+
+      box-shadow:
+        0 0 0 4px rgba(200,255,61,.045);
+    }
+
+    .form-select {
+      appearance: none;
+
+      background-image:
+        linear-gradient(45deg, transparent 50%, #687384 50%),
+        linear-gradient(135deg, #687384 50%, transparent 50%);
+
+      background-position:
+        calc(100% - 17px) 20px,
+        calc(100% - 12px) 20px;
+
+      background-size: 5px 5px;
+
+      background-repeat: no-repeat;
+    }
+
+    .input-prefix {
+      position: relative;
+    }
+
+    .input-prefix span {
+      position: absolute;
+
+      left: 13px;
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      color: var(--muted-2);
+
+      font-size: 9px;
+
+      pointer-events: none;
+    }
+
+    .input-prefix .form-input {
+      padding-left: 34px;
+    }
+
+    /* =====================================================
+       TOGGLE
+    ===================================================== */
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
+
+      padding: 13px 0;
+
+      border-bottom: 1px solid rgba(255,255,255,.045);
+    }
+
+    .toggle-row:last-child {
+      border-bottom: 0;
+    }
+
+    .toggle-info strong {
+      display: block;
+
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    .toggle-info span {
+      display: block;
+
+      margin-top: 3px;
+
+      color: var(--muted-2);
+
+      font-size: 8px;
+      line-height: 1.5;
+    }
+
+    .switch {
+      position: relative;
+
+      width: 43px;
+      height: 24px;
+
+      flex: 0 0 43px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 99px;
+
+      background: #181d24;
+
+      transition: .2s ease;
+    }
+
+    .slider::before {
+      content: "";
+
+      position: absolute;
+
+      width: 16px;
+      height: 16px;
+
+      left: 3px;
+      top: 3px;
+
+      border-radius: 50%;
+
+      background: #737d8c;
+
+      transition: .2s ease;
+    }
+
+    .switch input:checked + .slider {
+      background: var(--accent-soft);
+      border-color: var(--accent-border);
+    }
+
+    .switch input:checked + .slider::before {
+      transform: translateX(19px);
+
+      background: var(--accent);
+
+      box-shadow: 0 0 9px rgba(200,255,61,.25);
+    }
+
+    /* =====================================================
+       STATS
+    ===================================================== */
+
+    .stats-editor {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .stat-editor-card {
+      padding: 13px;
+
+      border: 1px solid var(--border);
+      border-radius: 12px;
+
+      background: rgba(255,255,255,.015);
+    }
+
+    .stat-editor-label {
+      margin-bottom: 7px;
+
+      color: var(--muted-2);
+
+      font-size: 8px;
+      font-weight: 700;
+
+      text-transform: uppercase;
+      letter-spacing: .7px;
+    }
+
+    .stat-input-row {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 7px;
+    }
+
+    .stat-input {
+      width: 100%;
+      height: 38px;
+
+      padding: 0 9px;
+
+      border: 1px solid var(--border);
+      border-radius: 8px;
+
+      outline: none;
+
+      background: rgba(0,0,0,.18);
+
+      color: var(--text);
+
+      font-size: 9px;
+    }
+
+    .stat-input:focus {
+      border-color: rgba(200,255,61,.35);
+    }
+
+    /* =====================================================
+       ACTION BUTTONS
+    ===================================================== */
+
+    .form-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      gap: 9px;
+
+      padding-top: 17px;
+
+      margin-top: 4px;
+
+      border-top: 1px solid var(--border);
+    }
+
+    .button {
+      min-height: 40px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      padding: 0 14px;
+
+      border: 1px solid var(--border);
+      border-radius: 10px;
+
+      font-size: 9px;
+      font-weight: 800;
+
+      transition: .2s ease;
+    }
+
+    .button-secondary {
+      background: rgba(255,255,255,.025);
+      color: var(--muted);
+    }
+
+    .button-secondary:hover {
+      color: var(--text);
+      border-color: rgba(255,255,255,.15);
+    }
+
+    .button-primary {
+      border-color: transparent;
+
+      background: var(--accent);
+
+      color: #090d07;
+    }
+
+    .button-primary:hover {
+      background: #d5ff68;
+
+      box-shadow:
+        0 10px 25px rgba(200,255,61,.11);
+
+      transform: translateY(-1px);
+    }
+
+    /* =====================================================
+       PREVIEW
+    ===================================================== */
+
+    .preview-window {
+      border: 1px solid var(--border);
+
+      border-radius: 14px;
+
+      overflow: hidden;
+
+      background: #090c10;
+    }
+
+    .preview-browser {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      height: 29px;
+
+      padding: 0 10px;
+
+      border-bottom: 1px solid var(--border);
+
+      background: #0c1015;
+    }
+
+    .browser-dot {
+      width: 5px;
+      height: 5px;
+
+      border-radius: 50%;
+
+      background: #3a424e;
+    }
+
+    .preview-address {
+      flex: 1;
+
+      height: 16px;
+
+      margin-left: 5px;
+
+      border-radius: 5px;
+
+      background: rgba(255,255,255,.035);
+    }
+
+    .preview-site {
+      min-height: 275px;
+
+      padding: 23px 18px;
+
+      background:
+        radial-gradient(
+          circle at 70% 15%,
+          rgba(200,255,61,.08),
+          transparent 30%
+        ),
+        #080b0f;
+    }
+
+    .preview-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 30px;
+    }
+
+    .preview-logo {
+      width: 55px;
+      height: 12px;
+
+      border-radius: 3px;
+
+      background: var(--accent);
+    }
+
+    .preview-menu {
+      display: flex;
+      gap: 5px;
+    }
+
+    .preview-menu span {
+      width: 27px;
+      height: 4px;
+
+      border-radius: 3px;
+
+      background: #29313b;
+    }
+
+    .preview-hero {
+      max-width: 85%;
+    }
+
+    .preview-kicker {
+      width: 70px;
+      height: 6px;
+
+      margin-bottom: 9px;
+
+      border-radius: 4px;
+
+      background: rgba(200,255,61,.55);
+    }
+
+    .preview-title {
+      width: 90%;
+
+      height: 15px;
+
+      margin-bottom: 6px;
+
+      border-radius: 4px;
+
+      background: #e9edf2;
+    }
+
+    .preview-title.short {
+      width: 65%;
+    }
+
+    .preview-description {
+      width: 82%;
+      height: 5px;
+
+      margin-top: 10px;
+
+      border-radius: 3px;
+
+      background: #343d49;
+    }
+
+    .preview-description.small {
+      width: 67%;
+      margin-top: 5px;
+    }
+
+    .preview-buttons {
+      display: flex;
+      gap: 7px;
+
+      margin-top: 17px;
+    }
+
+    .preview-button {
+      width: 63px;
+      height: 19px;
+
+      border-radius: 5px;
+
+      background: var(--accent);
+    }
+
+    .preview-button.outline {
+      background: transparent;
+
+      border: 1px solid #303844;
+    }
+
+    .preview-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 5px;
+
+      margin-top: 28px;
+    }
+
+    .preview-stat {
+      height: 32px;
+
+      border: 1px solid #202731;
+      border-radius: 6px;
+
+      background: rgba(255,255,255,.015);
+    }
+
+    /* =====================================================
+       TIPS
+    ===================================================== */
+
+    .tips-list {
+      padding: 2px 19px 9px;
+    }
+
+    .tip {
+      display: flex;
+      gap: 10px;
+
+      padding: 13px 0;
+
+      border-bottom: 1px solid rgba(255,255,255,.045);
+    }
+
+    .tip:last-child {
+      border-bottom: 0;
+    }
+
+    .tip-icon {
+      width: 27px;
+      height: 27px;
+
+      flex: 0 0 27px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 8px;
+
+      background: var(--accent-soft);
+
+      color: var(--accent);
+
+      font-size: 9px;
+    }
+
+    .tip strong {
+      display: block;
+
+      font-size: 9px;
+    }
+
+    .tip p {
+      margin-top: 3px;
+
+      color: var(--muted-2);
+
+      font-size: 8px;
+      line-height: 1.5;
+    }
+
+    /* =====================================================
+       TOAST
+    ===================================================== */
+
+    .toast {
+      position: fixed;
+
+      right: 24px;
+      bottom: 24px;
+
+      z-index: 300;
+
+      max-width: 360px;
+
+      padding: 13px 16px;
+
+      border: 1px solid var(--accent-border);
+      border-radius: 12px;
+
+      background: #10151b;
+
+      box-shadow: var(--shadow);
+
+      color: var(--text);
+
+      font-size: 9px;
+
+      transform: translateY(20px);
+
+      opacity: 0;
+      visibility: hidden;
+
+      transition: .25s ease;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* =====================================================
+       ACCESS
+    ===================================================== */
+
+    .access-denied {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+
+      display: none;
+      place-items: center;
+
+      padding: 20px;
+
+      background: var(--bg);
+    }
+
+    .access-denied.show {
+      display: grid;
+    }
+
+    .access-box {
+      width: min(420px, 100%);
+
+      padding: 35px;
+
+      text-align: center;
+
+      border: 1px solid var(--border);
+      border-radius: 22px;
+
+      background: var(--panel);
+    }
+
+    .access-icon {
+      width: 55px;
+      height: 55px;
+
+      display: grid;
+      place-items: center;
+
+      margin: 0 auto 18px;
+
+      border-radius: 15px;
+
+      background: rgba(255,105,120,.08);
+
+      color: var(--danger);
+
+      font-size: 18px;
+    }
+
+    .access-box h2 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 24px;
+    }
+
+    .access-box p {
+      margin-top: 9px;
+
+      color: var(--muted);
+
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .access-box button {
+      margin-top: 22px;
+
+      height: 44px;
+
+      padding: 0 18px;
+
+      border: 0;
+      border-radius: 11px;
+
+      background: var(--accent);
+
+      color: #090d07;
+
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 1050px) {
+
+      .editor-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .editor-side {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        align-items: start;
+      }
+
+    }
+
+    @media (max-width: 950px) {
+
+      .sidebar {
+        transform: translateX(-100%);
+
+        transition: transform .28s ease;
+
+        box-shadow: 30px 0 80px rgba(0,0,0,.4);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .menu-toggle {
+        display: grid;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .content {
+        width: min(100% - 28px, 650px);
+
+        padding-top: 20px;
+      }
+
+      .topbar {
+        padding: 0 14px;
+      }
+
+      .save-status {
+        display: none;
+      }
+
+      .page-hero {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 24px;
+      }
+
+      .hero-status {
+        align-items: flex-start;
+      }
+
+      .editor-side {
+        display: flex;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+
+    }
+
+    @media (max-width: 500px) {
+
+      .content {
+        width: calc(100% - 20px);
+      }
+
+      .panel-body {
+        padding: 15px;
+      }
+
+      .panel-header {
+        padding: 15px;
+      }
+
+      .page-hero h1 {
+        font-size: 29px;
+      }
+
+      .stats-editor {
+        grid-template-columns: 1fr;
+      }
+
+      .form-actions {
+        flex-direction: column-reverse;
+      }
+
+      .form-actions .button {
+        width: 100%;
+      }
+
+      .toast {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+      }
+
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =====================================================
+       MOBILE OVERLAY
+  ====================================================== -->
+
+  <div
+    class="mobile-overlay"
+    id="mobileOverlay"
+  ></div>
+
+
+  <!-- =====================================================
+       SIDEBAR
+  ====================================================== -->
+
+  <aside
+    class="sidebar"
+    id="sidebar"
+  >
+
+    <div class="sidebar-brand">
+
+      <div class="brand-icon">
+        AKI
+      </div>
+
+      <div>
+        <div class="brand-name">
+          AKI Engineering
+        </div>
+
+        <div class="brand-sub">
+          Workshop Admin
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="profile-mini">
+
+      <div
+        class="profile-avatar"
+        id="profileAvatar"
+      >
+        A
+      </div>
+
+      <div class="profile-info">
+
+        <div
+          class="profile-name"
+          id="profileName"
+        >
+          Admin
+        </div>
+
+        <div class="profile-role">
+
+          <span class="role-dot"></span>
+
+          <span id="profileRole">
+            Admin
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="nav-label">
+      Workspace
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <a
+        href="dashboard.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">⌂</span>
+        <span class="nav-text">Dashboard</span>
+      </a>
+
+
+      <a
+        href="homepage.html"
+        class="nav-link active"
+      >
+        <span class="nav-icon">◈</span>
+        <span class="nav-text">Homepage</span>
+      </a>
+
+
+      <a
+        href="banner.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">▣</span>
+        <span class="nav-text">Banner Manager</span>
+      </a>
+
+
+      <a
+        href="browser-ui.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">◫</span>
+        <span class="nav-text">Browser UI</span>
+      </a>
+
+
+      <a
+        href="newsletter.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">✉</span>
+        <span class="nav-text">Newsletter</span>
+        <span class="nav-badge">12</span>
+      </a>
+
+
+      <a
+        href="akhi-ai/index.html"
+        class="nav-link"
+      >
+        <span class="nav-icon">✦</span>
+        <span class="nav-text">AKHI.AI</span>
+        <span class="nav-badge">AI</span>
+      </a>
+
+
+      <div
+        class="nav-label"
+        style="margin-top:18px;"
+      >
+        Administration
+      </div>
+
+
+      <a
+        href="admin-management.html"
+        class="nav-link super-only"
+        id="adminManagementLink"
+      >
+        <span class="nav-icon">♙</span>
+        <span class="nav-text">Admin Management</span>
+        <span class="nav-badge">SA</span>
+      </a>
+
+
+      <a
+        href="system.html"
+        class="nav-link super-only"
+        id="systemLink"
+      >
+        <span class="nav-icon">⚙</span>
+        <span class="nav-text">System Settings</span>
+      </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+      <button
+        class="logout-button"
+        id="logoutButton"
+      >
+        <span>↪</span>
+        <span>Sign Out</span>
+      </button>
+
+      <div class="sidebar-version">
+        AKI ADMIN v1.0.0
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
+
+  <main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+      <div class="topbar-left">
+
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
+
+        <div>
+
+          <div class="page-title">
+            Homepage Manager
+          </div>
+
+          <div class="page-subtitle">
+            Control your public website homepage
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="topbar-actions">
+
+        <div class="save-status">
+
+          <span class="save-status-dot"></span>
+
+          <span id="saveStatus">
+            Local Draft
+          </span>
+
+        </div>
+
+        <button
+          class="icon-button"
+          id="previewButton"
+          title="Preview"
+        >
+          ↗
+        </button>
+
+        <button
+          class="icon-button"
+          id="resetButton"
+          title="Reset"
+        >
+          ↻
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+
+      <!-- PAGE HERO -->
+
+      <section class="page-hero">
+
+        <div class="hero-content">
+
+          <div class="hero-eyebrow">
+            <span></span>
+            Website Content
+          </div>
+
+          <h1>
+            Shape your
+            <span>Homepage.</span>
+          </h1>
+
+          <p>
+            Edit the most important public-facing content of
+            AKI Engineering Workshop. Changes are saved locally
+            for this demo and can later be connected to Firebase.
+          </p>
+
+        </div>
+
+
+        <div class="hero-status">
+
+          <div class="status-pill">
+
+            <span class="status-pill-dot"></span>
+
+            <span id="publishStatus">
+              Draft Mode
+            </span>
+
+          </div>
+
+          <small id="lastSaved">
+            Not saved yet
+          </small>
+
+        </div>
+
+      </section>
+
+
+      <!-- EDITOR -->
+
+      <div class="editor-grid">
+
+
+        <!-- =============================================
+             MAIN EDITOR
+        ============================================== -->
+
+        <div class="editor-main">
+
+
+          <!-- HERO CONTENT -->
+
+          <section class="panel">
+
+            <div class="panel-header">
+
+              <div>
+                <div class="panel-title">
+                  Hero Section
+                </div>
+
+                <div class="panel-caption">
+                  Main message visitors see when they arrive.
+                </div>
+              </div>
+
+              <div class="panel-tag">
+                Primary
+              </div>
+
+            </div>
+
+
+            <div class="panel-body">
+
+              <div class="form-grid">
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="heroKicker"
+                  >
+                    Eyebrow / Kicker
+                  </label>
+
+                  <input
+                    id="heroKicker"
+                    class="form-input"
+                    type="text"
+                    placeholder="Engineering Excellence"
+                  >
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="heroBadge"
+                  >
+                    Badge Text
+                  </label>
+
+                  <input
+                    id="heroBadge"
+                    class="form-input"
+                    type="text"
+                    placeholder="Trusted Workshop"
+                  >
+
+                </div>
+
+
+                <div class="form-group full">
+
+                  <label
+                    class="form-label"
+                    for="heroTitle"
+                  >
+                    Hero Heading
+                  </label>
+
+                  <input
+                    id="heroTitle"
+                    class="form-input"
+                    type="text"
+                    placeholder="Engineering Solutions That Move Forward"
+                  >
+
+                </div>
+
+
+                <div class="form-group full">
+
+                  <label
+                    class="form-label"
+                    for="heroDescription"
+                  >
+                    Hero Description
+                  </label>
+
+                  <textarea
+                    id="heroDescription"
+                    class="form-textarea"
+                    placeholder="Write a concise description of your workshop, services and engineering expertise..."
+                  ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="primaryButtonText"
+                  >
+                    Primary CTA
+                  </label>
+
+                  <input
+                    id="primaryButtonText"
+                    class="form-input"
+                    type="text"
+                    placeholder="Explore Services"
+                  >
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="primaryButtonUrl"
+                  >
+                    Primary CTA URL
+                  </label>
+
+                  <input
+                    id="primaryButtonUrl"
+                    class="form-input"
+                    type="text"
+                    placeholder="/services/"
+                  >
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="secondaryButtonText"
+                  >
+                    Secondary CTA
+                  </label>
+
+                  <input
+                    id="secondaryButtonText"
+                    class="form-input"
+                    type="text"
+                    placeholder="Contact Workshop"
+                  >
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="secondaryButtonUrl"
+                  >
+                    Secondary CTA URL
+                  </label>
+
+                  <input
+                    id="secondaryButtonUrl"
+                    class="form-input"
+                    type="text"
+                    placeholder="/contact/"
+                  >
+
+                </div>
+
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- STATS -->
+
+          <section class="panel">
+
+            <div class="panel-header">
+
+              <div>
+                <div class="panel-title">
+                  Homepage Statistics
+                </div>
+
+                <div class="panel-caption">
+                  Quick credibility numbers shown on the homepage.
+                </div>
+              </div>
+
+              <div class="panel-tag">
+                04 Items
+              </div>
+
+            </div>
+
+
+            <div class="panel-body">
+
+              <div class="stats-editor">
+
+
+                <div class="stat-editor-card">
+
+                  <div class="stat-editor-label">
+                    Stat 01
+                  </div>
+
+                  <div class="stat-input-row">
+
+                    <input
+                      id="stat1Value"
+                      class="stat-input"
+                      type="text"
+                      placeholder="10+"
+                    >
+
+                    <input
+                      id="stat1Label"
+                      class="stat-input"
+                      type="text"
+                      placeholder="Years Experience"
+                    >
+
+                  </div>
+
+                </div>
+
+
+                <div class="stat-editor-card">
+
+                  <div class="stat-editor-label">
+                    Stat 02
+                  </div>
+
+                  <div class="stat-input-row">
+
+                    <input
+                      id="stat2Value"
+                      class="stat-input"
+                      type="text"
+                      placeholder="500+"
+                    >
+
+                    <input
+                      id="stat2Label"
+                      class="stat-input"
+                      type="text"
+                      placeholder="Projects Completed"
+                    >
+
+                  </div>
+
+                </div>
+
+
+                <div class="stat-editor-card">
+
+                  <div class="stat-editor-label">
+                    Stat 03
+                  </div>
+
+                  <div class="stat-input-row">
+
+                    <input
+                      id="stat3Value"
+                      class="stat-input"
+                      type="text"
+                      placeholder="98%"
+                    >
+
+                    <input
+                      id="stat3Label"
+                      class="stat-input"
+                      type="text"
+                      placeholder="Client Satisfaction"
+                    >
+
+                  </div>
+
+                </div>
+
+
+                <div class="stat-editor-card">
+
+                  <div class="stat-editor-label">
+                    Stat 04
+                  </div>
+
+                  <div class="stat-input-row">
+
+                    <input
+                      id="stat4Value"
+                      class="stat-input"
+                      type="text"
+                      placeholder="24/7"
+                    >
+
+                    <input
+                      id="stat4Label"
+                      class="stat-input"
+                      type="text"
+                      placeholder="Support"
+                    >
+
+                  </div>
+
+                </div>
+
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- SEO -->
+
+          <section class="panel">
+
+            <div class="panel-header">
+
+              <div>
+                <div class="panel-title">
+                  Homepage SEO
+                </div>
+
+                <div class="panel-caption">
+                  Search engine title and description.
+                </div>
+              </div>
+
+              <div class="panel-tag">
+                SEO
+              </div>
+
+            </div>
+
+
+            <div class="panel-body">
+
+              <div class="form-group">
+
+                <label
+                  class="form-label"
+                  for="seoTitle"
+                >
+                  Meta Title
+                  <span class="label-hint">
+                    Recommended 50–60 characters
+                  </span>
+                </label>
+
+                <input
+                  id="seoTitle"
+                  class="form-input"
+                  type="text"
+                  placeholder="AKI Engineering Workshop | Engineering Solutions"
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label
+                  class="form-label"
+                  for="seoDescription"
+                >
+                  Meta Description
+                  <span class="label-hint">
+                    Recommended 140–160 characters
+                  </span>
+                </label>
+
+                <textarea
+                  id="seoDescription"
+                  class="form-textarea"
+                  style="min-height:82px;"
+                  placeholder="Describe AKI Engineering Workshop for search engines..."
+                ></textarea>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label
+                  class="form-label"
+                  for="seoKeywords"
+                >
+                  Keywords
+                </label>
+
+                <input
+                  id="seoKeywords"
+                  class="form-input"
+                  type="text"
+                  placeholder="engineering, workshop, fabrication, mechanical, AKI"
+                >
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- ACTIONS -->
+
+          <section class="panel">
+
+            <div class="panel-body">
+
+              <div class="form-actions">
+
+                <button
+                  type="button"
+                  class="button button-secondary"
+                  id="discardButton"
+                >
+                  Discard Changes
+                </button>
+
+                <button
+                  type="button"
+                  class="button button-primary"
+                  id="saveButton"
+                >
+                  ✓ Save Homepage
+                </button>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+        </div>
+
+
+        <!-- =============================================
+             SIDE
+        ============================================== -->
+
+        <aside class="editor-side">
+
+
+          <!-- PREVIEW -->
+
+          <section class="panel">
+
+            <div class="panel-header">
+
+              <div>
+                <div class="panel-title">
+                  Live Preview
+                </div>
+
+                <div class="panel-caption">
+                  Approximate homepage appearance.
+                </div>
+              </div>
+
+              <div class="panel-tag">
+                Preview
+              </div>
+
+            </div>
+
+
+            <div class="panel-body">
+
+              <div class="preview-window">
+
+                <div class="preview-browser">
+
+                  <span class="browser-dot"></span>
+                  <span class="browser-dot"></span>
+                  <span class="browser-dot"></span>
+
+                  <div class="preview-address"></div>
+
+                </div>
+
+
+                <div class="preview-site">
+
+                  <div class="preview-nav">
+
+                    <div class="preview-logo"></div>
+
+                    <div class="preview-menu">
+
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="preview-hero">
+
+                    <div
+                      class="preview-kicker"
+                      id="previewKicker"
+                    ></div>
+
+                    <div
+                      class="preview-title"
+                      id="previewTitleOne"
+                    ></div>
+
+                    <div
+                      class="preview-title short"
+                      id="previewTitleTwo"
+                    ></div>
+
+                    <div
+                      class="preview-description"
+                      id="previewDescriptionOne"
+                    ></div>
+
+                    <div
+                      class="preview-description small"
+                      id="previewDescriptionTwo"
+                    ></div>
+
+
+                    <div class="preview-buttons">
+
+                      <div class="preview-button"></div>
+
+                      <div class="preview-button outline"></div>
+
+                    </div>
+
+
+                    <div class="preview-stats">
+
+                      <div class="preview-stat"></div>
+                      <div class="preview-stat"></div>
+                      <div class="preview-stat"></div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- VISIBILITY -->
+
+          <section class="panel">
+
+            <div class="panel-header">
+
+              <div>
+                <div class="panel-title">
+                  Section Visibility
+                </div>
+
+                <div class="panel-caption">
+                  Control what appears publicly.
+                </div>
+              </div>
+
+              <div class="panel-tag">
+                Controls
+              </div>
+
+            </div>
+
+
+            <div class="panel-body">
+
+
+              <div class="toggle-row">
+
+                <div class="toggle-info">
+
+                  <strong>
+                    Hero Section
+                  </strong>
+
+                  <span>
+                    Main homepage introduction.
+                  </span>
+
+                </div>
+
+                <label class="switch">
+
+                  <input
+                    type="checkbox"
+                    id="showHero"
+                    checked
+                  >
+
+                  <span class="slider"></span>
+
+                </label>
+
+              </div>
+
+
+              <div class="toggle-row">
+
+                <div class="toggle-info">
+
+                  <strong>
+                    Statistics
+                  </strong>
+
+                  <span>
+                    Display credibility numbers.
+                  </span>
+
+                </div>
+
+                <label class="switch">
+
+                  <input
+                    type="checkbox"
+                    id="showStats"
+                    checked
+                  >
+
+                  <span class="slider"></span>
+
+                </label>
+
+              </div>
+
+
+              <div class="toggle-row">
+
+                <div class="toggle-info">
+
+                  <strong>
+                    Services Preview
+                  </strong>
+
+                  <span>
+                    Show featured workshop services.
+                  </span>
+
+                </div>
+
+                <label class="switch">
+
+                  <input
+                    type="checkbox"
+                    id="showServices"
+                    checked
+                  >
+
+                  <span class="slider"></span>
+
+                </label>
+
+              </div>
+
+
+              <div class="toggle-row">
+
+                <div class="toggle-info">
+
+                  <strong>
+                    Newsletter
+                  </strong>
+
+                  <span>
+                    Display email subscription area.
+                  </span>
+
+                </div>
+
+                <label class="switch">
+
+                  <input
+                    type="checkbox"
+                    id="showNewsletter"
+                    checked
+                  >
+
+                  <span class="slider"></span>
+
+                </label>
+
+              </div>
+
+
+            </div>
+
+          </section>
+
+
+          <!-- PUBLISH -->
+
+          <section class="panel">
+
+            <div class="panel-header">
+
+              <div>
+                <div class="panel-title">
+                  Publishing
+                </div>
+
+                <div class="panel-caption">
+                  Control homepage availability.
+                </div>
+              </div>
+
+              <div class="panel-tag">
+                Status
+              </div>
+
+            </div>
+
+
+            <div class="panel-body">
+
+              <div class="toggle-row">
+
+                <div class="toggle-info">
+
+                  <strong>
+                    Homepage Published
+                  </strong>
+
+                  <span>
+                    Make homepage changes available publicly.
+                  </span>
+
+                </div>
+
+                <label class="switch">
+
+                  <input
+                    type="checkbox"
+                    id="homepagePublished"
+                    checked
+                  >
+
+                  <span class="slider"></span>
+
+                </label>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- TIPS -->
+
+          <section class="panel">
+
+            <div class="panel-header">
+
+              <div>
+                <div class="panel-title">
+                  Content Tips
+                </div>
+
+                <div class="panel-caption">
+                  Small improvements for a stronger homepage.
+                </div>
+              </div>
+
+            </div>
+
+
+            <div class="tips-list">
+
+
+              <div class="tip">
+
+                <div class="tip-icon">
+                  01
+                </div>
+
+                <div>
+
+                  <strong>
+                    Keep the hero clear
+                  </strong>
+
+                  <p>
+                    Use one strong message instead of multiple competing headlines.
+                  </p>
+
+                </div>
+
+              </div>
+
+
+              <div class="tip">
+
+                <div class="tip-icon">
+                  02
+                </div>
+
+                <div>
+
+                  <strong>
+                    Use real numbers
+                  </strong>
+
+                  <p>
+                    Statistics should represent genuine workshop achievements.
+                  </p>
+
+                </div>
+
+              </div>
+
+
+              <div class="tip">
+
+                <div class="tip-icon">
+                  03
+                </div>
+
+                <div>
+
+                  <strong>
+                    Make CTA actionable
+                  </strong>
+
+                  <p>
+                    Send visitors directly to services, quotation or contact.
+                  </p>
+
+                </div>
+
+              </div>
+
+
+            </div>
+
+          </section>
+
+
+        </aside>
+
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- =====================================================
+       TOAST
+  ====================================================== -->
+
+  <div
+    class="toast"
+    id="toast"
+  ></div>
+
+
+  <!-- =====================================================
+       ACCESS DENIED
+  ====================================================== -->
+
+  <div
+    class="access-denied"
+    id="accessDenied"
+  >
+
+    <div class="access-box">
+
+      <div class="access-icon">
+        !
+      </div>
+
+      <h2>
+        Access Required
+      </h2>
+
+      <p>
+        Your admin session is not available or has expired.
+        Please sign in again to access the homepage manager.
+      </p>
+
+      <button id="accessLoginButton">
+        Go to Admin Login
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <script>
+    /* ============================================================
+       AKI ENGINEERING WORKSHOP
+       HOMEPAGE MANAGER
+       ============================================================ */
+
+
+    const STORAGE_KEY =
+      "aki-homepage-settings";
+
+
+    const SESSION_KEY =
+      "aki-admin-session";
+
+
+    const DEFAULT_SETTINGS = {
+
+      heroKicker:
+        "ENGINEERING EXCELLENCE",
+
+      heroBadge:
+        "Trusted Engineering Workshop",
+
+      heroTitle:
+        "Engineering Solutions That Move Forward",
+
+      heroDescription:
+        "AKI Engineering Workshop delivers practical engineering, fabrication, maintenance and workshop solutions built around quality, precision and dependable execution.",
+
+      primaryButtonText:
+        "Explore Services",
+
+      primaryButtonUrl:
+        "/services/",
+
+      secondaryButtonText:
+        "Contact Workshop",
+
+      secondaryButtonUrl:
+        "/contact/",
+
+      stats: [
+
+        {
+          value: "10+",
+          label: "Years Experience"
+        },
+
+        {
+          value: "500+",
+          label: "Projects Completed"
+        },
+
+        {
+          value: "98%",
+          label: "Client Satisfaction"
+        },
+
+        {
+          value: "24/7",
+          label: "Support"
+        }
+
+      ],
+
+      seoTitle:
+        "AKI Engineering Workshop | Engineering Solutions",
+
+      seoDescription:
+        "AKI Engineering Workshop provides practical engineering, fabrication, maintenance and workshop solutions with a focus on quality and precision.",
+
+      seoKeywords:
+        "engineering, workshop, fabrication, mechanical, AKI",
+
+      visibility: {
+
+        hero: true,
+        stats: true,
+        services: true,
+        newsletter: true,
+        published: true
+
+      }
+
+    };
+
+
+    /* ============================================================
+       DOM
+    ============================================================ */
+
+    const sidebar =
+      document.getElementById("sidebar");
+
+    const mobileOverlay =
+      document.getElementById("mobileOverlay");
+
+    const menuToggle =
+      document.getElementById("menuToggle");
+
+    const logoutButton =
+      document.getElementById("logoutButton");
+
+    const profileName =
+      document.getElementById("profileName");
+
+    const profileRole =
+      document.getElementById("profileRole");
+
+    const profileAvatar =
+      document.getElementById("profileAvatar");
+
+    const adminManagementLink =
+      document.getElementById("adminManagementLink");
+
+    const systemLink =
+      document.getElementById("systemLink");
+
+    const toast =
+      document.getElementById("toast");
+
+    const accessDenied =
+      document.getElementById("accessDenied");
+
+    const accessLoginButton =
+      document.getElementById("accessLoginButton");
+
+    const saveButton =
+      document.getElementById("saveButton");
+
+    const discardButton =
+      document.getElementById("discardButton");
+
+    const resetButton =
+      document.getElementById("resetButton");
+
+    const previewButton =
+      document.getElementById("previewButton");
+
+    const saveStatus =
+      document.getElementById("saveStatus");
+
+    const publishStatus =
+      document.getElementById("publishStatus");
+
+    const lastSaved =
+      document.getElementById("lastSaved");
+
+
+    let currentSettings =
+      clone(DEFAULT_SETTINGS);
+
+    let originalSettings =
+      clone(DEFAULT_SETTINGS);
+
+
+    /* ============================================================
+       AUTH
+    ============================================================ */
+
+    function getSession() {
+
+      const local =
+        localStorage.getItem(SESSION_KEY);
+
+      const session =
+        sessionStorage.getItem(SESSION_KEY);
+
+      const raw =
+        local || session;
+
+      if (!raw) {
+        return null;
+      }
+
+      try {
+
+        const data =
+          JSON.parse(raw);
+
+        if (
+          data &&
+          data.authenticated === true &&
+          (
+            data.role === "admin" ||
+            data.role === "superadmin"
+          )
+        ) {
+
+          return data;
+
+        }
+
+      } catch (error) {
+
+        localStorage.removeItem(
+          SESSION_KEY
+        );
+
+        sessionStorage.removeItem(
+          SESSION_KEY
+        );
+
+      }
+
+      return null;
+
+    }
+
+
+    function checkAuthentication() {
+
+      const session =
+        getSession();
+
+      if (!session) {
+
+        accessDenied.classList.add(
+          "show"
+        );
+
+        document.body.style.overflow =
+          "hidden";
+
+        return false;
+
+      }
+
+      initializeUser(session);
+
+      return true;
+
+    }
+
+
+    function initializeUser(session) {
+
+      const isSuperAdmin =
+        session.role === "superadmin";
+
+
+      const name =
+        session.name ||
+        (
+          isSuperAdmin
+            ? "Super Admin"
+            : "Admin"
+        );
+
+
+      profileName.textContent =
+        name;
+
+      profileRole.textContent =
+        isSuperAdmin
+          ? "Super Admin"
+          : "Admin";
+
+      profileAvatar.textContent =
+        getInitials(name);
+
+
+      if (isSuperAdmin) {
+
+        adminManagementLink.classList.add(
+          "visible"
+        );
+
+        systemLink.classList.add(
+          "visible"
+        );
+
+      }
+
+    }
+
+
+    function getInitials(name) {
+
+      return name
+        .split(" ")
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(word =>
+          word.charAt(0).toUpperCase()
+        )
+        .join("");
+
+    }
+
+
+    /* ============================================================
+       STORAGE
+    ============================================================ */
+
+    function loadSettings() {
+
+      const raw =
+        localStorage.getItem(
+          STORAGE_KEY
+        );
+
+      if (!raw) {
+
+        currentSettings =
+          clone(DEFAULT_SETTINGS);
+
+        originalSettings =
+          clone(DEFAULT_SETTINGS);
+
+        populateForm();
+
+        return;
+
+      }
+
+
+      try {
+
+        const saved =
+          JSON.parse(raw);
+
+
+        currentSettings =
+          mergeSettings(
+            DEFAULT_SETTINGS,
+            saved
+          );
+
+
+        originalSettings =
+          clone(currentSettings);
+
+
+        populateForm();
+
+        const savedTime =
+          localStorage.getItem(
+            STORAGE_KEY + "-time"
+          );
+
+
+        if (savedTime) {
+
+          lastSaved.textContent =
+            "Saved " + formatDate(
+              savedTime
+            );
+
+          saveStatus.textContent =
+            "Saved Locally";
+
+        }
+
+      } catch (error) {
+
+        currentSettings =
+          clone(DEFAULT_SETTINGS);
+
+        originalSettings =
+          clone(DEFAULT_SETTINGS);
+
+        populateForm();
+
+      }
+
+    }
+
+
+    function mergeSettings(defaults, saved) {
+
+      return {
+
+        ...clone(defaults),
+
+        ...saved,
+
+        stats: Array.isArray(saved.stats)
+          ? saved.stats
+          : clone(defaults.stats),
+
+        visibility: {
+
+          ...clone(defaults.visibility),
+
+          ...(saved.visibility || {})
+
+        }
+
+      };
+
+    }
+
+
+    function clone(value) {
+
+      return JSON.parse(
+        JSON.stringify(value)
+      );
+
+    }
+
+
+    /* ============================================================
+       FORM ELEMENTS
+    ============================================================ */
+
+    const fields = {
+
+      heroKicker:
+        document.getElementById("heroKicker"),
+
+      heroBadge:
+        document.getElementById("heroBadge"),
+
+      heroTitle:
+        document.getElementById("heroTitle"),
+
+      heroDescription:
+        document.getElementById("heroDescription"),
+
+      primaryButtonText:
+        document.getElementById("primaryButtonText"),
+
+      primaryButtonUrl:
+        document.getElementById("primaryButtonUrl"),
+
+      secondaryButtonText:
+        document.getElementById("secondaryButtonText"),
+
+      secondaryButtonUrl:
+        document.getElementById("secondaryButtonUrl"),
+
+      stat1Value:
+        document.getElementById("stat1Value"),
+
+      stat1Label:
+        document.getElementById("stat1Label"),
+
+      stat2Value:
+        document.getElementById("stat2Value"),
+
+      stat2Label:
+        document.getElementById("stat2Label"),
+
+      stat3Value:
+        document.getElementById("stat3Value"),
+
+      stat3Label:
+        document.getElementById("stat3Label"),
+
+      stat4Value:
+        document.getElementById("stat4Value"),
+
+      stat4Label:
+        document.getElementById("stat4Label"),
+
+      seoTitle:
+        document.getElementById("seoTitle"),
+
+      seoDescription:
+        document.getElementById("seoDescription"),
+
+      seoKeywords:
+        document.getElementById("seoKeywords")
+
+    };
+
+
+    const toggles = {
+
+      hero:
+        document.getElementById("showHero"),
+
+      stats:
+        document.getElementById("showStats"),
+
+      services:
+        document.getElementById("showServices"),
+
+      newsletter:
+        document.getElementById("showNewsletter"),
+
+      published:
+        document.getElementById("homepagePublished")
+
+    };
+
+
+    /* ============================================================
+       POPULATE FORM
+    ============================================================ */
+
+    function populateForm() {
+
+      fields.heroKicker.value =
+        currentSettings.heroKicker;
+
+      fields.heroBadge.value =
+        currentSettings.heroBadge;
+
+      fields.heroTitle.value =
+        currentSettings.heroTitle;
+
+      fields.heroDescription.value =
+        currentSettings.heroDescription;
+
+      fields.primaryButtonText.value =
+        currentSettings.primaryButtonText;
+
+      fields.primaryButtonUrl.value =
+        currentSettings.primaryButtonUrl;
+
+      fields.secondaryButtonText.value =
+        currentSettings.secondaryButtonText;
+
+      fields.secondaryButtonUrl.value =
+        currentSettings.secondaryButtonUrl;
+
+
+      fields.stat1Value.value =
+        currentSettings.stats[0].value;
+
+      fields.stat1Label.value =
+        currentSettings.stats[0].label;
+
+      fields.stat2Value.value =
+        currentSettings.stats[1].value;
+
+      fields.stat2Label.value =
+        currentSettings.stats[1].label;
+
+      fields.stat3Value.value =
+        currentSettings.stats[2].value;
+
+      fields.stat3Label.value =
+        currentSettings.stats[2].label;
+
+      fields.stat4Value.value =
+        currentSettings.stats[3].value;
+
+      fields.stat4Label.value =
+        currentSettings.stats[3].label;
+
+
+      fields.seoTitle.value =
+        currentSettings.seoTitle;
+
+      fields.seoDescription.value =
+        currentSettings.seoDescription;
+
+      fields.seoKeywords.value =
+        currentSettings.seoKeywords;
+
+
+      toggles.hero.checked =
+        currentSettings.visibility.hero;
+
+      toggles.stats.checked =
+        currentSettings.visibility.stats;
+
+      toggles.services.checked =
+        currentSettings.visibility.services;
+
+      toggles.newsletter.checked =
+        currentSettings.visibility.newsletter;
+
+      toggles.published.checked =
+        currentSettings.visibility.published;
+
+
+      updatePreview();
+
+      updatePublishStatus();
+
+    }
+
+
+    /* ============================================================
+       READ FORM
+    ============================================================ */
+
+    function readForm() {
+
+      return {
+
+        heroKicker:
+          fields.heroKicker.value.trim(),
+
+        heroBadge:
+          fields.heroBadge.value.trim(),
+
+        heroTitle:
+          fields.heroTitle.value.trim(),
+
+        heroDescription:
+          fields.heroDescription.value.trim(),
+
+        primaryButtonText:
+          fields.primaryButtonText.value.trim(),
+
+        primaryButtonUrl:
+          fields.primaryButtonUrl.value.trim(),
+
+        secondaryButtonText:
+          fields.secondaryButtonText.value.trim(),
+
+        secondaryButtonUrl:
+          fields.secondaryButtonUrl.value.trim(),
+
+
+        stats: [
+
+          {
+            value:
+              fields.stat1Value.value.trim(),
+
+            label:
+              fields.stat1Label.value.trim()
+          },
+
+          {
+            value:
+              fields.stat2Value.value.trim(),
+
+            label:
+              fields.stat2Label.value.trim()
+          },
+
+          {
+            value:
+              fields.stat3Value.value.trim(),
+
+            label:
+              fields.stat3Label.value.trim()
+          },
+
+          {
+            value:
+              fields.stat4Value.value.trim(),
+
+            label:
+              fields.stat4Label.value.trim()
+          }
+
+        ],
+
+
+        seoTitle:
+          fields.seoTitle.value.trim(),
+
+        seoDescription:
+          fields.seoDescription.value.trim(),
+
+        seoKeywords:
+          fields.seoKeywords.value.trim(),
+
+
+        visibility: {
+
+          hero:
+            toggles.hero.checked,
+
+          stats:
+            toggles.stats.checked,
+
+          services:
+            toggles.services.checked,
+
+          newsletter:
+            toggles.newsletter.checked,
+
+          published:
+            toggles.published.checked
+
+        }
+
+      };
+
+    }
+
+
+    /* ============================================================
+       SAVE
+    ============================================================ */
+
+    saveButton.addEventListener(
+      "click",
+      saveSettings
+    );
+
+
+    function saveSettings() {
+
+      currentSettings =
+        readForm();
+
+
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(
+          currentSettings
+        )
+      );
+
+
+      const time =
+        new Date().toISOString();
+
+
+      localStorage.setItem(
+        STORAGE_KEY + "-time",
+        time
+      );
+
+
+      originalSettings =
+        clone(currentSettings);
+
+
+      lastSaved.textContent =
+        "Saved " + formatDate(time);
+
+      saveStatus.textContent =
+        "Saved Locally";
+
+
+      updatePublishStatus();
+
+      showToast(
+        "Homepage settings saved successfully."
+      );
+
+    }
+
+
+    /* ============================================================
+       DISCARD
+    ============================================================ */
+
+    discardButton.addEventListener(
+      "click",
+      () => {
+
+        currentSettings =
+          clone(originalSettings);
+
+        populateForm();
+
+        showToast(
+          "Unsaved changes were discarded."
+        );
+
+      }
+    );
+
+
+    /* ============================================================
+       RESET
+    ============================================================ */
+
+    resetButton.addEventListener(
+      "click",
+      () => {
+
+        const confirmed =
+          window.confirm(
+            "Reset homepage settings to the original demo defaults?"
+          );
+
+
+        if (!confirmed) {
+          return;
+        }
+
+
+        currentSettings =
+          clone(DEFAULT_SETTINGS);
+
+        originalSettings =
+          clone(DEFAULT_SETTINGS);
+
+
+        localStorage.removeItem(
+          STORAGE_KEY
+        );
+
+        localStorage.removeItem(
+          STORAGE_KEY + "-time"
+        );
+
+
+        populateForm();
+
+
+        lastSaved.textContent =
+          "Not saved yet";
+
+        saveStatus.textContent =
+          "Local Draft";
+
+
+        showToast(
+          "Homepage settings have been reset."
+        );
+
+      }
+    );
+
+
+    /* ============================================================
+       LIVE PREVIEW
+    ============================================================ */
+
+    const previewKicker =
+      document.getElementById(
+        "previewKicker"
+      );
+
+    const previewTitleOne =
+      document.getElementById(
+        "previewTitleOne"
+      );
+
+    const previewTitleTwo =
+      document.getElementById(
+        "previewTitleTwo"
+      );
+
+    const previewDescriptionOne =
+      document.getElementById(
+        "previewDescriptionOne"
+      );
+
+    const previewDescriptionTwo =
+      document.getElementById(
+        "previewDescriptionTwo"
+      );
+
+
+    function updatePreview() {
+
+      const title =
+        fields.heroTitle.value.trim();
+
+      const description =
+        fields.heroDescription.value.trim();
+
+      const kicker =
+        fields.heroKicker.value.trim();
+
+
+      previewKicker.style.width =
+        Math.max(
+          35,
+          Math.min(
+            140,
+            kicker.length * 4
+          )
+        ) + "px";
+
+
+      const words =
+        title.split(/\s+/);
+
+
+      const half =
+        Math.ceil(
+          words.length / 2
+        );
+
+
+      const firstLine =
+        words
+          .slice(0, half)
+          .join(" ");
+
+
+      const secondLine =
+        words
+          .slice(half)
+          .join(" ");
+
+
+      previewTitleOne.style.width =
+        Math.max(
+          50,
+          Math.min(
+            100,
+            firstLine.length * 4
+          )
+        ) + "%";
+
+
+      previewTitleTwo.style.width =
+        Math.max(
+          45,
+          Math.min(
+            85,
+            secondLine.length * 5
+          )
+        ) + "%";
+
+
+      const descLength =
+        description.length;
+
+
+      previewDescriptionOne.style.width =
+        Math.max(
+          45,
+          Math.min(
+            90,
+            descLength * .65
+          )
+        ) + "%";
+
+
+      previewDescriptionTwo.style.width =
+        Math.max(
+          35,
+          Math.min(
+            75,
+            descLength * .42
+          )
+        ) + "%";
+
+    }
+
+
+    Object.values(fields)
+      .forEach(field => {
+
+        field.addEventListener(
+          "input",
+          () => {
+
+            updatePreview();
+
+            saveStatus.textContent =
+              "Unsaved Changes";
+
+          }
+
+        );
+
+      });
+
+
+    Object.values(toggles)
+      .forEach(toggle => {
+
+        toggle.addEventListener(
+          "change",
+          () => {
+
+            saveStatus.textContent =
+              "Unsaved Changes";
+
+            updatePublishStatus();
+
+          }
+        );
+
+      });
+
+
+    /* ============================================================
+       PUBLISH STATUS
+    ============================================================ */
+
+    function updatePublishStatus() {
+
+      publishStatus.textContent =
+        toggles.published.checked
+          ? "Published"
+          : "Unpublished";
+
+    }
+
+
+    /* ============================================================
+       PREVIEW BUTTON
+    ============================================================ */
+
+    previewButton.addEventListener(
+      "click",
+      () => {
+
+        showToast(
+          "Public homepage preview will be connected to the live website in the next stage."
+        );
+
+      }
+    );
+
+
+    /* ============================================================
+       MOBILE SIDEBAR
+    ============================================================ */
+
+    menuToggle.addEventListener(
+      "click",
+      () => {
+
+        sidebar.classList.add(
+          "open"
+        );
+
+        mobileOverlay.classList.add(
+          "show"
+        );
+
+      }
+    );
+
+
+    mobileOverlay.addEventListener(
+      "click",
+      closeSidebar
+    );
+
+
+    function closeSidebar() {
+
+      sidebar.classList.remove(
+        "open"
+      );
+
+      mobileOverlay.classList.remove(
+        "show"
+      );
+
+    }
+
+
+    document.querySelectorAll(
+      ".nav-link"
+    ).forEach(link => {
+
+      link.addEventListener(
+        "click",
+        closeSidebar
+      );
+
+    });
+
+
+    /* ============================================================
+       LOGOUT
+    ============================================================ */
+
+    logoutButton.addEventListener(
+      "click",
+      () => {
+
+        localStorage.removeItem(
+          SESSION_KEY
+        );
+
+        sessionStorage.removeItem(
+          SESSION_KEY
+        );
+
+        window.location.href =
+          "login/";
+
+      }
+    );
+
+
+    /* ============================================================
+       ACCESS LOGIN
+    ============================================================ */
+
+    accessLoginButton.addEventListener(
+      "click",
+      () => {
+
+        window.location.href =
+          "login/";
+
+      }
+    );
+
+
+    /* ============================================================
+       TOAST
+    ============================================================ */
+
+    let toastTimer = null;
+
+
+    function showToast(message) {
+
+      toast.textContent =
+        message;
+
+      toast.classList.add(
+        "show"
+      );
+
+
+      clearTimeout(
+        toastTimer
+      );
+
+
+      toastTimer =
+        setTimeout(
+          () => {
+
+            toast.classList.remove(
+              "show"
+            );
+
+          },
+          2800
+        );
+
+    }
+
+
+    /* ============================================================
+       DATE FORMAT
+    ============================================================ */
+
+    function formatDate(date) {
+
+      return new Date(date)
+        .toLocaleString(
+          "en-US",
+          {
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit"
+          }
+        );
+
+    }
+
+
+    /* ============================================================
+       KEYBOARD SHORTCUTS
+    ============================================================ */
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          (event.ctrlKey || event.metaKey) &&
+          event.key.toLowerCase() === "s"
+        ) {
+
+          event.preventDefault();
+
+          saveSettings();
+
+        }
+
+
+        if (
+          event.key === "Escape"
+        ) {
+
+          closeSidebar();
+
+        }
+
+      }
+    );
+
+
+    /* ============================================================
+       INIT
+    ============================================================ */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      () => {
+
+        if (!checkAuthentication()) {
+          return;
+        }
+
+        loadSettings();
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>
