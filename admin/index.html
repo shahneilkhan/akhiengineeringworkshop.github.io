@@ -1,38 +1,66 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0d0d0d">
-  <meta name="description" content="AKI Engineering Workshop — Admin Control Center">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <title>Admin Login | AKI Engineering Workshop</title>
+  <meta
+    name="description"
+    content="AKI Engineering Workshop — Administration Command Center"
+  >
 
-  <link rel="icon" href="../assets/favicon.png" type="image/png">
+  <meta
+    name="theme-color"
+    content="#07090c"
+  >
+
+  <title>Admin Control Center | AKI Engineering Workshop</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
 
   <style>
     :root {
-      --black: #0d0d0d;
-      --black-soft: #151515;
-      --panel: #191919;
-      --panel-light: #202020;
-      --white: #ffffff;
-      --muted: #999999;
-      --gold: #c49a5a;
-      --gold-dark: #9e763e;
-      --border: rgba(255,255,255,.09);
-      --danger: #ff7777;
-      --success: #8dd6a3;
-      --radius: 20px;
-      --transition: .25s ease;
+      --bg: #06080b;
+      --panel: #0c1015;
+      --panel-2: #10151b;
+
+      --border: rgba(255,255,255,.08);
+      --border-strong: rgba(255,255,255,.13);
+
+      --text: #f5f7fa;
+      --muted: #929ca8;
+      --muted-2: #626c78;
+
+      --accent: #c8ff3d;
+      --accent-soft: rgba(200,255,61,.08);
+      --accent-border: rgba(200,255,61,.20);
+
+      --blue: #7aa8ff;
+      --purple: #b88cff;
+      --orange: #ffb45e;
+      --red: #ff657d;
+      --cyan: #61dfff;
+
+      --sidebar: 270px;
+      --topbar: 78px;
+
+      --radius-xl: 25px;
+      --radius-lg: 19px;
+      --radius-md: 14px;
     }
 
     * {
@@ -42,23 +70,34 @@
     }
 
     html {
+      background: var(--bg);
       scroll-behavior: smooth;
     }
 
     body {
       min-height: 100vh;
-      font-family: "DM Sans", sans-serif;
-      color: var(--white);
-      background: var(--black);
+      font-family: "Inter", sans-serif;
+      color: var(--text);
+
+      background:
+        radial-gradient(
+          circle at 82% 0%,
+          rgba(200,255,61,.055),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 0% 100%,
+          rgba(122,168,255,.035),
+          transparent 30%
+        ),
+        var(--bg);
+
       overflow-x: hidden;
     }
 
-    button, input {
+    button,
+    input {
       font: inherit;
-    }
-
-    button, a {
-      -webkit-tap-highlight-color: transparent;
     }
 
     a {
@@ -66,997 +105,684 @@
       text-decoration: none;
     }
 
-    button {
-      cursor: pointer;
-    }
+    /* =========================================
+       SIDEBAR
+    ========================================= */
 
-    .page {
-      position: relative;
-      min-height: 100vh;
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: var(--sidebar);
+      z-index: 100;
+
       display: flex;
       flex-direction: column;
-      overflow: hidden;
-    }
 
-    .ambient {
-      position: fixed;
-      pointer-events: none;
-      z-index: 0;
-      border-radius: 50%;
-      filter: blur(90px);
-      opacity: .15;
-    }
+      padding: 22px 14px;
 
-    .ambient-one {
-      width: 440px;
-      height: 440px;
-      top: -190px;
-      right: -130px;
-      background: var(--gold);
-    }
+      background: rgba(9,12,16,.96);
+      border-right: 1px solid var(--border);
 
-    .ambient-two {
-      width: 350px;
-      height: 350px;
-      bottom: -180px;
-      left: -120px;
-      background: #75542a;
-      opacity: .12;
-    }
+      backdrop-filter: blur(25px);
 
-    .grid-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      opacity: .12;
-      background-image:
-        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
-      background-size: 48px 48px;
-      mask-image: linear-gradient(to bottom, black, transparent 90%);
-    }
-
-    .topbar {
-      position: relative;
-      z-index: 2;
-      width: min(1440px, 100%);
-      margin: 0 auto;
-      padding: 28px 5%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
+      transition: transform .3s ease;
     }
 
     .brand {
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      gap: 13px;
+      gap: 11px;
+
+      padding: 3px 9px 23px;
+
+      border-bottom: 1px solid var(--border);
     }
 
-    .brand-mark {
-      width: 46px;
-      height: 46px;
+    .brand-logo {
+      width: 43px;
+      height: 43px;
+
       display: grid;
       place-items: center;
-      flex-shrink: 0;
+
       border-radius: 13px;
-      color: var(--black);
-      background: linear-gradient(135deg, #e0bd83, var(--gold));
-      box-shadow: 0 5px 25px rgba(196,154,90,.13);
-      font-family: "Manrope", sans-serif;
-      font-weight: 800;
-      font-size: 15px;
+
+      background: var(--accent);
+      color: #070900;
+
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 13px;
+      font-weight: 900;
       letter-spacing: -1px;
+
+      box-shadow:
+        0 0 30px rgba(200,255,61,.14);
     }
 
-    .brand-name {
-      font-family: "Manrope", sans-serif;
+    .brand-title {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 15px;
       font-weight: 800;
-      font-size: 16px;
       letter-spacing: -.5px;
-      line-height: 1.3;
     }
 
     .brand-subtitle {
-      display: block;
-      margin-top: 4px;
-      color: var(--gold);
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 2px;
+      margin-top: 3px;
+      color: var(--muted-2);
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 1.25px;
       text-transform: uppercase;
     }
 
-    .topbar-right {
+    .nav-label {
+      padding: 24px 11px 9px;
+
+      color: #4e5864;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-link {
+      min-height: 44px;
+
+      display: flex;
+      align-items: center;
+      gap: 11px;
+
+      padding: 0 12px;
+
+      border: 1px solid transparent;
+      border-radius: 12px;
+
+      color: var(--muted);
+
+      font-size: 11px;
+      font-weight: 600;
+
+      transition: .2s ease;
+    }
+
+    .nav-link svg {
+      width: 17px;
+      height: 17px;
+      flex: 0 0 17px;
+    }
+
+    .nav-link:hover {
+      color: var(--text);
+      background: rgba(255,255,255,.035);
+      border-color: var(--border);
+    }
+
+    .nav-link.active {
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-color: rgba(200,255,61,.12);
+    }
+
+    .nav-badge {
+      margin-left: auto;
+
+      min-width: 20px;
+      height: 20px;
+
+      padding: 0 5px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 999px;
+
+      background: rgba(255,255,255,.055);
+
+      color: var(--muted-2);
+
+      font-size: 8px;
+      font-weight: 800;
+    }
+
+    .nav-link.active .nav-badge {
+      background: rgba(200,255,61,.12);
+      color: var(--accent);
+    }
+
+    .sidebar-bottom {
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .ai-card {
+      padding: 14px;
+
+      border: 1px solid rgba(200,255,61,.12);
+      border-radius: 16px;
+
+      background:
+        radial-gradient(
+          circle at 100% 0,
+          rgba(200,255,61,.08),
+          transparent 45%
+        ),
+        rgba(255,255,255,.02);
+    }
+
+    .ai-card-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 9px;
+    }
+
+    .ai-status {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+    }
+
+    .ai-card strong {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 11px;
+    }
+
+    .ai-card p {
+      color: var(--muted-2);
+      font-size: 9px;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .ai-card a {
+      display: block;
+
+      padding: 9px;
+
+      border-radius: 9px;
+
+      background: var(--accent);
+      color: #070900;
+
+      text-align: center;
+
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .logout {
+      width: 100%;
+      height: 39px;
+
+      margin-top: 9px;
+
+      display: flex;
+      align-items: center;
+      gap: 9px;
+
+      padding: 0 11px;
+
+      border: 1px solid transparent;
+      border-radius: 10px;
+
+      background: transparent;
+
+      color: var(--muted-2);
+
+      text-align: left;
+
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .logout:hover {
+      color: var(--red);
+      background: rgba(255,101,125,.05);
+      border-color: rgba(255,101,125,.10);
+    }
+
+    /* =========================================
+       MAIN
+    ========================================= */
+
+    .main {
+      min-height: 100vh;
+      margin-left: var(--sidebar);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+
+      height: var(--topbar);
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 30px;
+
+      background: rgba(6,8,11,.78);
+      border-bottom: 1px solid var(--border);
+
+      backdrop-filter: blur(22px);
+    }
+
+    .top-left {
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .system-status {
+    .mobile-menu {
+      display: none;
+
+      width: 37px;
+      height: 37px;
+
+      border: 1px solid var(--border);
+      border-radius: 10px;
+
+      background: rgba(255,255,255,.025);
+      color: var(--text);
+    }
+
+    .breadcrumb {
+      color: var(--muted-2);
+      font-size: 10px;
+    }
+
+    .breadcrumb strong {
+      color: var(--text);
+    }
+
+    .top-actions {
       display: flex;
       align-items: center;
       gap: 9px;
-      color: #c7c7c7;
-      font-size: 12px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.025);
-      border-radius: 100px;
-      padding: 10px 14px;
     }
 
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      background: var(--success);
-      border-radius: 50%;
-      box-shadow: 0 0 12px rgba(141,214,163,.4);
-    }
+    .online {
+      height: 34px;
 
-    .main {
-      position: relative;
-      z-index: 1;
-      width: min(1200px, 100%);
-      margin: auto;
-      padding: 35px 5% 65px;
-      display: grid;
-      grid-template-columns: 1.08fr .92fr;
+      display: flex;
       align-items: center;
-      gap: clamp(45px, 8vw, 110px);
+      gap: 7px;
+
+      padding: 0 11px;
+
+      border: 1px solid rgba(200,255,61,.12);
+      border-radius: 999px;
+
+      background: rgba(200,255,61,.04);
+
+      color: var(--accent);
+
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: .3px;
     }
 
-    .intro {
-      max-width: 530px;
-      animation: rise .65s ease both;
+    .online span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 9px var(--accent);
+    }
+
+    .top-icon {
+      width: 35px;
+      height: 35px;
+
+      display: grid;
+      place-items: center;
+
+      border: 1px solid var(--border);
+      border-radius: 10px;
+
+      background: rgba(255,255,255,.025);
+      color: var(--muted);
+    }
+
+    .top-icon:hover {
+      color: var(--accent);
+      border-color: var(--accent-border);
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+
+      padding-left: 4px;
+    }
+
+    .avatar {
+      width: 35px;
+      height: 35px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 10px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--accent),
+          #7fa91d
+        );
+
+      color: #070900;
+
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .profile-text strong {
+      display: block;
+      font-size: 9px;
+    }
+
+    .profile-text span {
+      display: block;
+      margin-top: 2px;
+      color: var(--accent);
+      font-size: 7px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    /* =========================================
+       CONTENT
+    ========================================= */
+
+    .content {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 31px 30px 55px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+
+      min-height: 235px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 30px;
+
+      padding: 38px;
+
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+
+      background:
+        radial-gradient(
+          circle at 88% 40%,
+          rgba(200,255,61,.12),
+          transparent 32%
+        ),
+        radial-gradient(
+          circle at 70% 100%,
+          rgba(200,255,61,.045),
+          transparent 35%
+        ),
+        rgba(255,255,255,.022);
+
+      margin-bottom: 18px;
+    }
+
+    .hero::after {
+      content: "";
+
+      position: absolute;
+
+      width: 270px;
+      height: 270px;
+
+      right: 80px;
+      top: -115px;
+
+      border: 1px solid rgba(200,255,61,.08);
+      border-radius: 50%;
+
+      box-shadow:
+        0 0 0 35px rgba(200,255,61,.018),
+        0 0 0 70px rgba(200,255,61,.012);
+
+      pointer-events: none;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
     }
 
     .eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 27px;
-      color: var(--gold);
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 2.5px;
+      gap: 7px;
+
+      color: var(--accent);
+
+      font-size: 8px;
+      font-weight: 900;
+
+      letter-spacing: 1.6px;
       text-transform: uppercase;
+
+      margin-bottom: 12px;
     }
 
     .eyebrow::before {
       content: "";
-      width: 27px;
+      width: 18px;
       height: 1px;
-      background: var(--gold);
+      background: var(--accent);
     }
 
-    .intro h1 {
-      font-family: "Manrope", sans-serif;
-      font-size: clamp(42px, 5.3vw, 69px);
-      font-weight: 800;
-      line-height: 1.08;
-      letter-spacing: -3.5px;
-      margin-bottom: 24px;
+    .hero h1 {
+      font-family: "Space Grotesk", sans-serif;
+
+      font-size: clamp(30px, 4vw, 52px);
+
+      line-height: .98;
+
+      letter-spacing: -2.5px;
     }
 
-    .intro h1 span {
-      display: block;
-      color: var(--gold);
+    .hero h1 span {
+      color: var(--accent);
     }
 
-    .intro-description {
-      max-width: 440px;
-      color: #a5a5a5;
-      font-size: 15px;
-      line-height: 1.9;
-      margin-bottom: 35px;
-    }
+    .hero p {
+      max-width: 620px;
 
-    .feature-list {
-      display: grid;
-      gap: 17px;
-      list-style: none;
-    }
+      margin-top: 14px;
 
-    .feature-list li {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      color: #dedede;
-      font-size: 13px;
-    }
-
-    .feature-icon {
-      display: grid;
-      place-items: center;
-      width: 35px;
-      height: 35px;
-      flex-shrink: 0;
-      border-radius: 11px;
-      color: var(--gold);
-      background: rgba(196,154,90,.09);
-      border: 1px solid rgba(196,154,90,.13);
-    }
-
-    .feature-list strong {
-      font-weight: 600;
-    }
-
-    .login-card {
-      width: 100%;
-      max-width: 445px;
-      justify-self: end;
-      padding: clamp(27px, 4vw, 43px);
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 25px;
-      background: linear-gradient(145deg, rgba(31,31,31,.98), rgba(18,18,18,.98));
-      box-shadow: 0 30px 100px rgba(0,0,0,.35);
-      animation: rise .7s .08s ease both;
-    }
-
-    .card-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 31px;
-    }
-
-    .card-top h2 {
-      font-family: "Manrope", sans-serif;
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: -.8px;
-      margin-bottom: 8px;
-    }
-
-    .card-top p {
       color: var(--muted);
-      font-size: 12px;
-      line-height: 1.7;
+
+      font-size: 11px;
+      line-height: 1.75;
     }
 
-    .lock-icon {
-      width: 47px;
-      height: 47px;
+    .hero-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 21px;
+    }
+
+    .primary-button,
+    .secondary-button {
+      min-height: 40px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      padding: 0 14px;
+
+      border-radius: 11px;
+
+      font-size: 9px;
+      font-weight: 800;
+
+      transition: .2s ease;
+    }
+
+    .primary-button {
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #070900;
+    }
+
+    .primary-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(200,255,61,.14);
+    }
+
+    .secondary-button {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.025);
+      color: var(--text);
+    }
+
+    .secondary-button:hover {
+      border-color: var(--border-strong);
+      background: rgba(255,255,255,.05);
+    }
+
+    .hero-orb {
+      position: relative;
+      z-index: 2;
+
+      width: 145px;
+      height: 145px;
+
+      flex: 0 0 145px;
+
       display: grid;
       place-items: center;
-      flex-shrink: 0;
-      color: var(--gold);
-      border: 1px solid rgba(196,154,90,.23);
-      border-radius: 15px;
-      background: rgba(196,154,90,.08);
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle at 32% 28%,
+          #efffc2,
+          var(--accent) 21%,
+          #7fa91d 47%,
+          #121807 69%,
+          #07090c 100%
+        );
+
+      box-shadow:
+        0 0 45px rgba(200,255,61,.16),
+        0 0 100px rgba(200,255,61,.06);
+
+      animation: orbFloat 5s ease-in-out infinite;
+    }
+
+    .hero-orb::before,
+    .hero-orb::after {
+      content: "";
+
+      position: absolute;
+
+      border: 1px solid rgba(200,255,61,.12);
+      border-radius: 50%;
+    }
+
+    .hero-orb::before {
+      inset: -17px;
+    }
+
+    .hero-orb::after {
+      inset: -32px;
+      border-style: dashed;
+      opacity: .4;
+      animation: spin 16s linear infinite;
+    }
+
+    .hero-orb strong {
+      color: #071000;
+
+      font-family: "Space Grotesk", sans-serif;
+
+      font-size: 27px;
+      font-weight: 900;
+
+      letter-spacing: -2px;
+    }
+
+    /* =========================================
+       SECTION HEADER
+    ========================================= */
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+
+      gap: 15px;
+
+      margin: 27px 2px 12px;
+    }
+
+    .section-head h2 {
+      font-family: "Space Grotesk", sans-serif;
       font-size: 17px;
+      letter-spacing: -.7px;
     }
 
-    .field {
-      margin-bottom: 21px;
+    .section-head p {
+      margin-top: 4px;
+      color: var(--muted-2);
+      font-size: 9px;
     }
 
-    .field label {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 10px;
-      font-size: 12px;
-      font-weight: 700;
-      color: #e6e6e6;
+    .view-all {
+      color: var(--accent);
+      font-size: 9px;
+      font-weight: 800;
     }
 
-    .field label span {
-      color: #777;
-      font-size: 10px;
-      font-weight: 500;
-    }
+    /* =========================================
+       CONTROL GRID
+    ========================================= */
 
-    .input-wrap {
-      position: relative;
-    }
+    .control-grid {
+      display: grid;
 
-    .input-icon {
-      position: absolute;
-      top: 50%;
-      left: 16px;
-      transform: translateY(-50%);
-      color: #858585;
-      font-size: 14px;
-      pointer-events: none;
-    }
+      grid-template-columns:
+        repeat(4, minmax(0,1fr));
 
-    .field input {
-      width: 100%;
-      height: 53px;
-      padding: 0 46px;
-      color: var(--white);
-      background: #111;
-      border: 1px solid #303030;
-      border-radius: 12px;
-      outline: none;
-      font-size: 13px;
-      transition: var(--transition);
-    }
-
-    .field input::placeholder {
-      color: #646464;
-    }
-
-    .field input:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(196,154,90,.09);
-    }
-
-    .password-toggle {
-      position: absolute;
-      right: 13px;
-      top: 50%;
-      transform: translateY(-50%);
-      padding: 6px;
-      color: #8a8a8a;
-      border: 0;
-      background: transparent;
-      font-size: 14px;
-    }
-
-    .password-toggle:hover {
-      color: var(--gold);
-    }
-
-    .form-options {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       gap: 12px;
-      margin: 3px 0 25px;
-      font-size: 11px;
     }
 
-    .remember {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: #aaa;
-      cursor: pointer;
-    }
-
-    .remember input {
-      accent-color: var(--gold);
-      width: 14px;
-      height: 14px;
-      cursor: pointer;
-    }
-
-    .secure-label {
-      color: #9d9d9d;
-    }
-
-    .secure-label i {
-      color: var(--gold);
-      margin-right: 5px;
-    }
-
-    .login-button {
+    .control-card {
       position: relative;
-      width: 100%;
-      min-height: 54px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 11px;
-      border: 0;
-      border-radius: 12px;
-      color: #15110b;
-      background: linear-gradient(110deg, #d7b578, #c49a5a 55%, #b38749);
-      font-weight: 800;
-      font-size: 13px;
-      box-shadow: 0 10px 30px rgba(196,154,90,.12);
-      transition: var(--transition);
-    }
+      overflow: hidden;
 
-    .login-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 14px 35px rgba(196,154,90,.23);
-    }
+      min-height: 175px;
 
-    .login-button:disabled {
-      opacity: .7;
-      cursor: wait;
-      transform: none;
-    }
+      padding: 20px;
 
-    .message {
-      display: none;
-      margin-top: 16px;
-      padding: 12px 14px;
-      border-radius: 10px;
-      font-size: 12px;
-      line-height: 1.6;
-    }
-
-    .message.error {
-      display: block;
-      color: #ffaaaa;
-      background: rgba(255,90,90,.08);
-      border: 1px solid rgba(255,90,90,.16);
-    }
-
-    .message.success {
-      display: block;
-      color: #a5e4b6;
-      background: rgba(100,210,130,.08);
-      border: 1px solid rgba(100,210,130,.16);
-    }
-
-    .demo-box {
-      margin-top: 24px;
-      padding: 16px;
-      border: 1px dashed rgba(196,154,90,.28);
-      border-radius: 13px;
-      background: rgba(196,154,90,.035);
-    }
-
-    .demo-heading {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--gold);
-      font-size: 11px;
-      font-weight: 800;
-      margin-bottom: 10px;
-    }
-
-    .demo-heading i {
-      font-size: 12px;
-    }
-
-    .demo-copy {
-      color: #a3a3a3;
-      font-size: 11px;
-      line-height: 1.8;
-      overflow-wrap: anywhere;
-    }
-
-    .demo-copy strong {
-      color: #e8e8e8;
-      font-weight: 600;
-    }
-
-    .demo-button {
-      width: 100%;
-      margin-top: 13px;
-      padding: 10px;
-      border: 1px solid rgba(196,154,90,.22);
-      border-radius: 9px;
-      color: var(--gold);
-      background: rgba(196,154,90,.07);
-      font-size: 11px;
-      font-weight: 700;
-      transition: var(--transition);
-    }
-
-    .demo-button:hover {
-      background: rgba(196,154,90,.14);
-    }
-
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      margin-top: 23px;
-      color: #777;
-      font-size: 10px;
-      text-align: center;
-    }
-
-    .card-footer i {
-      color: var(--gold);
-    }
-
-    .bottom {
-      position: relative;
-      z-index: 1;
-      width: min(1440px, 100%);
-      margin: 0 auto;
-      padding: 20px 5% 27px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      border-top: 1px solid rgba(255,255,255,.06);
-      color: #777;
-      font-size: 11px;
-    }
-
-    .bottom strong {
-      color: #bcbcbc;
-      font-weight: 600;
-    }
-
-    .bottom-links {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-
-    .bottom-links a {
-      transition: var(--transition);
-    }
-
-    .bottom-links a:hover {
-      color: var(--gold);
-    }
-
-    .back-home {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .back-home i {
-      font-size: 10px;
-    }
-
-    @keyframes rise {
-      from {
-        opacity: 0;
-        transform: translateY(18px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @media (min-width: 1500px) {
-      .main {
-        padding-top: 55px;
-        padding-bottom: 75px;
-      }
-    }
-
-    @media (max-width: 900px) {
-      .main {
-        grid-template-columns: 1fr;
-        justify-items: center;
-        gap: 45px;
-        padding-top: 35px;
-      }
-
-      .intro {
-        max-width: 600px;
-        text-align: center;
-      }
-
-      .intro h1 {
-        font-size: clamp(42px, 8vw, 62px);
-        letter-spacing: -2.5px;
-      }
-
-      .intro-description {
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .eyebrow {
-        justify-content: center;
-      }
-
-      .feature-list {
-        width: fit-content;
-        max-width: 100%;
-        margin: 0 auto;
-        text-align: left;
-      }
-
-      .login-card {
-        justify-self: center;
-      }
-    }
-
-    @media (max-width: 560px) {
-      .topbar {
-        padding: 20px 20px;
-      }
-
-      .brand-mark {
-        width: 41px;
-        height: 41px;
-        border-radius: 11px;
-      }
-
-      .brand-name {
-        font-size: 13px;
-      }
-
-      .brand-subtitle {
-        font-size: 8px;
-        letter-spacing: 1.4px;
-      }
-
-      .system-status {
-        padding: 8px 10px;
-        font-size: 10px;
-      }
-
-      .topbar-right {
-        gap: 5px;
-      }
-
-      .main {
-        padding: 38px 20px 45px;
-        gap: 38px;
-      }
-
-      .intro h1 {
-        font-size: 43px;
-        letter-spacing: -2.2px;
-      }
-
-      .intro-description {
-        font-size: 13px;
-      }
-
-      .feature-list {
-        gap: 13px;
-      }
-
-      .feature-list li {
-        font-size: 12px;
-      }
-
-      .feature-icon {
-        width: 32px;
-        height: 32px;
-      }
-
-      .login-card {
-        padding: 25px 21px;
-        border-radius: 19px;
-      }
-
-      .card-top h2 {
-        font-size: 23px;
-      }
-
-      .bottom {
-        padding: 19px 20px 24px;
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .bottom-links {
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-        scroll-behavior: auto !important;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <div class="page">
-    <div class="ambient ambient-one"></div>
-    <div class="ambient ambient-two"></div>
-    <div class="grid-overlay"></div>
-
-    <header class="topbar">
-      <a class="brand" href="../index.html" aria-label="AKI Engineering Workshop homepage">
-        <div class="brand-mark">AKI</div>
-        <div>
-          <div class="brand-name">AKI Engineering</div>
-          <span class="brand-subtitle">Workshop & Solutions</span>
-        </div>
-      </a>
-
-      <div class="topbar-right">
-        <div class="system-status">
-          <span class="status-dot"></span>
-          <span>Admin Portal</span>
-        </div>
-      </div>
-    </header>
-
-    <main class="main">
-      <section class="intro">
-        <div class="eyebrow">Management Console</div>
-
-        <h1>
-          Your business.
-          <span>Your control.</span>
-        </h1>
-
-        <p class="intro-description">
-          Welcome to the AKI Engineering Workshop control center.
-          Manage your homepage, promotional banners, website interface,
-          newsletter subscribers and administrative settings from one place.
-        </p>
-
-        <ul class="feature-list">
-          <li>
-            <span class="feature-icon"><i class="fa-solid fa-layer-group"></i></span>
-            <span><strong>Content management</strong> — banners, homepage and website sections</span>
-          </li>
-
-          <li>
-            <span class="feature-icon"><i class="fa-solid fa-sliders"></i></span>
-            <span><strong>Design controls</strong> — appearance, layout and system preferences</span>
-          </li>
-
-          <li>
-            <span class="feature-icon"><i class="fa-solid fa-shield-halved"></i></span>
-            <span><strong>Admin workspace</strong> — organized management tools in one dashboard</span>
-          </li>
-        </ul>
-      </section>
-
-      <section class="login-card" aria-labelledby="loginTitle">
-        <div class="card-top">
-          <div>
-            <h2 id="loginTitle">Welcome back</h2>
-            <p>Enter your administrator credentials to continue.</p>
-          </div>
-
-          <div class="lock-icon">
-            <i class="fa-solid fa-lock"></i>
-          </div>
-        </div>
-
-        <form id="loginForm">
-          <div class="field">
-            <label for="email">
-              Email address
-              <span>REQUIRED</span>
-            </label>
-
-            <div class="input-wrap">
-              <i class="fa-regular fa-envelope input-icon"></i>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="admin@akiworkshop.com"
-                autocomplete="username"
-                required
-              >
-            </div>
-          </div>
-
-          <div class="field">
-            <label for="password">
-              Password
-              <span>REQUIRED</span>
-            </label>
-
-            <div class="input-wrap">
-              <i class="fa-solid fa-key input-icon"></i>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Enter your password"
-                autocomplete="current-password"
-                required
-              >
-
-              <button
-                type="button"
-                class="password-toggle"
-                id="togglePassword"
-                aria-label="Show password"
-                title="Show or hide password"
-              >
-                <i class="fa-regular fa-eye"></i>
-              </button>
-            </div>
-          </div>
-
-          <div class="form-options">
-            <label class="remember">
-              <input type="checkbox" id="rememberMe">
-              <span>Remember email</span>
-            </label>
-
-            <span class="secure-label">
-              <i class="fa-solid fa-shield-halved"></i>
-              Admin access
-            </span>
-          </div>
-
-          <button class="login-button" type="submit" id="loginButton">
-            <span id="buttonText">Sign In to Dashboard</span>
-            <i class="fa-solid fa-arrow-right" id="buttonIcon"></i>
-          </button>
-
-          <div id="loginMessage" class="message" role="status" aria-live="polite"></div>
-        </form>
-
-        <div class="demo-box">
-          <div class="demo-heading">
-            <i class="fa-solid fa-flask"></i>
-            DEMO ACCESS
-          </div>
-
-          <div class="demo-copy">
-            Email: <strong>admin@akiworkshop.com</strong><br>
-            Password: <strong>AKI@2026</strong>
-          </div>
-
-          <button type="button" class="demo-button" id="fillDemo">
-            <i class="fa-solid fa-wand-magic-sparkles"></i>
-            Fill Demo Credentials
-          </button>
-        </div>
-
-        <div class="card-footer">
-          <i class="fa-solid fa-circle-info"></i>
-          Demo mode · Secure authentication is not configured yet
-        </div>
-      </section>
-    </main>
-
-    <footer class="bottom">
-      <div>
-        © <span id="currentYear"></span>
-        <strong>AKI Engineering Workshop.</strong> All rights reserved.
-      </div>
-
-      <div class="bottom-links">
-        <a class="back-home" href="../index.html">
-          <i class="fa-solid fa-arrow-left"></i>
-          Back to Website
-        </a>
-        <span>•</span>
-        <span>Admin Portal v1.0</span>
-      </div>
-    </footer>
-  </div>
-
-  <script>
-    "use strict";
-
-    /*
-      AKI Engineering Workshop — Demo Admin Login
-
-      IMPORTANT:
-      This is a front-end demo only. Credentials in JavaScript are
-      visible to visitors and are NOT secure for a production website.
-
-      Before publishing a real admin panel, connect Firebase Authentication
-      and protect admin data with appropriate Firestore Security Rules.
-    */
-
-    const DEMO_EMAIL = "admin@akiworkshop.com";
-    const DEMO_PASSWORD = "AKI@2026";
-
-    const loginForm = document.getElementById("loginForm");
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const rememberMe = document.getElementById("rememberMe");
-    const togglePassword = document.getElementById("togglePassword");
-    const fillDemoButton = document.getElementById("fillDemo");
-    const loginButton = document.getElementById("loginButton");
-    const buttonText = document.getElementById("buttonText");
-    const buttonIcon = document.getElementById("buttonIcon");
-    const loginMessage = document.getElementById("loginMessage");
-
-    document.getElementById("currentYear").textContent =
-      new Date().getFullYear();
-
-    function showMessage(message, type) {
-      loginMessage.textContent = message;
-      loginMessage.className = "message " + type;
-    }
-
-    function clearMessage() {
-      loginMessage.textContent = "";
-      loginMessage.className = "message";
-    }
-
-    function setLoading(isLoading) {
-      loginButton.disabled = isLoading;
-
-      if (isLoading) {
-        buttonText.textContent = "Checking credentials...";
-        buttonIcon.className = "fa-solid fa-spinner fa-spin";
-      } else {
-        buttonText.textContent = "Sign In to Dashboard";
-        buttonIcon.className = "fa-solid fa-arrow-right";
-      }
-    }
-
-    // Load a previously remembered email.
-    try {
-      const savedEmail = localStorage.getItem("aki_admin_remembered_email");
-
-      if (savedEmail) {
-        emailInput.value = savedEmail;
-        rememberMe.checked = true;
-      }
-    } catch (error) {
-      console.warn("Browser storage is unavailable.");
-    }
-
-    // Show or hide password.
-    togglePassword.addEventListener("click", function () {
-      const shouldShow = passwordInput.type === "password";
-
-      passwordInput.type = shouldShow ? "text" : "password";
-
-      togglePassword.innerHTML = shouldShow
-        ? '<i class="fa-regular fa-eye-slash"></i>'
-        : '<i class="fa-regular fa-eye"></i>';
-
-      togglePassword.setAttribute(
-        "aria-label",
-        shouldShow ? "Hide password" : "Show password"
-      );
-    });
-
-    // Fill the demo credentials.
-    fillDemoButton.addEventListener("click", function () {
-      emailInput.value = DEMO_EMAIL;
-      passwordInput.value = DEMO_PASSWORD;
-
-      clearMessage();
-      emailInput.focus();
-    });
-
-    // Demo login flow.
-    loginForm.addEventListener("submit", function (event) {
-      event.preventDefault();
-      clearMessage();
-
-      const email = emailInput.value.trim().toLowerCase();
-      const password = passwordInput.value;
-
-      if (!email || !password) {
-        showMessage("Please enter both email and password.", "error");
-        return;
-      }
-
-      setLoading(true);
-
-      // Simulated delay for the demo interface.
-      window.setTimeout(function () {
-        if (email === DEMO_EMAIL && password === DEMO_PASSWORD) {
-          try {
-            if (rememberMe.checked) {
-              localStorage.setItem("aki_admin_remembered_email", email);
-            } else {
-              localStorage.removeItem("aki_admin_remembered_email");
-            }
-
-            // Demo flag only. This is not secure authentication.
-            sessionStorage.setItem("aki_admin_demo_session", "active");
-          } catch (error) {
-            console.warn("Browser storage is unavailable.");
-          }
-
-          showMessage("Demo login successful. Opening dashboard...", "success");
-
-          window.setTimeout(function () {
-            window.location.href = "dashboard.html";
-          }, 700);
-
-        } else {
-          setLoading(false);
-          showMessage(
-            "Incorrect demo credentials. Please check the email and password.",
-            "error"
-          );
-          passwordInput.focus();
-        }
-      }, 450);
-    });
-  </script>
-</body>
-</html>
+      border: 
