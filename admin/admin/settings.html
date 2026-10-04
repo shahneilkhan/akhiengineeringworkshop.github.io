@@ -1,0 +1,6204 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-admin-guard="true">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0"
+  >
+
+  <title>Site Settings — Akhi Engineering Workshop</title>
+
+  <meta
+    name="description"
+    content="Akhi Engineering Workshop central website settings manager."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <script src="./auth.js"></script>
+
+  <style>
+    /* =========================================================
+       AKHI ENGINEERING WORKSHOP
+       SITE SETTINGS — v1.7
+    ========================================================= */
+
+    :root{
+      --bg:#0a0b0c;
+      --panel:#151719;
+      --panel2:#1a1c1f;
+      --panel3:#202326;
+
+      --text:#f4f3ef;
+      --soft:#a8adaf;
+      --muted:#71777c;
+
+      --border:rgba(255,255,255,.08);
+      --border2:rgba(255,255,255,.14);
+
+      --accent:#d7a646;
+      --accent2:#f0c66f;
+      --accentSoft:rgba(215,166,70,.11);
+
+      --green:#68d29b;
+      --greenSoft:rgba(104,210,155,.11);
+
+      --red:#ff7075;
+      --redSoft:rgba(255,112,117,.11);
+
+      --blue:#6fa9ff;
+      --blueSoft:rgba(111,169,255,.11);
+
+      --yellow:#efc56d;
+      --yellowSoft:rgba(239,197,109,.11);
+
+      --sidebar:272px;
+      --topbar:74px;
+
+      --radiusSm:12px;
+      --radiusMd:18px;
+      --radiusLg:24px;
+
+      --shadow:
+        0 25px 80px rgba(0,0,0,.25);
+    }
+
+    html[data-theme="light"]{
+      --bg:#f1f1ed;
+      --panel:#fff;
+      --panel2:#f7f7f4;
+      --panel3:#ededeb;
+
+      --text:#151618;
+      --soft:#646a6e;
+      --muted:#8b9094;
+
+      --border:rgba(0,0,0,.08);
+      --border2:rgba(0,0,0,.14);
+
+      --accent:#a8751c;
+      --accent2:#bd913d;
+      --accentSoft:rgba(168,117,28,.09);
+
+      --green:#188b5d;
+      --greenSoft:rgba(24,139,93,.09);
+
+      --red:#cb424a;
+      --redSoft:rgba(203,66,74,.09);
+
+      --blue:#2b6fc2;
+      --blueSoft:rgba(43,111,194,.09);
+
+      --yellow:#ae781a;
+      --yellowSoft:rgba(174,120,26,.09);
+
+      --shadow:
+        0 25px 60px rgba(0,0,0,.08);
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      min-height:100vh;
+
+      background:
+        radial-gradient(
+          circle at 75% 0%,
+          rgba(215,166,70,.065),
+          transparent 28%
+        ),
+        var(--bg);
+
+      color:var(--text);
+
+      font-family:
+        "DM Sans",
+        Arial,
+        sans-serif;
+
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+
+      position:fixed;
+      inset:0;
+
+      pointer-events:none;
+
+      z-index:-1;
+
+      background:
+        linear-gradient(
+          rgba(255,255,255,.01) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,.01) 1px,
+          transparent 1px
+        );
+
+      background-size:48px 48px;
+
+      mask-image:
+        linear-gradient(
+          to bottom,
+          rgba(0,0,0,.5),
+          transparent
+        );
+    }
+
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    button,
+    input,
+    textarea,
+    select{
+      font:inherit;
+    }
+
+    button{
+      cursor:pointer;
+    }
+
+    ::selection{
+      background:var(--accent);
+      color:#171209;
+    }
+
+    /* =========================================================
+       SIDEBAR
+    ========================================================= */
+
+    .sidebar{
+      position:fixed;
+      inset:0 auto 0 0;
+
+      width:var(--sidebar);
+
+      padding:20px 16px;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,.025),
+          rgba(255,255,255,.006)
+        ),
+        var(--panel);
+
+      border-right:1px solid var(--border);
+
+      display:flex;
+      flex-direction:column;
+
+      z-index:100;
+
+      transition:
+        transform .3s ease;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+
+      gap:12px;
+
+      padding:4px 8px 20px;
+    }
+
+    .brand-mark{
+      width:44px;
+      height:44px;
+
+      display:grid;
+      place-items:center;
+
+      border-radius:14px;
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--accent2),
+          var(--accent)
+        );
+
+      color:#171209;
+
+      font:
+        900 14px "Manrope",
+        sans-serif;
+
+      box-shadow:
+        0 12px 28px
+        rgba(215,166,70,.16);
+    }
+
+    .brand-copy strong{
+      display:block;
+
+      font:
+        800 13px "Manrope",
+        sans-serif;
+    }
+
+    .brand-copy span{
+      display:block;
+
+      margin-top:3px;
+
+      color:var(--muted);
+
+      font-size:9px;
+      font-weight:700;
+
+      letter-spacing:.14em;
+
+      text-transform:uppercase;
+    }
+
+    .side-label{
+      padding:13px 10px 8px;
+
+      color:var(--muted);
+
+      font-size:9px;
+      font-weight:800;
+
+      letter-spacing:.16em;
+
+      text-transform:uppercase;
+    }
+
+    .nav{
+      display:grid;
+      gap:5px;
+    }
+
+    .nav a{
+      min-height:44px;
+
+      padding:0 12px;
+
+      display:flex;
+      align-items:center;
+
+      gap:12px;
+
+      border-radius:12px;
+
+      color:var(--soft);
+
+      transition:.2s ease;
+    }
+
+    .nav a:hover{
+      color:var(--text);
+
+      background:
+        var(--accentSoft);
+
+      transform:
+        translateX(2px);
+    }
+
+    .nav a.active{
+      color:var(--accent2);
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--accentSoft),
+          transparent
+        );
+
+      box-shadow:
+        inset 3px 0 0 var(--accent);
+    }
+
+    .nav-icon{
+      width:19px;
+
+      text-align:center;
+
+      font-size:15px;
+    }
+
+    .nav-text{
+      flex:1;
+
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .nav-badge{
+      min-width:20px;
+      height:20px;
+
+      padding:0 6px;
+
+      display:grid;
+      place-items:center;
+
+      border-radius:999px;
+
+      background:
+        var(--accentSoft);
+
+      color:
+        var(--accent2);
+
+      font-size:9px;
+      font-weight:900;
+    }
+
+    .sidebar-footer{
+      margin-top:auto;
+
+      padding:14px 8px 4px;
+    }
+
+    .mini-profile{
+      display:flex;
+      align-items:center;
+
+      gap:10px;
+
+      padding:12px;
+
+      border:1px solid var(--border);
+
+      border-radius:16px;
+
+      background:
+        var(--panel2);
+    }
+
+    .avatar{
+      width:38px;
+      height:38px;
+
+      display:grid;
+      place-items:center;
+
+      flex:0 0 auto;
+
+      border-radius:50%;
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--accent2),
+          var(--accent)
+        );
+
+      color:#171209;
+
+      font-size:12px;
+      font-weight:900;
+    }
+
+    .profile-copy{
+      min-width:0;
+      flex:1;
+    }
+
+    .profile-copy strong{
+      display:block;
+
+      overflow:hidden;
+
+      text-overflow:ellipsis;
+
+      white-space:nowrap;
+
+      font-size:11px;
+    }
+
+    .profile-copy span{
+      display:block;
+
+      margin-top:3px;
+
+      color:var(--muted);
+
+      font-size:9px;
+
+      letter-spacing:.1em;
+
+      text-transform:uppercase;
+    }
+
+    /* =========================================================
+       MAIN
+    ========================================================= */
+
+    .main{
+      min-width:0;
+      min-height:100vh;
+
+      margin-left:
+        var(--sidebar);
+    }
+
+    .topbar{
+      position:sticky;
+      top:0;
+
+      height:var(--topbar);
+
+      padding:0 28px;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--bg) 82%,
+          transparent
+        );
+
+      backdrop-filter:
+        blur(18px);
+
+      border-bottom:1px solid var(--border);
+
+      z-index:80;
+    }
+
+    .topbar-left{
+      display:flex;
+      align-items:center;
+
+      gap:13px;
+    }
+
+    .mobile-menu,
+    .icon-btn{
+      width:42px;
+      height:42px;
+
+      display:grid;
+      place-items:center;
+
+      border:1px solid var(--border);
+
+      border-radius:12px;
+
+      background:
+        var(--panel);
+
+      color:
+        var(--soft);
+
+      transition:.2s ease;
+    }
+
+    .mobile-menu{
+      display:none;
+    }
+
+    .mobile-menu:hover,
+    .icon-btn:hover{
+      color:var(--text);
+
+      border-color:
+        var(--border2);
+
+      transform:
+        translateY(-1px);
+    }
+
+    .page-title h1{
+      font:
+        800 18px "Manrope",
+        sans-serif;
+    }
+
+    .page-title p{
+      margin-top:2px;
+
+      color:var(--muted);
+
+      font-size:10px;
+    }
+
+    .topbar-actions{
+      display:flex;
+      align-items:center;
+
+      gap:7px;
+    }
+
+    .logout-btn{
+      height:42px;
+
+      padding:0 14px;
+
+      border:
+        1px solid
+        rgba(255,112,117,.18);
+
+      border-radius:12px;
+
+      background:
+        var(--redSoft);
+
+      color:
+        var(--red);
+
+      font-size:11px;
+      font-weight:800;
+    }
+
+    /* =========================================================
+       CONTENT
+    ========================================================= */
+
+    .content{
+      width:100%;
+
+      max-width:1600px;
+
+      margin:0 auto;
+
+      padding:28px;
+    }
+
+    .page-header{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+
+      gap:20px;
+
+      margin-bottom:20px;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+
+      align-items:center;
+
+      gap:7px;
+
+      margin-bottom:8px;
+
+      color:
+        var(--accent2);
+
+      font-size:9px;
+      font-weight:800;
+
+      letter-spacing:.16em;
+
+      text-transform:uppercase;
+    }
+
+    .eyebrow::before{
+      content:"";
+
+      width:6px;
+      height:6px;
+
+      border-radius:50%;
+
+      background:
+        var(--green);
+
+      box-shadow:
+        0 0 0 4px
+        var(--greenSoft);
+    }
+
+    .page-header h2{
+      font:
+        800 clamp(26px,3vw,40px)/1.02
+        "Manrope",
+        sans-serif;
+
+      letter-spacing:-.04em;
+    }
+
+    .page-header p{
+      max-width:760px;
+
+      margin-top:9px;
+
+      color:
+        var(--soft);
+
+      font-size:12px;
+
+      line-height:1.7;
+    }
+
+    .header-actions{
+      display:flex;
+
+      flex-wrap:wrap;
+
+      gap:8px;
+    }
+
+    .btn{
+      min-height:42px;
+
+      padding:0 14px;
+
+      border:1px solid var(--border);
+
+      border-radius:12px;
+
+      background:
+        var(--panel);
+
+      color:
+        var(--text);
+
+      font-size:11px;
+      font-weight:800;
+
+      transition:.2s ease;
+    }
+
+    .btn:hover{
+      transform:
+        translateY(-1px);
+
+      border-color:
+        var(--border2);
+    }
+
+    .btn.primary{
+      color:#171209;
+
+      border-color:
+        transparent;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--accent2),
+          var(--accent)
+        );
+
+      box-shadow:
+        0 10px 24px
+        rgba(215,166,70,.13);
+    }
+
+    .btn.green{
+      color:
+        var(--green);
+
+      background:
+        var(--greenSoft);
+
+      border-color:
+        rgba(104,210,155,.16);
+    }
+
+    .btn.danger{
+      color:
+        var(--red);
+
+      background:
+        var(--redSoft);
+
+      border-color:
+        rgba(255,112,117,.16);
+    }
+
+    /* =========================================================
+       LAYOUT
+    ========================================================= */
+
+    .settings-layout{
+      display:grid;
+
+      grid-template-columns:
+        minmax(0,1fr)
+        330px;
+
+      gap:18px;
+
+      align-items:start;
+    }
+
+    .main-column{
+      min-width:0;
+
+      display:grid;
+
+      gap:18px;
+    }
+
+    .side-column{
+      position:sticky;
+
+      top:
+        calc(
+          var(--topbar) + 18px
+        );
+
+      display:grid;
+
+      gap:18px;
+    }
+
+    .panel{
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:
+        var(--radiusMd);
+
+      background:
+        var(--panel);
+
+      overflow:hidden;
+    }
+
+    .panel-head{
+      min-height:64px;
+
+      padding:0 18px;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:12px;
+
+      border-bottom:
+        1px solid
+        var(--border);
+    }
+
+    .panel-head-copy strong{
+      display:block;
+
+      font:
+        800 13px
+        "Manrope",
+        sans-serif;
+    }
+
+    .panel-head-copy span{
+      display:block;
+
+      margin-top:3px;
+
+      color:
+        var(--muted);
+
+      font-size:9px;
+    }
+
+    .section-number{
+      width:28px;
+      height:28px;
+
+      margin-right:7px;
+
+      display:inline-grid;
+      place-items:center;
+
+      border-radius:9px;
+
+      background:
+        var(--accentSoft);
+
+      color:
+        var(--accent2);
+
+      font-size:9px;
+      font-weight:900;
+    }
+
+    .panel-body{
+      padding:18px;
+    }
+
+    /* =========================================================
+       FORM
+    ========================================================= */
+
+    .form-grid{
+      display:grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(0,1fr)
+        );
+
+      gap:14px;
+    }
+
+    .form-grid.three{
+      grid-template-columns:
+        repeat(
+          3,
+          minmax(0,1fr)
+        );
+    }
+
+    .field{
+      min-width:0;
+    }
+
+    .field.full{
+      grid-column:
+        1 / -1;
+    }
+
+    .field label{
+      display:flex;
+
+      align-items:center;
+
+      justify-content:space-between;
+
+      gap:8px;
+
+      margin-bottom:7px;
+
+      color:
+        var(--soft);
+
+      font-size:10px;
+      font-weight:800;
+    }
+
+    .field label span{
+      color:
+        var(--muted);
+
+      font-size:8px;
+
+      font-weight:500;
+    }
+
+    .input,
+    .textarea,
+    .select{
+      width:100%;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:12px;
+
+      outline:none;
+
+      background:
+        var(--panel2);
+
+      color:
+        var(--text);
+
+      transition:.2s ease;
+    }
+
+    .input,
+    .select{
+      height:44px;
+
+      padding:0 12px;
+
+      font-size:11px;
+    }
+
+    .textarea{
+      min-height:110px;
+
+      padding:12px;
+
+      resize:vertical;
+
+      font-size:11px;
+
+      line-height:1.65;
+    }
+
+    .input:focus,
+    .textarea:focus,
+    .select:focus{
+      border-color:
+        rgba(215,166,70,.5);
+
+      box-shadow:
+        0 0 0 4px
+        rgba(215,166,70,.08);
+    }
+
+    .hint{
+      margin-top:6px;
+
+      color:
+        var(--muted);
+
+      font-size:9px;
+
+      line-height:1.55;
+    }
+
+    /* =========================================================
+       TOGGLE
+    ========================================================= */
+
+    .toggle-row{
+      display:flex;
+
+      align-items:center;
+
+      justify-content:space-between;
+
+      gap:14px;
+
+      padding:13px;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:14px;
+
+      background:
+        var(--panel2);
+    }
+
+    .toggle-copy{
+      min-width:0;
+    }
+
+    .toggle-copy strong{
+      display:block;
+
+      font-size:11px;
+    }
+
+    .toggle-copy span{
+      display:block;
+
+      margin-top:3px;
+
+      color:
+        var(--muted);
+
+      font-size:9px;
+
+      line-height:1.5;
+    }
+
+    .switch{
+      position:relative;
+
+      width:46px;
+      height:26px;
+
+      flex:0 0 auto;
+    }
+
+    .switch input{
+      position:absolute;
+
+      opacity:0;
+
+      pointer-events:none;
+    }
+
+    .slider{
+      position:absolute;
+
+      inset:0;
+
+      cursor:pointer;
+
+      border-radius:999px;
+
+      background:#383d41;
+
+      transition:.25s ease;
+    }
+
+    .slider::before{
+      content:"";
+
+      position:absolute;
+
+      width:18px;
+      height:18px;
+
+      left:4px;
+      top:4px;
+
+      border-radius:50%;
+
+      background:#fff;
+
+      transition:.25s ease;
+
+      box-shadow:
+        0 2px 5px
+        rgba(0,0,0,.2);
+    }
+
+    .switch input:checked + .slider{
+      background:
+        var(--accent);
+    }
+
+    .switch input:checked + .slider::before{
+      transform:
+        translateX(20px);
+    }
+
+    /* =========================================================
+       PREVIEW
+    ========================================================= */
+
+    .preview-card{
+      overflow:hidden;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:18px;
+
+      background:
+        var(--panel2);
+    }
+
+    .preview-header{
+      padding:15px;
+
+      border-bottom:
+        1px solid
+        var(--border);
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:10px;
+    }
+
+    .preview-brand{
+      display:flex;
+
+      align-items:center;
+
+      gap:9px;
+    }
+
+    .preview-logo{
+      width:34px;
+      height:34px;
+
+      display:grid;
+      place-items:center;
+
+      border-radius:10px;
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--accent2),
+          var(--accent)
+        );
+
+      color:#171209;
+
+      font-size:10px;
+      font-weight:900;
+    }
+
+    .preview-brand strong{
+      display:block;
+
+      font:
+        800 10px
+        "Manrope",
+        sans-serif;
+    }
+
+    .preview-brand span{
+      display:block;
+
+      margin-top:2px;
+
+      color:
+        var(--muted);
+
+      font-size:8px;
+    }
+
+    .preview-body{
+      padding:16px;
+    }
+
+    .preview-title{
+      font:
+        800 23px/1.06
+        "Manrope",
+        sans-serif;
+
+      letter-spacing:-.035em;
+    }
+
+    .preview-desc{
+      margin-top:8px;
+
+      color:
+        var(--soft);
+
+      font-size:9px;
+
+      line-height:1.65;
+    }
+
+    .preview-contact{
+      display:grid;
+
+      gap:7px;
+
+      margin-top:15px;
+    }
+
+    .preview-contact-item{
+      min-height:31px;
+
+      padding:0 9px;
+
+      display:flex;
+      align-items:center;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:9px;
+
+      background:
+        var(--panel);
+
+      color:
+        var(--soft);
+
+      font-size:8px;
+    }
+
+    /* =========================================================
+       STATUS
+    ========================================================= */
+
+    .status-box{
+      padding:15px;
+
+      border:
+        1px solid
+        rgba(104,210,155,.15);
+
+      border-radius:15px;
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--greenSoft),
+          transparent 72%
+        );
+    }
+
+    .status-line{
+      display:flex;
+
+      align-items:center;
+
+      justify-content:space-between;
+
+      gap:12px;
+    }
+
+    .status-line strong{
+      font-size:11px;
+    }
+
+    .status-pill{
+      min-height:24px;
+
+      padding:0 9px;
+
+      display:inline-flex;
+
+      align-items:center;
+
+      gap:6px;
+
+      border-radius:999px;
+
+      background:
+        var(--greenSoft);
+
+      color:
+        var(--green);
+
+      font-size:8px;
+      font-weight:900;
+
+      letter-spacing:.06em;
+
+      text-transform:uppercase;
+    }
+
+    .status-pill::before{
+      content:"";
+
+      width:5px;
+      height:5px;
+
+      border-radius:50%;
+
+      background:
+        currentColor;
+    }
+
+    .status-box p{
+      margin-top:7px;
+
+      color:
+        var(--muted);
+
+      font-size:9px;
+
+      line-height:1.6;
+    }
+
+    /* =========================================================
+       SAVE BAR
+    ========================================================= */
+
+    .save-bar{
+      position:sticky;
+
+      bottom:14px;
+
+      z-index:60;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:space-between;
+
+      gap:14px;
+
+      padding:12px 14px;
+
+      border:
+        1px solid
+        var(--border2);
+
+      border-radius:16px;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--panel) 90%,
+          transparent
+        );
+
+      backdrop-filter:
+        blur(18px);
+
+      box-shadow:
+        var(--shadow);
+    }
+
+    .save-copy{
+      min-width:0;
+    }
+
+    .save-copy strong{
+      display:block;
+
+      font-size:10px;
+    }
+
+    .save-copy span{
+      display:block;
+
+      margin-top:3px;
+
+      color:
+        var(--muted);
+
+      font-size:9px;
+    }
+
+    .save-actions{
+      display:flex;
+
+      flex-wrap:wrap;
+
+      gap:7px;
+    }
+
+    /* =========================================================
+       MINI STATUS LIST
+    ========================================================= */
+
+    .status-list{
+      display:grid;
+      gap:8px;
+    }
+
+    .status-item{
+      min-height:42px;
+
+      padding:0 11px;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:10px;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:11px;
+
+      background:
+        var(--panel2);
+    }
+
+    .status-item span{
+      color:
+        var(--soft);
+
+      font-size:10px;
+    }
+
+    .status-item strong{
+      color:
+        var(--green);
+
+      font-size:9px;
+
+      font-weight:900;
+
+      letter-spacing:.05em;
+
+      text-transform:uppercase;
+    }
+
+    /* =========================================================
+       JSON AREA
+    ========================================================= */
+
+    .json-area{
+      width:100%;
+
+      min-height:320px;
+
+      padding:14px;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:14px;
+
+      outline:none;
+
+      background:
+        #0e1011;
+
+      color:
+        #dedede;
+
+      font-family:
+        Consolas,
+        Monaco,
+        monospace;
+
+      font-size:10px;
+
+      line-height:1.55;
+
+      resize:vertical;
+    }
+
+    html[data-theme="light"] .json-area{
+      background:
+        #202224;
+
+      color:
+        #ededed;
+    }
+
+    /* =========================================================
+       MODAL
+    ========================================================= */
+
+    .modal-overlay{
+      position:fixed;
+
+      inset:0;
+
+      z-index:900;
+
+      display:grid;
+
+      place-items:center;
+
+      padding:20px;
+
+      background:
+        rgba(0,0,0,.68);
+
+      backdrop-filter:
+        blur(8px);
+
+      opacity:0;
+      visibility:hidden;
+
+      transition:.25s ease;
+    }
+
+    .modal-overlay.show{
+      opacity:1;
+      visibility:visible;
+    }
+
+    .modal{
+      width:min(900px,100%);
+
+      max-height:92vh;
+
+      overflow:auto;
+
+      border:
+        1px solid
+        var(--border2);
+
+      border-radius:22px;
+
+      background:
+        var(--panel);
+
+      box-shadow:
+        var(--shadow);
+    }
+
+    .modal-head{
+      padding:18px;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:space-between;
+
+      gap:15px;
+
+      border-bottom:
+        1px solid
+        var(--border);
+    }
+
+    .modal-head strong{
+      font:
+        800 14px
+        "Manrope",
+        sans-serif;
+    }
+
+    .modal-close{
+      width:34px;
+      height:34px;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:9px;
+
+      background:
+        var(--panel2);
+
+      color:
+        var(--soft);
+    }
+
+    .modal-body{
+      padding:18px;
+    }
+
+    .modal-actions{
+      display:flex;
+
+      justify-content:flex-end;
+
+      gap:8px;
+
+      margin-top:14px;
+
+      padding-top:14px;
+
+      border-top:
+        1px solid
+        var(--border);
+    }
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    .toast{
+      position:fixed;
+
+      left:50%;
+      bottom:24px;
+
+      z-index:999;
+
+      min-width:270px;
+
+      max-width:
+        calc(100vw - 30px);
+
+      padding:13px 15px;
+
+      border:
+        1px solid
+        var(--border2);
+
+      border-radius:14px;
+
+      background:
+        var(--panel2);
+
+      box-shadow:
+        var(--shadow);
+
+      transform:
+        translate(-50%,30px);
+
+      opacity:0;
+      visibility:hidden;
+
+      transition:.25s ease;
+    }
+
+    .toast.show{
+      opacity:1;
+      visibility:visible;
+
+      transform:
+        translate(-50%,0);
+    }
+
+    .toast strong{
+      display:block;
+
+      font-size:11px;
+    }
+
+    .toast span{
+      display:block;
+
+      margin-top:3px;
+
+      color:
+        var(--muted);
+
+      font-size:9px;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    .sidebar-overlay{
+      display:none;
+    }
+
+    @media(max-width:1180px){
+      .settings-layout{
+        grid-template-columns:1fr;
+      }
+
+      .side-column{
+        position:static;
+
+        grid-template-columns:
+          repeat(2,minmax(0,1fr));
+      }
+    }
+
+    @media(max-width:1000px){
+      .form-grid.three{
+        grid-template-columns:
+          repeat(2,minmax(0,1fr));
+      }
+    }
+
+    @media(max-width:920px){
+      .sidebar{
+        transform:
+          translateX(-100%);
+      }
+
+      .sidebar.open{
+        transform:
+          translateX(0);
+      }
+
+      .sidebar-overlay{
+        display:block;
+
+        position:fixed;
+
+        inset:0;
+
+        z-index:90;
+
+        background:
+          rgba(0,0,0,.5);
+
+        backdrop-filter:
+          blur(3px);
+
+        opacity:0;
+        visibility:hidden;
+
+        transition:.25s ease;
+      }
+
+      .sidebar-overlay.show{
+        opacity:1;
+        visibility:visible;
+      }
+
+      .main{
+        margin-left:0;
+      }
+
+      .mobile-menu{
+        display:grid;
+      }
+
+      .content{
+        padding:20px;
+      }
+    }
+
+    @media(max-width:720px){
+      .topbar{
+        padding:0 15px;
+      }
+
+      .page-title p{
+        display:none;
+      }
+
+      .content{
+        padding:15px;
+      }
+
+      .page-header{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .form-grid,
+      .form-grid.three,
+      .side-column{
+        grid-template-columns:1fr;
+      }
+
+      .field.full{
+        grid-column:auto;
+      }
+
+      .save-bar{
+        flex-direction:column;
+        align-items:stretch;
+      }
+
+      .save-actions{
+        justify-content:flex-end;
+      }
+    }
+
+    @media(max-width:520px){
+      .header-actions{
+        width:100%;
+      }
+
+      .header-actions .btn{
+        flex:1;
+      }
+
+      .topbar-actions{
+        gap:5px;
+      }
+
+      .logout-btn{
+        padding:0 10px;
+      }
+
+      .panel-head{
+        padding:0 14px;
+      }
+
+      .panel-body{
+        padding:14px;
+      }
+
+      .save-actions .btn{
+        flex:1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+  ></div>
+
+  <div class="app">
+
+    <!-- =======================================================
+         SIDEBAR
+    ======================================================== -->
+
+    <aside
+      class="sidebar"
+      id="sidebar"
+    >
+
+      <div class="brand">
+
+        <div class="brand-mark">
+          AKI
+        </div>
+
+        <div class="brand-copy">
+          <strong>Akhi Engineering</strong>
+          <span>Workshop Admin</span>
+        </div>
+
+      </div>
+
+      <div class="side-label">
+        Main
+      </div>
+
+      <nav class="nav">
+
+        <a href="./dashboard.html">
+          <span class="nav-icon">⌂</span>
+          <span class="nav-text">Dashboard</span>
+        </a>
+
+        <a href="./homepage.html">
+          <span class="nav-icon">▣</span>
+          <span class="nav-text">Homepage</span>
+        </a>
+
+        <a href="./banner.html">
+          <span class="nav-icon">▰</span>
+          <span class="nav-text">Banners</span>
+        </a>
+
+        <a href="./projects.html">
+          <span class="nav-icon">◫</span>
+          <span class="nav-text">Projects</span>
+        </a>
+
+        <a href="./akhi-ai/index.html">
+          <span class="nav-icon">✦</span>
+          <span class="nav-text">AKHI AI</span>
+          <span class="nav-badge">AI</span>
+        </a>
+
+      </nav>
+
+      <div class="side-label">
+        Management
+      </div>
+
+      <nav class="nav">
+
+        <a href="./media.html">
+          <span class="nav-icon">▧</span>
+          <span class="nav-text">Media</span>
+        </a>
+
+        <a
+          href="./settings.html"
+          class="active"
+        >
+          <span class="nav-icon">⚙</span>
+          <span class="nav-text">Site Settings</span>
+        </a>
+
+        <a
+          href="./admins.html"
+          id="adminManagementNav"
+        >
+          <span class="nav-icon">♙</span>
+          <span class="nav-text">Admin Management</span>
+        </a>
+
+        <a href="./activity.html">
+          <span class="nav-icon">◷</span>
+          <span class="nav-text">Activity Log</span>
+        </a>
+
+      </nav>
+
+      <div class="side-label">
+        System
+      </div>
+
+      <nav class="nav">
+
+        <a href="./backup.html">
+          <span class="nav-icon">⇩</span>
+          <span class="nav-text">Backup & Restore</span>
+        </a>
+
+        <a
+          href="../index.html"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="nav-icon">↗</span>
+          <span class="nav-text">View Website</span>
+        </a>
+
+      </nav>
+
+      <div class="sidebar-footer">
+
+        <div class="mini-profile">
+
+          <div
+            class="avatar"
+            id="sidebarAvatar"
+          >
+            A
+          </div>
+
+          <div class="profile-copy">
+
+            <strong
+              id="sidebarName"
+            >
+              Admin
+            </strong>
+
+            <span
+              id="sidebarRole"
+            >
+              Admin
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </aside>
+
+
+    <!-- =======================================================
+         MAIN
+    ======================================================== -->
+
+    <main class="main">
+
+      <header class="topbar">
+
+        <div class="topbar-left">
+
+          <button
+            class="mobile-menu"
+            id="mobileMenu"
+            type="button"
+            aria-label="Open navigation"
+          >
+            ☰
+          </button>
+
+          <div class="page-title">
+
+            <h1>
+              Site Settings
+            </h1>
+
+            <p>
+              Central configuration for Akhi Engineering Workshop
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="topbar-actions">
+
+          <button
+            class="icon-btn"
+            id="themeToggle"
+            type="button"
+            title="Toggle theme"
+          >
+            ◐
+          </button>
+
+          <button
+            class="icon-btn"
+            id="refreshBtn"
+            type="button"
+            title="Reload settings"
+          >
+            ↻
+          </button>
+
+          <button
+            class="logout-btn"
+            type="button"
+            data-admin-logout
+          >
+            Logout
+          </button>
+
+        </div>
+
+      </header>
+
+
+      <!-- =====================================================
+           CONTENT
+      ====================================================== -->
+
+      <section class="content">
+
+        <div class="page-header">
+
+          <div>
+
+            <div class="eyebrow">
+              Configuration Center
+            </div>
+
+            <h2>
+              Website Settings
+            </h2>
+
+            <p>
+              Manage business identity, contact details,
+              social profiles, SEO, branding, opening hours,
+              footer content and maintenance controls.
+            </p>
+
+          </div>
+
+          <div class="header-actions">
+
+            <button
+              class="btn"
+              id="exportBtn"
+              type="button"
+            >
+              Export
+            </button>
+
+            <button
+              class="btn"
+              id="importBtn"
+              type="button"
+            >
+              Import
+            </button>
+
+            <input
+              type="file"
+              id="importFile"
+              accept="application/json"
+              hidden
+            >
+
+            <a
+              href="../index.html"
+              target="_blank"
+              rel="noopener"
+              class="btn primary"
+            >
+              View Website
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <form id="settingsForm">
+
+          <div class="settings-layout">
+
+            <!-- =================================================
+                 MAIN COLUMN
+            ================================================== -->
+
+            <div class="main-column">
+
+
+              <!-- ===============================================
+                   01 BUSINESS IDENTITY
+              ================================================ -->
+
+              <section class="panel">
+
+                <div class="panel-head">
+
+                  <div class="panel-head-copy">
+
+                    <strong>
+                      <span class="section-number">
+                        01
+                      </span>
+
+                      Business Identity
+                    </strong>
+
+                    <span>
+                      Core company information
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                  <div class="form-grid">
+
+                    <div class="field">
+
+                      <label>
+                        Business Name
+                        <span>Required</span>
+                      </label>
+
+                      <input
+                        class="input"
+                        id="businessName"
+                        type="text"
+                        placeholder="Akhi Engineering Workshop"
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Short Name
+                      </label>
+
+                      <input
+                        class="input"
+                        id="businessShortName"
+                        type="text"
+                        placeholder="Akhi Engineering"
+                      >
+
+                    </div>
+
+                    <div class="field full">
+
+                      <label>
+                        Tagline
+                      </label>
+
+                      <input
+                        class="input"
+                        id="tagline"
+                        type="text"
+                        placeholder="Precision. Strength. Craftsmanship."
+                      >
+
+                    </div>
+
+                    <div class="field full">
+
+                      <label>
+                        Business Description
+                      </label>
+
+                      <textarea
+                        class="textarea"
+                        id="businessDescription"
+                        placeholder="Write the main company description..."
+                      ></textarea>
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Founded
+                      </label>
+
+                      <input
+                        class="input"
+                        id="founded"
+                        type="text"
+                        placeholder="2020"
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Business Type
+                      </label>
+
+                      <input
+                        class="input"
+                        id="businessType"
+                        type="text"
+                        placeholder="Engineering & Fabrication Workshop"
+                      >
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </section>
+
+
+              <!-- ===============================================
+                   02 CONTACT
+              ================================================ -->
+
+              <section class="panel">
+
+                <div class="panel-head">
+
+                  <div class="panel-head-copy">
+
+                    <strong>
+                      <span class="section-number">
+                        02
+                      </span>
+
+                      Contact Information
+                    </strong>
+
+                    <span>
+                      Phone, email, address and messaging
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                  <div class="form-grid">
+
+                    <div class="field">
+
+                      <label>
+                        Primary Phone
+                      </label>
+
+                      <input
+                        class="input"
+                        id="phone"
+                        type="tel"
+                        placeholder="+880..."
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Secondary Phone
+                      </label>
+
+                      <input
+                        class="input"
+                        id="secondaryPhone"
+                        type="tel"
+                        placeholder="+880..."
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Email
+                      </label>
+
+                      <input
+                        class="input"
+                        id="email"
+                        type="email"
+                        placeholder="hello@example.com"
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        WhatsApp
+                      </label>
+
+                      <input
+                        class="input"
+                        id="whatsapp"
+                        type="text"
+                        placeholder="+880..."
+                      >
+
+                    </div>
+
+                    <div class="field full">
+
+                      <label>
+                        Full Address
+                      </label>
+
+                      <textarea
+                        class="textarea small"
+                        id="address"
+                        placeholder="Complete workshop address..."
+                      ></textarea>
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        City
+                      </label>
+
+                      <input
+                        class="input"
+                        id="city"
+                        type="text"
+                        placeholder="Moulvibazar"
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Country
+                      </label>
+
+                      <input
+                        class="input"
+                        id="country"
+                        type="text"
+                        placeholder="Bangladesh"
+                      >
+
+                    </div>
+
+                    <div class="field full">
+
+                      <label>
+                        Google Maps URL
+                      </label>
+
+                      <input
+                        class="input"
+                        id="maps"
+                        type="url"
+                        placeholder="https://maps.google.com/..."
+                      >
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </section>
+
+
+              <!-- ===============================================
+                   03 SOCIAL
+              ================================================ -->
+
+              <section class="panel">
+
+                <div class="panel-head">
+
+                  <div class="panel-head-copy">
+
+                    <strong>
+                      <span class="section-number">
+                        03
+                      </span>
+
+                      Social & Online Presence
+                    </strong>
+
+                    <span>
+                      Social media and external profiles
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                  <div class="form-grid">
+
+                    <div class="field">
+
+                      <label>
+                        Facebook
+                      </label>
+
+                      <input
+                        class="input"
+                        id="facebook"
+                        type="url"
+                        placeholder="https://facebook.com/..."
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Instagram
+                      </label>
+
+                      <input
+                        class="input"
+                        id="instagram"
+                        type="url"
+                        placeholder="https://instagram.com/..."
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        YouTube
+                      </label>
+
+                      <input
+                        class="input"
+                        id="youtube"
+                        type="url"
+                        placeholder="https://youtube.com/..."
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        TikTok
+                      </label>
+
+                      <input
+                        class="input"
+                        id="tiktok"
+                        type="url"
+                        placeholder="https://tiktok.com/@..."
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        LinkedIn
+                      </label>
+
+                      <input
+                        class="input"
+                        id="linkedin"
+                        type="url"
+                        placeholder="https://linkedin.com/..."
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Website
+                      </label>
+
+                      <input
+                        class="input"
+                        id="website"
+                        type="url"
+                        placeholder="https://..."
+                      >
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </section>
+
+
+              <!-- ===============================================
+                   04 BRANDING
+              ================================================ -->
+
+              <section class="panel">
+
+                <div class="panel-head">
+
+                  <div class="panel-head-copy">
+
+                    <strong>
+                      <span class="section-number">
+                        04
+                      </span>
+
+                      Branding
+                    </strong>
+
+                    <span>
+                      Logo, favicon and visual identity
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                  <div class="form-grid">
+
+                    <div class="field full">
+
+                      <label>
+                        Logo URL
+                      </label>
+
+                      <input
+                        class="input"
+                        id="logoUrl"
+                        type="url"
+                        placeholder="https://..."
+                      >
+
+                      <div class="hint">
+                        Use a direct SVG, PNG or JPG URL.
+                      </div>
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Favicon URL
+                      </label>
+
+                      <input
+                        class="input"
+                        id="faviconUrl"
+                        type="url"
+                        placeholder="https://..."
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Browser Theme Color
+                      </label>
+
+                      <input
+                        class="input"
+                        id="themeColor"
+                        type="text"
+                        placeholder="#d7a646"
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Primary Brand Color
+                      </label>
+
+                      <input
+                        class="input"
+                        id="primaryColor"
+                        type="text"
+                        placeholder="#d7a646"
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Accent Color
+                      </label>
+
+                      <input
+                        class="input"
+                        id="accentColor"
+                        type="text"
+                        placeholder="#f0c66f"
+                      >
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </section>
+
+
+              <!-- ===============================================
+                   05 OPENING HOURS
+              ================================================ -->
+
+              <section class="panel">
+
+                <div class="panel-head">
+
+                  <div class="panel-head-copy">
+
+                    <strong>
+                      <span class="section-number">
+                        05
+                      </span>
+
+                      Opening Hours
+                    </strong>
+
+                    <span>
+                      Public workshop schedule
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                  <div class="form-grid three">
+
+                    <div class="field">
+
+                      <label>
+                        Monday
+                      </label>
+
+                      <input
+                        class="input"
+                        id="hoursMonday"
+                        type="text"
+                        placeholder="9:00 AM – 6:00 PM"
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Tuesday
+                      </label>
+
+                      <input
+                        class="input"
+                        id="hoursTuesday"
+                        type="text"
+                        placeholder="9:00 AM – 6:00 PM"
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Wednesday
+                      </label>
+
+                      <input
+                        class="input"
+                        id="hoursWednesday"
+                        type="text"
+                        placeholder="9:00 AM – 6:00 PM"
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Thursday
+                      </label>
+
+                      <input
+                        class="input"
+                        id="hoursThursday"
+                        type="text"
+                        placeholder="9:00 AM – 6:00 PM"
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Friday
+                      </label>
+
+                      <input
+                        class="input"
+                        id="hoursFriday"
+                        type="text"
+                        placeholder="Closed"
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Saturday
+                      </label>
+
+                      <input
+                        class="input"
+                        id="hoursSaturday"
+                        type="text"
+                        placeholder="9:00 AM – 6:00 PM"
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Sunday
+                      </label>
+
+                      <input
+                        class="input"
+                        id="hoursSunday"
+                        type="text"
+                        placeholder="9:00 AM – 6:00 PM"
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Timezone
+                      </label>
+
+                      <input
+                        class="input"
+                        id="timezone"
+                        type="text"
+                        placeholder="Asia/Dhaka"
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Holiday Note
+                      </label>
+
+                      <input
+                        class="input"
+                        id="holidayNote"
+                        type="text"
+                        placeholder="Closed on public holidays"
+                      >
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </section>
+
+
+              <!-- ===============================================
+                   06 SEO
+              ================================================ -->
+
+              <section class="panel">
+
+                <div class="panel-head">
+
+                  <div class="panel-head-copy">
+
+                    <strong>
+                      <span class="section-number">
+                        06
+                      </span>
+
+                      SEO & Metadata
+                    </strong>
+
+                    <span>
+                      Search engine configuration
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                  <div class="form-grid">
+
+                    <div class="field full">
+
+                      <label>
+                        Site Title
+                      </label>
+
+                      <input
+                        class="input"
+                        id="seoTitle"
+                        type="text"
+                        maxlength="160"
+                        placeholder="Akhi Engineering Workshop"
+                      >
+
+                    </div>
+
+                    <div class="field full">
+
+                      <label>
+                        Meta Description
+                      </label>
+
+                      <textarea
+                        class="textarea small"
+                        id="seoDescription"
+                        maxlength="320"
+                        placeholder="Professional engineering and fabrication workshop..."
+                      ></textarea>
+
+                    </div>
+
+                    <div class="field full">
+
+                      <label>
+                        Keywords
+                        <span>Comma separated</span>
+                      </label>
+
+                      <input
+                        class="input"
+                        id="seoKeywords"
+                        type="text"
+                        placeholder="engineering, workshop, fabrication"
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Canonical URL
+                      </label>
+
+                      <input
+                        class="input"
+                        id="canonical"
+                        type="url"
+                        placeholder="https://..."
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Robots
+                      </label>
+
+                      <select
+                        class="select"
+                        id="robots"
+                      >
+
+                        <option value="index,follow">
+                          index,follow
+                        </option>
+
+                        <option value="index,nofollow">
+                          index,nofollow
+                        </option>
+
+                        <option value="noindex,follow">
+                          noindex,follow
+                        </option>
+
+                        <option value="noindex,nofollow">
+                          noindex,nofollow
+                        </option>
+
+                      </select>
+
+                    </div>
+
+                    <div class="field full">
+
+                      <label>
+                        Open Graph Image
+                      </label>
+
+                      <input
+                        class="input"
+                        id="ogImage"
+                        type="url"
+                        placeholder="https://..."
+                      >
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </section>
+
+
+              <!-- ===============================================
+                   07 FOOTER
+              ================================================ -->
+
+              <section class="panel">
+
+                <div class="panel-head">
+
+                  <div class="panel-head-copy">
+
+                    <strong>
+                      <span class="section-number">
+                        07
+                      </span>
+
+                      Footer
+                    </strong>
+
+                    <span>
+                      Public website footer content
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                  <div class="form-grid">
+
+                    <div class="field full">
+
+                      <label>
+                        Footer Description
+                      </label>
+
+                      <textarea
+                        class="textarea small"
+                        id="footerDescription"
+                        placeholder="A short company description..."
+                      ></textarea>
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Copyright Text
+                      </label>
+
+                      <input
+                        class="input"
+                        id="copyright"
+                        type="text"
+                        placeholder="© 2026 Akhi Engineering Workshop"
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Credit Text
+                      </label>
+
+                      <input
+                        class="input"
+                        id="creditText"
+                        type="text"
+                        placeholder="Designed & Developed with care"
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Privacy Policy URL
+                      </label>
+
+                      <input
+                        class="input"
+                        id="privacyUrl"
+                        type="url"
+                        placeholder="https://..."
+                      >
+
+                    </div>
+
+                    <div class="field">
+
+                      <label>
+                        Terms URL
+                      </label>
+
+                      <input
+                        class="input"
+                        id="termsUrl"
+                        type="url"
+                        placeholder="https://..."
+                      >
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </section>
+
+
+              <!-- ===============================================
+                   08 ADVANCED
+              ================================================ -->
+
+              <section class="panel">
+
+                <div class="panel-head">
+
+                  <div class="panel-head-copy">
+
+                    <strong>
+                      <span class="section-number">
+                        08
+                      </span>
+
+                      Advanced Controls
+                    </strong>
+
+                    <span>
+                      Website operation settings
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                  <div class="toggle-row">
+
+                    <div class="toggle-copy">
+
+                      <strong>
+                        Website Enabled
+                      </strong>
+
+                      <span>
+                        Enable normal public website operation.
+                      </span>
+
+                    </div>
+
+                    <label class="switch">
+
+                      <input
+                        type="checkbox"
+                        id="siteEnabled"
+                        checked
+                      >
+
+                      <span class="slider"></span>
+
+                    </label>
+
+                  </div>
+
+                  <div
+                    class="toggle-row"
+                    style="margin-top:9px;"
+                  >
+
+                    <div class="toggle-copy">
+
+                      <strong>
+                        Maintenance Mode
+                      </strong>
+
+                      <span>
+                        Indicates that the site is temporarily
+                        under maintenance. Public-page implementation
+                        must read this flag to enforce it.
+                      </span>
+
+                    </div>
+
+                    <label class="switch">
+
+                      <input
+                        type="checkbox"
+                        id="maintenanceMode"
+                      >
+
+                      <span class="slider"></span>
+
+                    </label>
+
+                  </div>
+
+                  <div
+                    class="toggle-row"
+                    style="margin-top:9px;"
+                  >
+
+                    <div class="toggle-copy">
+
+                      <strong>
+                        Show Contact Information
+                      </strong>
+
+                      <span>
+                        Allow public pages to display contact details.
+                      </span>
+
+                    </div>
+
+                    <label class="switch">
+
+                      <input
+                        type="checkbox"
+                        id="showContact"
+                        checked
+                      >
+
+                      <span class="slider"></span>
+
+                    </label>
+
+                  </div>
+
+                  <div
+                    class="toggle-row"
+                    style="margin-top:9px;"
+                  >
+
+                    <div class="toggle-copy">
+
+                      <strong>
+                        Show Social Links
+                      </strong>
+
+                      <span>
+                        Allow public pages to display social profiles.
+                      </span>
+
+                    </div>
+
+                    <label class="switch">
+
+                      <input
+                        type="checkbox"
+                        id="showSocial"
+                        checked
+                      >
+
+                      <span class="slider"></span>
+
+                    </label>
+
+                  </div>
+
+                  <div
+                    class="toggle-row"
+                    style="margin-top:9px;"
+                  >
+
+                    <div class="toggle-copy">
+
+                      <strong>
+                        Enable Analytics
+                      </strong>
+
+                      <span>
+                        Public-page analytics integration flag.
+                      </span>
+
+                    </div>
+
+                    <label class="switch">
+
+                      <input
+                        type="checkbox"
+                        id="analyticsEnabled"
+                      >
+
+                      <span class="slider"></span>
+
+                    </label>
+
+                  </div>
+
+                  <div
+                    style="
+                      margin-top:14px;
+                    "
+                  >
+
+                    <div class="field">
+
+                      <label>
+                        Analytics Measurement ID
+                      </label>
+
+                      <input
+                        class="input"
+                        id="analyticsId"
+                        type="text"
+                        placeholder="G-XXXXXXXXXX"
+                      >
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </section>
+
+
+              <!-- ===============================================
+                   SAVE BAR
+              ================================================ -->
+
+              <div class="save-bar">
+
+                <div class="save-copy">
+
+                  <strong id="saveStatus">
+                    No unsaved changes
+                  </strong>
+
+                  <span id="saveStatusText">
+                    Site settings are synchronized.
+                  </span>
+
+                </div>
+
+                <div class="save-actions">
+
+                  <button
+                    class="btn"
+                    id="resetBtn"
+                    type="button"
+                  >
+                    Reset
+                  </button>
+
+                  <button
+                    class="btn"
+                    id="previewBtn"
+                    type="button"
+                  >
+                    Preview
+                  </button>
+
+                  <button
+                    class="btn primary"
+                    id="saveBtn"
+                    type="submit"
+                  >
+                    Save Settings
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 SIDE COLUMN
+            ================================================== -->
+
+            <aside class="side-column">
+
+
+              <!-- WEBSITE PREVIEW -->
+
+              <section class="panel">
+
+                <div class="panel-head">
+
+                  <div class="panel-head-copy">
+
+                    <strong>
+                      Brand Preview
+                    </strong>
+
+                    <span>
+                      Live CMS representation
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                  <div class="preview-card">
+
+                    <div class="preview-header">
+
+                      <div class="preview-brand">
+
+                        <div
+                          class="preview-logo"
+                          id="previewLogo"
+                        >
+                          AKI
+                        </div>
+
+                        <div>
+
+                          <strong
+                            id="previewBusinessName"
+                          >
+                            Akhi Engineering
+                          </strong>
+
+                          <span
+                            id="previewTagline"
+                          >
+                            Engineering Workshop
+                          </span>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                    <div class="preview-body">
+
+                      <div
+                        class="preview-title"
+                        id="previewTitle"
+                      >
+                        Precision engineering.
+                        Built to last.
+                      </div>
+
+                      <div
+                        class="preview-desc"
+                        id="previewDescription"
+                      >
+                        Business description will appear here.
+                      </div>
+
+                      <div class="preview-contact">
+
+                        <div
+                          class="preview-contact-item"
+                          id="previewPhone"
+                        >
+                          Phone
+                        </div>
+
+                        <div
+                          class="preview-contact-item"
+                          id="previewEmail"
+                        >
+                          Email
+                        </div>
+
+                        <div
+                          class="preview-contact-item"
+                          id="previewLocation"
+                        >
+                          Location
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </section>
+
+
+              <!-- SYSTEM STATUS -->
+
+              <section class="panel">
+
+                <div class="panel-head">
+
+                  <div class="panel-head-copy">
+
+                    <strong>
+                      Configuration Status
+                    </strong>
+
+                    <span>
+                      Local settings state
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                  <div class="status-box">
+
+                    <div class="status-line">
+
+                      <strong
+                        id="siteStatusTitle"
+                      >
+                        Website Active
+                      </strong>
+
+                      <span
+                        class="status-pill"
+                        id="siteStatusPill"
+                      >
+                        Online
+                      </span>
+
+                    </div>
+
+                    <p
+                      id="siteStatusDescription"
+                    >
+                      Public website is configured for
+                      normal operation.
+                    </p>
+
+                  </div>
+
+                </div>
+
+              </section>
+
+
+              <!-- QUICK STATUS -->
+
+              <section class="panel">
+
+                <div class="panel-head">
+
+                  <div class="panel-head-copy">
+
+                    <strong>
+                      Quick Status
+                    </strong>
+
+                    <span>
+                      Important configuration flags
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                  <div class="status-list">
+
+                    <div class="status-item">
+
+                      <span>
+                        Contact Display
+                      </span>
+
+                      <strong
+                        id="quickContact"
+                      >
+                        ON
+                      </strong>
+
+                    </div>
+
+                    <div class="status-item">
+
+                      <span>
+                        Social Display
+                      </span>
+
+                      <strong
+                        id="quickSocial"
+                      >
+                        ON
+                      </strong>
+
+                    </div>
+
+                    <div class="status-item">
+
+                      <span>
+                        Analytics
+                      </span>
+
+                      <strong
+                        id="quickAnalytics"
+                      >
+                        OFF
+                      </strong>
+
+                    </div>
+
+                    <div class="status-item">
+
+                      <span>
+                        Maintenance
+                      </span>
+
+                      <strong
+                        id="quickMaintenance"
+                      >
+                        OFF
+                      </strong>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </section>
+
+
+              <!-- LAST SAVED -->
+
+              <section class="panel">
+
+                <div class="panel-head">
+
+                  <div class="panel-head-copy">
+
+                    <strong>
+                      Last Saved
+                    </strong>
+
+                    <span>
+                      Settings record
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                  <div
+                    id="lastSaved"
+                    style="
+                      color:var(--soft);
+                      font-size:10px;
+                      line-height:1.65;
+                    "
+                  >
+                    Not saved yet.
+                  </div>
+
+                </div>
+
+              </section>
+
+            </aside>
+
+          </div>
+
+        </form>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <!-- =========================================================
+       IMPORT / EXPORT MODAL
+  ========================================================== -->
+
+  <div
+    class="modal-overlay"
+    id="dataModal"
+  >
+
+    <div class="modal">
+
+      <div class="modal-head">
+
+        <strong id="modalTitle">
+          Settings Data
+        </strong>
+
+        <button
+          class="modal-close"
+          id="modalClose"
+          type="button"
+        >
+          ✕
+        </button>
+
+      </div>
+
+      <div class="modal-body">
+
+        <textarea
+          class="json-area"
+          id="jsonArea"
+          spellcheck="false"
+        ></textarea>
+
+        <div class="modal-actions">
+
+          <button
+            class="btn"
+            id="modalCancel"
+            type="button"
+          >
+            Close
+          </button>
+
+          <button
+            class="btn primary"
+            id="modalAction"
+            type="button"
+          >
+            Import Data
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================================
+       TOAST
+  ========================================================== -->
+
+  <div
+    class="toast"
+    id="toast"
+  >
+
+    <strong id="toastTitle">
+      Done
+    </strong>
+
+    <span id="toastMessage">
+      Operation completed.
+    </span>
+
+  </div>
+
+
+  <script>
+    /*
+      AKHI ENGINEERING WORKSHOP
+      SITE SETTINGS — v1.7
+    */
+
+    (function(){
+
+      "use strict";
+
+
+      /* =======================================================
+         AUTH
+      ======================================================== */
+
+      if(
+        !window.AKIAdmin ||
+        typeof AKIAdmin.requireAuth !==
+        "function"
+      ){
+
+        location.href="./login/";
+
+        return;
+      }
+
+
+      if(
+        !AKIAdmin.requireAuth()
+      ){
+
+        return;
+      }
+
+
+      if(
+        typeof AKIAdmin.hasPermission ===
+        "function" &&
+        !AKIAdmin.hasPermission(
+          "settings.read"
+        )
+      ){
+
+        alert(
+          "You do not have permission to manage site settings."
+        );
+
+        location.href="./dashboard.html";
+
+        return;
+      }
+
+
+      /* =======================================================
+         CONSTANTS
+      ======================================================== */
+
+      const STORAGE_KEY=
+        "aki_site_settings_v1";
+
+      const THEME_KEY=
+        "aki_admin_theme";
+
+
+      /* =======================================================
+         DEFAULT SETTINGS
+      ======================================================== */
+
+      const DEFAULT_SETTINGS={
+
+        version:
+          "1.7",
+
+        business:{
+          name:
+            "Akhi Engineering Workshop",
+
+          shortName:
+            "Akhi Engineering",
+
+          tagline:
+            "Precision. Strength. Craftsmanship.",
+
+          description:
+            "Professional engineering, fabrication and workshop solutions built with precision, durability and care.",
+
+          founded:
+            "",
+
+          type:
+            "Engineering & Fabrication Workshop"
+        },
+
+        contact:{
+          phone:
+            "",
+
+          secondaryPhone:
+            "",
+
+          email:
+            "",
+
+          whatsapp:
+            "",
+
+          address:
+            "",
+
+          city:
+            "",
+
+          country:
+            "Bangladesh",
+
+          maps:
+            ""
+        },
+
+        social:{
+          facebook:
+            "",
+
+          instagram:
+            "",
+
+          youtube:
+            "",
+
+          tiktok:
+            "",
+
+          linkedin:
+            "",
+
+          website:
+            ""
+        },
+
+        branding:{
+          logoUrl:
+            "",
+
+          faviconUrl:
+            "",
+
+          themeColor:
+            "#d7a646",
+
+          primaryColor:
+            "#d7a646",
+
+          accentColor:
+            "#f0c66f"
+        },
+
+        hours:{
+          monday:
+            "9:00 AM – 6:00 PM",
+
+          tuesday:
+            "9:00 AM – 6:00 PM",
+
+          wednesday:
+            "9:00 AM – 6:00 PM",
+
+          thursday:
+            "9:00 AM – 6:00 PM",
+
+          friday:
+            "Closed",
+
+          saturday:
+            "9:00 AM – 6:00 PM",
+
+          sunday:
+            "9:00 AM – 6:00 PM",
+
+          timezone:
+            "Asia/Dhaka",
+
+          holidayNote:
+            ""
+        },
+
+        seo:{
+          title:
+            "Akhi Engineering Workshop",
+
+          description:
+            "Professional engineering, fabrication and workshop solutions with a focus on precision, durability and quality.",
+
+          keywords:
+            "engineering, workshop, fabrication, metal works, Bangladesh",
+
+          canonical:
+            "",
+
+          robots:
+            "index,follow",
+
+          ogImage:
+            ""
+        },
+
+        footer:{
+          description:
+            "Akhi Engineering Workshop delivers practical engineering and fabrication solutions with a strong focus on quality and durability.",
+
+          copyright:
+            "© 2026 Akhi Engineering Workshop",
+
+          creditText:
+            "",
+
+          privacyUrl:
+            "",
+
+          termsUrl:
+            ""
+        },
+
+        advanced:{
+          siteEnabled:
+            true,
+
+          maintenanceMode:
+            false,
+
+          showContact:
+            true,
+
+          showSocial:
+            true,
+
+          analyticsEnabled:
+            false,
+
+          analyticsId:
+            ""
+        },
+
+        updatedAt:
+          null
+
+      };
+
+
+      let settings=
+        loadSettings();
+
+
+      let dirty=
+        false;
+
+
+      /* =======================================================
+         DOM
+      ======================================================== */
+
+      const $=
+        selector =>
+          document.querySelector(
+            selector
+          );
+
+
+      /* =======================================================
+         HELPERS
+      ======================================================== */
+
+      function clone(
+        value
+      ){
+
+        return JSON.parse(
+          JSON.stringify(
+            value
+          )
+        );
+
+      }
+
+
+      function parseJSON(
+        value
+      ){
+
+        try{
+
+          return JSON.parse(
+            value
+          );
+
+        }catch{
+
+          return null;
+
+        }
+
+      }
+
+
+      function escapeHTML(
+        value
+      ){
+
+        return String(
+          value ?? ""
+        )
+          .replace(
+            /&/g,
+            "&amp;"
+          )
+          .replace(
+            /</g,
+            "&lt;"
+          )
+          .replace(
+            />/g,
+            "&gt;"
+          )
+          .replace(
+            /"/g,
+            "&quot;"
+          )
+          .replace(
+            /'/g,
+            "&#039;"
+          );
+
+      }
+
+
+      function mergeDeep(
+        base,
+        incoming
+      ){
+
+        if(
+          incoming === null ||
+          typeof incoming !== "object"
+        ){
+
+          return incoming;
+
+        }
+
+
+        if(
+          Array.isArray(
+            incoming
+          )
+        ){
+
+          return incoming;
+
+        }
+
+
+        const result=
+          clone(
+            base
+          );
+
+
+        Object.keys(
+          incoming
+        )
+          .forEach(
+            function(key){
+
+              if(
+                incoming[key] &&
+                typeof incoming[key] ===
+                  "object" &&
+                !Array.isArray(
+                  incoming[key]
+                ) &&
+                result[key] &&
+                typeof result[key] ===
+                  "object" &&
+                !Array.isArray(
+                  result[key]
+                )
+              ){
+
+                result[key]=
+                  mergeDeep(
+                    result[key],
+                    incoming[key]
+                  );
+
+              }else{
+
+                result[key]=
+                  incoming[key];
+
+              }
+
+            }
+          );
+
+
+        return result;
+
+      }
+
+
+      function setValue(
+        id,
+        value
+      ){
+
+        const element=
+          document.getElementById(
+            id
+          );
+
+
+        if(!element){
+
+          return;
+
+        }
+
+
+        if(
+          element.type ===
+          "checkbox"
+        ){
+
+          element.checked=
+            Boolean(
+              value
+            );
+
+        }else{
+
+          element.value=
+            value ?? "";
+
+        }
+
+      }
+
+
+      function getValue(
+        id
+      ){
+
+        const element=
+          document.getElementById(
+            id
+          );
+
+
+        if(!element){
+
+          return "";
+
+        }
+
+
+        if(
+          element.type ===
+          "checkbox"
+        ){
+
+          return element.checked;
+
+        }
+
+
+        return element.value;
+
+      }
+
+
+      /* =======================================================
+         STORAGE
+      ======================================================== */
+
+      function loadSettings(){
+
+        const raw=
+          localStorage.getItem(
+            STORAGE_KEY
+          );
+
+
+        if(!raw){
+
+          return clone(
+            DEFAULT_SETTINGS
+          );
+
+        }
+
+
+        const parsed=
+          parseJSON(
+            raw
+          );
+
+
+        if(!parsed){
+
+          return clone(
+            DEFAULT_SETTINGS
+          );
+
+        }
+
+
+        return mergeDeep(
+          DEFAULT_SETTINGS,
+          parsed
+        );
+
+      }
+
+
+      function saveSettings(
+        showMessage=true
+      ){
+
+        collectForm();
+
+
+        settings.updatedAt=
+          new Date()
+            .toISOString();
+
+
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify(
+            settings
+          )
+        );
+
+
+        /*
+          Compatibility alias.
+        */
+
+        localStorage.setItem(
+          "aki_site_settings",
+          JSON.stringify(
+            settings
+          )
+        );
+
+
+        if(
+          typeof AKIAdmin.logActivity ===
+          "function"
+        ){
+
+          AKIAdmin.logActivity(
+            "settings_updated",
+            {
+              version:
+                settings.version
+            }
+          );
+
+        }
+
+
+        dirty=
+          false;
+
+
+        updateDirtyState();
+
+        updatePreview();
+
+        updateStatus();
+
+        updateLastSaved();
+
+
+        if(
+          showMessage
+        ){
+
+          showToast(
+            "Settings saved",
+            "Website configuration has been saved successfully."
+          );
+
+        }
+
+      }
+
+
+      /* =======================================================
+         COLLECT FORM
+      ======================================================== */
+
+      function collectForm(){
+
+        settings.business={
+          name:
+            getValue(
+              "businessName"
+            ).trim(),
+
+          shortName:
+            getValue(
+              "businessShortName"
+            ).trim(),
+
+          tagline:
+            getValue(
+              "tagline"
+            ).trim(),
+
+          description:
+            getValue(
+              "businessDescription"
+            ).trim(),
+
+          founded:
+            getValue(
+              "founded"
+            ).trim(),
+
+          type:
+            getValue(
+              "businessType"
+            ).trim()
+        };
+
+
+        settings.contact={
+          phone:
+            getValue(
+              "phone"
+            ).trim(),
+
+          secondaryPhone:
+            getValue(
+              "secondaryPhone"
+            ).trim(),
+
+          email:
+            getValue(
+              "email"
+            ).trim(),
+
+          whatsapp:
+            getValue(
+              "whatsapp"
+            ).trim(),
+
+          address:
+            getValue(
+              "address"
+            ).trim(),
+
+          city:
+            getValue(
+              "city"
+            ).trim(),
+
+          country:
+            getValue(
+              "country"
+            ).trim(),
+
+          maps:
+            getValue(
+              "maps"
+            ).trim()
+        };
+
+
+        settings.social={
+          facebook:
+            getValue(
+              "facebook"
+            ).trim(),
+
+          instagram:
+            getValue(
+              "instagram"
+            ).trim(),
+
+          youtube:
+            getValue(
+              "youtube"
+            ).trim(),
+
+          tiktok:
+            getValue(
+              "tiktok"
+            ).trim(),
+
+          linkedin:
+            getValue(
+              "linkedin"
+            ).trim(),
+
+          website:
+            getValue(
+              "website"
+            ).trim()
+        };
+
+
+        settings.branding={
+          logoUrl:
+            getValue(
+              "logoUrl"
+            ).trim(),
+
+          faviconUrl:
+            getValue(
+              "faviconUrl"
+            ).trim(),
+
+          themeColor:
+            getValue(
+              "themeColor"
+            ).trim(),
+
+          primaryColor:
+            getValue(
+              "primaryColor"
+            ).trim(),
+
+          accentColor:
+            getValue(
+              "accentColor"
+            ).trim()
+        };
+
+
+        settings.hours={
+          monday:
+            getValue(
+              "hoursMonday"
+            ).trim(),
+
+          tuesday:
+            getValue(
+              "hoursTuesday"
+            ).trim(),
+
+          wednesday:
+            getValue(
+              "hoursWednesday"
+            ).trim(),
+
+          thursday:
+            getValue(
+              "hoursThursday"
+            ).trim(),
+
+          friday:
+            getValue(
+              "hoursFriday"
+            ).trim(),
+
+          saturday:
+            getValue(
+              "hoursSaturday"
+            ).trim(),
+
+          sunday:
+            getValue(
+              "hoursSunday"
+            ).trim(),
+
+          timezone:
+            getValue(
+              "timezone"
+            ).trim(),
+
+          holidayNote:
+            getValue(
+              "holidayNote"
+            ).trim()
+        };
+
+
+        settings.seo={
+          title:
+            getValue(
+              "seoTitle"
+            ).trim(),
+
+          description:
+            getValue(
+              "seoDescription"
+            ).trim(),
+
+          keywords:
+            getValue(
+              "seoKeywords"
+            ).trim(),
+
+          canonical:
+            getValue(
+              "canonical"
+            ).trim(),
+
+          robots:
+            getValue(
+              "robots"
+            ),
+
+          ogImage:
+            getValue(
+              "ogImage"
+            ).trim()
+        };
+
+
+        settings.footer={
+          description:
+            getValue(
+              "footerDescription"
+            ).trim(),
+
+          copyright:
+            getValue(
+              "copyright"
+            ).trim(),
+
+          creditText:
+            getValue(
+              "creditText"
+            ).trim(),
+
+          privacyUrl:
+            getValue(
+              "privacyUrl"
+            ).trim(),
+
+          termsUrl:
+            getValue(
+              "termsUrl"
+            ).trim()
+        };
+
+
+        settings.advanced={
+          siteEnabled:
+            Boolean(
+              getValue(
+                "siteEnabled"
+              )
+            ),
+
+          maintenanceMode:
+            Boolean(
+              getValue(
+                "maintenanceMode"
+              )
+            ),
+
+          showContact:
+            Boolean(
+              getValue(
+                "showContact"
+              )
+            ),
+
+          showSocial:
+            Boolean(
+              getValue(
+                "showSocial"
+              )
+            ),
+
+          analyticsEnabled:
+            Boolean(
+              getValue(
+                "analyticsEnabled"
+              )
+            ),
+
+          analyticsId:
+            getValue(
+              "analyticsId"
+            ).trim()
+        };
+
+      }
+
+
+      /* =======================================================
+         RENDER FORM
+      ======================================================== */
+
+      function renderForm(){
+
+        const b=
+          settings.business;
+
+        const c=
+          settings.contact;
+
+        const s=
+          settings.social;
+
+        const brand=
+          settings.branding;
+
+        const h=
+          settings.hours;
+
+        const seo=
+          settings.seo;
+
+        const footer=
+          settings.footer;
+
+        const adv=
+          settings.advanced;
+
+
+        /* BUSINESS */
+
+        setValue(
+          "businessName",
+          b.name
+        );
+
+        setValue(
+          "businessShortName",
+          b.shortName
+        );
+
+        setValue(
+          "tagline",
+          b.tagline
+        );
+
+        setValue(
+          "businessDescription",
+          b.description
+        );
+
+        setValue(
+          "founded",
+          b.founded
+        );
+
+        setValue(
+          "businessType",
+          b.type
+        );
+
+
+        /* CONTACT */
+
+        setValue(
+          "phone",
+          c.phone
+        );
+
+        setValue(
+          "secondaryPhone",
+          c.secondaryPhone
+        );
+
+        setValue(
+          "email",
+          c.email
+        );
+
+        setValue(
+          "whatsapp",
+          c.whatsapp
+        );
+
+        setValue(
+          "address",
+          c.address
+        );
+
+        setValue(
+          "city",
+          c.city
+        );
+
+        setValue(
+          "country",
+          c.country
+        );
+
+        setValue(
+          "maps",
+          c.maps
+        );
+
+
+        /* SOCIAL */
+
+        setValue(
+          "facebook",
+          s.facebook
+        );
+
+        setValue(
+          "instagram",
+          s.instagram
+        );
+
+        setValue(
+          "youtube",
+          s.youtube
+        );
+
+        setValue(
+          "tiktok",
+          s.tiktok
+        );
+
+        setValue(
+          "linkedin",
+          s.linkedin
+        );
+
+        setValue(
+          "website",
+          s.website
+        );
+
+
+        /* BRAND */
+
+        setValue(
+          "logoUrl",
+          brand.logoUrl
+        );
+
+        setValue(
+          "faviconUrl",
+          brand.faviconUrl
+        );
+
+        setValue(
+          "themeColor",
+          brand.themeColor
+        );
+
+        setValue(
+          "primaryColor",
+          brand.primaryColor
+        );
+
+        setValue(
+          "accentColor",
+          brand.accentColor
+        );
+
+
+        /* HOURS */
+
+        setValue(
+          "hoursMonday",
+          h.monday
+        );
+
+        setValue(
+          "hoursTuesday",
+          h.tuesday
+        );
+
+        setValue(
+          "hoursWednesday",
+          h.wednesday
+        );
+
+        setValue(
+          "hoursThursday",
+          h.thursday
+        );
+
+        setValue(
+          "hoursFriday",
+          h.friday
+        );
+
+        setValue(
+          "hoursSaturday",
+          h.saturday
+        );
+
+        setValue(
+          "hoursSunday",
+          h.sunday
+        );
+
+        setValue(
+          "timezone",
+          h.timezone
+        );
+
+        setValue(
+          "holidayNote",
+          h.holidayNote
+        );
+
+
+        /* SEO */
+
+        setValue(
+          "seoTitle",
+          seo.title
+        );
+
+        setValue(
+          "seoDescription",
+          seo.description
+        );
+
+        setValue(
+          "seoKeywords",
+          seo.keywords
+        );
+
+        setValue(
+          "canonical",
+          seo.canonical
+        );
+
+        setValue(
+          "robots",
+          seo.robots
+        );
+
+        setValue(
+          "ogImage",
+          seo.ogImage
+        );
+
+
+        /* FOOTER */
+
+        setValue(
+          "footerDescription",
+          footer.description
+        );
+
+        setValue(
+          "copyright",
+          footer.copyright
+        );
+
+        setValue(
+          "creditText",
+          footer.creditText
+        );
+
+        setValue(
+          "privacyUrl",
+          footer.privacyUrl
+        );
+
+        setValue(
+          "termsUrl",
+          footer.termsUrl
+        );
+
+
+        /* ADVANCED */
+
+        setValue(
+          "siteEnabled",
+          adv.siteEnabled
+        );
+
+        setValue(
+          "maintenanceMode",
+          adv.maintenanceMode
+        );
+
+        setValue(
+          "showContact",
+          adv.showContact
+        );
+
+        setValue(
+          "showSocial",
+          adv.showSocial
+        );
+
+        setValue(
+          "analyticsEnabled",
+          adv.analyticsEnabled
+        );
+
+        setValue(
+          "analyticsId",
+          adv.analyticsId
+        );
+
+
+        dirty=
+          false;
+
+
+        updateDirtyState();
+
+        updatePreview();
+
+        updateStatus();
+
+        updateLastSaved();
+
+      }
+
+
+      /* =======================================================
+         DIRTY STATE
+      ======================================================== */
+
+      function markDirty(){
+
+        dirty=
+          true;
+
+        updateDirtyState();
+
+      }
+
+
+      function updateDirtyState(){
+
+        if(
+          dirty
+        ){
+
+          $("#saveStatus")
+            .textContent=
+            "Unsaved changes";
+
+          $("#saveStatusText")
+            .textContent=
+            "Review and save your changes.";
+
+          $("#saveBtn")
+            .textContent=
+            "Save Changes";
+
+        }else{
+
+          $("#saveStatus")
+            .textContent=
+            "No unsaved changes";
+
+          $("#saveStatusText")
+            .textContent=
+            "Site settings are synchronized.";
+
+          $("#saveBtn")
+            .textContent=
+            "Save Settings";
+
+        }
+
+      }
+
+
+      /* =======================================================
+         PREVIEW
+      ======================================================== */
+
+      function updatePreview(){
+
+        const businessName=
+          getValue(
+            "businessName"
+          ) ||
+          "Akhi Engineering";
+
+
+        const shortName=
+          getValue(
+            "businessShortName"
+          ) ||
+          "Engineering Workshop";
+
+
+        const tagline=
+          getValue(
+            "tagline"
+          ) ||
+          "Precision. Strength. Craftsmanship.";
+
+
+        const description=
+          getValue(
+            "businessDescription"
+          ) ||
+          "Business description will appear here.";
+
+
+        const phone=
+          getValue(
+            "phone"
+          ) ||
+          "Phone";
+
+
+        const email=
+          getValue(
+            "email"
+          ) ||
+          "Email";
+
+
+        const city=
+          getValue(
+            "city"
+          ) ||
+          "Location";
+
+
+        $("#previewBusinessName")
+          .textContent=
+          businessName;
+
+
+        $("#previewTagline")
+          .textContent=
+          tagline ||
+          shortName;
+
+
+        $("#previewTitle")
+          .textContent=
+          businessName;
+
+
+        $("#previewDescription")
+          .textContent=
+          description;
+
+
+        $("#previewPhone")
+          .textContent=
+          phone;
+
+
+        $("#previewEmail")
+          .textContent=
+          email;
+
+
+        $("#previewLocation")
+          .textContent=
+          city;
+
+
+        const logoUrl=
+          getValue(
+            "logoUrl"
+          ).trim();
+
+
+        const logo=
+          $("#previewLogo");
+
+
+        if(
+          logoUrl
+        ){
+
+          logo.style.background=
+            "transparent";
+
+          logo.style.overflow=
+            "hidden";
+
+          logo.innerHTML=
+            `
+              <img
+                src="${escapeHTML(
+                  logoUrl
+                )}"
+                alt="Logo"
+                style="
+                  width:100%;
+                  height:100%;
+                  object-fit:contain;
+                "
+              >
+            `;
+
+        }else{
+
+          logo.style.background=
+            "linear-gradient(145deg,var(--accent2),var(--accent))";
+
+          logo.style.overflow=
+            "visible";
+
+          logo.textContent=
+            "AKI";
+
+        }
+
+      }
+
+
+      /* =======================================================
+         STATUS
+      ======================================================== */
+
+      function updateStatus(){
+
+        const enabled=
+          Boolean(
+            getValue(
+              "siteEnabled"
+            )
+          );
+
+
+        const maintenance=
+          Boolean(
+            getValue(
+              "maintenanceMode"
+            )
+          );
+
+
+        if(
+          maintenance
+        ){
+
+          $("#siteStatusTitle")
+            .textContent=
+            "Maintenance Mode";
+
+          $("#siteStatusPill")
+            .textContent=
+            "Maintenance";
+
+          $("#siteStatusPill")
+            .style.background=
+            "var(--yellowSoft)";
+
+          $("#siteStatusPill")
+            .style.color=
+            "var(--yellow)";
+
+          $("#siteStatusDescription")
+            .textContent=
+            "Maintenance mode is enabled. The public page must read this flag to enforce the maintenance experience.";
+
+        }else if(
+          enabled
+        ){
+
+          $("#siteStatusTitle")
+            .textContent=
+            "Website Active";
+
+          $("#siteStatusPill")
+            .textContent=
+            "Online";
+
+          $("#siteStatusPill")
+            .style.background=
+            "var(--greenSoft)";
+
+          $("#siteStatusPill")
+            .style.color=
+            "var(--green)";
+
+          $("#siteStatusDescription")
+            .textContent=
+            "Public website is configured for normal operation.";
+
+        }else{
+
+          $("#siteStatusTitle")
+            .textContent=
+            "Website Disabled";
+
+          $("#siteStatusPill")
+            .textContent=
+            "Offline";
+
+          $("#siteStatusPill")
+            .style.background=
+            "var(--redSoft)";
+
+          $("#siteStatusPill")
+            .style.color=
+            "var(--red)";
+
+          $("#siteStatusDescription")
+            .textContent=
+            "Website Enabled is turned off.";
+
+        }
+
+
+        $("#quickContact")
+          .textContent=
+          getValue(
+            "showContact"
+          )
+            ? "ON"
+            : "OFF";
+
+
+        $("#quickContact")
+          .style.color=
+          getValue(
+            "showContact"
+          )
+            ? "var(--green)"
+            : "var(--red)";
+
+
+        $("#quickSocial")
+          .textContent=
+          getValue(
+            "showSocial"
+          )
+            ? "ON"
+            : "OFF";
+
+
+        $("#quickSocial")
+          .style.color=
+          getValue(
+            "showSocial"
+          )
+            ? "var(--green)"
+            : "var(--red)";
+
+
+        $("#quickAnalytics")
+          .textContent=
+          getValue(
+            "analyticsEnabled"
+          )
+            ? "ON"
+            : "OFF";
+
+
+        $("#quickAnalytics")
+          .style.color=
+          getValue(
+            "analyticsEnabled"
+          )
+            ? "var(--green)"
+            : "var(--muted)";
+
+
+        $("#quickMaintenance")
+          .textContent=
+          maintenance
+            ? "ON"
+            : "OFF";
+
+
+        $("#quickMaintenance")
+          .style.color=
+          maintenance
+            ? "var(--yellow)"
+            : "var(--muted)";
+
+      }
+
+
+      /* =======================================================
+         LAST SAVED
+      ======================================================== */
+
+      function updateLastSaved(){
+
+        const target=
+          $("#lastSaved");
+
+
+        if(
+          !settings.updatedAt
+        ){
+
+          target.textContent=
+            "Not saved yet.";
+
+          return;
+
+        }
+
+
+        try{
+
+          const date=
+            new Date(
+              settings.updatedAt
+            );
+
+
+          target.innerHTML=
+            `
+              <strong
+                style="
+                  color:var(--text);
+                "
+              >
+                ${escapeHTML(
+                  date.toLocaleDateString(
+                    "en-US",
+                    {
+                      day:"numeric",
+                      month:"long",
+                      year:"numeric"
+                    }
+                  )
+                )}
+              </strong>
+
+              <br>
+
+              <span
+                style="
+                  color:var(--muted);
+                "
+              >
+                ${escapeHTML(
+                  date.toLocaleTimeString(
+                    "en-US",
+                    {
+                      hour:"numeric",
+                      minute:"2-digit"
+                    }
+                  )
+                )}
+              </span>
+            `;
+
+        }catch{
+
+          target.textContent=
+            "Saved";
+
+        }
+
+      }
+
+
+      /* =======================================================
+         INPUT / CHANGE TRACKING
+      ======================================================== */
+
+      $("#settingsForm")
+        .addEventListener(
+          "input",
+          function(){
+
+            markDirty();
+
+            updatePreview();
+
+            updateStatus();
+
+          }
+        );
+
+
+      $("#settingsForm")
+        .addEventListener(
+          "change",
+          function(){
+
+            markDirty();
+
+            updatePreview();
+
+            updateStatus();
+
+          }
+        );
+
+
+      /* =======================================================
+         SAVE
+      ======================================================== */
+
+      $("#settingsForm")
+        .addEventListener(
+          "submit",
+          function(event){
+
+            event.preventDefault();
+
+
+            const name=
+              getValue(
+                "businessName"
+              ).trim();
+
+
+            if(
+              !name
+            ){
+
+              showToast(
+                "Business name required",
+                "Please enter the business name."
+              );
+
+
+              $("#businessName")
+                .focus();
+
+
+              return;
+
+            }
+
+
+            const hasPermission=
+              typeof AKIAdmin.hasPermission !==
+              "function" ||
+              AKIAdmin.hasPermission(
+                "settings.write"
+              );
+
+
+            if(
+              !hasPermission
+            ){
+
+              showToast(
+                "Permission denied",
+                "You do not have permission to save settings."
+              );
+
+              return;
+
+            }
+
+
+            saveSettings(
+              true
+            );
+
+          }
+        );
+
+
+      /* =======================================================
+         RESET
+      ======================================================== */
+
+      $("#resetBtn")
+        .addEventListener(
+          "click",
+          function(){
+
+            const ok=
+              window.confirm(
+                "Reset all Site Settings to their default values? This will discard current saved settings."
+              );
+
+
+            if(
+              !ok
+            ){
+
+              return;
+
+            }
+
+
+            settings=
+              clone(
+                DEFAULT_SETTINGS
+              );
+
+
+            localStorage.removeItem(
+              STORAGE_KEY
+            );
+
+
+            localStorage.removeItem(
+              "aki_site_settings"
+            );
+
+
+            renderForm();
+
+
+            showToast(
+              "Settings reset",
+              "Default settings have been restored."
+            );
+
+          }
+        );
+
+
+      /* =======================================================
+         REFRESH
+      ======================================================== */
+
+      $("#refreshBtn")
+        .addEventListener(
+          "click",
+          function(){
+
+            if(
+              dirty
+            ){
+
+              const ok=
+                window.confirm(
+                  "You have unsaved changes. Reload settings and discard those changes?"
+                );
+
+
+              if(
+                !ok
+              ){
+
+                return;
+
+              }
+
+            }
+
+
+            settings=
+              loadSettings();
+
+
+            renderForm();
+
+
+            showToast(
+              "Settings reloaded",
+              "Saved configuration has been loaded."
+            );
+
+          }
+        );
+
+
+      /* =======================================================
+         PREVIEW
+      ======================================================== */
+
+      $("#previewBtn")
+        .addEventListener(
+          "click",
+          function(){
+
+            updatePreview();
+
+            updateStatus();
+
+            showToast(
+              "Preview updated",
+              "The settings preview now reflects the current form values."
+            );
+
+          }
+        );
+
+
+      /* =======================================================
+         IMPORT / EXPORT
+      ======================================================== */
+
+      function openModal(
+        mode
+      ){
+
+        $("#dataModal")
+          .classList.add(
+            "show"
+          );
+
+
+        if(
+          mode ===
+          "export"
+        ){
+
+          $("#modalTitle")
+            .textContent=
+            "Export Site Settings";
+
+
+          $("#jsonArea")
+            .value=
+            JSON.stringify(
+              settings,
+              null,
+              2
+            );
+
+
+          $("#modalAction")
+            .textContent=
+            "Download JSON";
+
+
+          $("#modalAction")
+            .dataset.mode=
+            "export";
+
+
+        }else{
+
+          $("#modalTitle")
+            .textContent=
+            "Import Site Settings";
+
+
+          $("#jsonArea")
+            .value=
+            "";
+
+
+          $("#jsonArea")
+            .placeholder=
+            "Paste exported Site Settings JSON here...";
+
+
+          $("#modalAction")
+            .textContent=
+            "Import Data";
+
+
+          $("#modalAction")
+            .dataset.mode=
+            "import";
+
+        }
+
+
+        setTimeout(
+          function(){
+
+            $("#jsonArea")
+              .focus();
+
+          },
+          60
+        );
+
+      }
+
+
+      function closeModal(){
+
+        $("#dataModal")
+          .classList.remove(
+            "show"
+          );
+
+      }
+
+
+      $("#exportBtn")
+        .addEventListener(
+          "click",
+          function(){
+
+            openModal(
+              "export"
+            );
+
+          }
+        );
+
+
+      $("#importBtn")
+        .addEventListener(
+          "click",
+          function(){
+
+            openModal(
+              "import"
+            );
+
+          }
+        );
+
+
+      $("#modalClose")
+        .addEventListener(
+          "click",
+          closeModal
+        );
+
+
+      $("#modalCancel")
+        .addEventListener(
+          "click",
+          closeModal
+        );
+
+
+      $("#dataModal")
+        .addEventListener(
+          "click",
+          function(event){
+
+            if(
+              event.target ===
+              this
+            ){
+
+              closeModal();
+
+            }
+
+          }
+        );
+
+
+      $("#modalAction")
+        .addEventListener(
+          "click",
+          function(){
+
+            const mode=
+              this.dataset.mode;
+
+
+            const raw=
+              $("#jsonArea")
+                .value
+                .trim();
+
+
+            if(
+              !raw
+            ){
+
+              showToast(
+                "No data",
+                "Paste or export settings data first."
+              );
+
+              return;
+
+            }
+
+
+            if(
+              mode ===
+              "export"
+            ){
+
+              const blob=
+                new Blob(
+                  [
+                    raw
+                  ],
+                  {
+                    type:
+                      "application/json"
+                  }
+                );
+
+
+              const url=
+                URL.createObjectURL(
+                  blob
+                );
+
+
+              const link=
+                document.createElement(
+                  "a"
+                );
+
+
+              link.href=
+                url;
+
+
+              link.download=
+                "akhi-site-settings-backup-" +
+                new Date()
+                  .toISOString()
+                  .slice(0,10) +
+                ".json";
+
+
+              document.body.appendChild(
+                link
+              );
+
+
+              link.click();
+
+
+              link.remove();
+
+
+              URL.revokeObjectURL(
+                url
+              );
+
+
+              showToast(
+                "Export complete",
+                "Settings backup downloaded."
+              );
+
+
+              closeModal();
+
+              return;
+
+            }
+
+
+            try{
+
+              const imported=
+                JSON.parse(
+                  raw
+                );
+
+
+              if(
+                !imported ||
+                typeof imported !==
+                  "object"
+              ){
+
+                throw new Error(
+                  "Invalid settings"
+                );
+
+              }
+
+
+              settings=
+                mergeDeep(
+                  DEFAULT_SETTINGS,
+                  imported
+                );
+
+
+              localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(
+                  settings
+                )
+              );
+
+
+              localStorage.setItem(
+                "aki_site_settings",
+                JSON.stringify(
+                  settings
+                )
+              );
+
+
+              renderForm();
+
+
+              closeModal();
+
+
+              showToast(
+                "Import complete",
+                "Site settings imported successfully."
+              );
+
+
+            }catch{
+
+              showToast(
+                "Import failed",
+                "The supplied JSON is invalid."
+              );
+
+            }
+
+          }
+        );
+
+
+      /* =======================================================
+         MOBILE SIDEBAR
+      ======================================================== */
+
+      $("#mobileMenu")
+        .addEventListener(
+          "click",
+          function(){
+
+            $("#sidebar")
+              .classList.add(
+                "open"
+              );
+
+
+            $("#sidebarOverlay")
+              .classList.add(
+                "show"
+              );
+
+          }
+        );
+
+
+      $("#sidebarOverlay")
+        .addEventListener(
+          "click",
+          function(){
+
+            $("#sidebar")
+              .classList.remove(
+                "open"
+              );
+
+
+            $("#sidebarOverlay")
+              .classList.remove(
+                "show"
+              );
+
+          }
+        );
+
+
+      document
+        .querySelectorAll(
+          ".sidebar a"
+        )
+        .forEach(
+          function(link){
+
+            link.addEventListener(
+              "click",
+              function(){
+
+                if(
+                  window.innerWidth <=
+                  920
+                ){
+
+                  $("#sidebar")
+                    .classList.remove(
+                      "open"
+                    );
+
+
+                  $("#sidebarOverlay")
+                    .classList.remove(
+                      "show"
+                    );
+
+                }
+
+              }
+            );
+
+          }
+        );
+
+
+      /* =======================================================
+         THEME
+      ======================================================== */
+
+      function applyTheme(
+        theme
+      ){
+
+        const selected=
+          theme ===
+          "light"
+            ? "light"
+            : "dark";
+
+
+        document.documentElement
+          .setAttribute(
+            "data-theme",
+            selected
+          );
+
+
+        localStorage.setItem(
+          THEME_KEY,
+          selected
+        );
+
+      }
+
+
+      applyTheme(
+        localStorage.getItem(
+          THEME_KEY
+        ) ||
+        "dark"
+      );
+
+
+      $("#themeToggle")
+        .addEventListener(
+          "click",
+          function(){
+
+            const current=
+              document.documentElement
+                .getAttribute(
+                  "data-theme"
+                );
+
+
+            applyTheme(
+              current ===
+              "dark"
+                ? "light"
+                : "dark"
+            );
+
+
+            showToast(
+              "Theme changed",
+              "Admin theme updated."
+            );
+
+          }
+        );
+
+
+      /* =======================================================
+         ADMIN PROFILE
+      ======================================================== */
+
+      function renderProfile(){
+
+        const session=
+          AKIAdmin.getSession();
+
+
+        if(
+          !session
+        ){
+
+          return;
+
+        }
+
+
+        const name=
+          session.name ||
+          "Admin";
+
+
+        const role=
+          session.role ===
+          "superadmin"
+            ? "Super Admin"
+            : "Admin";
+
+
+        const initial=
+          name
+            .trim()
+            .charAt(0)
+            .toUpperCase() ||
+          "A";
+
+
+        $("#sidebarAvatar")
+          .textContent=
+          initial;
+
+
+        $("#sidebarName")
+          .textContent=
+          name;
+
+
+        $("#sidebarRole")
+          .textContent=
+          role;
+
+
+        if(
+          role !==
+          "Super Admin"
+        ){
+
+          const adminNav=
+            $("#adminManagementNav");
+
+
+          if(
+            adminNav
+          ){
+
+            adminNav.style.display=
+              "none";
+
+          }
+
+        }
+
+      }
+
+
+      /* =======================================================
+         TOAST
+      ======================================================== */
+
+      let toastTimer=
+        null;
+
+
+      function showToast(
+        title,
+        message
+      ){
+
+        $("#toastTitle")
+          .textContent=
+          title ||
+          "Done";
+
+
+        $("#toastMessage")
+          .textContent=
+          message ||
+          "";
+
+
+        $("#toast")
+          .classList.add(
+            "show"
+          );
+
+
+        clearTimeout(
+          toastTimer
+        );
+
+
+        toastTimer=
+          setTimeout(
+            function(){
+
+              $("#toast")
+                .classList.remove(
+                  "show"
+                );
+
+            },
+            3000
+          );
+
+      }
+
+
+      /* =======================================================
+         UNSAVED WARNING
+      ======================================================== */
+
+      window.addEventListener(
+        "beforeunload",
+        function(event){
+
+          if(
+            !dirty
+          ){
+
+            return;
+
+          }
+
+
+          event.preventDefault();
+
+          event.returnValue=
+            "";
+
+        }
+      );
+
+
+      /* =======================================================
+         INIT
+      ======================================================== */
+
+      renderProfile();
+
+      renderForm();
+
+    })();
+  </script>
+
+</body>
+</html>
