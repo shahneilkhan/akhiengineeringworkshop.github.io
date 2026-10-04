@@ -1,0 +1,2521 @@
+<!DOCTYPE html>
+<html lang="en" data-admin-guard="true">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Final QA & Recovery — AKHI Engineering Workshop</title>
+
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="theme-color" content="#0a0a0a">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="./auth.js"></script>
+
+<style>
+:root{
+  --bg:#080808;
+  --panel:#111111;
+  --panel2:#151515;
+  --border:rgba(255,255,255,.09);
+  --border2:rgba(255,255,255,.14);
+  --text:#f4f4f4;
+  --muted:#969696;
+  --green:#63e6be;
+  --green-soft:rgba(99,230,190,.10);
+  --red:#ff6b6b;
+  --red-soft:rgba(255,107,107,.10);
+  --yellow:#ffd166;
+  --yellow-soft:rgba(255,209,102,.10);
+  --blue:#74c0fc;
+  --blue-soft:rgba(116,192,252,.10);
+  --shadow:0 24px 80px rgba(0,0,0,.35);
+  --radius:20px;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  margin:0;
+  padding:0;
+  min-height:100%;
+  background:
+    radial-gradient(circle at 15% 10%,rgba(99,230,190,.05),transparent 28%),
+    radial-gradient(circle at 85% 15%,rgba(116,192,252,.05),transparent 28%),
+    var(--bg);
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+body{
+  min-height:100vh;
+}
+
+button,
+a,
+input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.app{
+  width:min(1450px,calc(100% - 32px));
+  margin:0 auto;
+  padding:28px 0 50px;
+}
+
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:24px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.brand-mark{
+  width:46px;
+  height:46px;
+  border:1px solid var(--border2);
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(145deg,#171717,#0d0d0d);
+  box-shadow:var(--shadow);
+  font-size:16px;
+  font-weight:800;
+  letter-spacing:.08em;
+}
+
+.brand-copy h1{
+  margin:0;
+  font-size:20px;
+  font-weight:800;
+  letter-spacing:-.03em;
+}
+
+.brand-copy p{
+  margin:4px 0 0;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.top-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.btn{
+  border:1px solid var(--border2);
+  background:#151515;
+  color:#fff;
+  padding:11px 14px;
+  border-radius:12px;
+  transition:.2s ease;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  border-color:rgba(255,255,255,.24);
+  background:#1a1a1a;
+}
+
+.btn-primary{
+  border-color:rgba(99,230,190,.28);
+  background:linear-gradient(135deg,#123c32,#0d201b);
+  color:#b9ffe9;
+}
+
+.btn-danger{
+  border-color:rgba(255,107,107,.25);
+  background:rgba(255,107,107,.08);
+  color:#ffb2b2;
+}
+
+.hero{
+  border:1px solid var(--border);
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.015)),
+    var(--panel);
+  border-radius:28px;
+  padding:28px;
+  box-shadow:var(--shadow);
+  margin-bottom:18px;
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.45fr .55fr;
+  gap:22px;
+}
+
+.hero h2{
+  margin:0 0 10px;
+  font-size:clamp(26px,4vw,44px);
+  line-height:1.05;
+  letter-spacing:-.05em;
+}
+
+.hero p{
+  margin:0;
+  max-width:780px;
+  color:var(--muted);
+  line-height:1.7;
+}
+
+.hero-status{
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:18px;
+  background:#0c0c0c;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-height:160px;
+}
+
+.hero-status .label{
+  color:var(--muted);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+}
+
+.hero-status .value{
+  font-size:28px;
+  font-weight:800;
+  margin-top:7px;
+}
+
+.hero-status .small{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:7px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:18px;
+}
+
+.card{
+  grid-column:span 6;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:rgba(17,17,17,.94);
+  overflow:hidden;
+}
+
+.card.full{
+  grid-column:span 12;
+}
+
+.card.third{
+  grid-column:span 4;
+}
+
+.card-head{
+  padding:18px 20px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+  border-bottom:1px solid var(--border);
+}
+
+.card-title{
+  margin:0;
+  font-size:15px;
+  font-weight:800;
+}
+
+.card-sub{
+  margin:5px 0 0;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+}
+
+.card-body{
+  padding:18px 20px;
+}
+
+.metric-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+.metric{
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px;
+  background:#0c0c0c;
+}
+
+.metric .num{
+  font-size:22px;
+  font-weight:800;
+}
+
+.metric .lab{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.check-list{
+  display:grid;
+  gap:9px;
+}
+
+.check{
+  display:grid;
+  grid-template-columns:34px 1fr auto;
+  align-items:center;
+  gap:12px;
+  padding:12px 13px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:#0c0c0c;
+}
+
+.check-icon{
+  width:32px;
+  height:32px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  font-weight:800;
+  font-size:13px;
+}
+
+.check-icon.pass{
+  color:#aaffea;
+  background:var(--green-soft);
+}
+
+.check-icon.fail{
+  color:#ffb2b2;
+  background:var(--red-soft);
+}
+
+.check-icon.warn{
+  color:#ffe3a1;
+  background:var(--yellow-soft);
+}
+
+.check-main{
+  min-width:0;
+}
+
+.check-name{
+  font-size:13px;
+  font-weight:700;
+}
+
+.check-detail{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:4px;
+  line-height:1.45;
+}
+
+.badge{
+  padding:6px 9px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  color:var(--muted);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.08em;
+  white-space:nowrap;
+}
+
+.badge.pass{
+  border-color:rgba(99,230,190,.2);
+  color:#9cf6df;
+  background:var(--green-soft);
+}
+
+.badge.fail{
+  border-color:rgba(255,107,107,.2);
+  color:#ffafaf;
+  background:var(--red-soft);
+}
+
+.badge.warn{
+  border-color:rgba(255,209,102,.2);
+  color:#ffe09a;
+  background:var(--yellow-soft);
+}
+
+.badge.info{
+  border-color:rgba(116,192,252,.2);
+  color:#afd8ff;
+  background:var(--blue-soft);
+}
+
+.progress{
+  height:9px;
+  border-radius:999px;
+  background:#0b0b0b;
+  border:1px solid var(--border);
+  overflow:hidden;
+  margin-top:14px;
+}
+
+.progress-bar{
+  width:0%;
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#4fd6b0,#8fffe0);
+  transition:.35s ease;
+}
+
+.report{
+  border:1px dashed var(--border2);
+  border-radius:16px;
+  background:#0b0b0b;
+  min-height:240px;
+  padding:16px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:11px;
+  line-height:1.7;
+  color:#dcdcdc;
+  overflow:auto;
+  white-space:pre-wrap;
+}
+
+.footer{
+  margin-top:18px;
+  padding:16px 2px 0;
+  color:#686868;
+  font-size:11px;
+  text-align:center;
+}
+
+.notice{
+  border:1px solid rgba(116,192,252,.18);
+  border-radius:14px;
+  background:rgba(116,192,252,.06);
+  color:#bfdfff;
+  padding:13px 14px;
+  font-size:12px;
+  line-height:1.6;
+  margin-bottom:14px;
+}
+
+.notice strong{
+  color:#fff;
+}
+
+@media(max-width:980px){
+  .hero-grid{
+    grid-template-columns:1fr;
+  }
+
+  .card,
+  .card.third{
+    grid-column:span 12;
+  }
+}
+
+@media(max-width:720px){
+  .app{
+    width:min(100% - 20px,1450px);
+    padding-top:14px;
+  }
+
+  .topbar{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .metric-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .hero{
+    padding:20px;
+  }
+
+  .card-body,
+  .card-head{
+    padding-left:15px;
+    padding-right:15px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">AK</div>
+
+      <div class="brand-copy">
+        <h1>AKHI Engineering Workshop</h1>
+        <p>Final QA & Recovery Center</p>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <a class="btn" href="./dashboard.html">Dashboard</a>
+      <a class="btn" href="./security.html">Security</a>
+      <a class="btn" href="./backup.html">Backup</a>
+      <button class="btn btn-primary" id="runQa">Run Full QA</button>
+    </div>
+  </header>
+
+
+  <section class="hero">
+
+    <div class="hero-grid">
+
+      <div>
+        <h2>Production Readiness Check</h2>
+
+        <p>
+          Final browser-side validation before the project moves to
+          Supabase production authentication, database, storage,
+          RLS and real passkey/WebAuthn integration.
+        </p>
+      </div>
+
+      <div class="hero-status">
+        <div class="label">Current Result</div>
+        <div class="value" id="overallStatus">READY TO TEST</div>
+        <div class="small" id="overallDetail">
+          Run the full QA suite to generate the final result.
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <div class="notice">
+    <strong>Important:</strong>
+    this QA page validates the current GitHub Pages/browser-local architecture.
+    It does not turn localStorage authentication into server-side security.
+    Supabase Auth + RLS + Storage policies are still required for production handover.
+  </div>
+
+
+  <section class="grid">
+
+    <article class="card full">
+
+      <div class="card-head">
+        <div>
+          <h3 class="card-title">QA Progress</h3>
+          <p class="card-sub">
+            Every completed test contributes to the final readiness score.
+          </p>
+        </div>
+
+        <div class="badge info" id="qaCounter">
+          NOT RUN
+        </div>
+      </div>
+
+      <div class="card-body">
+
+        <div class="metric-grid">
+
+          <div class="metric">
+            <div class="num" id="metricTotal">0</div>
+            <div class="lab">Total checks</div>
+          </div>
+
+          <div class="metric">
+            <div class="num" id="metricPass">0</div>
+            <div class="lab">Passed</div>
+          </div>
+
+          <div class="metric">
+            <div class="num" id="metricWarn">0</div>
+            <div class="lab">Warnings</div>
+          </div>
+
+          <div class="metric">
+            <div class="num" id="metricFail">0</div>
+            <div class="lab">Failed</div>
+          </div>
+
+        </div>
+
+        <div class="progress">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <article class="card">
+
+      <div class="card-head">
+        <div>
+          <h3 class="card-title">Authentication & Session</h3>
+          <p class="card-sub">Current browser session and role protection.</p>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="check-list" id="authChecks"></div>
+      </div>
+
+    </article>
+
+
+    <article class="card">
+
+      <div class="card-head">
+        <div>
+          <h3 class="card-title">CMS Data Integrity</h3>
+          <p class="card-sub">Homepage, banners, projects, media and settings.</p>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="check-list" id="cmsChecks"></div>
+      </div>
+
+    </article>
+
+
+    <article class="card">
+
+      <div class="card-head">
+        <div>
+          <h3 class="card-title">Security Readiness</h3>
+          <p class="card-sub">Current browser-side protections and capabilities.</p>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="check-list" id="securityChecks"></div>
+      </div>
+
+    </article>
+
+
+    <article class="card">
+
+      <div class="card-head">
+        <div>
+          <h3 class="card-title">Public Site Integration</h3>
+          <p class="card-sub">Public homepage and developer attribution checks.</p>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="check-list" id="publicChecks"></div>
+      </div>
+
+    </article>
+
+
+    <article class="card full">
+
+      <div class="card-head">
+        <div>
+          <h3 class="card-title">Backup & Recovery Simulation</h3>
+          <p class="card-sub">
+            Non-destructive serialization and recovery-readiness test.
+          </p>
+        </div>
+
+        <div class="badge info" id="recoveryBadge">
+          NOT RUN
+        </div>
+      </div>
+
+      <div class="card-body">
+
+        <div class="check-list" id="recoveryChecks"></div>
+
+        <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-primary" id="downloadQa">
+            Download QA Report
+          </button>
+
+          <button class="btn" id="copyReport">
+            Copy Report
+          </button>
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <article class="card full">
+
+      <div class="card-head">
+        <div>
+          <h3 class="card-title">Raw QA Report</h3>
+          <p class="card-sub">
+            Machine-readable summary of the latest test run.
+          </p>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="report" id="reportBox">
+No QA run yet.
+        </div>
+      </div>
+
+    </article>
+
+  </section>
+
+
+  <div class="footer">
+    AKHI Engineering Workshop · Final QA Center · Browser-side validation only
+  </div>
+
+</main>
+
+
+<script>
+(function(){
+
+  "use strict";
+
+
+  /* -------------------------------------------------------
+     SUPER ADMIN GUARD
+  ------------------------------------------------------- */
+
+  if(
+    !window.AKIAdmin ||
+    !AKIAdmin.requireSuperAdmin()
+  ){
+    return;
+  }
+
+
+  /* -------------------------------------------------------
+     DATA
+  ------------------------------------------------------- */
+
+  const state = {
+    results: [],
+    startedAt: null,
+    finishedAt: null,
+    summary: {
+      total:0,
+      passed:0,
+      warnings:0,
+      failed:0
+    }
+  };
+
+
+  const DATASETS = [
+
+    {
+      label:"Homepage CMS",
+      key:"aki_homepage_content_v1",
+      alias:"aki_homepage",
+      expected:"object"
+    },
+
+    {
+      label:"Banner CMS",
+      key:"aki_banners_v1",
+      alias:"aki_banners",
+      expected:"array"
+    },
+
+    {
+      label:"Projects CMS",
+      key:"aki_projects_v1",
+      alias:"aki_projects",
+      expected:"array"
+    },
+
+    {
+      label:"Media Manager",
+      key:"aki_media_v1",
+      alias:"aki_media",
+      expected:"array"
+    },
+
+    {
+      label:"Site Settings",
+      key:"aki_site_settings_v1",
+      alias:"aki_site_settings",
+      expected:"object"
+    },
+
+    {
+      label:"Admin Registry",
+      key:"aki_admin_users_v1",
+      alias:"aki_admin_users",
+      expected:"array"
+    },
+
+    {
+      label:"Activity Log",
+      key:"aki_admin_activity_v1",
+      alias:null,
+      expected:"array"
+    },
+
+    {
+      label:"AI Config",
+      key:"aki_ai_config_v1",
+      alias:null,
+      expected:"object"
+    },
+
+    {
+      label:"AI Chat",
+      key:"aki_ai_chat_v1",
+      alias:null,
+      expected:"array"
+    },
+
+    {
+      label:"Security Settings",
+      key:"aki_security_settings_v1",
+      alias:null,
+      expected:"object"
+    }
+
+  ];
+
+
+  const checkedPages = [
+    "./dashboard.html",
+    "./homepage.html",
+    "./banner.html",
+    "./projects.html",
+    "./media.html",
+    "./settings.html",
+    "./activity.html",
+    "./backup.html",
+    "./security.html",
+    "./admins.html"
+  ];
+
+
+  /* -------------------------------------------------------
+     HELPERS
+  ------------------------------------------------------- */
+
+  function qs(selector){
+    return document.querySelector(selector);
+  }
+
+
+  function escapeHtml(value){
+
+    return String(value ?? "")
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
+
+  }
+
+
+  function safeParse(value){
+
+    if(typeof value !== "string"){
+      return {
+        ok:false,
+        value:null
+      };
+    }
+
+    try{
+
+      return {
+        ok:true,
+        value:JSON.parse(value)
+      };
+
+    }catch(error){
+
+      return {
+        ok:false,
+        value:null,
+        error:error.message
+      };
+
+    }
+
+  }
+
+
+  function storageValue(key,alias){
+
+    const primary = localStorage.getItem(key);
+
+    if(primary !== null){
+
+      return {
+        key,
+        value:primary
+      };
+
+    }
+
+    if(alias){
+
+      const fallback = localStorage.getItem(alias);
+
+      if(fallback !== null){
+
+        return {
+          key:alias,
+          value:fallback
+        };
+
+      }
+
+    }
+
+    return {
+      key:null,
+      value:null
+    };
+
+  }
+
+
+  function result(
+    group,
+    name,
+    status,
+    detail
+  ){
+
+    state.results.push({
+      group,
+      name,
+      status,
+      detail,
+      at:new Date().toISOString()
+    });
+
+  }
+
+
+  function addCheck(
+    group,
+    name,
+    status,
+    detail,
+    targetId
+  ){
+
+    result(
+      group,
+      name,
+      status,
+      detail
+    );
+
+    const iconMap = {
+      pass:"✓",
+      fail:"!",
+      warn:"~"
+    };
+
+    const labelMap = {
+      pass:"PASS",
+      fail:"FAIL",
+      warn:"WARN"
+    };
+
+    const icon = iconMap[status] || "?";
+    const label = labelMap[status] || "INFO";
+
+    const html = `
+      <div class="check">
+
+        <div class="check-icon ${status}">
+          ${icon}
+        </div>
+
+        <div class="check-main">
+          <div class="check-name">
+            ${escapeHtml(name)}
+          </div>
+
+          <div class="check-detail">
+            ${escapeHtml(detail)}
+          </div>
+        </div>
+
+        <div class="badge ${status}">
+          ${label}
+        </div>
+
+      </div>
+    `;
+
+    const target = qs(targetId);
+
+    if(target){
+      target.insertAdjacentHTML("beforeend",html);
+    }
+
+  }
+
+
+  function resetGroups(){
+
+    [
+      "#authChecks",
+      "#cmsChecks",
+      "#securityChecks",
+      "#publicChecks",
+      "#recoveryChecks"
+    ].forEach(selector => {
+
+      const el = qs(selector);
+
+      if(el){
+        el.innerHTML="";
+      }
+
+    });
+
+    state.results=[];
+
+  }
+
+
+  function countData(value){
+
+    if(Array.isArray(value)){
+      return value.length;
+    }
+
+    if(value && typeof value === "object"){
+      return Object.keys(value).length;
+    }
+
+    return 0;
+
+  }
+
+
+  function byteSize(value){
+
+    try{
+      return new Blob([String(value)]).size;
+    }catch{
+      return String(value).length;
+    }
+
+  }
+
+
+  function readableBytes(bytes){
+
+    if(bytes < 1024){
+      return bytes + " B";
+    }
+
+    if(bytes < 1024 * 1024){
+      return (bytes / 1024).toFixed(1) + " KB";
+    }
+
+    return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+
+  }
+
+
+  /* -------------------------------------------------------
+     AUTH CHECKS
+  ------------------------------------------------------- */
+
+  function runAuthChecks(){
+
+    let session = null;
+
+    try{
+      session = AKIAdmin.getSession();
+    }catch(error){
+      session = null;
+    }
+
+
+    if(session){
+
+      addCheck(
+        "Authentication",
+        "Active session",
+        "pass",
+        "A valid admin session is currently present.",
+        "#authChecks"
+      );
+
+    }else{
+
+      addCheck(
+        "Authentication",
+        "Active session",
+        "fail",
+        "No valid admin session could be read.",
+        "#authChecks"
+      );
+
+    }
+
+
+    const isSuper = !!(
+      AKIAdmin &&
+      typeof AKIAdmin.isSuperAdmin === "function" &&
+      AKIAdmin.isSuperAdmin()
+    );
+
+
+    if(isSuper){
+
+      addCheck(
+        "Authentication",
+        "Super Admin privilege",
+        "pass",
+        "Current session is recognized as Super Admin.",
+        "#authChecks"
+      );
+
+    }else{
+
+      addCheck(
+        "Authentication",
+        "Super Admin privilege",
+        "fail",
+        "This page requires Super Admin privileges.",
+        "#authChecks"
+      );
+
+    }
+
+
+    const permissions = AKIAdmin.ROLE_PERMISSIONS || {};
+
+    if(
+      permissions &&
+      Array.isArray(permissions.superadmin) &&
+      permissions.superadmin.includes("*")
+    ){
+
+      addCheck(
+        "Authentication",
+        "Super Admin permission model",
+        "pass",
+        "Wildcard privileged permission is present.",
+        "#authChecks"
+      );
+
+    }else{
+
+      addCheck(
+        "Authentication",
+        "Super Admin permission model",
+        "warn",
+        "Expected wildcard permission model was not detected.",
+        "#authChecks"
+      );
+
+    }
+
+
+    const sessionRaw = localStorage.getItem("aki_admin_session");
+
+    if(sessionRaw){
+
+      const parsed = safeParse(sessionRaw);
+
+      if(parsed.ok){
+
+        addCheck(
+          "Authentication",
+          "Session JSON integrity",
+          "pass",
+          "aki_admin_session contains valid JSON.",
+          "#authChecks"
+        );
+
+      }else{
+
+        addCheck(
+          "Authentication",
+          "Session JSON integrity",
+          "fail",
+          "aki_admin_session is not valid JSON.",
+          "#authChecks"
+        );
+
+      }
+
+    }else{
+
+      addCheck(
+        "Authentication",
+        "Session storage",
+        "warn",
+        "No raw session value was found in localStorage.",
+        "#authChecks"
+      );
+
+    }
+
+
+    const rememberRaw =
+      localStorage.getItem("aki_admin_remember");
+
+    if(
+      rememberRaw === null ||
+      rememberRaw === "true" ||
+      rememberRaw === "false"
+    ){
+
+      addCheck(
+        "Authentication",
+        "Remember-device flag",
+        "pass",
+        "Remember-device storage is structurally valid.",
+        "#authChecks"
+      );
+
+    }else{
+
+      addCheck(
+        "Authentication",
+        "Remember-device flag",
+        "warn",
+        "Remember-device value is present but non-standard.",
+        "#authChecks"
+      );
+
+    }
+
+  }
+
+
+  /* -------------------------------------------------------
+     CMS CHECKS
+  ------------------------------------------------------- */
+
+  function runCmsChecks(){
+
+    let totalBytes = 0;
+
+
+    DATASETS.forEach(dataset => {
+
+      const entry = storageValue(
+        dataset.key,
+        dataset.alias
+      );
+
+
+      if(entry.value === null){
+
+        addCheck(
+          "CMS",
+          dataset.label,
+          "warn",
+          `No ${dataset.key} record exists yet. The CMS fallback/default may still be active.`,
+          "#cmsChecks"
+        );
+
+        return;
+      }
+
+
+      const parsed = safeParse(entry.value);
+
+
+      if(!parsed.ok){
+
+        addCheck(
+          "CMS",
+          dataset.label,
+          "fail",
+          `Storage key ${entry.key} contains invalid JSON.`,
+          "#cmsChecks"
+        );
+
+        return;
+      }
+
+
+      const actualType =
+        Array.isArray(parsed.value)
+          ? "array"
+          : typeof parsed.value;
+
+
+      if(actualType !== dataset.expected){
+
+        addCheck(
+          "CMS",
+          dataset.label,
+          "fail",
+          `Expected ${dataset.expected}, received ${actualType}.`,
+          "#cmsChecks"
+        );
+
+        return;
+      }
+
+
+      totalBytes += byteSize(entry.value);
+
+      const count = countData(parsed.value);
+
+
+      addCheck(
+        "CMS",
+        dataset.label,
+        "pass",
+        `${entry.key} is valid JSON (${actualType}, ${count} top-level item(s)).`,
+        "#cmsChecks"
+      );
+
+    });
+
+
+    if(totalBytes > 4.5 * 1024 * 1024){
+
+      addCheck(
+        "CMS",
+        "Local storage size",
+        "warn",
+        `Approximate tracked CMS data is ${readableBytes(totalBytes)}. Browser storage limits should be reviewed before handover.`,
+        "#cmsChecks"
+      );
+
+    }else{
+
+      addCheck(
+        "CMS",
+        "Local storage size",
+        "pass",
+        `Approximate tracked CMS data is ${readableBytes(totalBytes)}.`,
+        "#cmsChecks"
+      );
+
+    }
+
+
+    const activity =
+      storageValue(
+        "aki_admin_activity_v1",
+        null
+      );
+
+    if(activity.value !== null){
+
+      const parsed = safeParse(activity.value);
+
+      if(
+        parsed.ok &&
+        Array.isArray(parsed.value)
+      ){
+
+        addCheck(
+          "CMS",
+          "Activity log structure",
+          "pass",
+          `${parsed.value.length} activity record(s) detected.`,
+          "#cmsChecks"
+        );
+
+      }
+
+    }
+
+  }
+
+
+  /* -------------------------------------------------------
+     SECURITY CHECKS
+  ------------------------------------------------------- */
+
+  function runSecurityChecks(){
+
+    let security = null;
+
+
+    try{
+      security = AKIAdmin.getSecuritySettings();
+    }catch{
+      security = null;
+    }
+
+
+    if(security){
+
+      addCheck(
+        "Security",
+        "Security settings available",
+        "pass",
+        "Security settings API returned a configuration object.",
+        "#securityChecks"
+      );
+
+    }else{
+
+      addCheck(
+        "Security",
+        "Security settings available",
+        "fail",
+        "Security settings could not be loaded.",
+        "#securityChecks"
+      );
+
+    }
+
+
+    const requiredMethods = [
+      "requireAuth",
+      "requireSuperAdmin",
+      "authenticate",
+      "createSession",
+      "logout",
+      "hasPermission",
+      "getSession",
+      "getActivity",
+      "getSecuritySettings",
+      "saveSecuritySettings",
+      "isPasskeySupported"
+    ];
+
+
+    requiredMethods.forEach(method => {
+
+      if(
+        AKIAdmin &&
+        typeof AKIAdmin[method] === "function"
+      ){
+
+        addCheck(
+          "Security",
+          `AKIAdmin.${method}()`,
+          "pass",
+          "Required auth API method is available.",
+          "#securityChecks"
+        );
+
+      }else{
+
+        addCheck(
+          "Security",
+          `AKIAdmin.${method}()`,
+          "fail",
+          "Required auth API method is missing.",
+          "#securityChecks"
+        );
+
+      }
+
+    });
+
+
+    let passkeySupported = false;
+
+    try{
+      passkeySupported =
+        typeof AKIAdmin.isPasskeySupported === "function" &&
+        AKIAdmin.isPasskeySupported();
+    }catch{
+      passkeySupported = false;
+    }
+
+
+    if(passkeySupported){
+
+      addCheck(
+        "Security",
+        "WebAuthn / Passkey browser support",
+        "pass",
+        "This browser exposes the APIs needed for Passkey/WebAuthn.",
+        "#securityChecks"
+      );
+
+    }else{
+
+      addCheck(
+        "Security",
+        "WebAuthn / Passkey browser support",
+        "warn",
+        "Browser-side Passkey/WebAuthn support was not detected. Real enrollment will be added during production auth integration.",
+        "#securityChecks"
+      );
+
+    }
+
+
+    const securityRaw =
+      localStorage.getItem("aki_security_settings_v1");
+
+
+    if(securityRaw !== null){
+
+      const parsed = safeParse(securityRaw);
+
+      if(parsed.ok){
+
+        addCheck(
+          "Security",
+          "Security storage integrity",
+          "pass",
+          "Security configuration is valid JSON.",
+          "#securityChecks"
+        );
+
+      }else{
+
+        addCheck(
+          "Security",
+          "Security storage integrity",
+          "fail",
+          "Security configuration JSON is invalid.",
+          "#securityChecks"
+        );
+
+      }
+
+    }else{
+
+      addCheck(
+        "Security",
+        "Security storage integrity",
+        "warn",
+        "Security settings will rely on default configuration.",
+        "#securityChecks"
+      );
+
+    }
+
+
+    const failureRaw =
+      localStorage.getItem("aki_login_failures_v1");
+
+
+    if(failureRaw !== null){
+
+      const parsed = safeParse(failureRaw);
+
+      if(parsed.ok){
+
+        addCheck(
+          "Security",
+          "Failed-attempt protection state",
+          "pass",
+          "Login failure tracking is structurally valid.",
+          "#securityChecks"
+        );
+
+      }else{
+
+        addCheck(
+          "Security",
+          "Failed-attempt protection state",
+          "fail",
+          "Login failure tracking is malformed.",
+          "#securityChecks"
+        );
+
+      }
+
+    }else{
+
+      addCheck(
+        "Security",
+        "Failed-attempt protection state",
+        "pass",
+        "No failed-attempt state currently exists, which is normal.",
+        "#securityChecks"
+      );
+
+    }
+
+  }
+
+
+  /* -------------------------------------------------------
+     PUBLIC SITE CHECKS
+  ------------------------------------------------------- */
+
+  async function runPublicChecks(){
+
+    let html = "";
+
+
+    try{
+
+      const response = await fetch(
+        "../index.html?qa=" + Date.now(),
+        {
+          cache:"no-store"
+        }
+      );
+
+
+      if(response.ok){
+
+        html = await response.text();
+
+        addCheck(
+          "Public",
+          "Public homepage reachable",
+          "pass",
+          `../index.html responded with HTTP ${response.status}.`,
+          "#publicChecks"
+        );
+
+      }else{
+
+        addCheck(
+          "Public",
+          "Public homepage reachable",
+          "fail",
+          `Public homepage returned HTTP ${response.status}.`,
+          "#publicChecks"
+        );
+
+        return;
+
+      }
+
+    }catch(error){
+
+      addCheck(
+        "Public",
+        "Public homepage reachable",
+        "warn",
+        "Browser fetch could not verify ../index.html. GitHub Pages/CORS/cache behavior may affect this test.",
+        "#publicChecks"
+      );
+
+      return;
+
+    }
+
+
+    const cmsMarkers = [
+      "aki_homepage_content_v1",
+      "aki_banners_v1",
+      "aki_projects_v1",
+      "aki_site_settings_v1"
+    ];
+
+
+    let cmsMarkersFound = 0;
+
+
+    cmsMarkers.forEach(marker => {
+
+      if(html.includes(marker)){
+        cmsMarkersFound++;
+      }
+
+    });
+
+
+    if(cmsMarkersFound >= 2){
+
+      addCheck(
+        "Public",
+        "Public CMS sync markers",
+        "pass",
+        `${cmsMarkersFound}/${cmsMarkers.length} expected CMS markers were found in the public homepage source.`,
+        "#publicChecks"
+      );
+
+    }else{
+
+      addCheck(
+        "Public",
+        "Public CMS sync markers",
+        "warn",
+        `${cmsMarkersFound}/${cmsMarkers.length} CMS markers were found. Review public homepage integration manually.`,
+        "#publicChecks"
+      );
+
+    }
+
+
+    if(
+      html.includes("developer-credit.js") ||
+      html.includes("Developer") &&
+      html.includes("SNK")
+    ){
+
+      addCheck(
+        "Public",
+        "Developer credit integration",
+        "pass",
+        "The public homepage contains the SNK developer attribution integration.",
+        "#publicChecks"
+      );
+
+    }else{
+
+      addCheck(
+        "Public",
+        "Developer credit integration",
+        "warn",
+        "Developer credit script/marker was not found in the homepage source.",
+        "#publicChecks"
+      );
+
+    }
+
+
+    const pageResults = await Promise.all(
+      checkedPages.map(async page => {
+
+        try{
+
+          const response = await fetch(
+            page + "?qa=" + Date.now(),
+            {
+              cache:"no-store"
+            }
+          );
+
+          return {
+            page,
+            ok:response.ok,
+            status:response.status
+          };
+
+        }catch(error){
+
+          return {
+            page,
+            ok:false,
+            status:0
+          };
+
+        }
+
+      })
+    );
+
+
+    pageResults.forEach(item => {
+
+      if(item.ok){
+
+        addCheck(
+          "Public",
+          `Admin page: ${item.page}`,
+          "pass",
+          `Page responded with HTTP ${item.status}.`,
+          "#publicChecks"
+        );
+
+      }else{
+
+        addCheck(
+          "Public",
+          `Admin page: ${item.page}`,
+          "warn",
+          `Could not verify page automatically (status ${item.status || "network"}).`,
+          "#publicChecks"
+        );
+
+      }
+
+    });
+
+  }
+
+
+  /* -------------------------------------------------------
+     BACKUP / RECOVERY
+  ------------------------------------------------------- */
+
+  function collectBackupData(){
+
+    const keys = [
+
+      "aki_homepage_content_v1",
+      "aki_banners_v1",
+      "aki_projects_v1",
+      "aki_media_v1",
+      "aki_site_settings_v1",
+      "aki_admin_users_v1",
+      "aki_admin_activity_v1",
+      "aki_admin_accounts_v1",
+      "aki_ai_config_v1",
+      "aki_ai_chat_v1",
+      "aki_security_settings_v1",
+      "aki_login_failures_v1",
+      "aki_admin_session",
+      "aki_admin_remember",
+      "aki_admin_email",
+      "aki_last_backup_v1"
+
+    ];
+
+
+    const data = {
+      version:"1.0",
+      system:"AKHI Engineering Workshop",
+      generatedAt:new Date().toISOString(),
+      source:"AKHI Final QA",
+      storage:{}
+    };
+
+
+    keys.forEach(key => {
+
+      data.storage[key] =
+        localStorage.getItem(key);
+
+    });
+
+
+    return data;
+
+  }
+
+
+  function deepClone(value){
+
+    return JSON.parse(
+      JSON.stringify(value)
+    );
+
+  }
+
+
+  function runRecoverySimulation(){
+
+    const snapshot =
+      collectBackupData();
+
+
+    let encoded = "";
+
+    try{
+
+      encoded =
+        JSON.stringify(snapshot);
+
+      addCheck(
+        "Recovery",
+        "Backup serialization",
+        "pass",
+        `Backup payload serialized successfully (${readableBytes(byteSize(encoded))}).`,
+        "#recoveryChecks"
+      );
+
+    }catch(error){
+
+      addCheck(
+        "Recovery",
+        "Backup serialization",
+        "fail",
+        "Backup payload could not be serialized.",
+        "#recoveryChecks"
+      );
+
+      return;
+
+    }
+
+
+    let restored = null;
+
+
+    try{
+
+      restored =
+        JSON.parse(encoded);
+
+      addCheck(
+        "Recovery",
+        "Backup JSON validation",
+        "pass",
+        "Serialized backup payload can be parsed back into an object.",
+        "#recoveryChecks"
+      );
+
+    }catch(error){
+
+      addCheck(
+        "Recovery",
+        "Backup JSON validation",
+        "fail",
+        "Serialized backup payload failed to parse.",
+        "#recoveryChecks"
+      );
+
+      return;
+
+    }
+
+
+    try{
+
+      const originalKeys =
+        Object.keys(snapshot.storage).sort();
+
+      const restoredKeys =
+        Object.keys(restored.storage || {}).sort();
+
+
+      const sameKeys =
+        JSON.stringify(originalKeys) ===
+        JSON.stringify(restoredKeys);
+
+
+      if(sameKeys){
+
+        addCheck(
+          "Recovery",
+          "Storage key round-trip",
+          "pass",
+          `${originalKeys.length} storage keys survived the backup round-trip.`,
+          "#recoveryChecks"
+        );
+
+      }else{
+
+        addCheck(
+          "Recovery",
+          "Storage key round-trip",
+          "fail",
+          "Storage key list changed during the round-trip simulation.",
+          "#recoveryChecks"
+        );
+
+      }
+
+
+      const cloned =
+        deepClone(restored);
+
+
+      if(
+        cloned &&
+        cloned.storage &&
+        typeof cloned.storage === "object"
+      ){
+
+        addCheck(
+          "Recovery",
+          "Recovery object reconstruction",
+          "pass",
+          "A fresh recovery object was successfully reconstructed.",
+          "#recoveryChecks"
+        );
+
+      }else{
+
+        addCheck(
+          "Recovery",
+          "Recovery object reconstruction",
+          "fail",
+          "Recovery object could not be reconstructed.",
+          "#recoveryChecks"
+        );
+
+      }
+
+
+      let preserved = true;
+
+      Object.keys(snapshot.storage).forEach(key => {
+
+        if(snapshot.storage[key] !== restored.storage[key]){
+          preserved = false;
+        }
+
+      });
+
+
+      if(preserved){
+
+        addCheck(
+          "Recovery",
+          "Value preservation",
+          "pass",
+          "All captured localStorage values survived the non-destructive simulation.",
+          "#recoveryChecks"
+        );
+
+      }else{
+
+        addCheck(
+          "Recovery",
+          "Value preservation",
+          "fail",
+          "One or more captured values changed during simulation.",
+          "#recoveryChecks"
+        );
+
+      }
+
+    }catch(error){
+
+      addCheck(
+        "Recovery",
+        "Recovery simulation",
+        "fail",
+        error.message || "Recovery simulation failed.",
+        "#recoveryChecks"
+      );
+
+    }
+
+
+    const backupMeta =
+      localStorage.getItem("aki_last_backup_v1");
+
+
+    if(backupMeta){
+
+      const parsed =
+        safeParse(backupMeta);
+
+
+      if(parsed.ok){
+
+        addCheck(
+          "Recovery",
+          "Last-backup metadata",
+          "pass",
+          "Previous backup metadata is available.",
+          "#recoveryChecks"
+        );
+
+      }else{
+
+        addCheck(
+          "Recovery",
+          "Last-backup metadata",
+          "warn",
+          "Last-backup metadata exists but is not valid JSON.",
+          "#recoveryChecks"
+        );
+
+      }
+
+    }else{
+
+      addCheck(
+        "Recovery",
+        "Last-backup metadata",
+        "warn",
+        "No previous backup metadata was found. Create a fresh backup before handover.",
+        "#recoveryChecks"
+      );
+
+    }
+
+
+    const totalKeys =
+      Object.keys(snapshot.storage).length;
+
+    addCheck(
+      "Recovery",
+      "Recovery snapshot coverage",
+      totalKeys > 0 ? "pass" : "fail",
+      `${totalKeys} important browser-storage keys are covered by the QA snapshot.`,
+      "#recoveryChecks"
+    );
+
+
+    qs("#recoveryBadge").textContent =
+      state.results.some(
+        item =>
+          item.group === "Recovery" &&
+          item.status === "fail"
+      )
+        ? "FAILED"
+        : "SIMULATION PASSED";
+
+    qs("#recoveryBadge").className =
+      "badge " +
+      (
+        state.results.some(
+          item =>
+            item.group === "Recovery" &&
+            item.status === "fail"
+        )
+          ? "fail"
+          : "pass"
+      );
+
+  }
+
+
+  /* -------------------------------------------------------
+     SUMMARY
+  ------------------------------------------------------- */
+
+  function updateSummary(){
+
+    const total =
+      state.results.length;
+
+    const passed =
+      state.results.filter(
+        x => x.status === "pass"
+      ).length;
+
+    const warnings =
+      state.results.filter(
+        x => x.status === "warn"
+      ).length;
+
+    const failed =
+      state.results.filter(
+        x => x.status === "fail"
+      ).length;
+
+
+    state.summary = {
+      total,
+      passed,
+      warnings,
+      failed
+    };
+
+
+    qs("#metricTotal").textContent =
+      total;
+
+    qs("#metricPass").textContent =
+      passed;
+
+    qs("#metricWarn").textContent =
+      warnings;
+
+    qs("#metricFail").textContent =
+      failed;
+
+
+    const score =
+      total
+        ? Math.round(
+            (passed / total) * 100
+          )
+        : 0;
+
+
+    qs("#progressBar").style.width =
+      score + "%";
+
+
+    qs("#qaCounter").textContent =
+      `${passed}/${total} PASS`;
+
+
+    const statusEl =
+      qs("#overallStatus");
+
+    const detailEl =
+      qs("#overallDetail");
+
+
+    if(failed > 0){
+
+      statusEl.textContent =
+        "NOT READY";
+
+      detailEl.textContent =
+        `${failed} failed check(s) require attention before production handover.`;
+
+      statusEl.style.color =
+        "#ff9d9d";
+
+    }else if(warnings > 0){
+
+      statusEl.textContent =
+        "READY WITH WARNINGS";
+
+      detailEl.textContent =
+        `${warnings} warning(s) remain. Review them before moving to Supabase production.`;
+
+      statusEl.style.color =
+        "#ffe09a";
+
+    }else{
+
+      statusEl.textContent =
+        "QA PASSED";
+
+      detailEl.textContent =
+        "No blocking browser-side QA failures were detected.";
+
+      statusEl.style.color =
+        "#9effe3";
+
+    }
+
+  }
+
+
+  function makeReport(){
+
+    return {
+
+      project:"AKHI Engineering Workshop",
+
+      qaVersion:"1.0",
+
+      startedAt:state.startedAt,
+
+      finishedAt:state.finishedAt,
+
+      environment:{
+        href:location.href,
+        origin:location.origin,
+        userAgent:navigator.userAgent,
+        language:navigator.language,
+        online:navigator.onLine
+      },
+
+      summary:state.summary,
+
+      results:state.results,
+
+      architectureNotes:[
+
+        "Current browser-side authentication is not production server-side security.",
+
+        "Supabase Auth should replace client-side credentials before handover.",
+
+        "Supabase RLS should protect database tables.",
+
+        "Supabase Storage policies should protect uploaded files.",
+
+        "Secret API keys and service_role keys must not be shipped in frontend code.",
+
+        "Real Passkey/WebAuthn registration and verification should be connected during production auth integration.",
+
+        "Browser localStorage sync is same-origin/browser-specific and is not cross-device CMS synchronization."
+
+      ]
+
+    };
+
+  }
+
+
+  function renderReport(){
+
+    const report =
+      makeReport();
+
+    qs("#reportBox").textContent =
+      JSON.stringify(
+        report,
+        null,
+        2
+      );
+
+  }
+
+
+  /* -------------------------------------------------------
+     RUN FULL QA
+  ------------------------------------------------------- */
+
+  async function runFullQa(){
+
+    const runButton =
+      qs("#runQa");
+
+    runButton.disabled = true;
+
+    runButton.textContent =
+      "Running QA...";
+
+    resetGroups();
+
+    qs("#qaCounter").textContent =
+      "RUNNING";
+
+    qs("#overallStatus").textContent =
+      "TESTING";
+
+    qs("#overallDetail").textContent =
+      "Checking authentication, CMS, security, public sync and recovery readiness.";
+
+    qs("#progressBar").style.width =
+      "0%";
+
+
+    state.startedAt =
+      new Date().toISOString();
+
+
+    try{
+
+      runAuthChecks();
+
+      runCmsChecks();
+
+      runSecurityChecks();
+
+      await runPublicChecks();
+
+      runRecoverySimulation();
+
+      state.finishedAt =
+        new Date().toISOString();
+
+      updateSummary();
+
+      renderReport();
+
+      try{
+
+        if(
+          typeof AKIAdmin.logActivity === "function"
+        ){
+
+          AKIAdmin.logActivity(
+            "Final QA test completed",
+            {
+              total:state.summary.total,
+              passed:state.summary.passed,
+              warnings:state.summary.warnings,
+              failed:state.summary.failed
+            }
+          );
+
+        }
+
+      }catch(error){
+
+        /* Activity logging failure should not break QA result. */
+
+      }
+
+    }catch(error){
+
+      result(
+        "System",
+        "QA runner",
+        "fail",
+        error.message || "Unexpected QA runner error."
+      );
+
+      state.finishedAt =
+        new Date().toISOString();
+
+      updateSummary();
+
+      renderReport();
+
+    }finally{
+
+      runButton.disabled = false;
+
+      runButton.textContent =
+        "Run Full QA";
+
+    }
+
+  }
+
+
+  /* -------------------------------------------------------
+     DOWNLOAD REPORT
+  ------------------------------------------------------- */
+
+  function downloadReport(){
+
+    if(!state.finishedAt){
+
+      alert(
+        "Run the Full QA test before downloading the report."
+      );
+
+      return;
+
+    }
+
+
+    const report =
+      makeReport();
+
+
+    const blob =
+      new Blob(
+        [
+          JSON.stringify(
+            report,
+            null,
+            2
+          )
+        ],
+        {
+          type:"application/json"
+        }
+      );
+
+
+    const url =
+      URL.createObjectURL(blob);
+
+
+    const a =
+      document.createElement("a");
+
+    a.href = url;
+
+    const stamp =
+      new Date()
+        .toISOString()
+        .replace(/[:.]/g,"-");
+
+
+    a.download =
+      `AKHI-Final-QA-${stamp}.json`;
+
+
+    document.body.appendChild(a);
+
+    a.click();
+
+    a.remove();
+
+    URL.revokeObjectURL(url);
+
+  }
+
+
+  /* -------------------------------------------------------
+     COPY REPORT
+  ------------------------------------------------------- */
+
+  async function copyReport(){
+
+    const report =
+      qs("#reportBox").textContent;
+
+
+    if(
+      !report ||
+      report === "No QA run yet."
+    ){
+
+      alert(
+        "Run the Full QA test first."
+      );
+
+      return;
+
+    }
+
+
+    try{
+
+      await navigator.clipboard.writeText(report);
+
+      alert(
+        "QA report copied to clipboard."
+      );
+
+    }catch{
+
+      alert(
+        "Clipboard access was blocked by the browser."
+      );
+
+    }
+
+  }
+
+
+  /* -------------------------------------------------------
+     EVENTS
+  ------------------------------------------------------- */
+
+  qs("#runQa")
+    .addEventListener(
+      "click",
+      runFullQa
+    );
+
+
+  qs("#downloadQa")
+    .addEventListener(
+      "click",
+      downloadReport
+    );
+
+
+  qs("#copyReport")
+    .addEventListener(
+      "click",
+      copyReport
+    );
+
+
+  /* -------------------------------------------------------
+     INITIAL STATE
+  ------------------------------------------------------- */
+
+  document.addEventListener(
+    "visibilitychange",
+    function(){
+
+      if(!document.hidden){
+
+        try{
+          AKIAdmin.touch();
+        }catch{}
+
+      }
+
+    }
+  );
+
+
+})();
+</script>
+
+</body>
+</html>
