@@ -4,12 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Homepage Manager | AKI Engineering Workshop</title>
-
   <meta
     name="description"
-    content="Manage AKI Engineering Workshop homepage content."
+    content="AKI Engineering Workshop — Homepage Content Management"
   >
+
+  <meta name="theme-color" content="#06080b">
+
+  <title>Homepage Manager | AKI Engineering Workshop</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,32 +23,34 @@
 
   <style>
     :root {
-      --bg: #07090c;
-      --sidebar: #0b0e12;
-      --panel: #0e1217;
-      --panel-2: #121820;
-      --border: rgba(255,255,255,.08);
-      --border-hover: rgba(200,255,61,.25);
+      --bg: #06080b;
+      --panel: #0c1015;
+      --panel-2: #10151b;
+      --panel-3: #141a21;
 
-      --text: #f4f6f8;
-      --muted: #7f8998;
-      --muted-2: #596372;
+      --border: rgba(255,255,255,.08);
+      --border-strong: rgba(255,255,255,.14);
+
+      --text: #f5f7fa;
+      --muted: #929ca8;
+      --muted-2: #626c78;
 
       --accent: #c8ff3d;
       --accent-soft: rgba(200,255,61,.08);
-      --accent-border: rgba(200,255,61,.18);
+      --accent-border: rgba(200,255,61,.20);
 
-      --danger: #ff6878;
-      --blue: #78a9ff;
-      --orange: #ffb764;
+      --blue: #7aa8ff;
+      --purple: #b88cff;
+      --orange: #ffb45e;
+      --red: #ff657d;
+      --cyan: #61dfff;
 
-      --sidebar-width: 275px;
-      --topbar-height: 76px;
+      --sidebar: 270px;
+      --topbar: 78px;
 
-      --radius: 18px;
-      --small-radius: 12px;
-
-      --shadow: 0 25px 70px rgba(0,0,0,.3);
+      --radius-xl: 25px;
+      --radius-lg: 19px;
+      --radius-md: 14px;
     }
 
     * {
@@ -56,30 +60,29 @@
     }
 
     html {
+      background: var(--bg);
       scroll-behavior: smooth;
     }
 
     body {
       min-height: 100vh;
+      overflow-x: hidden;
 
       font-family: "Inter", sans-serif;
-
       color: var(--text);
 
       background:
         radial-gradient(
-          circle at 75% 0%,
-          rgba(200,255,61,.045),
+          circle at 90% 0%,
+          rgba(200,255,61,.055),
           transparent 28%
         ),
+        radial-gradient(
+          circle at 0% 100%,
+          rgba(122,168,255,.035),
+          transparent 30%
+        ),
         var(--bg);
-
-      overflow-x: hidden;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
     }
 
     button,
@@ -93,90 +96,46 @@
       cursor: pointer;
     }
 
-    textarea {
-      resize: vertical;
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
-    ::selection {
-      color: #080b07;
-      background: var(--accent);
-    }
-
-    ::-webkit-scrollbar {
-      width: 7px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: #080a0d;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #272e38;
-      border-radius: 99px;
-    }
-
-    /* =====================================================
-       MOBILE OVERLAY
-    ===================================================== */
-
-    .mobile-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 80;
-
-      background: rgba(0,0,0,.68);
-      backdrop-filter: blur(5px);
-
-      opacity: 0;
-      visibility: hidden;
-
-      transition: .25s ease;
-    }
-
-    .mobile-overlay.show {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    /* =====================================================
+    /* =========================================
        SIDEBAR
-    ===================================================== */
+    ========================================= */
 
     .sidebar {
       position: fixed;
       inset: 0 auto 0 0;
-      z-index: 100;
 
-      width: var(--sidebar-width);
-      height: 100vh;
+      width: var(--sidebar);
+      z-index: 100;
 
       display: flex;
       flex-direction: column;
 
-      padding: 22px 15px;
+      padding: 22px 14px;
 
-      background:
-        linear-gradient(
-          180deg,
-          rgba(255,255,255,.018),
-          transparent 45%
-        ),
-        var(--sidebar);
-
+      background: rgba(9,12,16,.97);
       border-right: 1px solid var(--border);
+
+      backdrop-filter: blur(25px);
+
+      transition: transform .3s ease;
     }
 
-    .sidebar-brand {
+    .brand {
       display: flex;
       align-items: center;
       gap: 11px;
 
-      padding: 3px 10px 23px;
+      padding: 3px 9px 23px;
 
       border-bottom: 1px solid var(--border);
     }
 
-    .brand-icon {
+    .brand-logo {
       width: 43px;
       height: 43px;
 
@@ -186,145 +145,55 @@
       border-radius: 13px;
 
       background: var(--accent);
-      color: #090d07;
+      color: #070900;
 
       font-family: "Space Grotesk", sans-serif;
       font-size: 13px;
-      font-weight: 800;
+      font-weight: 900;
+      letter-spacing: -1px;
 
       box-shadow:
-        0 0 0 5px rgba(200,255,61,.045),
-        0 10px 28px rgba(200,255,61,.1);
+        0 0 30px rgba(200,255,61,.14);
     }
 
-    .brand-name {
+    .brand-title {
       font-family: "Space Grotesk", sans-serif;
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -.5px;
     }
 
-    .brand-sub {
+    .brand-subtitle {
       margin-top: 3px;
 
       color: var(--muted-2);
 
-      font-size: 9px;
+      font-size: 8px;
       font-weight: 600;
-
-      letter-spacing: 1.2px;
+      letter-spacing: 1.25px;
       text-transform: uppercase;
     }
-
-    /* =====================================================
-       PROFILE
-    ===================================================== */
-
-    .profile-mini {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-
-      margin: 18px 5px 20px;
-      padding: 11px;
-
-      border: 1px solid var(--border);
-      border-radius: 14px;
-
-      background: rgba(255,255,255,.018);
-    }
-
-    .profile-avatar {
-      width: 38px;
-      height: 38px;
-
-      flex: 0 0 38px;
-
-      display: grid;
-      place-items: center;
-
-      border-radius: 11px;
-
-      background: linear-gradient(
-        145deg,
-        #1b222b,
-        #0d1116
-      );
-
-      border: 1px solid var(--border);
-
-      color: var(--accent);
-
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .profile-info {
-      min-width: 0;
-    }
-
-    .profile-name {
-      overflow: hidden;
-
-      font-size: 11px;
-      font-weight: 700;
-
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-
-    .profile-role {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-
-      margin-top: 3px;
-
-      color: var(--muted);
-
-      font-size: 9px;
-
-      letter-spacing: .8px;
-      text-transform: uppercase;
-    }
-
-    .role-dot {
-      width: 5px;
-      height: 5px;
-
-      border-radius: 50%;
-
-      background: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-    }
-
-    /* =====================================================
-       NAVIGATION
-    ===================================================== */
 
     .nav-label {
-      padding: 0 11px 8px;
+      padding: 24px 11px 9px;
 
-      color: #414957;
+      color: #4e5864;
 
       font-size: 9px;
-      font-weight: 700;
+      font-weight: 800;
 
       letter-spacing: 1.5px;
       text-transform: uppercase;
     }
 
-    .sidebar-nav {
+    .nav {
       display: flex;
       flex-direction: column;
-      gap: 3px;
-
-      overflow-y: auto;
+      gap: 4px;
     }
 
     .nav-link {
-      position: relative;
-
-      min-height: 45px;
+      min-height: 44px;
 
       display: flex;
       align-items: center;
@@ -340,237 +209,251 @@
       font-size: 11px;
       font-weight: 600;
 
-      transition: .22s ease;
+      transition: .2s ease;
+    }
+
+    .nav-link svg {
+      width: 17px;
+      height: 17px;
+      flex: 0 0 17px;
     }
 
     .nav-link:hover {
       color: var(--text);
-      background: rgba(255,255,255,.025);
+      background: rgba(255,255,255,.035);
+      border-color: var(--border);
     }
 
     .nav-link.active {
       color: var(--accent);
-
       background: var(--accent-soft);
-
-      border-color: var(--accent-border);
-    }
-
-    .nav-link.active::before {
-      content: "";
-
-      position: absolute;
-      left: -1px;
-      top: 10px;
-      bottom: 10px;
-
-      width: 2px;
-
-      border-radius: 3px;
-
-      background: var(--accent);
-      box-shadow: 0 0 10px var(--accent);
-    }
-
-    .nav-icon {
-      width: 20px;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    .nav-text {
-      flex: 1;
+      border-color: rgba(200,255,61,.12);
     }
 
     .nav-badge {
-      min-width: 19px;
-      height: 19px;
+      margin-left: auto;
+
+      min-width: 20px;
+      height: 20px;
 
       display: grid;
       place-items: center;
 
       padding: 0 5px;
 
-      border-radius: 7px;
+      border-radius: 999px;
 
-      background: rgba(255,255,255,.05);
+      background: rgba(255,255,255,.055);
 
-      color: var(--muted);
+      color: var(--muted-2);
 
       font-size: 8px;
       font-weight: 800;
     }
 
-    .super-only {
-      display: none;
+    .nav-link.active .nav-badge {
+      background: rgba(200,255,61,.12);
+      color: var(--accent);
     }
-
-    .super-only.visible {
-      display: flex;
-    }
-
-    /* =====================================================
-       SIDEBAR BOTTOM
-    ===================================================== */
 
     .sidebar-bottom {
       margin-top: auto;
-
-      padding-top: 15px;
+      padding-top: 14px;
 
       border-top: 1px solid var(--border);
     }
 
-    .logout-button {
+    .ai-card {
+      padding: 14px;
+
+      border: 1px solid rgba(200,255,61,.12);
+      border-radius: 16px;
+
+      background:
+        radial-gradient(
+          circle at 100% 0,
+          rgba(200,255,61,.08),
+          transparent 45%
+        ),
+        rgba(255,255,255,.02);
+    }
+
+    .ai-card-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      margin-bottom: 9px;
+    }
+
+    .ai-status {
+      width: 8px;
+      height: 8px;
+
+      border-radius: 50%;
+
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+    }
+
+    .ai-card strong {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 11px;
+    }
+
+    .ai-card p {
+      margin-bottom: 10px;
+
+      color: var(--muted-2);
+
+      font-size: 9px;
+      line-height: 1.6;
+    }
+
+    .ai-card a {
+      display: block;
+
+      padding: 9px;
+
+      border-radius: 9px;
+
+      background: var(--accent);
+      color: #070900;
+
+      text-align: center;
+
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .logout {
       width: 100%;
-      min-height: 43px;
+      height: 39px;
+
+      margin-top: 9px;
 
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 9px;
 
-      padding: 0 12px;
+      padding: 0 11px;
 
       border: 1px solid transparent;
-      border-radius: 11px;
+      border-radius: 10px;
 
       background: transparent;
 
-      color: #737d8c;
+      color: var(--muted-2);
 
-      font-size: 11px;
+      text-align: left;
+
+      font-size: 10px;
       font-weight: 600;
 
-      transition: .22s ease;
+      transition: .2s ease;
     }
 
-    .logout-button:hover {
-      color: var(--danger);
-      background: rgba(255,105,120,.05);
-      border-color: rgba(255,105,120,.12);
+    .logout:hover {
+      color: var(--red);
+      background: rgba(255,101,125,.05);
+      border-color: rgba(255,101,125,.10);
     }
 
-    .sidebar-version {
-      margin-top: 10px;
-      padding: 0 12px;
-
-      color: #353c47;
-
-      font-size: 8px;
-      letter-spacing: .7px;
-    }
-
-    /* =====================================================
+    /* =========================================
        MAIN
-    ===================================================== */
+    ========================================= */
 
     .main {
       min-height: 100vh;
-      margin-left: var(--sidebar-width);
+      margin-left: var(--sidebar);
     }
-
-    /* =====================================================
-       TOPBAR
-    ===================================================== */
 
     .topbar {
       position: sticky;
       top: 0;
       z-index: 60;
 
-      height: var(--topbar-height);
+      height: var(--topbar);
 
       display: flex;
       align-items: center;
       justify-content: space-between;
 
-      padding: 0 32px;
+      padding: 0 30px;
 
+      background: rgba(6,8,11,.82);
       border-bottom: 1px solid var(--border);
 
-      background: rgba(7,9,12,.84);
-      backdrop-filter: blur(20px);
+      backdrop-filter: blur(22px);
     }
 
-    .topbar-left {
+    .top-left {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
 
-    .menu-toggle {
+    .mobile-menu {
       display: none;
 
-      width: 40px;
-      height: 40px;
-
-      place-items: center;
-
-      border: 1px solid var(--border);
-      border-radius: 11px;
-
-      background: rgba(255,255,255,.025);
-
-      color: var(--text);
-
-      font-size: 17px;
-    }
-
-    .page-title {
-      font-family: "Space Grotesk", sans-serif;
-
-      font-size: 17px;
-      font-weight: 700;
-
-      letter-spacing: -.4px;
-    }
-
-    .page-subtitle {
-      margin-top: 3px;
-
-      color: var(--muted-2);
-
-      font-size: 9px;
-    }
-
-    .topbar-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .save-status {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-
-      min-height: 35px;
-
-      padding: 0 11px;
+      width: 37px;
+      height: 37px;
 
       border: 1px solid var(--border);
       border-radius: 10px;
 
-      color: var(--muted);
-
-      font-size: 9px;
-      font-weight: 600;
+      background: rgba(255,255,255,.025);
+      color: var(--text);
     }
 
-    .save-status-dot {
+    .breadcrumb {
+      color: var(--muted-2);
+      font-size: 10px;
+    }
+
+    .breadcrumb strong {
+      color: var(--text);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .save-status {
+      height: 34px;
+
+      display: flex;
+      align-items: center;
+      gap: 7px;
+
+      padding: 0 11px;
+
+      border: 1px solid rgba(200,255,61,.12);
+      border-radius: 999px;
+
+      background: rgba(200,255,61,.04);
+
+      color: var(--accent);
+
+      font-size: 8px;
+      font-weight: 800;
+    }
+
+    .save-status span {
       width: 6px;
       height: 6px;
 
       border-radius: 50%;
 
       background: var(--accent);
-
-      box-shadow: 0 0 8px var(--accent);
+      box-shadow: 0 0 9px var(--accent);
     }
 
-    .icon-button {
-      width: 36px;
-      height: 36px;
+    .top-icon {
+      width: 35px;
+      height: 35px;
 
       display: grid;
       place-items: center;
@@ -578,92 +461,89 @@
       border: 1px solid var(--border);
       border-radius: 10px;
 
-      background: rgba(255,255,255,.02);
+      background: rgba(255,255,255,.025);
 
       color: var(--muted);
 
       transition: .2s ease;
     }
 
-    .icon-button:hover {
+    .top-icon:hover {
       color: var(--accent);
-      border-color: var(--border-hover);
-      background: var(--accent-soft);
+      border-color: var(--accent-border);
     }
 
-    /* =====================================================
-       CONTENT
-    ===================================================== */
-
-    .content {
-      width: min(1480px, calc(100% - 64px));
-
-      margin: auto;
-
-      padding: 30px 0 60px;
-    }
-
-    /* =====================================================
-       PAGE HERO
-    ===================================================== */
-
-    .page-hero {
-      position: relative;
-
+    .profile {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 9px;
 
-      gap: 25px;
+      padding-left: 4px;
+    }
 
-      padding: 27px 30px;
+    .avatar {
+      width: 35px;
+      height: 35px;
 
-      margin-bottom: 22px;
+      display: grid;
+      place-items: center;
 
-      border: 1px solid var(--border);
-      border-radius: 21px;
-
-      overflow: hidden;
+      border-radius: 10px;
 
       background:
-        radial-gradient(
-          circle at 85% 30%,
-          rgba(200,255,61,.075),
-          transparent 28%
-        ),
         linear-gradient(
-          145deg,
-          rgba(255,255,255,.035),
-          rgba(255,255,255,.012)
+          135deg,
+          var(--accent),
+          #7fa91d
         );
+
+      color: #070900;
+
+      font-size: 10px;
+      font-weight: 900;
     }
 
-    .page-hero::after {
-      content: "";
-
-      position: absolute;
-
-      right: -90px;
-      top: -130px;
-
-      width: 300px;
-      height: 300px;
-
-      border: 1px solid rgba(200,255,61,.07);
-
-      border-radius: 50%;
-
-      box-shadow:
-        0 0 0 35px rgba(200,255,61,.012),
-        0 0 0 70px rgba(200,255,61,.007);
+    .profile-text strong {
+      display: block;
+      font-size: 9px;
     }
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
+    .profile-text span {
+      display: block;
+
+      margin-top: 2px;
+
+      color: var(--accent);
+
+      font-size: 7px;
+      font-weight: 800;
+
+      text-transform: uppercase;
     }
 
-    .hero-eyebrow {
+    /* =========================================
+       CONTENT
+    ========================================= */
+
+    .content {
+      max-width: 1550px;
+
+      margin: 0 auto;
+
+      padding: 30px 30px 60px;
+    }
+
+    .page-heading {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+
+      gap: 20px;
+
+      margin-bottom: 22px;
+    }
+
+    .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 7px;
@@ -672,37 +552,33 @@
 
       color: var(--accent);
 
-      font-size: 9px;
-      font-weight: 800;
+      font-size: 8px;
+      font-weight: 900;
 
-      letter-spacing: 1.4px;
+      letter-spacing: 1.6px;
       text-transform: uppercase;
     }
 
-    .hero-eyebrow span {
-      width: 5px;
-      height: 5px;
+    .eyebrow::before {
+      content: "";
 
-      border-radius: 50%;
+      width: 18px;
+      height: 1px;
 
       background: var(--accent);
     }
 
-    .page-hero h1 {
+    .page-heading h1 {
       font-family: "Space Grotesk", sans-serif;
 
-      font-size: clamp(27px, 3vw, 38px);
+      font-size: clamp(27px, 3vw, 42px);
 
-      line-height: 1.05;
+      line-height: 1;
 
-      letter-spacing: -1.6px;
+      letter-spacing: -1.8px;
     }
 
-    .page-hero h1 span {
-      color: var(--accent);
-    }
-
-    .page-hero p {
+    .page-heading p {
       max-width: 650px;
 
       margin-top: 9px;
@@ -713,31 +589,163 @@
       line-height: 1.7;
     }
 
-    .hero-status {
-      position: relative;
-      z-index: 2;
-
+    .heading-actions {
       display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 7px;
-
-      min-width: 145px;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
-    .status-pill {
+    .button {
+      min-height: 39px;
+
       display: inline-flex;
       align-items: center;
-      gap: 7px;
+      justify-content: center;
+      gap: 8px;
 
-      padding: 8px 11px;
+      padding: 0 14px;
 
-      border: 1px solid var(--accent-border);
-      border-radius: 999px;
+      border-radius: 10px;
+
+      font-size: 9px;
+      font-weight: 800;
+
+      transition: .2s ease;
+    }
+
+    .button-primary {
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #070900;
+    }
+
+    .button-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(200,255,61,.14);
+    }
+
+    .button-secondary {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.025);
+      color: var(--text);
+    }
+
+    .button-secondary:hover {
+      background: rgba(255,255,255,.05);
+      border-color: var(--border-strong);
+    }
+
+    /* =========================================
+       LAYOUT
+    ========================================= */
+
+    .workspace {
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 1.12fr)
+        minmax(400px, .88fr);
+
+      gap: 16px;
+
+      align-items: start;
+    }
+
+    .editor-column,
+    .preview-column {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .panel {
+      overflow: hidden;
+
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.028),
+          rgba(255,255,255,.012)
+        );
+    }
+
+    .panel-head {
+      min-height: 63px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+
+      padding: 0 18px;
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .panel-icon {
+      width: 32px;
+      height: 32px;
+
+      display: grid;
+      place-items: center;
+
+      border: 1px solid rgba(200,255,61,.12);
+      border-radius: 9px;
 
       background: var(--accent-soft);
 
       color: var(--accent);
+    }
+
+    .panel-title h2 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 12px;
+    }
+
+    .panel-title p {
+      margin-top: 2px;
+
+      color: var(--muted-2);
+
+      font-size: 8px;
+    }
+
+    .panel-body {
+      padding: 19px;
+    }
+
+    /* =========================================
+       FORM
+    ========================================= */
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 14px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      color: #b8c0c9;
 
       font-size: 8px;
       font-weight: 800;
@@ -746,155 +754,15 @@
       text-transform: uppercase;
     }
 
-    .status-pill-dot {
-      width: 6px;
-      height: 6px;
-
-      border-radius: 50%;
-      background: var(--accent);
-    }
-
-    .hero-status small {
+    .field small {
       color: var(--muted-2);
-      font-size: 8px;
-    }
-
-    /* =====================================================
-       EDITOR GRID
-    ===================================================== */
-
-    .editor-grid {
-      display: grid;
-
-      grid-template-columns:
-        minmax(0, 1.45fr)
-        minmax(330px, .72fr);
-
-      gap: 15px;
-
-      align-items: start;
-    }
-
-    .editor-main,
-    .editor-side {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    /* =====================================================
-       PANEL
-    ===================================================== */
-
-    .panel {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,.028),
-          rgba(255,255,255,.009)
-        );
-
-      overflow: hidden;
-    }
-
-    .panel-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      gap: 15px;
-
-      padding: 17px 19px;
-
-      border-bottom: 1px solid var(--border);
-    }
-
-    .panel-title {
-      font-family: "Space Grotesk", sans-serif;
-
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .panel-caption {
-      margin-top: 3px;
-
-      color: var(--muted-2);
-
       font-size: 8px;
       line-height: 1.5;
     }
 
-    .panel-tag {
-      padding: 6px 8px;
-
-      border: 1px solid var(--border);
-
-      border-radius: 7px;
-
-      color: var(--muted-2);
-
-      font-size: 7px;
-      font-weight: 700;
-
-      letter-spacing: .7px;
-      text-transform: uppercase;
-    }
-
-    .panel-body {
-      padding: 20px;
-    }
-
-    /* =====================================================
-       FORM
-    ===================================================== */
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group:last-child {
-      margin-bottom: 0;
-    }
-
-    .full {
-      grid-column: 1 / -1;
-    }
-
-    .form-label {
-      display: block;
-
-      margin-bottom: 7px;
-
-      color: #c6ccd5;
-
-      font-size: 9px;
-      font-weight: 700;
-
-      letter-spacing: .2px;
-    }
-
-    .label-hint {
-      margin-left: 4px;
-
-      color: var(--muted-2);
-
-      font-size: 8px;
-      font-weight: 400;
-    }
-
-    .form-input,
-    .form-textarea,
-    .form-select {
+    .input,
+    .textarea,
+    .select {
       width: 100%;
 
       border: 1px solid var(--border);
@@ -902,87 +770,67 @@
 
       outline: none;
 
-      background: rgba(0,0,0,.2);
+      background: rgba(0,0,0,.16);
 
       color: var(--text);
 
-      transition: .22s ease;
-    }
-
-    .form-input,
-    .form-select {
-      height: 46px;
-
-      padding: 0 13px;
-
       font-size: 10px;
+
+      transition: .2s ease;
     }
 
-    .form-textarea {
-      min-height: 100px;
-
-      padding: 12px 13px;
-
-      font-size: 10px;
-      line-height: 1.6;
+    .input,
+    .select {
+      min-height: 42px;
+      padding: 0 12px;
     }
 
-    .form-input::placeholder,
-    .form-textarea::placeholder {
-      color: #505968;
+    .textarea {
+      min-height: 92px;
+      padding: 12px;
+
+      resize: vertical;
+
+      line-height: 1.65;
     }
 
-    .form-input:focus,
-    .form-textarea:focus,
-    .form-select:focus {
-      border-color: rgba(200,255,61,.4);
+    .input:focus,
+    .textarea:focus,
+    .select:focus {
+      border-color: rgba(200,255,61,.38);
+
+      background: rgba(200,255,61,.025);
 
       box-shadow:
-        0 0 0 4px rgba(200,255,61,.045);
+        0 0 0 3px rgba(200,255,61,.045);
     }
 
-    .form-select {
+    .input::placeholder,
+    .textarea::placeholder {
+      color: #4d5661;
+    }
+
+    .select {
       appearance: none;
-
-      background-image:
-        linear-gradient(45deg, transparent 50%, #687384 50%),
-        linear-gradient(135deg, #687384 50%, transparent 50%);
-
-      background-position:
-        calc(100% - 17px) 20px,
-        calc(100% - 12px) 20px;
-
-      background-size: 5px 5px;
-
-      background-repeat: no-repeat;
     }
 
-    .input-prefix {
-      position: relative;
+    .divider {
+      height: 1px;
+
+      margin: 18px 0;
+
+      background: var(--border);
     }
 
-    .input-prefix span {
-      position: absolute;
-
-      left: 13px;
-      top: 50%;
-
-      transform: translateY(-50%);
-
-      color: var(--muted-2);
-
-      font-size: 9px;
-
-      pointer-events: none;
+    .field-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
     }
 
-    .input-prefix .form-input {
-      padding-left: 34px;
-    }
-
-    /* =====================================================
+    /* =========================================
        TOGGLE
-    ===================================================== */
+    ========================================= */
 
     .toggle-row {
       display: flex;
@@ -991,26 +839,23 @@
 
       gap: 20px;
 
-      padding: 13px 0;
+      padding: 13px;
 
-      border-bottom: 1px solid rgba(255,255,255,.045);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+
+      background: rgba(255,255,255,.018);
     }
 
-    .toggle-row:last-child {
-      border-bottom: 0;
-    }
-
-    .toggle-info strong {
+    .toggle-copy strong {
       display: block;
-
       font-size: 9px;
-      font-weight: 700;
     }
 
-    .toggle-info span {
+    .toggle-copy span {
       display: block;
 
-      margin-top: 3px;
+      margin-top: 4px;
 
       color: var(--muted-2);
 
@@ -1037,10 +882,11 @@
       position: absolute;
       inset: 0;
 
-      border: 1px solid rgba(255,255,255,.1);
-      border-radius: 99px;
+      border-radius: 999px;
 
-      background: #181d24;
+      background: #20262d;
+
+      border: 1px solid var(--border);
 
       transition: .2s ease;
     }
@@ -1058,385 +904,467 @@
 
       border-radius: 50%;
 
-      background: #737d8c;
+      background: #78818b;
 
       transition: .2s ease;
     }
 
     .switch input:checked + .slider {
-      background: var(--accent-soft);
-      border-color: var(--accent-border);
+      background: rgba(200,255,61,.18);
+      border-color: rgba(200,255,61,.32);
     }
 
     .switch input:checked + .slider::before {
       transform: translateX(19px);
-
       background: var(--accent);
-
-      box-shadow: 0 0 9px rgba(200,255,61,.25);
+      box-shadow: 0 0 10px rgba(200,255,61,.4);
     }
 
-    /* =====================================================
-       STATS
-    ===================================================== */
-
-    .stats-editor {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-
-    .stat-editor-card {
-      padding: 13px;
-
-      border: 1px solid var(--border);
-      border-radius: 12px;
-
-      background: rgba(255,255,255,.015);
-    }
-
-    .stat-editor-label {
-      margin-bottom: 7px;
-
-      color: var(--muted-2);
-
-      font-size: 8px;
-      font-weight: 700;
-
-      text-transform: uppercase;
-      letter-spacing: .7px;
-    }
-
-    .stat-input-row {
-      display: grid;
-      grid-template-columns: 1fr 1.5fr;
-      gap: 7px;
-    }
-
-    .stat-input {
-      width: 100%;
-      height: 38px;
-
-      padding: 0 9px;
-
-      border: 1px solid var(--border);
-      border-radius: 8px;
-
-      outline: none;
-
-      background: rgba(0,0,0,.18);
-
-      color: var(--text);
-
-      font-size: 9px;
-    }
-
-    .stat-input:focus {
-      border-color: rgba(200,255,61,.35);
-    }
-
-    /* =====================================================
-       ACTION BUTTONS
-    ===================================================== */
-
-    .form-actions {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-
-      gap: 9px;
-
-      padding-top: 17px;
-
-      margin-top: 4px;
-
-      border-top: 1px solid var(--border);
-    }
-
-    .button {
-      min-height: 40px;
-
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-
-      padding: 0 14px;
-
-      border: 1px solid var(--border);
-      border-radius: 10px;
-
-      font-size: 9px;
-      font-weight: 800;
-
-      transition: .2s ease;
-    }
-
-    .button-secondary {
-      background: rgba(255,255,255,.025);
-      color: var(--muted);
-    }
-
-    .button-secondary:hover {
-      color: var(--text);
-      border-color: rgba(255,255,255,.15);
-    }
-
-    .button-primary {
-      border-color: transparent;
-
-      background: var(--accent);
-
-      color: #090d07;
-    }
-
-    .button-primary:hover {
-      background: #d5ff68;
-
-      box-shadow:
-        0 10px 25px rgba(200,255,61,.11);
-
-      transform: translateY(-1px);
-    }
-
-    /* =====================================================
+    /* =========================================
        PREVIEW
-    ===================================================== */
+    ========================================= */
 
-    .preview-window {
-      border: 1px solid var(--border);
-
-      border-radius: 14px;
+    .preview-frame {
+      position: relative;
 
       overflow: hidden;
 
-      background: #090c10;
+      min-height: 545px;
+
+      border: 1px solid var(--border);
+      border-radius: 18px;
+
+      background: #080b0f;
     }
 
-    .preview-browser {
+    .preview-topbar {
+      height: 48px;
+
       display: flex;
       align-items: center;
-      gap: 5px;
+      justify-content: space-between;
 
-      height: 29px;
+      padding: 0 14px;
 
-      padding: 0 10px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
 
-      border-bottom: 1px solid var(--border);
-
-      background: #0c1015;
+      background: rgba(255,255,255,.018);
     }
 
-    .browser-dot {
-      width: 5px;
-      height: 5px;
+    .preview-brand {
+      display: flex;
+      align-items: center;
+      gap: 7px;
 
-      border-radius: 50%;
+      font-family: "Space Grotesk", sans-serif;
 
-      background: #3a424e;
+      font-size: 8px;
+      font-weight: 800;
     }
 
-    .preview-address {
-      flex: 1;
+    .preview-brand-mark {
+      width: 21px;
+      height: 21px;
 
-      height: 16px;
+      display: grid;
+      place-items: center;
 
-      margin-left: 5px;
+      border-radius: 6px;
 
-      border-radius: 5px;
+      background: var(--accent);
+      color: #070900;
 
-      background: rgba(255,255,255,.035);
-    }
-
-    .preview-site {
-      min-height: 275px;
-
-      padding: 23px 18px;
-
-      background:
-        radial-gradient(
-          circle at 70% 15%,
-          rgba(200,255,61,.08),
-          transparent 30%
-        ),
-        #080b0f;
+      font-size: 7px;
+      font-weight: 900;
     }
 
     .preview-nav {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 12px;
 
-      margin-bottom: 30px;
+      color: #68727e;
+
+      font-size: 6px;
+      font-weight: 700;
     }
 
-    .preview-logo {
-      width: 55px;
-      height: 12px;
+    .preview-nav span:first-child {
+      color: var(--accent);
+    }
 
-      border-radius: 3px;
+    .preview-body {
+      position: relative;
+      min-height: 497px;
+
+      padding: 38px 27px;
+
+      background:
+        radial-gradient(
+          circle at 85% 20%,
+          rgba(200,255,61,.12),
+          transparent 31%
+        ),
+        radial-gradient(
+          circle at 5% 90%,
+          rgba(122,168,255,.05),
+          transparent 30%
+        );
+    }
+
+    .preview-grid {
+      position: absolute;
+      inset: 0;
+
+      opacity: .13;
+
+      background-image:
+        linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+
+      background-size: 28px 28px;
+
+      mask-image: linear-gradient(
+        to bottom,
+        black,
+        transparent 85%
+      );
+
+      pointer-events: none;
+    }
+
+    .preview-copy {
+      position: relative;
+      z-index: 2;
+
+      max-width: 90%;
+    }
+
+    .preview-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+
+      padding: 5px 8px;
+
+      border: 1px solid rgba(200,255,61,.15);
+      border-radius: 999px;
+
+      background: rgba(200,255,61,.045);
+
+      color: var(--accent);
+
+      font-size: 6px;
+      font-weight: 900;
+
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+
+    .preview-badge i {
+      width: 4px;
+      height: 4px;
+
+      border-radius: 50%;
 
       background: var(--accent);
     }
 
-    .preview-menu {
-      display: flex;
-      gap: 5px;
-    }
-
-    .preview-menu span {
-      width: 27px;
-      height: 4px;
-
-      border-radius: 3px;
-
-      background: #29313b;
-    }
-
-    .preview-hero {
-      max-width: 85%;
-    }
-
-    .preview-kicker {
-      width: 70px;
-      height: 6px;
-
-      margin-bottom: 9px;
-
-      border-radius: 4px;
-
-      background: rgba(200,255,61,.55);
-    }
-
     .preview-title {
-      width: 90%;
+      margin-top: 17px;
 
-      height: 15px;
+      max-width: 450px;
 
-      margin-bottom: 6px;
+      font-family: "Space Grotesk", sans-serif;
 
-      border-radius: 4px;
+      font-size: clamp(28px, 4vw, 44px);
 
-      background: #e9edf2;
+      line-height: .98;
+
+      letter-spacing: -2px;
     }
 
-    .preview-title.short {
-      width: 65%;
+    .preview-title span {
+      color: var(--accent);
     }
 
     .preview-description {
-      width: 82%;
-      height: 5px;
+      max-width: 450px;
 
-      margin-top: 10px;
+      margin-top: 12px;
 
-      border-radius: 3px;
+      color: #7d8792;
 
-      background: #343d49;
-    }
+      font-size: 8px;
 
-    .preview-description.small {
-      width: 67%;
-      margin-top: 5px;
+      line-height: 1.7;
     }
 
     .preview-buttons {
       display: flex;
-      gap: 7px;
+      gap: 6px;
 
       margin-top: 17px;
     }
 
     .preview-button {
-      width: 63px;
-      height: 19px;
+      min-height: 29px;
 
-      border-radius: 5px;
+      display: inline-flex;
+      align-items: center;
 
+      padding: 0 10px;
+
+      border-radius: 7px;
+
+      font-size: 6px;
+      font-weight: 900;
+    }
+
+    .preview-button.primary {
       background: var(--accent);
+      color: #070900;
     }
 
-    .preview-button.outline {
-      background: transparent;
-
-      border: 1px solid #303844;
+    .preview-button.secondary {
+      border: 1px solid rgba(255,255,255,.09);
+      background: rgba(255,255,255,.025);
+      color: #b9c0c7;
     }
 
-    .preview-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+    .preview-orbit {
+      position: absolute;
 
-      gap: 5px;
+      width: 180px;
+      height: 180px;
 
-      margin-top: 28px;
-    }
-
-    .preview-stat {
-      height: 32px;
-
-      border: 1px solid #202731;
-      border-radius: 6px;
-
-      background: rgba(255,255,255,.015);
-    }
-
-    /* =====================================================
-       TIPS
-    ===================================================== */
-
-    .tips-list {
-      padding: 2px 19px 9px;
-    }
-
-    .tip {
-      display: flex;
-      gap: 10px;
-
-      padding: 13px 0;
-
-      border-bottom: 1px solid rgba(255,255,255,.045);
-    }
-
-    .tip:last-child {
-      border-bottom: 0;
-    }
-
-    .tip-icon {
-      width: 27px;
-      height: 27px;
-
-      flex: 0 0 27px;
+      right: 20px;
+      top: 95px;
 
       display: grid;
       place-items: center;
 
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle at 30% 25%,
+          #efffc2,
+          var(--accent) 20%,
+          #71931e 47%,
+          #111606 70%,
+          #080b0f 100%
+        );
+
+      box-shadow:
+        0 0 55px rgba(200,255,61,.13);
+    }
+
+    .preview-orbit::before,
+    .preview-orbit::after {
+      content: "";
+
+      position: absolute;
+
+      border: 1px solid rgba(200,255,61,.14);
+      border-radius: 50%;
+    }
+
+    .preview-orbit::before {
+      inset: -18px;
+    }
+
+    .preview-orbit::after {
+      inset: -36px;
+
+      border-style: dashed;
+
+      opacity: .5;
+
+      animation: spin 18s linear infinite;
+    }
+
+    .preview-orbit strong {
+      color: #071000;
+
+      font-family: "Space Grotesk", sans-serif;
+
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -2px;
+    }
+
+    .preview-stats {
+      position: absolute;
+
+      left: 27px;
+      right: 27px;
+      bottom: 30px;
+
+      display: grid;
+
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 6px;
+    }
+
+    .preview-stat {
+      padding: 10px;
+
+      border: 1px solid rgba(255,255,255,.07);
       border-radius: 8px;
 
-      background: var(--accent-soft);
+      background: rgba(255,255,255,.025);
 
-      color: var(--accent);
-
-      font-size: 9px;
+      backdrop-filter: blur(10px);
     }
 
-    .tip strong {
+    .preview-stat strong {
       display: block;
 
+      font-family: "Space Grotesk", sans-serif;
+
+      font-size: 12px;
+    }
+
+    .preview-stat span {
+      display: block;
+
+      margin-top: 3px;
+
+      color: #626c77;
+
+      font-size: 5px;
+
+      text-transform: uppercase;
+      letter-spacing: .6px;
+    }
+
+    /* =========================================
+       PREVIEW CONTROLS
+    ========================================= */
+
+    .preview-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      padding: 11px 13px;
+
+      border-top: 1px solid var(--border);
+      background: rgba(255,255,255,.015);
+    }
+
+    .device-buttons {
+      display: flex;
+      gap: 5px;
+    }
+
+    .device-button {
+      width: 29px;
+      height: 27px;
+
+      display: grid;
+      place-items: center;
+
+      border: 1px solid var(--border);
+      border-radius: 7px;
+
+      background: transparent;
+      color: var(--muted-2);
+    }
+
+    .device-button.active {
+      color: var(--accent);
+      border-color: rgba(200,255,61,.2);
+      background: var(--accent-soft);
+    }
+
+    .preview-label {
+      color: var(--muted-2);
+      font-size: 7px;
+    }
+
+    /* =========================================
+       STATUS / ACCESS
+    ========================================= */
+
+    .status-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 15px;
+
+      padding: 15px 17px;
+
+      border: 1px solid rgba(200,255,61,.10);
+      border-radius: 15px;
+
+      background:
+        linear-gradient(
+          110deg,
+          rgba(200,255,61,.045),
+          rgba(255,255,255,.018)
+        );
+    }
+
+    .status-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-icon {
+      width: 33px;
+      height: 33px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 9px;
+
+      background: rgba(200,255,61,.09);
+      color: var(--accent);
+    }
+
+    .status-left strong {
+      display: block;
       font-size: 9px;
     }
 
-    .tip p {
+    .status-left span {
+      display: block;
+
       margin-top: 3px;
 
       color: var(--muted-2);
 
       font-size: 8px;
-      line-height: 1.5;
     }
 
-    /* =====================================================
+    .role-pill {
+      padding: 6px 9px;
+
+      border: 1px solid rgba(200,255,61,.15);
+      border-radius: 999px;
+
+      background: rgba(200,255,61,.05);
+
+      color: var(--accent);
+
+      font-size: 7px;
+      font-weight: 900;
+
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    /* =========================================
        TOAST
-    ===================================================== */
+    ========================================= */
 
     .toast {
       position: fixed;
@@ -1444,150 +1372,121 @@
       right: 24px;
       bottom: 24px;
 
-      z-index: 300;
+      z-index: 999;
 
-      max-width: 360px;
+      min-width: 240px;
 
-      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
 
-      border: 1px solid var(--accent-border);
+      padding: 12px 14px;
+
+      border: 1px solid rgba(200,255,61,.17);
       border-radius: 12px;
 
-      background: #10151b;
+      background: rgba(13,17,22,.96);
 
-      box-shadow: var(--shadow);
+      box-shadow: 0 18px 50px rgba(0,0,0,.4);
 
-      color: var(--text);
-
-      font-size: 9px;
-
-      transform: translateY(20px);
-
+      transform: translateY(30px);
       opacity: 0;
-      visibility: hidden;
+      pointer-events: none;
 
-      transition: .25s ease;
+      transition: .3s ease;
     }
 
     .toast.show {
       transform: translateY(0);
-
       opacity: 1;
-      visibility: visible;
     }
 
-    /* =====================================================
-       ACCESS
-    ===================================================== */
+    .toast-dot {
+      width: 7px;
+      height: 7px;
 
-    .access-denied {
-      position: fixed;
-      inset: 0;
-      z-index: 500;
+      flex: 0 0 7px;
 
-      display: none;
-      place-items: center;
-
-      padding: 20px;
-
-      background: var(--bg);
-    }
-
-    .access-denied.show {
-      display: grid;
-    }
-
-    .access-box {
-      width: min(420px, 100%);
-
-      padding: 35px;
-
-      text-align: center;
-
-      border: 1px solid var(--border);
-      border-radius: 22px;
-
-      background: var(--panel);
-    }
-
-    .access-icon {
-      width: 55px;
-      height: 55px;
-
-      display: grid;
-      place-items: center;
-
-      margin: 0 auto 18px;
-
-      border-radius: 15px;
-
-      background: rgba(255,105,120,.08);
-
-      color: var(--danger);
-
-      font-size: 18px;
-    }
-
-    .access-box h2 {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 24px;
-    }
-
-    .access-box p {
-      margin-top: 9px;
-
-      color: var(--muted);
-
-      font-size: 11px;
-      line-height: 1.7;
-    }
-
-    .access-box button {
-      margin-top: 22px;
-
-      height: 44px;
-
-      padding: 0 18px;
-
-      border: 0;
-      border-radius: 11px;
+      border-radius: 50%;
 
       background: var(--accent);
-
-      color: #090d07;
-
-      font-size: 10px;
-      font-weight: 800;
+      box-shadow: 0 0 10px var(--accent);
     }
 
-    /* =====================================================
+    .toast-text strong {
+      display: block;
+      font-size: 9px;
+    }
+
+    .toast-text span {
+      display: block;
+
+      margin-top: 2px;
+
+      color: var(--muted-2);
+
+      font-size: 8px;
+    }
+
+    /* =========================================
+       OVERLAY
+    ========================================= */
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+
+      display: none;
+
+      background: rgba(0,0,0,.65);
+
+      backdrop-filter: blur(3px);
+    }
+
+    /* =========================================
+       ANIMATIONS
+    ========================================= */
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* =========================================
        RESPONSIVE
-    ===================================================== */
+    ========================================= */
 
-    @media (max-width: 1050px) {
-
-      .editor-grid {
+    @media (max-width: 1180px) {
+      .workspace {
         grid-template-columns: 1fr;
       }
 
-      .editor-side {
-        display: grid;
-
-        grid-template-columns: 1fr 1fr;
-
-        align-items: start;
+      .preview-column {
+        order: -1;
       }
 
+      .preview-frame {
+        min-height: 480px;
+      }
+
+      .preview-body {
+        min-height: 430px;
+      }
+
+      .preview-orbit {
+        right: 12%;
+      }
     }
 
-    @media (max-width: 950px) {
+    @media (max-width: 900px) {
+      :root {
+        --sidebar: 270px;
+      }
 
       .sidebar {
         transform: translateX(-100%);
-
-        transition: transform .28s ease;
-
-        box-shadow: 30px 0 80px rgba(0,0,0,.4);
       }
 
       .sidebar.open {
@@ -1598,96 +1497,156 @@
         margin-left: 0;
       }
 
-      .menu-toggle {
+      .mobile-menu {
         display: grid;
+        place-items: center;
       }
 
-    }
-
-    @media (max-width: 760px) {
+      .overlay.show {
+        display: block;
+      }
 
       .content {
-        width: min(100% - 28px, 650px);
-
-        padding-top: 20px;
+        padding: 25px 20px 50px;
       }
 
       .topbar {
-        padding: 0 14px;
+        padding: 0 20px;
       }
+    }
 
+    @media (max-width: 680px) {
+      .profile-text,
       .save-status {
         display: none;
       }
 
-      .page-hero {
+      .page-heading {
         align-items: flex-start;
         flex-direction: column;
-        padding: 24px;
       }
 
-      .hero-status {
-        align-items: flex-start;
+      .heading-actions {
+        width: 100%;
       }
 
-      .editor-side {
-        display: flex;
+      .heading-actions .button {
+        flex: 1;
       }
 
       .form-grid {
         grid-template-columns: 1fr;
       }
 
-      .full {
+      .field.full {
         grid-column: auto;
       }
 
-    }
-
-    @media (max-width: 500px) {
-
-      .content {
-        width: calc(100% - 20px);
-      }
-
-      .panel-body {
-        padding: 15px;
-      }
-
-      .panel-header {
-        padding: 15px;
-      }
-
-      .page-hero h1 {
-        font-size: 29px;
-      }
-
-      .stats-editor {
+      .field-row {
         grid-template-columns: 1fr;
       }
 
-      .form-actions {
-        flex-direction: column-reverse;
+      .preview-frame {
+        min-height: 520px;
       }
 
-      .form-actions .button {
-        width: 100%;
+      .preview-body {
+        min-height: 472px;
+      }
+
+      .preview-orbit {
+        width: 130px;
+        height: 130px;
+
+        right: 8%;
+        top: 145px;
+      }
+
+      .preview-title {
+        max-width: 72%;
+        font-size: 31px;
+      }
+
+      .preview-description {
+        max-width: 66%;
+      }
+
+      .preview-stats {
+        bottom: 20px;
+      }
+
+      .preview-nav {
+        display: none;
+      }
+    }
+
+    @media (max-width: 450px) {
+      .content {
+        padding: 20px 13px 45px;
+      }
+
+      .topbar {
+        padding: 0 13px;
+      }
+
+      .panel-body {
+        padding: 14px;
+      }
+
+      .panel-head {
+        padding: 0 14px;
+      }
+
+      .preview-body {
+        padding: 28px 18px;
+      }
+
+      .preview-orbit {
+        width: 110px;
+        height: 110px;
+
+        right: 5%;
+        top: 155px;
+      }
+
+      .preview-title {
+        max-width: 76%;
+        font-size: 27px;
+      }
+
+      .preview-description {
+        max-width: 68%;
+        font-size: 7px;
+      }
+
+      .preview-stats {
+        left: 18px;
+        right: 18px;
+      }
+
+      .preview-stat {
+        padding: 7px;
+      }
+
+      .preview-stat strong {
+        font-size: 10px;
       }
 
       .toast {
-        right: 10px;
-        left: 10px;
-        max-width: none;
+        left: 13px;
+        right: 13px;
+        bottom: 13px;
+        min-width: 0;
       }
-
     }
 
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
       *::after {
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+        animation: none !important;
+        transition: none !important;
       }
     }
   </style>
@@ -1695,499 +1654,607 @@
 
 <body>
 
-  <!-- =====================================================
+  <!-- =========================================
        MOBILE OVERLAY
-  ====================================================== -->
+  ========================================= -->
 
   <div
-    class="mobile-overlay"
-    id="mobileOverlay"
+    class="overlay"
+    id="overlay"
+    aria-hidden="true"
   ></div>
 
-
-  <!-- =====================================================
+  <!-- =========================================
        SIDEBAR
-  ====================================================== -->
+  ========================================= -->
 
   <aside
     class="sidebar"
     id="sidebar"
+    aria-label="Admin navigation"
   >
 
-    <div class="sidebar-brand">
-
-      <div class="brand-icon">
-        AKI
-      </div>
+    <div class="brand">
+      <div class="brand-logo">AKI</div>
 
       <div>
-        <div class="brand-name">
-          AKI Engineering
-        </div>
+        <div class="brand-title">AKI Workshop</div>
 
-        <div class="brand-sub">
-          Workshop Admin
+        <div class="brand-subtitle">
+          Engineering Command Center
         </div>
       </div>
-
     </div>
-
-
-    <div class="profile-mini">
-
-      <div
-        class="profile-avatar"
-        id="profileAvatar"
-      >
-        A
-      </div>
-
-      <div class="profile-info">
-
-        <div
-          class="profile-name"
-          id="profileName"
-        >
-          Admin
-        </div>
-
-        <div class="profile-role">
-
-          <span class="role-dot"></span>
-
-          <span id="profileRole">
-            Admin
-          </span>
-
-        </div>
-
-      </div>
-
-    </div>
-
 
     <div class="nav-label">
-      Workspace
+      Main
     </div>
 
-    <nav class="sidebar-nav">
+    <nav class="nav">
 
       <a
+        class="nav-link"
+        href="index.html"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="3" y="3" width="7" height="7" rx="1"/>
+          <rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/>
+          <rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+
+        Command Center
+      </a>
+
+      <a
+        class="nav-link"
         href="dashboard.html"
-        class="nav-link"
       >
-        <span class="nav-icon">⌂</span>
-        <span class="nav-text">Dashboard</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M4 19V5"/>
+          <path d="M4 19h16"/>
+          <path d="M7 15l3-4 3 2 5-7"/>
+        </svg>
+
+        Dashboard
       </a>
 
-
       <a
-        href="homepage.html"
         class="nav-link active"
+        href="homepage.html"
       >
-        <span class="nav-icon">◈</span>
-        <span class="nav-text">Homepage</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M3 11.5L12 4l9 7.5"/>
+          <path d="M5.5 10.5V20h13v-9.5"/>
+          <path d="M9 20v-5h6v5"/>
+        </svg>
+
+        Homepage
       </a>
 
-
       <a
+        class="nav-link"
         href="banner.html"
-        class="nav-link"
       >
-        <span class="nav-icon">▣</span>
-        <span class="nav-text">Banner Manager</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="3" y="5" width="18" height="14" rx="2"/>
+          <circle cx="8" cy="10" r="1.4"/>
+          <path d="M5 16l4-4 3 3 3-3 4 4"/>
+        </svg>
+
+        Banners
+
+        <span class="nav-badge">04</span>
       </a>
 
-
       <a
+        class="nav-link"
         href="browser-ui.html"
-        class="nav-link"
       >
-        <span class="nav-icon">◫</span>
-        <span class="nav-text">Browser UI</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="3" y="4" width="18" height="16" rx="2"/>
+          <path d="M3 9h18"/>
+          <path d="M7 6.5h.01"/>
+          <path d="M10 6.5h.01"/>
+        </svg>
+
+        Browser UI
       </a>
 
-
       <a
+        class="nav-link"
         href="newsletter.html"
-        class="nav-link"
       >
-        <span class="nav-icon">✉</span>
-        <span class="nav-text">Newsletter</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="3" y="5" width="18" height="14" rx="2"/>
+          <path d="M3 7l9 6 9-6"/>
+        </svg>
+
+        Newsletter
+
         <span class="nav-badge">12</span>
-      </a>
-
-
-      <a
-        href="akhi-ai/index.html"
-        class="nav-link"
-      >
-        <span class="nav-icon">✦</span>
-        <span class="nav-text">AKHI.AI</span>
-        <span class="nav-badge">AI</span>
-      </a>
-
-
-      <div
-        class="nav-label"
-        style="margin-top:18px;"
-      >
-        Administration
-      </div>
-
-
-      <a
-        href="admin-management.html"
-        class="nav-link super-only"
-        id="adminManagementLink"
-      >
-        <span class="nav-icon">♙</span>
-        <span class="nav-text">Admin Management</span>
-        <span class="nav-badge">SA</span>
-      </a>
-
-
-      <a
-        href="system.html"
-        class="nav-link super-only"
-        id="systemLink"
-      >
-        <span class="nav-icon">⚙</span>
-        <span class="nav-text">System Settings</span>
       </a>
 
     </nav>
 
+    <div class="nav-label">
+      System
+    </div>
+
+    <nav class="nav">
+
+      <a
+        class="nav-link"
+        href="admin-management.html"
+        data-super-admin
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/>
+          <circle cx="9.5" cy="7" r="4"/>
+          <path d="M19 8v6"/>
+          <path d="M22 11h-6"/>
+        </svg>
+
+        Admin Management
+
+        <span
+          class="nav-badge"
+          data-super-admin
+        >
+          SA
+        </span>
+      </a>
+
+      <a
+        class="nav-link"
+        href="system.html"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.7 1.7-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1 1.56V20h-2.4v-.2a1.7 1.7 0 0 0-1-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-1.7-1.7.06-.06A1.7 1.7 0 0 0 6.6 15a1.7 1.7 0 0 0-1.56-1H4.8v-2.4h.24a1.7 1.7 0 0 0 1.56-1 1.7 1.7 0 0 0-.34-1.88L6.2 8.66l1.7-1.7.06.06a1.7 1.7 0 0 0 1.88.34 1.7 1.7 0 0 0 1-1.56V5.6h2.4v.2a1.7 1.7 0 0 0 1 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 1.7 1.7-.06.06A1.7 1.7 0 0 0 18.4 10a1.7 1.7 0 0 0 1.56 1h.24v2.4h-.24a1.7 1.7 0 0 0-1.56 1.6Z"/>
+        </svg>
+
+        System Settings
+      </a>
+
+    </nav>
 
     <div class="sidebar-bottom">
 
-      <button
-        class="logout-button"
-        id="logoutButton"
-      >
-        <span>↪</span>
-        <span>Sign Out</span>
-      </button>
+      <div class="ai-card">
 
-      <div class="sidebar-version">
-        AKI ADMIN v1.0.0
+        <div class="ai-card-head">
+          <span class="ai-status"></span>
+          <strong>AKHI.AI</strong>
+        </div>
+
+        <p>
+          Engineering intelligence assistant is online and ready.
+        </p>
+
+        <a href="akhi-ai/index.html">
+          Open AI Assistant
+        </a>
+
       </div>
+
+      <button
+        class="logout"
+        id="logoutBtn"
+        type="button"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M10 17l5-5-5-5"/>
+          <path d="M15 12H3"/>
+          <path d="M21 3v18"/>
+        </svg>
+
+        Sign out
+      </button>
 
     </div>
 
   </aside>
 
-
-  <!-- =====================================================
+  <!-- =========================================
        MAIN
-  ====================================================== -->
+  ========================================= -->
 
   <main class="main">
-
 
     <!-- TOPBAR -->
 
     <header class="topbar">
 
-      <div class="topbar-left">
+      <div class="top-left">
 
         <button
-          class="menu-toggle"
-          id="menuToggle"
-          aria-label="Open menu"
+          class="mobile-menu"
+          id="mobileMenu"
+          type="button"
+          aria-label="Open navigation"
         >
-          ☰
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 6h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 18h16"/>
+          </svg>
         </button>
 
-        <div>
-
-          <div class="page-title">
-            Homepage Manager
-          </div>
-
-          <div class="page-subtitle">
-            Control your public website homepage
-          </div>
-
+        <div class="breadcrumb">
+          Admin / <strong>Homepage Manager</strong>
         </div>
 
       </div>
 
-
-      <div class="topbar-actions">
+      <div class="top-actions">
 
         <div class="save-status">
-
-          <span class="save-status-dot"></span>
-
-          <span id="saveStatus">
-            Local Draft
-          </span>
-
+          <span></span>
+          <span id="saveStatusText">All changes saved</span>
         </div>
 
         <button
-          class="icon-button"
-          id="previewButton"
-          title="Preview"
+          class="top-icon"
+          id="previewTopBtn"
+          type="button"
+          title="Preview homepage"
         >
-          ↗
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/>
+            <circle cx="12" cy="12" r="2.5"/>
+          </svg>
         </button>
 
-        <button
-          class="icon-button"
-          id="resetButton"
-          title="Reset"
-        >
-          ↻
-        </button>
+        <div class="profile">
+
+          <div class="avatar" id="avatar">
+            AD
+          </div>
+
+          <div class="profile-text">
+            <strong id="profileName">
+              Admin
+            </strong>
+
+            <span id="profileRole">
+              Administrator
+            </span>
+          </div>
+
+        </div>
 
       </div>
 
     </header>
 
-
     <!-- CONTENT -->
 
-    <div class="content">
+    <section class="content">
 
+      <div class="page-heading">
 
-      <!-- PAGE HERO -->
+        <div>
 
-      <section class="page-hero">
-
-        <div class="hero-content">
-
-          <div class="hero-eyebrow">
-            <span></span>
+          <div class="eyebrow">
             Website Content
           </div>
 
           <h1>
-            Shape your
-            <span>Homepage.</span>
+            Homepage <span>Manager</span>
           </h1>
 
           <p>
-            Edit the most important public-facing content of
-            AKI Engineering Workshop. Changes are saved locally
-            for this demo and can later be connected to Firebase.
+            Control your public homepage content from one premium workspace.
+            Update the hero section, CTA buttons, workshop introduction,
+            statistics and visibility settings.
           </p>
 
         </div>
 
+        <div class="heading-actions">
 
-        <div class="hero-status">
+          <button
+            class="button button-secondary"
+            id="resetBtn"
+            type="button"
+          >
+            Reset Demo
+          </button>
 
-          <div class="status-pill">
+          <button
+            class="button button-primary"
+            id="saveBtn"
+            type="button"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h10l6 6v10a2 2 0 0 1-2 2Z"/>
+              <path d="M17 21v-8H7v8"/>
+              <path d="M7 3v5h8"/>
+            </svg>
 
-            <span class="status-pill-dot"></span>
-
-            <span id="publishStatus">
-              Draft Mode
-            </span>
-
-          </div>
-
-          <small id="lastSaved">
-            Not saved yet
-          </small>
+            Save Changes
+          </button>
 
         </div>
 
-      </section>
+      </div>
 
+      <div class="workspace">
 
-      <!-- EDITOR -->
+        <!-- =====================================
+             EDITOR
+        ====================================== -->
 
-      <div class="editor-grid">
+        <div class="editor-column">
 
+          <!-- PAGE STATUS -->
 
-        <!-- =============================================
-             MAIN EDITOR
-        ============================================== -->
+          <div class="status-card">
 
-        <div class="editor-main">
+            <div class="status-left">
 
+              <div class="status-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M12 3v18"/>
+                  <path d="M3 12h18"/>
+                </svg>
+              </div>
+
+              <div>
+                <strong>Homepage publishing status</strong>
+
+                <span>
+                  Changes are stored locally in this demo panel.
+                </span>
+              </div>
+
+            </div>
+
+            <div class="role-pill" id="rolePill">
+              Admin
+            </div>
+
+          </div>
 
           <!-- HERO CONTENT -->
 
           <section class="panel">
 
-            <div class="panel-header">
+            <div class="panel-head">
 
-              <div>
-                <div class="panel-title">
-                  Hero Section
+              <div class="panel-title">
+
+                <div class="panel-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M4 17l6-6 4 4 6-8"/>
+                    <path d="M4 21h16"/>
+                  </svg>
                 </div>
 
-                <div class="panel-caption">
-                  Main message visitors see when they arrive.
+                <div>
+                  <h2>Hero Section</h2>
+                  <p>Main first-impression content</p>
                 </div>
-              </div>
 
-              <div class="panel-tag">
-                Primary
               </div>
 
             </div>
-
 
             <div class="panel-body">
 
               <div class="form-grid">
 
+                <div class="field full">
 
-                <div class="form-group">
-
-                  <label
-                    class="form-label"
-                    for="heroKicker"
-                  >
-                    Eyebrow / Kicker
+                  <label for="heroBadge">
+                    Eyebrow / Badge
                   </label>
 
                   <input
-                    id="heroKicker"
-                    class="form-input"
-                    type="text"
-                    placeholder="Engineering Excellence"
-                  >
-
-                </div>
-
-
-                <div class="form-group">
-
-                  <label
-                    class="form-label"
-                    for="heroBadge"
-                  >
-                    Badge Text
-                  </label>
-
-                  <input
+                    class="input"
                     id="heroBadge"
-                    class="form-input"
                     type="text"
-                    placeholder="Trusted Workshop"
+                    placeholder="ENGINEERING INTELLIGENCE"
+                    maxlength="60"
                   >
 
                 </div>
 
+                <div class="field full">
 
-                <div class="form-group full">
-
-                  <label
-                    class="form-label"
-                    for="heroTitle"
-                  >
-                    Hero Heading
+                  <label for="heroTitle">
+                    Hero Title
                   </label>
 
                   <input
+                    class="input"
                     id="heroTitle"
-                    class="form-input"
                     type="text"
-                    placeholder="Engineering Solutions That Move Forward"
+                    placeholder="Engineering solutions built for tomorrow."
+                    maxlength="120"
                   >
+
+                  <small>
+                    The main headline visitors see first.
+                  </small>
 
                 </div>
 
+                <div class="field full">
 
-                <div class="form-group full">
-
-                  <label
-                    class="form-label"
-                    for="heroDescription"
-                  >
+                  <label for="heroDescription">
                     Hero Description
                   </label>
 
                   <textarea
+                    class="textarea"
                     id="heroDescription"
-                    class="form-textarea"
-                    placeholder="Write a concise description of your workshop, services and engineering expertise..."
+                    placeholder="Describe your workshop, expertise and value proposition..."
+                    maxlength="500"
                   ></textarea>
 
                 </div>
 
+                <div class="field">
 
-                <div class="form-group">
-
-                  <label
-                    class="form-label"
-                    for="primaryButtonText"
-                  >
+                  <label for="primaryText">
                     Primary CTA
                   </label>
 
                   <input
-                    id="primaryButtonText"
-                    class="form-input"
+                    class="input"
+                    id="primaryText"
                     type="text"
+                    maxlength="40"
+                    placeholder="Request a Quote"
+                  >
+
+                </div>
+
+                <div class="field">
+
+                  <label for="primaryLink">
+                    Primary CTA Link
+                  </label>
+
+                  <input
+                    class="input"
+                    id="primaryLink"
+                    type="text"
+                    placeholder="#quotation"
+                  >
+
+                </div>
+
+                <div class="field">
+
+                  <label for="secondaryText">
+                    Secondary CTA
+                  </label>
+
+                  <input
+                    class="input"
+                    id="secondaryText"
+                    type="text"
+                    maxlength="40"
                     placeholder="Explore Services"
                   >
 
                 </div>
 
+                <div class="field">
 
-                <div class="form-group">
-
-                  <label
-                    class="form-label"
-                    for="primaryButtonUrl"
-                  >
-                    Primary CTA URL
+                  <label for="secondaryLink">
+                    Secondary CTA Link
                   </label>
 
                   <input
-                    id="primaryButtonUrl"
-                    class="form-input"
+                    class="input"
+                    id="secondaryLink"
                     type="text"
-                    placeholder="/services/"
+                    placeholder="#services"
                   >
 
                 </div>
 
+              </div>
 
-                <div class="form-group">
+            </div>
 
-                  <label
-                    class="form-label"
-                    for="secondaryButtonText"
-                  >
-                    Secondary CTA
+          </section>
+
+          <!-- WORKSHOP INTRO -->
+
+          <section class="panel">
+
+            <div class="panel-head">
+
+              <div class="panel-title">
+
+                <div class="panel-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M12 10v6"/>
+                    <path d="M12 7h.01"/>
+                  </svg>
+                </div>
+
+                <div>
+                  <h2>Workshop Introduction</h2>
+                  <p>About your engineering business</p>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="panel-body">
+
+              <div class="form-grid">
+
+                <div class="field full">
+
+                  <label for="aboutTitle">
+                    Section Title
                   </label>
 
                   <input
-                    id="secondaryButtonText"
-                    class="form-input"
+                    class="input"
+                    id="aboutTitle"
                     type="text"
-                    placeholder="Contact Workshop"
+                    maxlength="100"
+                    placeholder="Engineering expertise. Workshop precision."
                   >
 
                 </div>
 
+                <div class="field full">
 
-                <div class="form-group">
+                  <label for="aboutText">
+                    About Description
+                  </label>
 
-                  <label
-                    class="form-label"
-                    for="secondaryButtonUrl"
-                  >
-                    Secondary CTA URL
+                  <textarea
+                    class="textarea"
+                    id="aboutText"
+                    maxlength="800"
+                    placeholder="Write your workshop story..."
+                  ></textarea>
+
+                </div>
+
+                <div class="field">
+
+                  <label for="aboutExperience">
+                    Experience
                   </label>
 
                   <input
-                    id="secondaryButtonUrl"
-                    class="form-input"
+                    class="input"
+                    id="aboutExperience"
                     type="text"
-                    placeholder="/contact/"
+                    maxlength="30"
+                    placeholder="10+"
                   >
 
                 </div>
 
+                <div class="field">
+
+                  <label for="aboutExperienceLabel">
+                    Experience Label
+                  </label>
+
+                  <input
+                    class="input"
+                    id="aboutExperienceLabel"
+                    type="text"
+                    maxlength="40"
+                    placeholder="Years Experience"
+                  >
+
+                </div>
 
               </div>
 
@@ -2195,385 +2262,131 @@
 
           </section>
 
-
-          <!-- STATS -->
+          <!-- STATISTICS -->
 
           <section class="panel">
 
-            <div class="panel-header">
+            <div class="panel-head">
 
-              <div>
-                <div class="panel-title">
-                  Homepage Statistics
+              <div class="panel-title">
+
+                <div class="panel-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M4 19V5"/>
+                    <path d="M4 19h16"/>
+                    <path d="M7 15v-3"/>
+                    <path d="M11 15V8"/>
+                    <path d="M15 15v-5"/>
+                    <path d="M19 15V6"/>
+                  </svg>
                 </div>
 
-                <div class="panel-caption">
-                  Quick credibility numbers shown on the homepage.
+                <div>
+                  <h2>Homepage Statistics</h2>
+                  <p>Numbers displayed on the hero area</p>
                 </div>
-              </div>
 
-              <div class="panel-tag">
-                04 Items
               </div>
 
             </div>
-
 
             <div class="panel-body">
 
-              <div class="stats-editor">
+              <div class="form-grid">
 
+                <div class="field">
 
-                <div class="stat-editor-card">
+                  <label for="statOneNumber">
+                    Statistic 01
+                  </label>
 
-                  <div class="stat-editor-label">
-                    Stat 01
-                  </div>
-
-                  <div class="stat-input-row">
-
-                    <input
-                      id="stat1Value"
-                      class="stat-input"
-                      type="text"
-                      placeholder="10+"
-                    >
-
-                    <input
-                      id="stat1Label"
-                      class="stat-input"
-                      type="text"
-                      placeholder="Years Experience"
-                    >
-
-                  </div>
+                  <input
+                    class="input"
+                    id="statOneNumber"
+                    type="text"
+                    maxlength="20"
+                    placeholder="10+"
+                  >
 
                 </div>
 
+                <div class="field">
 
-                <div class="stat-editor-card">
+                  <label for="statOneLabel">
+                    Label
+                  </label>
 
-                  <div class="stat-editor-label">
-                    Stat 02
-                  </div>
-
-                  <div class="stat-input-row">
-
-                    <input
-                      id="stat2Value"
-                      class="stat-input"
-                      type="text"
-                      placeholder="500+"
-                    >
-
-                    <input
-                      id="stat2Label"
-                      class="stat-input"
-                      type="text"
-                      placeholder="Projects Completed"
-                    >
-
-                  </div>
+                  <input
+                    class="input"
+                    id="statOneLabel"
+                    type="text"
+                    maxlength="40"
+                    placeholder="Years Experience"
+                  >
 
                 </div>
 
+                <div class="field">
 
-                <div class="stat-editor-card">
+                  <label for="statTwoNumber">
+                    Statistic 02
+                  </label>
 
-                  <div class="stat-editor-label">
-                    Stat 03
-                  </div>
-
-                  <div class="stat-input-row">
-
-                    <input
-                      id="stat3Value"
-                      class="stat-input"
-                      type="text"
-                      placeholder="98%"
-                    >
-
-                    <input
-                      id="stat3Label"
-                      class="stat-input"
-                      type="text"
-                      placeholder="Client Satisfaction"
-                    >
-
-                  </div>
+                  <input
+                    class="input"
+                    id="statTwoNumber"
+                    type="text"
+                    maxlength="20"
+                    placeholder="500+"
+                  >
 
                 </div>
 
+                <div class="field">
 
-                <div class="stat-editor-card">
+                  <label for="statTwoLabel">
+                    Label
+                  </label>
 
-                  <div class="stat-editor-label">
-                    Stat 04
-                  </div>
-
-                  <div class="stat-input-row">
-
-                    <input
-                      id="stat4Value"
-                      class="stat-input"
-                      type="text"
-                      placeholder="24/7"
-                    >
-
-                    <input
-                      id="stat4Label"
-                      class="stat-input"
-                      type="text"
-                      placeholder="Support"
-                    >
-
-                  </div>
+                  <input
+                    class="input"
+                    id="statTwoLabel"
+                    type="text"
+                    maxlength="40"
+                    placeholder="Projects Delivered"
+                  >
 
                 </div>
 
+                <div class="field">
 
-              </div>
+                  <label for="statThreeNumber">
+                    Statistic 03
+                  </label>
 
-            </div>
-
-          </section>
-
-
-          <!-- SEO -->
-
-          <section class="panel">
-
-            <div class="panel-header">
-
-              <div>
-                <div class="panel-title">
-                  Homepage SEO
-                </div>
-
-                <div class="panel-caption">
-                  Search engine title and description.
-                </div>
-              </div>
-
-              <div class="panel-tag">
-                SEO
-              </div>
-
-            </div>
-
-
-            <div class="panel-body">
-
-              <div class="form-group">
-
-                <label
-                  class="form-label"
-                  for="seoTitle"
-                >
-                  Meta Title
-                  <span class="label-hint">
-                    Recommended 50–60 characters
-                  </span>
-                </label>
-
-                <input
-                  id="seoTitle"
-                  class="form-input"
-                  type="text"
-                  placeholder="AKI Engineering Workshop | Engineering Solutions"
-                >
-
-              </div>
-
-
-              <div class="form-group">
-
-                <label
-                  class="form-label"
-                  for="seoDescription"
-                >
-                  Meta Description
-                  <span class="label-hint">
-                    Recommended 140–160 characters
-                  </span>
-                </label>
-
-                <textarea
-                  id="seoDescription"
-                  class="form-textarea"
-                  style="min-height:82px;"
-                  placeholder="Describe AKI Engineering Workshop for search engines..."
-                ></textarea>
-
-              </div>
-
-
-              <div class="form-group">
-
-                <label
-                  class="form-label"
-                  for="seoKeywords"
-                >
-                  Keywords
-                </label>
-
-                <input
-                  id="seoKeywords"
-                  class="form-input"
-                  type="text"
-                  placeholder="engineering, workshop, fabrication, mechanical, AKI"
-                >
-
-              </div>
-
-            </div>
-
-          </section>
-
-
-          <!-- ACTIONS -->
-
-          <section class="panel">
-
-            <div class="panel-body">
-
-              <div class="form-actions">
-
-                <button
-                  type="button"
-                  class="button button-secondary"
-                  id="discardButton"
-                >
-                  Discard Changes
-                </button>
-
-                <button
-                  type="button"
-                  class="button button-primary"
-                  id="saveButton"
-                >
-                  ✓ Save Homepage
-                </button>
-
-              </div>
-
-            </div>
-
-          </section>
-
-
-        </div>
-
-
-        <!-- =============================================
-             SIDE
-        ============================================== -->
-
-        <aside class="editor-side">
-
-
-          <!-- PREVIEW -->
-
-          <section class="panel">
-
-            <div class="panel-header">
-
-              <div>
-                <div class="panel-title">
-                  Live Preview
-                </div>
-
-                <div class="panel-caption">
-                  Approximate homepage appearance.
-                </div>
-              </div>
-
-              <div class="panel-tag">
-                Preview
-              </div>
-
-            </div>
-
-
-            <div class="panel-body">
-
-              <div class="preview-window">
-
-                <div class="preview-browser">
-
-                  <span class="browser-dot"></span>
-                  <span class="browser-dot"></span>
-                  <span class="browser-dot"></span>
-
-                  <div class="preview-address"></div>
+                  <input
+                    class="input"
+                    id="statThreeNumber"
+                    type="text"
+                    maxlength="20"
+                    placeholder="98%"
+                  >
 
                 </div>
 
+                <div class="field">
 
-                <div class="preview-site">
+                  <label for="statThreeLabel">
+                    Label
+                  </label>
 
-                  <div class="preview-nav">
-
-                    <div class="preview-logo"></div>
-
-                    <div class="preview-menu">
-
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-
-                    </div>
-
-                  </div>
-
-
-                  <div class="preview-hero">
-
-                    <div
-                      class="preview-kicker"
-                      id="previewKicker"
-                    ></div>
-
-                    <div
-                      class="preview-title"
-                      id="previewTitleOne"
-                    ></div>
-
-                    <div
-                      class="preview-title short"
-                      id="previewTitleTwo"
-                    ></div>
-
-                    <div
-                      class="preview-description"
-                      id="previewDescriptionOne"
-                    ></div>
-
-                    <div
-                      class="preview-description small"
-                      id="previewDescriptionTwo"
-                    ></div>
-
-
-                    <div class="preview-buttons">
-
-                      <div class="preview-button"></div>
-
-                      <div class="preview-button outline"></div>
-
-                    </div>
-
-
-                    <div class="preview-stats">
-
-                      <div class="preview-stat"></div>
-                      <div class="preview-stat"></div>
-                      <div class="preview-stat"></div>
-
-                    </div>
-
-                  </div>
+                  <input
+                    class="input"
+                    id="statThreeLabel"
+                    type="text"
+                    maxlength="40"
+                    placeholder="Client Satisfaction"
+                  >
 
                 </div>
 
@@ -2582,205 +2395,394 @@
             </div>
 
           </section>
-
 
           <!-- VISIBILITY -->
 
           <section class="panel">
 
-            <div class="panel-header">
+            <div class="panel-head">
 
-              <div>
-                <div class="panel-title">
-                  Section Visibility
+              <div class="panel-title">
+
+                <div class="panel-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/>
+                    <circle cx="12" cy="12" r="2.5"/>
+                  </svg>
                 </div>
 
-                <div class="panel-caption">
-                  Control what appears publicly.
+                <div>
+                  <h2>Visibility Controls</h2>
+                  <p>Choose what appears on the homepage</p>
                 </div>
-              </div>
 
-              <div class="panel-tag">
-                Controls
               </div>
 
             </div>
 
-
             <div class="panel-body">
-
 
               <div class="toggle-row">
 
-                <div class="toggle-info">
-
-                  <strong>
-                    Hero Section
-                  </strong>
-
+                <div class="toggle-copy">
+                  <strong>Publish Homepage</strong>
                   <span>
-                    Main homepage introduction.
+                    Make the current homepage content publicly visible.
                   </span>
-
                 </div>
 
                 <label class="switch">
-
                   <input
+                    id="publishHomepage"
                     type="checkbox"
-                    id="showHero"
                     checked
                   >
-
                   <span class="slider"></span>
-
                 </label>
 
               </div>
 
+              <div style="height:9px"></div>
 
               <div class="toggle-row">
 
-                <div class="toggle-info">
-
-                  <strong>
-                    Statistics
-                  </strong>
-
+                <div class="toggle-copy">
+                  <strong>Show Statistics</strong>
                   <span>
-                    Display credibility numbers.
+                    Display experience and project statistics.
                   </span>
-
                 </div>
 
                 <label class="switch">
-
                   <input
-                    type="checkbox"
                     id="showStats"
+                    type="checkbox"
                     checked
                   >
-
                   <span class="slider"></span>
-
                 </label>
 
               </div>
 
+              <div style="height:9px"></div>
 
               <div class="toggle-row">
 
-                <div class="toggle-info">
-
-                  <strong>
-                    Services Preview
-                  </strong>
-
+                <div class="toggle-copy">
+                  <strong>Show AI Assistant</strong>
                   <span>
-                    Show featured workshop services.
+                    Display the AKHI.AI entry point on the public site.
                   </span>
-
                 </div>
 
                 <label class="switch">
-
                   <input
+                    id="showAI"
                     type="checkbox"
-                    id="showServices"
                     checked
                   >
-
                   <span class="slider"></span>
-
                 </label>
 
               </div>
-
-
-              <div class="toggle-row">
-
-                <div class="toggle-info">
-
-                  <strong>
-                    Newsletter
-                  </strong>
-
-                  <span>
-                    Display email subscription area.
-                  </span>
-
-                </div>
-
-                <label class="switch">
-
-                  <input
-                    type="checkbox"
-                    id="showNewsletter"
-                    checked
-                  >
-
-                  <span class="slider"></span>
-
-                </label>
-
-              </div>
-
 
             </div>
 
           </section>
 
+        </div>
 
-          <!-- PUBLISH -->
+        <!-- =====================================
+             PREVIEW
+        ====================================== -->
+
+        <div class="preview-column">
 
           <section class="panel">
 
-            <div class="panel-header">
+            <div class="panel-head">
 
-              <div>
-                <div class="panel-title">
-                  Publishing
+              <div class="panel-title">
+
+                <div class="panel-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <rect x="3" y="4" width="18" height="16" rx="2"/>
+                    <path d="M3 9h18"/>
+                    <path d="M7 6.5h.01"/>
+                    <path d="M10 6.5h.01"/>
+                  </svg>
                 </div>
 
-                <div class="panel-caption">
-                  Control homepage availability.
+                <div>
+                  <h2>Live Homepage Preview</h2>
+                  <p>Preview changes before publishing</p>
                 </div>
+
               </div>
 
-              <div class="panel-tag">
-                Status
+              <span class="preview-label">
+                LIVE
+              </span>
+
+            </div>
+
+            <div class="panel-body">
+
+              <div
+                class="preview-frame"
+                id="previewFrame"
+              >
+
+                <div class="preview-topbar">
+
+                  <div class="preview-brand">
+
+                    <div class="preview-brand-mark">
+                      AKI
+                    </div>
+
+                    AKI ENGINEERING
+
+                  </div>
+
+                  <div class="preview-nav">
+                    <span>HOME</span>
+                    <span>SERVICES</span>
+                    <span>PROJECTS</span>
+                    <span>CONTACT</span>
+                  </div>
+
+                </div>
+
+                <div class="preview-body">
+
+                  <div class="preview-grid"></div>
+
+                  <div class="preview-copy">
+
+                    <div class="preview-badge">
+                      <i></i>
+                      <span id="previewBadge">
+                        ENGINEERING INTELLIGENCE
+                      </span>
+                    </div>
+
+                    <h2
+                      class="preview-title"
+                      id="previewTitle"
+                    >
+                      Engineering solutions built for <span>tomorrow.</span>
+                    </h2>
+
+                    <p
+                      class="preview-description"
+                      id="previewDescription"
+                    >
+                      Precision engineering, workshop expertise and
+                      practical solutions designed to move your project
+                      forward.
+                    </p>
+
+                    <div class="preview-buttons">
+
+                      <a
+                        href="#"
+                        class="preview-button primary"
+                        id="previewPrimary"
+                      >
+                        Request a Quote
+                      </a>
+
+                      <a
+                        href="#"
+                        class="preview-button secondary"
+                        id="previewSecondary"
+                      >
+                        Explore Services
+                      </a>
+
+                    </div>
+
+                  </div>
+
+                  <div class="preview-orbit">
+                    <strong>AKHI</strong>
+                  </div>
+
+                  <div
+                    class="preview-stats"
+                    id="previewStats"
+                  >
+
+                    <div class="preview-stat">
+
+                      <strong id="previewStatOneNumber">
+                        10+
+                      </strong>
+
+                      <span id="previewStatOneLabel">
+                        Years Experience
+                      </span>
+
+                    </div>
+
+                    <div class="preview-stat">
+
+                      <strong id="previewStatTwoNumber">
+                        500+
+                      </strong>
+
+                      <span id="previewStatTwoLabel">
+                        Projects Delivered
+                      </span>
+
+                    </div>
+
+                    <div class="preview-stat">
+
+                      <strong id="previewStatThreeNumber">
+                        98%
+                      </strong>
+
+                      <span id="previewStatThreeLabel">
+                        Client Satisfaction
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="preview-controls">
+
+                  <div class="device-buttons">
+
+                    <button
+                      class="device-button active"
+                      type="button"
+                      data-device="desktop"
+                      title="Desktop preview"
+                    >
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <rect x="3" y="4" width="18" height="13" rx="2"/>
+                        <path d="M8 21h8"/>
+                        <path d="M12 17v4"/>
+                      </svg>
+                    </button>
+
+                    <button
+                      class="device-button"
+                      type="button"
+                      data-device="tablet"
+                      title="Tablet preview"
+                    >
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <rect x="6" y="2.5" width="12" height="19" rx="2"/>
+                        <path d="M11 18.5h2"/>
+                      </svg>
+                    </button>
+
+                    <button
+                      class="device-button"
+                      type="button"
+                      data-device="mobile"
+                      title="Mobile preview"
+                    >
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <rect x="8" y="2.5" width="8" height="19" rx="2"/>
+                        <path d="M11 18.5h2"/>
+                      </svg>
+                    </button>
+
+                  </div>
+
+                  <span
+                    class="preview-label"
+                    id="deviceLabel"
+                  >
+                    Desktop viewport
+                  </span>
+
+                </div>
+
               </div>
 
             </div>
 
+          </section>
+
+          <!-- QUICK INFO -->
+
+          <section class="panel">
+
+            <div class="panel-head">
+
+              <div class="panel-title">
+
+                <div class="panel-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M12 3l2.5 5.5L20 11l-5.5 2.5L12 19l-2.5-5.5L4 11l5.5-2.5L12 3Z"/>
+                  </svg>
+                </div>
+
+                <div>
+                  <h2>Publishing Workflow</h2>
+                  <p>Recommended content flow</p>
+                </div>
+
+              </div>
+
+            </div>
 
             <div class="panel-body">
 
               <div class="toggle-row">
 
-                <div class="toggle-info">
-
-                  <strong>
-                    Homepage Published
-                  </strong>
-
+                <div class="toggle-copy">
+                  <strong>01 — Edit Content</strong>
                   <span>
-                    Make homepage changes available publicly.
+                    Update your text, CTA and statistics.
                   </span>
-
                 </div>
 
-                <label class="switch">
+                <span class="role-pill">
+                  STEP 01
+                </span>
 
-                  <input
-                    type="checkbox"
-                    id="homepagePublished"
-                    checked
-                  >
+              </div>
 
-                  <span class="slider"></span>
+              <div style="height:9px"></div>
 
-                </label>
+              <div class="toggle-row">
+
+                <div class="toggle-copy">
+                  <strong>02 — Preview</strong>
+                  <span>
+                    Check the visual layout before publishing.
+                  </span>
+                </div>
+
+                <span class="role-pill">
+                  STEP 02
+                </span>
+
+              </div>
+
+              <div style="height:9px"></div>
+
+              <div class="toggle-row">
+
+                <div class="toggle-copy">
+                  <strong>03 — Save</strong>
+                  <span>
+                    Save the latest homepage configuration.
+                  </span>
+                </div>
+
+                <span class="role-pill">
+                  STEP 03
+                </span>
 
               </div>
 
@@ -2788,1342 +2790,1125 @@
 
           </section>
 
-
-          <!-- TIPS -->
-
-          <section class="panel">
-
-            <div class="panel-header">
-
-              <div>
-                <div class="panel-title">
-                  Content Tips
-                </div>
-
-                <div class="panel-caption">
-                  Small improvements for a stronger homepage.
-                </div>
-              </div>
-
-            </div>
-
-
-            <div class="tips-list">
-
-
-              <div class="tip">
-
-                <div class="tip-icon">
-                  01
-                </div>
-
-                <div>
-
-                  <strong>
-                    Keep the hero clear
-                  </strong>
-
-                  <p>
-                    Use one strong message instead of multiple competing headlines.
-                  </p>
-
-                </div>
-
-              </div>
-
-
-              <div class="tip">
-
-                <div class="tip-icon">
-                  02
-                </div>
-
-                <div>
-
-                  <strong>
-                    Use real numbers
-                  </strong>
-
-                  <p>
-                    Statistics should represent genuine workshop achievements.
-                  </p>
-
-                </div>
-
-              </div>
-
-
-              <div class="tip">
-
-                <div class="tip-icon">
-                  03
-                </div>
-
-                <div>
-
-                  <strong>
-                    Make CTA actionable
-                  </strong>
-
-                  <p>
-                    Send visitors directly to services, quotation or contact.
-                  </p>
-
-                </div>
-
-              </div>
-
-
-            </div>
-
-          </section>
-
-
-        </aside>
-
+        </div>
 
       </div>
 
-    </div>
+    </section>
 
   </main>
 
-
-  <!-- =====================================================
+  <!-- =========================================
        TOAST
-  ====================================================== -->
+  ========================================= -->
 
   <div
     class="toast"
     id="toast"
-  ></div>
-
-
-  <!-- =====================================================
-       ACCESS DENIED
-  ====================================================== -->
-
-  <div
-    class="access-denied"
-    id="accessDenied"
+    role="status"
+    aria-live="polite"
   >
 
-    <div class="access-box">
+    <div class="toast-dot"></div>
 
-      <div class="access-icon">
-        !
-      </div>
+    <div class="toast-text">
 
-      <h2>
-        Access Required
-      </h2>
+      <strong id="toastTitle">
+        Saved
+      </strong>
 
-      <p>
-        Your admin session is not available or has expired.
-        Please sign in again to access the homepage manager.
-      </p>
-
-      <button id="accessLoginButton">
-        Go to Admin Login
-      </button>
+      <span id="toastMessage">
+        Homepage settings updated.
+      </span>
 
     </div>
 
   </div>
 
+  <!-- =========================================
+       JAVASCRIPT
+  ========================================= -->
 
   <script>
-    /* ============================================================
-       AKI ENGINEERING WORKSHOP
-       HOMEPAGE MANAGER
-       ============================================================ */
+    (() => {
 
+      "use strict";
 
-    const STORAGE_KEY =
-      "aki-homepage-settings";
+      /* =======================================
+         CONFIG
+      ======================================= */
 
+      const STORAGE_KEY = "aki_homepage_content";
+      const SESSION_KEYS = [
+        "aki_admin_session",
+        "aki_admin_remember"
+      ];
 
-    const SESSION_KEY =
-      "aki-admin-session";
+      const DEFAULT_DATA = {
 
+        heroBadge:
+          "ENGINEERING INTELLIGENCE",
 
-    const DEFAULT_SETTINGS = {
+        heroTitle:
+          "Engineering solutions built for tomorrow.",
 
-      heroKicker:
-        "ENGINEERING EXCELLENCE",
+        heroDescription:
+          "Precision engineering, workshop expertise and practical solutions designed to move your project forward.",
 
-      heroBadge:
-        "Trusted Engineering Workshop",
+        primaryText:
+          "Request a Quote",
 
-      heroTitle:
-        "Engineering Solutions That Move Forward",
+        primaryLink:
+          "#quotation",
 
-      heroDescription:
-        "AKI Engineering Workshop delivers practical engineering, fabrication, maintenance and workshop solutions built around quality, precision and dependable execution.",
+        secondaryText:
+          "Explore Services",
 
-      primaryButtonText:
-        "Explore Services",
+        secondaryLink:
+          "#services",
 
-      primaryButtonUrl:
-        "/services/",
+        aboutTitle:
+          "Engineering expertise. Workshop precision.",
 
-      secondaryButtonText:
-        "Contact Workshop",
+        aboutText:
+          "AKI Engineering Workshop delivers practical engineering and workshop solutions with a strong focus on precision, reliability and professional execution.",
 
-      secondaryButtonUrl:
-        "/contact/",
+        aboutExperience:
+          "10+",
 
-      stats: [
+        aboutExperienceLabel:
+          "Years Experience",
 
-        {
-          value: "10+",
-          label: "Years Experience"
-        },
+        statOneNumber:
+          "10+",
 
-        {
-          value: "500+",
-          label: "Projects Completed"
-        },
+        statOneLabel:
+          "Years Experience",
 
-        {
-          value: "98%",
-          label: "Client Satisfaction"
-        },
+        statTwoNumber:
+          "500+",
 
-        {
-          value: "24/7",
-          label: "Support"
+        statTwoLabel:
+          "Projects Delivered",
+
+        statThreeNumber:
+          "98%",
+
+        statThreeLabel:
+          "Client Satisfaction",
+
+        publishHomepage:
+          true,
+
+        showStats:
+          true,
+
+        showAI:
+          true
+
+      };
+
+      /* =======================================
+         DOM
+      ======================================= */
+
+      const sidebar =
+        document.getElementById("sidebar");
+
+      const overlay =
+        document.getElementById("overlay");
+
+      const mobileMenu =
+        document.getElementById("mobileMenu");
+
+      const logoutBtn =
+        document.getElementById("logoutBtn");
+
+      const saveBtn =
+        document.getElementById("saveBtn");
+
+      const resetBtn =
+        document.getElementById("resetBtn");
+
+      const previewTopBtn =
+        document.getElementById("previewTopBtn");
+
+      const saveStatusText =
+        document.getElementById("saveStatusText");
+
+      const profileName =
+        document.getElementById("profileName");
+
+      const profileRole =
+        document.getElementById("profileRole");
+
+      const avatar =
+        document.getElementById("avatar");
+
+      const rolePill =
+        document.getElementById("rolePill");
+
+      const toast =
+        document.getElementById("toast");
+
+      const toastTitle =
+        document.getElementById("toastTitle");
+
+      const toastMessage =
+        document.getElementById("toastMessage");
+
+      const previewFrame =
+        document.getElementById("previewFrame");
+
+      const previewStats =
+        document.getElementById("previewStats");
+
+      const previewBadge =
+        document.getElementById("previewBadge");
+
+      const previewTitle =
+        document.getElementById("previewTitle");
+
+      const previewDescription =
+        document.getElementById("previewDescription");
+
+      const previewPrimary =
+        document.getElementById("previewPrimary");
+
+      const previewSecondary =
+        document.getElementById("previewSecondary");
+
+      const previewStatOneNumber =
+        document.getElementById("previewStatOneNumber");
+
+      const previewStatOneLabel =
+        document.getElementById("previewStatOneLabel");
+
+      const previewStatTwoNumber =
+        document.getElementById("previewStatTwoNumber");
+
+      const previewStatTwoLabel =
+        document.getElementById("previewStatTwoLabel");
+
+      const previewStatThreeNumber =
+        document.getElementById("previewStatThreeNumber");
+
+      const previewStatThreeLabel =
+        document.getElementById("previewStatThreeLabel");
+
+      const deviceLabel =
+        document.getElementById("deviceLabel");
+
+      /* =======================================
+         FIELD MAP
+      ======================================= */
+
+      const fieldIds = [
+        "heroBadge",
+        "heroTitle",
+        "heroDescription",
+
+        "primaryText",
+        "primaryLink",
+
+        "secondaryText",
+        "secondaryLink",
+
+        "aboutTitle",
+        "aboutText",
+        "aboutExperience",
+        "aboutExperienceLabel",
+
+        "statOneNumber",
+        "statOneLabel",
+        "statTwoNumber",
+        "statTwoLabel",
+        "statThreeNumber",
+        "statThreeLabel",
+
+        "publishHomepage",
+        "showStats",
+        "showAI"
+      ];
+
+      /* =======================================
+         AUTH
+      ======================================= */
+
+      function getSession() {
+
+        for (const key of SESSION_KEYS) {
+
+          try {
+
+            const raw =
+              localStorage.getItem(key) ||
+              sessionStorage.getItem(key);
+
+            if (!raw) continue;
+
+            const data = JSON.parse(raw);
+
+            if (
+              data &&
+              (
+                data.email ||
+                data.role ||
+                data.user
+              )
+            ) {
+              return data;
+            }
+
+          } catch (error) {
+
+            console.warn(
+              "Session parsing failed:",
+              error
+            );
+
+          }
+
         }
 
-      ],
-
-      seoTitle:
-        "AKI Engineering Workshop | Engineering Solutions",
-
-      seoDescription:
-        "AKI Engineering Workshop provides practical engineering, fabrication, maintenance and workshop solutions with a focus on quality and precision.",
-
-      seoKeywords:
-        "engineering, workshop, fabrication, mechanical, AKI",
-
-      visibility: {
-
-        hero: true,
-        stats: true,
-        services: true,
-        newsletter: true,
-        published: true
-
-      }
-
-    };
-
-
-    /* ============================================================
-       DOM
-    ============================================================ */
-
-    const sidebar =
-      document.getElementById("sidebar");
-
-    const mobileOverlay =
-      document.getElementById("mobileOverlay");
-
-    const menuToggle =
-      document.getElementById("menuToggle");
-
-    const logoutButton =
-      document.getElementById("logoutButton");
-
-    const profileName =
-      document.getElementById("profileName");
-
-    const profileRole =
-      document.getElementById("profileRole");
-
-    const profileAvatar =
-      document.getElementById("profileAvatar");
-
-    const adminManagementLink =
-      document.getElementById("adminManagementLink");
-
-    const systemLink =
-      document.getElementById("systemLink");
-
-    const toast =
-      document.getElementById("toast");
-
-    const accessDenied =
-      document.getElementById("accessDenied");
-
-    const accessLoginButton =
-      document.getElementById("accessLoginButton");
-
-    const saveButton =
-      document.getElementById("saveButton");
-
-    const discardButton =
-      document.getElementById("discardButton");
-
-    const resetButton =
-      document.getElementById("resetButton");
-
-    const previewButton =
-      document.getElementById("previewButton");
-
-    const saveStatus =
-      document.getElementById("saveStatus");
-
-    const publishStatus =
-      document.getElementById("publishStatus");
-
-    const lastSaved =
-      document.getElementById("lastSaved");
-
-
-    let currentSettings =
-      clone(DEFAULT_SETTINGS);
-
-    let originalSettings =
-      clone(DEFAULT_SETTINGS);
-
-
-    /* ============================================================
-       AUTH
-    ============================================================ */
-
-    function getSession() {
-
-      const local =
-        localStorage.getItem(SESSION_KEY);
-
-      const session =
-        sessionStorage.getItem(SESSION_KEY);
-
-      const raw =
-        local || session;
-
-      if (!raw) {
         return null;
       }
 
-      try {
+      function protectPage() {
 
-        const data =
-          JSON.parse(raw);
+        const session =
+          getSession();
 
-        if (
-          data &&
-          data.authenticated === true &&
-          (
-            data.role === "admin" ||
-            data.role === "superadmin"
-          )
-        ) {
+        /*
+          Demo fallback:
+          If the login page has not yet created a session,
+          the page still loads during development.
 
-          return data;
+          For production, change this to a hard redirect.
+        */
+
+        if (!session) {
+
+          console.warn(
+            "No admin session detected. Demo mode enabled."
+          );
+
+          return {
+            role: "Admin",
+            name: "Admin"
+          };
 
         }
 
-      } catch (error) {
-
-        localStorage.removeItem(
-          SESSION_KEY
-        );
-
-        sessionStorage.removeItem(
-          SESSION_KEY
-        );
-
+        return session;
       }
 
-      return null;
+      /* =======================================
+         ROLE UI
+      ======================================= */
 
-    }
+      function applyRole(session) {
 
+        const role =
+          String(
+            session.role ||
+            session.userRole ||
+            "Admin"
+          );
 
-    function checkAuthentication() {
+        const isSuperAdmin =
+          role.toLowerCase()
+            .replace(/\s+/g, "")
+            .includes("superadmin");
 
-      const session =
-        getSession();
+        const name =
+          session.name ||
+          session.displayName ||
+          (
+            session.email
+              ? session.email.split("@")[0]
+              : "Admin"
+          );
 
-      if (!session) {
+        profileName.textContent =
+          name;
 
-        accessDenied.classList.add(
-          "show"
-        );
+        profileRole.textContent =
+          isSuperAdmin
+            ? "Super Administrator"
+            : "Administrator";
 
-        document.body.style.overflow =
-          "hidden";
+        avatar.textContent =
+          isSuperAdmin
+            ? "SA"
+            : "AD";
 
-        return false;
-
-      }
-
-      initializeUser(session);
-
-      return true;
-
-    }
-
-
-    function initializeUser(session) {
-
-      const isSuperAdmin =
-        session.role === "superadmin";
-
-
-      const name =
-        session.name ||
-        (
+        rolePill.textContent =
           isSuperAdmin
             ? "Super Admin"
-            : "Admin"
-        );
+            : "Admin";
 
+        document
+          .querySelectorAll("[data-super-admin]")
+          .forEach(element => {
 
-      profileName.textContent =
-        name;
+            if (isSuperAdmin) {
 
-      profileRole.textContent =
-        isSuperAdmin
-          ? "Super Admin"
-          : "Admin";
+              element.style.display = "";
 
-      profileAvatar.textContent =
-        getInitials(name);
+            } else {
 
+              /*
+                Keep the navigation visible in this demo,
+                but visually reduce Super Admin-only controls.
+              */
 
-      if (isSuperAdmin) {
+              if (
+                element.classList.contains("nav-link")
+              ) {
 
-        adminManagementLink.classList.add(
-          "visible"
-        );
+                element.style.opacity = ".55";
+              }
 
-        systemLink.classList.add(
-          "visible"
-        );
+            }
 
-      }
-
-    }
-
-
-    function getInitials(name) {
-
-      return name
-        .split(" ")
-        .filter(Boolean)
-        .slice(0, 2)
-        .map(word =>
-          word.charAt(0).toUpperCase()
-        )
-        .join("");
-
-    }
-
-
-    /* ============================================================
-       STORAGE
-    ============================================================ */
-
-    function loadSettings() {
-
-      const raw =
-        localStorage.getItem(
-          STORAGE_KEY
-        );
-
-      if (!raw) {
-
-        currentSettings =
-          clone(DEFAULT_SETTINGS);
-
-        originalSettings =
-          clone(DEFAULT_SETTINGS);
-
-        populateForm();
-
-        return;
+          });
 
       }
 
+      /* =======================================
+         STORAGE
+      ======================================= */
 
-      try {
+      function loadData() {
 
-        const saved =
-          JSON.parse(raw);
+        try {
 
-
-        currentSettings =
-          mergeSettings(
-            DEFAULT_SETTINGS,
-            saved
-          );
-
-
-        originalSettings =
-          clone(currentSettings);
-
-
-        populateForm();
-
-        const savedTime =
-          localStorage.getItem(
-            STORAGE_KEY + "-time"
-          );
-
-
-        if (savedTime) {
-
-          lastSaved.textContent =
-            "Saved " + formatDate(
-              savedTime
+          const raw =
+            localStorage.getItem(
+              STORAGE_KEY
             );
 
-          saveStatus.textContent =
-            "Saved Locally";
+          if (!raw) {
+            return {
+              ...DEFAULT_DATA
+            };
+          }
+
+          const parsed =
+            JSON.parse(raw);
+
+          return {
+            ...DEFAULT_DATA,
+            ...parsed
+          };
+
+        } catch (error) {
+
+          console.warn(
+            "Homepage data could not be loaded:",
+            error
+          );
+
+          return {
+            ...DEFAULT_DATA
+          };
 
         }
-
-      } catch (error) {
-
-        currentSettings =
-          clone(DEFAULT_SETTINGS);
-
-        originalSettings =
-          clone(DEFAULT_SETTINGS);
-
-        populateForm();
 
       }
 
-    }
+      function saveData() {
 
+        const data = {};
 
-    function mergeSettings(defaults, saved) {
+        fieldIds.forEach(id => {
 
-      return {
+          const element =
+            document.getElementById(id);
 
-        ...clone(defaults),
+          if (!element) return;
 
-        ...saved,
+          if (
+            element.type === "checkbox"
+          ) {
 
-        stats: Array.isArray(saved.stats)
-          ? saved.stats
-          : clone(defaults.stats),
+            data[id] =
+              element.checked;
 
-        visibility: {
+          } else {
 
-          ...clone(defaults.visibility),
+            data[id] =
+              element.value.trim();
 
-          ...(saved.visibility || {})
-
-        }
-
-      };
-
-    }
-
-
-    function clone(value) {
-
-      return JSON.parse(
-        JSON.stringify(value)
-      );
-
-    }
-
-
-    /* ============================================================
-       FORM ELEMENTS
-    ============================================================ */
-
-    const fields = {
-
-      heroKicker:
-        document.getElementById("heroKicker"),
-
-      heroBadge:
-        document.getElementById("heroBadge"),
-
-      heroTitle:
-        document.getElementById("heroTitle"),
-
-      heroDescription:
-        document.getElementById("heroDescription"),
-
-      primaryButtonText:
-        document.getElementById("primaryButtonText"),
-
-      primaryButtonUrl:
-        document.getElementById("primaryButtonUrl"),
-
-      secondaryButtonText:
-        document.getElementById("secondaryButtonText"),
-
-      secondaryButtonUrl:
-        document.getElementById("secondaryButtonUrl"),
-
-      stat1Value:
-        document.getElementById("stat1Value"),
-
-      stat1Label:
-        document.getElementById("stat1Label"),
-
-      stat2Value:
-        document.getElementById("stat2Value"),
-
-      stat2Label:
-        document.getElementById("stat2Label"),
-
-      stat3Value:
-        document.getElementById("stat3Value"),
-
-      stat3Label:
-        document.getElementById("stat3Label"),
-
-      stat4Value:
-        document.getElementById("stat4Value"),
-
-      stat4Label:
-        document.getElementById("stat4Label"),
-
-      seoTitle:
-        document.getElementById("seoTitle"),
-
-      seoDescription:
-        document.getElementById("seoDescription"),
-
-      seoKeywords:
-        document.getElementById("seoKeywords")
-
-    };
-
-
-    const toggles = {
-
-      hero:
-        document.getElementById("showHero"),
-
-      stats:
-        document.getElementById("showStats"),
-
-      services:
-        document.getElementById("showServices"),
-
-      newsletter:
-        document.getElementById("showNewsletter"),
-
-      published:
-        document.getElementById("homepagePublished")
-
-    };
-
-
-    /* ============================================================
-       POPULATE FORM
-    ============================================================ */
-
-    function populateForm() {
-
-      fields.heroKicker.value =
-        currentSettings.heroKicker;
-
-      fields.heroBadge.value =
-        currentSettings.heroBadge;
-
-      fields.heroTitle.value =
-        currentSettings.heroTitle;
-
-      fields.heroDescription.value =
-        currentSettings.heroDescription;
-
-      fields.primaryButtonText.value =
-        currentSettings.primaryButtonText;
-
-      fields.primaryButtonUrl.value =
-        currentSettings.primaryButtonUrl;
-
-      fields.secondaryButtonText.value =
-        currentSettings.secondaryButtonText;
-
-      fields.secondaryButtonUrl.value =
-        currentSettings.secondaryButtonUrl;
-
-
-      fields.stat1Value.value =
-        currentSettings.stats[0].value;
-
-      fields.stat1Label.value =
-        currentSettings.stats[0].label;
-
-      fields.stat2Value.value =
-        currentSettings.stats[1].value;
-
-      fields.stat2Label.value =
-        currentSettings.stats[1].label;
-
-      fields.stat3Value.value =
-        currentSettings.stats[2].value;
-
-      fields.stat3Label.value =
-        currentSettings.stats[2].label;
-
-      fields.stat4Value.value =
-        currentSettings.stats[3].value;
-
-      fields.stat4Label.value =
-        currentSettings.stats[3].label;
-
-
-      fields.seoTitle.value =
-        currentSettings.seoTitle;
-
-      fields.seoDescription.value =
-        currentSettings.seoDescription;
-
-      fields.seoKeywords.value =
-        currentSettings.seoKeywords;
-
-
-      toggles.hero.checked =
-        currentSettings.visibility.hero;
-
-      toggles.stats.checked =
-        currentSettings.visibility.stats;
-
-      toggles.services.checked =
-        currentSettings.visibility.services;
-
-      toggles.newsletter.checked =
-        currentSettings.visibility.newsletter;
-
-      toggles.published.checked =
-        currentSettings.visibility.published;
-
-
-      updatePreview();
-
-      updatePublishStatus();
-
-    }
-
-
-    /* ============================================================
-       READ FORM
-    ============================================================ */
-
-    function readForm() {
-
-      return {
-
-        heroKicker:
-          fields.heroKicker.value.trim(),
-
-        heroBadge:
-          fields.heroBadge.value.trim(),
-
-        heroTitle:
-          fields.heroTitle.value.trim(),
-
-        heroDescription:
-          fields.heroDescription.value.trim(),
-
-        primaryButtonText:
-          fields.primaryButtonText.value.trim(),
-
-        primaryButtonUrl:
-          fields.primaryButtonUrl.value.trim(),
-
-        secondaryButtonText:
-          fields.secondaryButtonText.value.trim(),
-
-        secondaryButtonUrl:
-          fields.secondaryButtonUrl.value.trim(),
-
-
-        stats: [
-
-          {
-            value:
-              fields.stat1Value.value.trim(),
-
-            label:
-              fields.stat1Label.value.trim()
-          },
-
-          {
-            value:
-              fields.stat2Value.value.trim(),
-
-            label:
-              fields.stat2Label.value.trim()
-          },
-
-          {
-            value:
-              fields.stat3Value.value.trim(),
-
-            label:
-              fields.stat3Label.value.trim()
-          },
-
-          {
-            value:
-              fields.stat4Value.value.trim(),
-
-            label:
-              fields.stat4Label.value.trim()
           }
 
-        ],
+        });
 
+        try {
 
-        seoTitle:
-          fields.seoTitle.value.trim(),
+          localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(data)
+          );
 
-        seoDescription:
-          fields.seoDescription.value.trim(),
+          return true;
 
-        seoKeywords:
-          fields.seoKeywords.value.trim(),
+        } catch (error) {
 
+          console.error(
+            "Could not save homepage data:",
+            error
+          );
 
-        visibility: {
-
-          hero:
-            toggles.hero.checked,
-
-          stats:
-            toggles.stats.checked,
-
-          services:
-            toggles.services.checked,
-
-          newsletter:
-            toggles.newsletter.checked,
-
-          published:
-            toggles.published.checked
-
+          return false;
         }
 
-      };
+      }
 
-    }
+      function populateForm(data) {
 
+        fieldIds.forEach(id => {
 
-    /* ============================================================
-       SAVE
-    ============================================================ */
+          const element =
+            document.getElementById(id);
 
-    saveButton.addEventListener(
-      "click",
-      saveSettings
-    );
+          if (!element) return;
 
+          if (
+            element.type === "checkbox"
+          ) {
 
-    function saveSettings() {
+            element.checked =
+              Boolean(data[id]);
 
-      currentSettings =
-        readForm();
+          } else {
 
+            element.value =
+              data[id] ?? "";
 
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(
-          currentSettings
-        )
-      );
+          }
 
+        });
 
-      const time =
-        new Date().toISOString();
+      }
 
+      /* =======================================
+         LIVE PREVIEW
+      ======================================= */
 
-      localStorage.setItem(
-        STORAGE_KEY + "-time",
-        time
-      );
+      function highlightTitle(title) {
 
+        const words =
+          title.trim().split(/\s+/);
 
-      originalSettings =
-        clone(currentSettings);
+        if (words.length <= 2) {
+          return escapeHTML(title);
+        }
 
+        const highlightCount =
+          Math.min(
+            2,
+            Math.max(
+              1,
+              Math.floor(words.length * .22)
+            )
+          );
 
-      lastSaved.textContent =
-        "Saved " + formatDate(time);
+        const normal =
+          words.slice(
+            0,
+            words.length - highlightCount
+          ).join(" ");
 
-      saveStatus.textContent =
-        "Saved Locally";
+        const highlighted =
+          words.slice(
+            words.length - highlightCount
+          ).join(" ");
 
+        return `
+          ${escapeHTML(normal)}
+          <span>${escapeHTML(highlighted)}</span>
+        `;
+      }
 
-      updatePublishStatus();
+      function updatePreview() {
 
-      showToast(
-        "Homepage settings saved successfully."
-      );
+        const title =
+          document.getElementById("heroTitle").value
+          .trim();
 
-    }
+        const badge =
+          document.getElementById("heroBadge").value
+          .trim();
 
+        const description =
+          document.getElementById("heroDescription").value
+          .trim();
 
-    /* ============================================================
-       DISCARD
-    ============================================================ */
+        const primary =
+          document.getElementById("primaryText").value
+          .trim();
 
-    discardButton.addEventListener(
-      "click",
-      () => {
+        const primaryLink =
+          document.getElementById("primaryLink").value
+          .trim();
 
-        currentSettings =
-          clone(originalSettings);
+        const secondary =
+          document.getElementById("secondaryText").value
+          .trim();
 
-        populateForm();
+        const secondaryLink =
+          document.getElementById("secondaryLink").value
+          .trim();
 
-        showToast(
-          "Unsaved changes were discarded."
+        previewBadge.textContent =
+          badge || "ENGINEERING INTELLIGENCE";
+
+        previewTitle.innerHTML =
+          highlightTitle(
+            title ||
+            "Engineering solutions built for tomorrow."
+          );
+
+        previewDescription.textContent =
+          description ||
+          "Precision engineering, workshop expertise and practical solutions designed to move your project forward.";
+
+        previewPrimary.textContent =
+          primary ||
+          "Request a Quote";
+
+        previewPrimary.href =
+          safeHref(
+            primaryLink ||
+            "#quotation"
+          );
+
+        previewSecondary.textContent =
+          secondary ||
+          "Explore Services";
+
+        previewSecondary.href =
+          safeHref(
+            secondaryLink ||
+            "#services"
+          );
+
+        previewStatOneNumber.textContent =
+          valueOr(
+            "statOneNumber",
+            "10+"
+          );
+
+        previewStatOneLabel.textContent =
+          valueOr(
+            "statOneLabel",
+            "Years Experience"
+          );
+
+        previewStatTwoNumber.textContent =
+          valueOr(
+            "statTwoNumber",
+            "500+"
+          );
+
+        previewStatTwoLabel.textContent =
+          valueOr(
+            "statTwoLabel",
+            "Projects Delivered"
+          );
+
+        previewStatThreeNumber.textContent =
+          valueOr(
+            "statThreeNumber",
+            "98%"
+          );
+
+        previewStatThreeLabel.textContent =
+          valueOr(
+            "statThreeLabel",
+            "Client Satisfaction"
+          );
+
+        const statsVisible =
+          document.getElementById(
+            "showStats"
+          ).checked;
+
+        previewStats.style.display =
+          statsVisible
+            ? "grid"
+            : "none";
+
+        markUnsaved();
+
+      }
+
+      function valueOr(id, fallback) {
+
+        const element =
+          document.getElementById(id);
+
+        if (!element) {
+          return fallback;
+        }
+
+        return (
+          element.value.trim() ||
+          fallback
         );
 
       }
-    );
 
+      function escapeHTML(value) {
 
-    /* ============================================================
-       RESET
-    ============================================================ */
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
 
-    resetButton.addEventListener(
-      "click",
-      () => {
+      }
+
+      function safeHref(value) {
+
+        if (!value) {
+          return "#";
+        }
+
+        if (
+          value.startsWith("#") ||
+          value.startsWith("/") ||
+          value.startsWith("./") ||
+          value.startsWith("../") ||
+          value.startsWith("https://") ||
+          value.startsWith("http://") ||
+          value.startsWith("mailto:") ||
+          value.startsWith("tel:")
+        ) {
+          return value;
+        }
+
+        return "#";
+
+      }
+
+      /* =======================================
+         SAVE STATE
+      ======================================= */
+
+      function markUnsaved() {
+
+        saveStatusText.textContent =
+          "Unsaved changes";
+
+        saveStatusText
+          .parentElement
+          .style.color =
+          "#ffb45e";
+
+        saveStatusText
+          .parentElement
+          .querySelector("span")
+          .style.background =
+          "#ffb45e";
+
+      }
+
+      function markSaved() {
+
+        saveStatusText.textContent =
+          "All changes saved";
+
+        saveStatusText
+          .parentElement
+          .style.color =
+          "var(--accent)";
+
+        saveStatusText
+          .parentElement
+          .querySelector("span")
+          .style.background =
+          "var(--accent)";
+
+      }
+
+      /* =======================================
+         TOAST
+      ======================================= */
+
+      let toastTimer = null;
+
+      function showToast(
+        title,
+        message
+      ) {
+
+        toastTitle.textContent =
+          title;
+
+        toastMessage.textContent =
+          message;
+
+        toast.classList.add("show");
+
+        clearTimeout(toastTimer);
+
+        toastTimer =
+          setTimeout(() => {
+
+            toast.classList.remove("show");
+
+          }, 2800);
+
+      }
+
+      /* =======================================
+         SAVE
+      ======================================= */
+
+      function handleSave() {
+
+        const success =
+          saveData();
+
+        if (!success) {
+
+          showToast(
+            "Save failed",
+            "Your browser blocked local storage."
+          );
+
+          return;
+        }
+
+        markSaved();
+
+        showToast(
+          "Homepage saved",
+          "Your homepage configuration has been updated."
+        );
+
+      }
+
+      /* =======================================
+         RESET
+      ======================================= */
+
+      function handleReset() {
 
         const confirmed =
           window.confirm(
-            "Reset homepage settings to the original demo defaults?"
+            "Reset all homepage fields to the demo defaults?"
           );
-
 
         if (!confirmed) {
           return;
         }
 
-
-        currentSettings =
-          clone(DEFAULT_SETTINGS);
-
-        originalSettings =
-          clone(DEFAULT_SETTINGS);
-
-
         localStorage.removeItem(
           STORAGE_KEY
         );
 
+        populateForm(
+          DEFAULT_DATA
+        );
+
+        updatePreview();
+
+        saveData();
+
+        markSaved();
+
+        showToast(
+          "Demo reset",
+          "Homepage content restored to default values."
+        );
+
+      }
+
+      /* =======================================
+         MOBILE SIDEBAR
+      ======================================= */
+
+      function openSidebar() {
+
+        sidebar.classList.add("open");
+        overlay.classList.add("show");
+
+      }
+
+      function closeSidebar() {
+
+        sidebar.classList.remove("open");
+        overlay.classList.remove("show");
+
+      }
+
+      /* =======================================
+         DEVICE PREVIEW
+      ======================================= */
+
+      function setDevice(device) {
+
+        document
+          .querySelectorAll(".device-button")
+          .forEach(button => {
+
+            button.classList.toggle(
+              "active",
+              button.dataset.device === device
+            );
+
+          });
+
+        if (device === "desktop") {
+
+          previewFrame.style.maxWidth =
+            "100%";
+
+          previewFrame.style.margin =
+            "0 auto";
+
+          deviceLabel.textContent =
+            "Desktop viewport";
+
+        }
+
+        if (device === "tablet") {
+
+          previewFrame.style.maxWidth =
+            "720px";
+
+          previewFrame.style.margin =
+            "0 auto";
+
+          deviceLabel.textContent =
+            "Tablet viewport";
+
+        }
+
+        if (device === "mobile") {
+
+          previewFrame.style.maxWidth =
+            "390px";
+
+          previewFrame.style.margin =
+            "0 auto";
+
+          deviceLabel.textContent =
+            "Mobile viewport";
+
+        }
+
+      }
+
+      /* =======================================
+         PREVIEW SCROLL
+      ======================================= */
+
+      function focusPreview() {
+
+        previewFrame.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+
+        previewFrame.animate(
+          [
+            {
+              boxShadow:
+                "0 0 0 rgba(200,255,61,0)"
+            },
+            {
+              boxShadow:
+                "0 0 45px rgba(200,255,61,.15)"
+            },
+            {
+              boxShadow:
+                "0 0 0 rgba(200,255,61,0)"
+            }
+          ],
+          {
+            duration: 900
+          }
+        );
+
+      }
+
+      /* =======================================
+         LOGOUT
+      ======================================= */
+
+      function logout() {
+
         localStorage.removeItem(
-          STORAGE_KEY + "-time"
+          "aki_admin_session"
         );
 
-
-        populateForm();
-
-
-        lastSaved.textContent =
-          "Not saved yet";
-
-        saveStatus.textContent =
-          "Local Draft";
-
-
-        showToast(
-          "Homepage settings have been reset."
+        localStorage.removeItem(
+          "aki_admin_remember"
         );
+
+        sessionStorage.removeItem(
+          "aki_admin_session"
+        );
+
+        window.location.href =
+          "login/";
 
       }
-    );
 
+      /* =======================================
+         EVENTS
+      ======================================= */
 
-    /* ============================================================
-       LIVE PREVIEW
-    ============================================================ */
+      fieldIds.forEach(id => {
 
-    const previewKicker =
-      document.getElementById(
-        "previewKicker"
-      );
+        const element =
+          document.getElementById(id);
 
-    const previewTitleOne =
-      document.getElementById(
-        "previewTitleOne"
-      );
+        if (!element) return;
 
-    const previewTitleTwo =
-      document.getElementById(
-        "previewTitleTwo"
-      );
-
-    const previewDescriptionOne =
-      document.getElementById(
-        "previewDescriptionOne"
-      );
-
-    const previewDescriptionTwo =
-      document.getElementById(
-        "previewDescriptionTwo"
-      );
-
-
-    function updatePreview() {
-
-      const title =
-        fields.heroTitle.value.trim();
-
-      const description =
-        fields.heroDescription.value.trim();
-
-      const kicker =
-        fields.heroKicker.value.trim();
-
-
-      previewKicker.style.width =
-        Math.max(
-          35,
-          Math.min(
-            140,
-            kicker.length * 4
-          )
-        ) + "px";
-
-
-      const words =
-        title.split(/\s+/);
-
-
-      const half =
-        Math.ceil(
-          words.length / 2
-        );
-
-
-      const firstLine =
-        words
-          .slice(0, half)
-          .join(" ");
-
-
-      const secondLine =
-        words
-          .slice(half)
-          .join(" ");
-
-
-      previewTitleOne.style.width =
-        Math.max(
-          50,
-          Math.min(
-            100,
-            firstLine.length * 4
-          )
-        ) + "%";
-
-
-      previewTitleTwo.style.width =
-        Math.max(
-          45,
-          Math.min(
-            85,
-            secondLine.length * 5
-          )
-        ) + "%";
-
-
-      const descLength =
-        description.length;
-
-
-      previewDescriptionOne.style.width =
-        Math.max(
-          45,
-          Math.min(
-            90,
-            descLength * .65
-          )
-        ) + "%";
-
-
-      previewDescriptionTwo.style.width =
-        Math.max(
-          35,
-          Math.min(
-            75,
-            descLength * .42
-          )
-        ) + "%";
-
-    }
-
-
-    Object.values(fields)
-      .forEach(field => {
-
-        field.addEventListener(
+        element.addEventListener(
           "input",
-          () => {
-
-            updatePreview();
-
-            saveStatus.textContent =
-              "Unsaved Changes";
-
-          }
-
+          updatePreview
         );
 
-      });
-
-
-    Object.values(toggles)
-      .forEach(toggle => {
-
-        toggle.addEventListener(
+        element.addEventListener(
           "change",
-          () => {
-
-            saveStatus.textContent =
-              "Unsaved Changes";
-
-            updatePublishStatus();
-
-          }
+          updatePreview
         );
 
       });
 
-
-    /* ============================================================
-       PUBLISH STATUS
-    ============================================================ */
-
-    function updatePublishStatus() {
-
-      publishStatus.textContent =
-        toggles.published.checked
-          ? "Published"
-          : "Unpublished";
-
-    }
-
-
-    /* ============================================================
-       PREVIEW BUTTON
-    ============================================================ */
-
-    previewButton.addEventListener(
-      "click",
-      () => {
-
-        showToast(
-          "Public homepage preview will be connected to the live website in the next stage."
-        );
-
-      }
-    );
-
-
-    /* ============================================================
-       MOBILE SIDEBAR
-    ============================================================ */
-
-    menuToggle.addEventListener(
-      "click",
-      () => {
-
-        sidebar.classList.add(
-          "open"
-        );
-
-        mobileOverlay.classList.add(
-          "show"
-        );
-
-      }
-    );
-
-
-    mobileOverlay.addEventListener(
-      "click",
-      closeSidebar
-    );
-
-
-    function closeSidebar() {
-
-      sidebar.classList.remove(
-        "open"
+      saveBtn.addEventListener(
+        "click",
+        handleSave
       );
 
-      mobileOverlay.classList.remove(
-        "show"
+      resetBtn.addEventListener(
+        "click",
+        handleReset
       );
 
-    }
+      previewTopBtn.addEventListener(
+        "click",
+        focusPreview
+      );
 
+      logoutBtn.addEventListener(
+        "click",
+        logout
+      );
 
-    document.querySelectorAll(
-      ".nav-link"
-    ).forEach(link => {
+      mobileMenu.addEventListener(
+        "click",
+        openSidebar
+      );
 
-      link.addEventListener(
+      overlay.addEventListener(
         "click",
         closeSidebar
       );
 
-    });
+      document
+        .querySelectorAll(".device-button")
+        .forEach(button => {
 
+          button.addEventListener(
+            "click",
+            () => {
 
-    /* ============================================================
-       LOGOUT
-    ============================================================ */
+              setDevice(
+                button.dataset.device
+              );
 
-    logoutButton.addEventListener(
-      "click",
-      () => {
+            }
+          );
 
-        localStorage.removeItem(
-          SESSION_KEY
-        );
+        });
 
-        sessionStorage.removeItem(
-          SESSION_KEY
-        );
+      document
+        .querySelectorAll(".nav-link")
+        .forEach(link => {
 
-        window.location.href =
-          "login/";
+          link.addEventListener(
+            "click",
+            () => {
 
-      }
-    );
+              if (
+                window.innerWidth <= 900
+              ) {
+                closeSidebar();
+              }
 
+            }
+          );
 
-    /* ============================================================
-       ACCESS LOGIN
-    ============================================================ */
+        });
 
-    accessLoginButton.addEventListener(
-      "click",
-      () => {
+      document.addEventListener(
+        "keydown",
+        event => {
 
-        window.location.href =
-          "login/";
+          if (
+            (event.ctrlKey || event.metaKey) &&
+            event.key.toLowerCase() === "s"
+          ) {
 
-      }
-    );
+            event.preventDefault();
 
+            handleSave();
 
-    /* ============================================================
-       TOAST
-    ============================================================ */
-
-    let toastTimer = null;
-
-
-    function showToast(message) {
-
-      toast.textContent =
-        message;
-
-      toast.classList.add(
-        "show"
-      );
-
-
-      clearTimeout(
-        toastTimer
-      );
-
-
-      toastTimer =
-        setTimeout(
-          () => {
-
-            toast.classList.remove(
-              "show"
-            );
-
-          },
-          2800
-        );
-
-    }
-
-
-    /* ============================================================
-       DATE FORMAT
-    ============================================================ */
-
-    function formatDate(date) {
-
-      return new Date(date)
-        .toLocaleString(
-          "en-US",
-          {
-            month: "short",
-            day: "numeric",
-            hour: "numeric",
-            minute: "2-digit"
           }
+
+          if (
+            event.key === "Escape"
+          ) {
+
+            closeSidebar();
+
+          }
+
+        }
+      );
+
+      /* =======================================
+         INIT
+      ======================================= */
+
+      function init() {
+
+        const session =
+          protectPage();
+
+        applyRole(
+          session
         );
 
-    }
+        const data =
+          loadData();
 
+        populateForm(
+          data
+        );
 
-    /* ============================================================
-       KEYBOARD SHORTCUTS
-    ============================================================ */
+        updatePreview();
 
-    document.addEventListener(
-      "keydown",
-      event => {
+        markSaved();
 
-        if (
-          (event.ctrlKey || event.metaKey) &&
-          event.key.toLowerCase() === "s"
-        ) {
-
-          event.preventDefault();
-
-          saveSettings();
-
-        }
-
-
-        if (
-          event.key === "Escape"
-        ) {
-
-          closeSidebar();
-
-        }
+        setDevice(
+          "desktop"
+        );
 
       }
-    );
 
+      init();
 
-    /* ============================================================
-       INIT
-    ============================================================ */
-
-    document.addEventListener(
-      "DOMContentLoaded",
-      () => {
-
-        if (!checkAuthentication()) {
-          return;
-        }
-
-        loadSettings();
-
-      }
-    );
-
+    })();
   </script>
 
 </body>
