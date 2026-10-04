@@ -1,0 +1,3648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Backup & Restore — AKHI Admin</title>
+  <meta name="description" content="AKHI Engineering Workshop Admin Backup and Restore">
+  <meta name="theme-color" content="#d7a646">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0a0a0b;
+      --bg2:#101012;
+      --panel:#141416;
+      --panel2:#19191c;
+      --panel3:#1e1e22;
+      --line:rgba(255,255,255,.08);
+      --line2:rgba(255,255,255,.13);
+      --text:#f6f3ec;
+      --muted:#9c9aa1;
+      --muted2:#77757c;
+      --accent:#d7a646;
+      --accent2:#f0c66f;
+      --green:#5bd38a;
+      --red:#f16d73;
+      --blue:#72a9ff;
+      --violet:#b493ff;
+      --orange:#f3a45e;
+      --shadow:0 24px 70px rgba(0,0,0,.32);
+      --radius:18px;
+    }
+
+    [data-theme="light"]{
+      --bg:#f3f1eb;
+      --bg2:#ebe8df;
+      --panel:#fffdfa;
+      --panel2:#f7f4ec;
+      --panel3:#efebe2;
+      --line:rgba(0,0,0,.08);
+      --line2:rgba(0,0,0,.13);
+      --text:#181715;
+      --muted:#6d6a63;
+      --muted2:#8a877f;
+      --shadow:0 22px 60px rgba(33,29,22,.10);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    html{scroll-behavior:smooth}
+
+    body{
+      min-height:100vh;
+      font-family:"DM Sans",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 10% 0%,rgba(215,166,70,.08),transparent 25%),
+        radial-gradient(circle at 100% 15%,rgba(114,169,255,.05),transparent 25%),
+        var(--bg);
+      overflow-x:hidden;
+    }
+
+    button,input,select{font:inherit}
+    button{cursor:pointer}
+    a{color:inherit;text-decoration:none}
+
+    .app{min-height:100vh;display:flex}
+
+    /* ======================================================
+       SIDEBAR
+    ====================================================== */
+
+    .sidebar{
+      width:275px;
+      flex:0 0 275px;
+      position:fixed;
+      inset:0 auto 0 0;
+      z-index:50;
+      display:flex;
+      flex-direction:column;
+      padding:20px 16px;
+      background:
+        linear-gradient(180deg,rgba(255,255,255,.018),transparent 35%),
+        var(--panel);
+      border-right:1px solid var(--line);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:8px 10px 22px;
+      margin-bottom:16px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .brand-mark{
+      width:42px;
+      height:42px;
+      border-radius:13px;
+      background:linear-gradient(145deg,var(--accent2),var(--accent));
+      color:#201909;
+      display:grid;
+      place-items:center;
+      font-family:"Manrope",sans-serif;
+      font-size:13px;
+      font-weight:900;
+      box-shadow:0 12px 30px rgba(215,166,70,.20);
+    }
+
+    .brand-copy strong{
+      display:block;
+      font-family:"Manrope",sans-serif;
+      font-size:14px;
+      letter-spacing:-.02em;
+    }
+
+    .brand-copy span{
+      display:block;
+      margin-top:4px;
+      color:var(--muted);
+      font-size:11px;
+    }
+
+    .nav-scroll{
+      overflow-y:auto;
+      scrollbar-width:thin;
+    }
+
+    .nav-group{
+      margin:20px 0 8px;
+      padding:0 10px;
+      color:var(--muted2);
+      font-size:10px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+    }
+
+    .nav{display:grid;gap:4px}
+
+    .nav a{
+      position:relative;
+      display:flex;
+      align-items:center;
+      gap:11px;
+      padding:11px 12px;
+      border-radius:12px;
+      color:var(--muted);
+      font-size:13px;
+      font-weight:600;
+      transition:.2s ease;
+    }
+
+    .nav a:hover{
+      background:var(--panel3);
+      color:var(--text);
+    }
+
+    .nav a.active{
+      background:linear-gradient(90deg,rgba(215,166,70,.13),rgba(215,166,70,.04));
+      border:1px solid rgba(215,166,70,.12);
+      color:var(--accent2);
+    }
+
+    .nav a.active::before{
+      content:"";
+      position:absolute;
+      left:-1px;
+      top:8px;
+      bottom:8px;
+      width:3px;
+      border-radius:99px;
+      background:var(--accent);
+    }
+
+    .nav-icon{
+      width:17px;
+      height:17px;
+      flex:0 0 17px;
+      display:grid;
+      place-items:center;
+      font-size:14px;
+    }
+
+    .sidebar-bottom{
+      margin-top:auto;
+      padding-top:14px;
+      border-top:1px solid var(--line);
+    }
+
+    .session-card{
+      padding:12px;
+      margin-bottom:10px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:rgba(255,255,255,.018);
+    }
+
+    .session-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+
+    .session-user{
+      display:flex;
+      align-items:center;
+      gap:9px;
+      min-width:0;
+    }
+
+    .session-avatar{
+      width:30px;
+      height:30px;
+      flex:0 0 30px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      background:rgba(215,166,70,.14);
+      border:1px solid rgba(215,166,70,.22);
+      color:var(--accent2);
+      font-size:11px;
+      font-weight:800;
+    }
+
+    .session-user strong{
+      display:block;
+      max-width:145px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      font-size:11px;
+    }
+
+    .session-user span{
+      display:block;
+      margin-top:2px;
+      color:var(--muted);
+      font-size:9px;
+    }
+
+    .status-dot{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:var(--green);
+      box-shadow:0 0 0 5px rgba(91,211,138,.08);
+    }
+
+    .sidebar-actions{
+      display:flex;
+      gap:7px;
+    }
+
+    .sidebar-actions button{flex:1}
+
+    /* ======================================================
+       MAIN
+    ====================================================== */
+
+    .main{
+      width:calc(100% - 275px);
+      min-width:0;
+      margin-left:275px;
+    }
+
+    .mobile-topbar{
+      display:none;
+    }
+
+    .content{
+      width:min(1500px,100%);
+      margin:auto;
+      padding:30px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom:24px;
+    }
+
+    .page-title h1{
+      font-family:"Manrope",sans-serif;
+      font-size:31px;
+      line-height:1.05;
+      letter-spacing:-.04em;
+    }
+
+    .page-title p{
+      max-width:760px;
+      margin-top:8px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .top-actions{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      gap:8px;
+    }
+
+    /* ======================================================
+       BUTTONS
+    ====================================================== */
+
+    .btn{
+      min-height:40px;
+      padding:0 14px;
+      border-radius:12px;
+      border:1px solid var(--line2);
+      background:var(--panel2);
+      color:var(--text);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:7px;
+      font-size:12px;
+      font-weight:700;
+      transition:.2s ease;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+      border-color:rgba(215,166,70,.28);
+    }
+
+    .btn-primary{
+      color:#201a0c;
+      background:linear-gradient(135deg,var(--accent2),var(--accent));
+      border-color:transparent;
+      box-shadow:0 12px 25px rgba(215,166,70,.16);
+    }
+
+    .btn-secondary{
+      background:transparent;
+    }
+
+    .btn-danger{
+      color:#ffd5d6;
+      border-color:rgba(241,109,115,.22);
+      background:rgba(241,109,115,.08);
+    }
+
+    .btn-icon{
+      width:40px;
+      padding:0;
+    }
+
+    .btn:disabled{
+      opacity:.45;
+      cursor:not-allowed;
+      transform:none;
+    }
+
+    /* ======================================================
+       WARNING
+    ====================================================== */
+
+    .security-note{
+      margin-bottom:17px;
+      padding:14px 16px;
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      border-radius:16px;
+      border:1px solid rgba(215,166,70,.16);
+      background:
+        linear-gradient(135deg,rgba(215,166,70,.07),rgba(215,166,70,.02)),
+        var(--panel);
+    }
+
+    .security-icon{
+      width:34px;
+      height:34px;
+      flex:0 0 34px;
+      border-radius:11px;
+      display:grid;
+      place-items:center;
+      background:rgba(215,166,70,.12);
+      color:var(--accent2);
+      border:1px solid rgba(215,166,70,.15);
+    }
+
+    .security-note strong{
+      display:block;
+      font-family:"Manrope",sans-serif;
+      font-size:12px;
+    }
+
+    .security-note p{
+      margin-top:4px;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.55;
+    }
+
+    /* ======================================================
+       CARDS
+    ====================================================== */
+
+    .grid{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:16px;
+      margin-bottom:16px;
+    }
+
+    .panel{
+      overflow:hidden;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:
+        linear-gradient(135deg,rgba(255,255,255,.018),transparent 28%),
+        var(--panel);
+      box-shadow:var(--shadow);
+    }
+
+    .panel.full{
+      grid-column:1 / -1;
+    }
+
+    .panel-header{
+      padding:18px 20px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:15px;
+    }
+
+    .panel-title strong{
+      display:block;
+      font-family:"Manrope",sans-serif;
+      font-size:14px;
+      letter-spacing:-.02em;
+    }
+
+    .panel-title span{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
+      font-size:11px;
+    }
+
+    .panel-body{
+      padding:18px;
+    }
+
+    /* ======================================================
+       BACKUP OPTIONS
+    ====================================================== */
+
+    .backup-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+    }
+
+    .check-card{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      padding:13px;
+      border:1px solid var(--line);
+      border-radius:13px;
+      background:var(--panel2);
+      transition:.18s ease;
+    }
+
+    .check-card:hover{
+      border-color:var(--line2);
+      background:var(--panel3);
+    }
+
+    .check-card input{
+      width:16px;
+      height:16px;
+      margin-top:2px;
+      accent-color:var(--accent);
+      cursor:pointer;
+      flex:0 0 auto;
+    }
+
+    .check-copy strong{
+      display:block;
+      font-size:11px;
+    }
+
+    .check-copy span{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
+      font-size:9px;
+      line-height:1.4;
+    }
+
+    .option-toolbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:13px;
+    }
+
+    .option-toolbar span{
+      color:var(--muted);
+      font-size:10px;
+    }
+
+    .option-buttons{
+      display:flex;
+      gap:6px;
+    }
+
+    .small-btn{
+      min-height:31px;
+      padding:0 10px;
+      border-radius:9px;
+      border:1px solid var(--line);
+      background:var(--panel2);
+      color:var(--muted);
+      font-size:10px;
+      font-weight:700;
+    }
+
+    .small-btn:hover{
+      color:var(--text);
+      border-color:var(--line2);
+    }
+
+    /* ======================================================
+       SNAPSHOT
+    ====================================================== */
+
+    .snapshot{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+    }
+
+    .snapshot-card{
+      padding:13px;
+      border:1px solid var(--line);
+      border-radius:13px;
+      background:var(--panel2);
+    }
+
+    .snapshot-card label{
+      display:block;
+      color:var(--muted);
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-weight:800;
+    }
+
+    .snapshot-card strong{
+      display:block;
+      margin-top:5px;
+      font-family:"Manrope",sans-serif;
+      font-size:21px;
+      letter-spacing:-.03em;
+    }
+
+    .snapshot-card span{
+      display:block;
+      margin-top:2px;
+      color:var(--muted2);
+      font-size:9px;
+    }
+
+    /* ======================================================
+       RESTORE DROPZONE
+    ====================================================== */
+
+    .dropzone{
+      position:relative;
+      padding:25px;
+      border-radius:16px;
+      border:1px dashed var(--line2);
+      background:rgba(255,255,255,.012);
+      text-align:center;
+      transition:.2s ease;
+    }
+
+    .dropzone.dragover{
+      border-color:var(--accent);
+      background:rgba(215,166,70,.06);
+    }
+
+    .drop-icon{
+      width:52px;
+      height:52px;
+      margin:0 auto 12px;
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      background:rgba(215,166,70,.10);
+      border:1px solid rgba(215,166,70,.15);
+      color:var(--accent2);
+      font-size:20px;
+    }
+
+    .dropzone strong{
+      display:block;
+      font-family:"Manrope",sans-serif;
+      font-size:14px;
+    }
+
+    .dropzone p{
+      margin:6px auto 12px;
+      max-width:480px;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.55;
+    }
+
+    #fileInput{display:none}
+
+    .restore-actions{
+      display:flex;
+      justify-content:center;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    /* ======================================================
+       IMPORT PREVIEW
+    ====================================================== */
+
+    .preview{
+      display:none;
+      margin-top:14px;
+      padding:14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:var(--panel2);
+    }
+
+    .preview.show{display:block}
+
+    .preview-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:10px;
+    }
+
+    .preview-header strong{
+      font-size:11px;
+    }
+
+    .preview-header span{
+      color:var(--muted);
+      font-size:9px;
+    }
+
+    .preview-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:7px;
+    }
+
+    .preview-item{
+      min-width:0;
+      padding:10px;
+      border:1px solid var(--line);
+      border-radius:10px;
+      background:var(--panel3);
+    }
+
+    .preview-item label{
+      display:block;
+      color:var(--muted2);
+      font-size:8px;
+      text-transform:uppercase;
+      letter-spacing:.07em;
+      font-weight:800;
+    }
+
+    .preview-item strong{
+      display:block;
+      margin-top:4px;
+      font-size:12px;
+    }
+
+    .preview-status{
+      margin-top:10px;
+      padding:10px;
+      border-radius:10px;
+      border:1px solid rgba(91,211,138,.15);
+      color:#baf4d0;
+      background:rgba(91,211,138,.07);
+      font-size:10px;
+      line-height:1.45;
+    }
+
+    .preview-status.error{
+      border-color:rgba(241,109,115,.16);
+      color:#ffd2d4;
+      background:rgba(241,109,115,.07);
+    }
+
+    /* ======================================================
+       DATA TABLE
+    ====================================================== */
+
+    .table-wrap{
+      overflow:auto;
+    }
+
+    table{
+      width:100%;
+      min-width:780px;
+      border-collapse:collapse;
+    }
+
+    th{
+      padding:12px 15px;
+      text-align:left;
+      color:var(--muted2);
+      background:var(--panel2);
+      border-bottom:1px solid var(--line);
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+
+    td{
+      padding:12px 15px;
+      border-bottom:1px solid var(--line);
+      font-size:11px;
+      vertical-align:middle;
+    }
+
+    tbody tr:last-child td{border-bottom:0}
+
+    .status{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      min-height:24px;
+      padding:0 8px;
+      border-radius:999px;
+      font-size:9px;
+      font-weight:800;
+      border:1px solid var(--line);
+    }
+
+    .status.good{
+      color:#b9f4cf;
+      background:rgba(91,211,138,.08);
+      border-color:rgba(91,211,138,.14);
+    }
+
+    .status.empty{
+      color:var(--muted);
+      background:var(--panel3);
+    }
+
+    .storage-key{
+      font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+      font-size:9px;
+      color:var(--muted);
+    }
+
+    .data-number{
+      font-family:"Manrope",sans-serif;
+      font-weight:800;
+    }
+
+    /* ======================================================
+       CODE PREVIEW
+    ====================================================== */
+
+    .json-preview{
+      max-height:380px;
+      overflow:auto;
+      padding:14px;
+      border-radius:13px;
+      border:1px solid var(--line);
+      background:#080809;
+      color:#d7d3c8;
+      font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+      font-size:10px;
+      line-height:1.6;
+      white-space:pre-wrap;
+      word-break:break-word;
+    }
+
+    [data-theme="light"] .json-preview{
+      background:#171614;
+      color:#ebe7da;
+    }
+
+    /* ======================================================
+       MODAL
+    ====================================================== */
+
+    .overlay{
+      position:fixed;
+      inset:0;
+      z-index:100;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      background:rgba(3,3,4,.72);
+      backdrop-filter:blur(9px);
+    }
+
+    .overlay.open{display:flex}
+
+    .modal{
+      width:min(650px,100%);
+      max-height:85vh;
+      overflow:auto;
+      background:var(--panel);
+      border:1px solid var(--line2);
+      border-radius:20px;
+      box-shadow:0 40px 120px rgba(0,0,0,.45);
+    }
+
+    .modal-head{
+      position:sticky;
+      top:0;
+      z-index:2;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:15px;
+      padding:17px 19px;
+      background:var(--panel);
+      border-bottom:1px solid var(--line);
+    }
+
+    .modal-head strong{
+      display:block;
+      font-family:"Manrope",sans-serif;
+      font-size:15px;
+    }
+
+    .modal-head span{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
+      font-size:10px;
+    }
+
+    .modal-body{padding:18px}
+
+    .confirm-box{
+      padding:14px;
+      border-radius:13px;
+      border:1px solid rgba(241,109,115,.18);
+      background:rgba(241,109,115,.07);
+      color:#ffd4d6;
+      font-size:11px;
+      line-height:1.6;
+    }
+
+    .modal-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:8px;
+      margin-top:15px;
+      flex-wrap:wrap;
+    }
+
+    /* ======================================================
+       TOAST
+    ====================================================== */
+
+    .toast-wrap{
+      position:fixed;
+      right:20px;
+      bottom:20px;
+      z-index:200;
+      display:grid;
+      gap:8px;
+    }
+
+    .toast{
+      min-width:250px;
+      max-width:360px;
+      padding:12px 14px;
+      border-radius:13px;
+      border:1px solid var(--line2);
+      background:var(--panel);
+      box-shadow:0 20px 50px rgba(0,0,0,.28);
+      animation:toastIn .25s ease both;
+    }
+
+    .toast strong{
+      display:block;
+      font-size:11px;
+    }
+
+    .toast span{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.5;
+    }
+
+    .toast.error{border-color:rgba(241,109,115,.20)}
+    .toast.success{border-color:rgba(91,211,138,.18)}
+
+    @keyframes toastIn{
+      from{opacity:0;transform:translateY(9px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    /* ======================================================
+       RESPONSIVE
+    ====================================================== */
+
+    @media(max-width:1120px){
+      .grid{grid-template-columns:1fr}
+      .panel.full{grid-column:auto}
+    }
+
+    @media(max-width:900px){
+      .sidebar{
+        transform:translateX(-100%);
+        transition:.25s ease;
+        box-shadow:30px 0 80px rgba(0,0,0,.28);
+      }
+
+      .sidebar.open{transform:translateX(0)}
+
+      .main{
+        width:100%;
+        margin-left:0;
+      }
+
+      .mobile-topbar{
+        position:sticky;
+        top:0;
+        z-index:45;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:10px;
+        padding:13px 15px;
+        background:rgba(10,10,11,.80);
+        backdrop-filter:blur(14px);
+        border-bottom:1px solid var(--line);
+      }
+
+      [data-theme="light"] .mobile-topbar{
+        background:rgba(243,241,235,.82);
+      }
+
+      .mobile-brand{
+        display:flex;
+        align-items:center;
+        gap:9px;
+      }
+
+      .mobile-brand-mark{
+        width:32px;
+        height:32px;
+        border-radius:10px;
+        display:grid;
+        place-items:center;
+        background:linear-gradient(145deg,var(--accent2),var(--accent));
+        color:#201909;
+        font-size:9px;
+        font-weight:900;
+      }
+
+      .mobile-brand strong{
+        font-family:"Manrope",sans-serif;
+        font-size:12px;
+      }
+
+      .mobile-brand span{
+        display:block;
+        margin-top:2px;
+        color:var(--muted);
+        font-size:8px;
+      }
+
+      .content{padding:20px 15px 30px}
+    }
+
+    @media(max-width:650px){
+      .backup-grid,
+      .snapshot,
+      .preview-grid{
+        grid-template-columns:1fr;
+      }
+
+      .topbar,
+      .panel-header{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+      .top-actions{
+        width:100%;
+        justify-content:flex-start;
+      }
+
+      .security-note{
+        align-items:flex-start;
+      }
+
+      .toast-wrap{
+        left:12px;
+        right:12px;
+        bottom:12px;
+      }
+
+      .toast{
+        min-width:0;
+        width:100%;
+      }
+    }
+
+    @media(max-width:500px){
+      .page-title h1{font-size:27px}
+
+      .btn{
+        min-height:38px;
+      }
+
+      .panel-body{padding:14px}
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- ======================================================
+       SIDEBAR
+  ======================================================= -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+      <div class="brand-mark">AKHI</div>
+      <div class="brand-copy">
+        <strong>AKHI Engineering</strong>
+        <span>Workshop Admin</span>
+      </div>
+    </div>
+
+    <div class="nav-scroll">
+
+      <div class="nav-group">Main</div>
+      <nav class="nav">
+
+        <a href="./dashboard.html">
+          <span class="nav-icon">⌂</span>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="./homepage.html">
+          <span class="nav-icon">◈</span>
+          <span>Homepage</span>
+        </a>
+
+        <a href="./banner.html">
+          <span class="nav-icon">▣</span>
+          <span>Banners</span>
+        </a>
+
+        <a href="./projects.html">
+          <span class="nav-icon">▦</span>
+          <span>Projects</span>
+        </a>
+
+        <a href="./akhi-ai/index.html">
+          <span class="nav-icon">✦</span>
+          <span>AKHI AI</span>
+        </a>
+
+      </nav>
+
+      <div class="nav-group">Management</div>
+      <nav class="nav">
+
+        <a href="./media.html">
+          <span class="nav-icon">◫</span>
+          <span>Media Manager</span>
+        </a>
+
+        <a href="./settings.html">
+          <span class="nav-icon">⚙</span>
+          <span>Site Settings</span>
+        </a>
+
+        <a href="./admins.html" id="adminsNav">
+          <span class="nav-icon">♙</span>
+          <span>Admin Management</span>
+        </a>
+
+        <a href="./activity.html">
+          <span class="nav-icon">◷</span>
+          <span>Activity Log</span>
+        </a>
+
+      </nav>
+
+      <div class="nav-group">System</div>
+      <nav class="nav">
+
+        <a href="./backup.html" class="active">
+          <span class="nav-icon">↥</span>
+          <span>Backup & Restore</span>
+        </a>
+
+        <a href="../index.html" target="_blank" rel="noopener">
+          <span class="nav-icon">↗</span>
+          <span>View Website</span>
+        </a>
+
+      </nav>
+
+    </div>
+
+    <div class="sidebar-bottom">
+
+      <div class="session-card">
+        <div class="session-top">
+          <div class="session-user">
+            <div class="session-avatar" id="sessionAvatar">SA</div>
+            <div>
+              <strong id="sessionName">Admin</strong>
+              <span id="sessionRole">Administrator</span>
+            </div>
+          </div>
+
+          <div class="status-dot"></div>
+        </div>
+      </div>
+
+      <div class="sidebar-actions">
+        <button class="btn btn-secondary" id="themeBtn">☼ Theme</button>
+        <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+      </div>
+
+    </div>
+
+  </aside>
+
+  <!-- ======================================================
+       MAIN
+  ======================================================= -->
+  <main class="main">
+
+    <div class="mobile-topbar">
+
+      <div class="mobile-brand">
+        <div class="mobile-brand-mark">AKHI</div>
+        <div>
+          <strong>AKHI Admin</strong>
+          <span>Backup & Restore</span>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:7px;">
+        <button class="btn btn-icon" id="mobileThemeBtn">☼</button>
+        <button class="btn btn-icon" id="menuBtn">☰</button>
+      </div>
+
+    </div>
+
+    <div class="content">
+
+      <div class="topbar">
+
+        <div class="page-title">
+          <h1>Backup & Restore</h1>
+          <p>
+            Protect your AKHI admin data with complete browser-based backups,
+            selective restore, validation and downloadable JSON snapshots.
+          </p>
+        </div>
+
+        <div class="top-actions">
+          <button class="btn" id="refreshBtn">↻ Refresh</button>
+          <button class="btn btn-primary" id="quickBackupBtn">⇩ Quick Backup</button>
+        </div>
+
+      </div>
+
+      <!-- SECURITY NOTE -->
+      <div class="security-note">
+
+        <div class="security-icon">⚠</div>
+
+        <div>
+          <strong>Important backup note</strong>
+          <p>
+            This GitHub Pages admin stores CMS data in browser localStorage.
+            Backups contain data and URLs stored by the admin, not the actual
+            binary image files in your GitHub repository. Keep downloaded
+            backup files in a secure location.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="grid">
+
+        <!-- ==================================================
+             CREATE BACKUP
+        =================================================== -->
+        <section class="panel">
+
+          <div class="panel-header">
+
+            <div class="panel-title">
+              <strong>Create Backup</strong>
+              <span>Choose which admin datasets should be included.</span>
+            </div>
+
+            <span class="status good" id="backupReadyStatus">
+              ● Ready
+            </span>
+
+          </div>
+
+          <div class="panel-body">
+
+            <div class="option-toolbar">
+
+              <span id="selectedDatasetsLabel">
+                8 datasets selected
+              </span>
+
+              <div class="option-buttons">
+                <button class="small-btn" id="selectAllBtn">Select All</button>
+                <button class="small-btn" id="selectNoneBtn">None</button>
+              </div>
+
+            </div>
+
+            <div class="backup-grid">
+
+              <label class="check-card">
+                <input type="checkbox" class="dataset-check" data-key="homepage" checked>
+                <span class="check-copy">
+                  <strong>Homepage</strong>
+                  <span>Hero, stats, about, services, CTA and SEO content.</span>
+                </span>
+              </label>
+
+              <label class="check-card">
+                <input type="checkbox" class="dataset-check" data-key="banners" checked>
+                <span class="check-copy">
+                  <strong>Banners</strong>
+                  <span>Banner campaigns, publishing state and CTA settings.</span>
+                </span>
+              </label>
+
+              <label class="check-card">
+                <input type="checkbox" class="dataset-check" data-key="projects" checked>
+                <span class="check-copy">
+                  <strong>Projects</strong>
+                  <span>Workshop project records, tags, images and links.</span>
+                </span>
+              </label>
+
+              <label class="check-card">
+                <input type="checkbox" class="dataset-check" data-key="media" checked>
+                <span class="check-copy">
+                  <strong>Media Registry</strong>
+                  <span>Image URLs, credits, categories and metadata.</span>
+                </span>
+              </label>
+
+              <label class="check-card">
+                <input type="checkbox" class="dataset-check" data-key="settings" checked>
+                <span class="check-copy">
+                  <strong>Site Settings</strong>
+                  <span>Business identity, branding, SEO, social and footer.</span>
+                </span>
+              </label>
+
+              <label class="check-card">
+                <input type="checkbox" class="dataset-check" data-key="admins" checked>
+                <span class="check-copy">
+                  <strong>Admin Registry</strong>
+                  <span>Admin accounts, roles, permissions and status.</span>
+                </span>
+              </label>
+
+              <label class="check-card">
+                <input type="checkbox" class="dataset-check" data-key="activity" checked>
+                <span class="check-copy">
+                  <strong>Activity Log</strong>
+                  <span>Administrator and system activity records.</span>
+                </span>
+              </label>
+
+              <label class="check-card">
+                <input type="checkbox" class="dataset-check" data-key="accounts" checked>
+                <span class="check-copy">
+                  <strong>Login Registry Bridge</strong>
+                  <span>Compatibility data for the current auth system.</span>
+                </span>
+              </label>
+
+            </div>
+
+            <div style="height:14px"></div>
+
+            <button class="btn btn-primary" id="createBackupBtn" style="width:100%">
+              ⇩ Create Downloadable Backup
+            </button>
+
+          </div>
+
+        </section>
+
+        <!-- ==================================================
+             SNAPSHOT
+        =================================================== -->
+        <section class="panel">
+
+          <div class="panel-header">
+
+            <div class="panel-title">
+              <strong>Current Snapshot</strong>
+              <span>Live data currently detected in this browser.</span>
+            </div>
+
+            <span class="status good">● Live</span>
+
+          </div>
+
+          <div class="panel-body">
+
+            <div class="snapshot">
+
+              <div class="snapshot-card">
+                <label>Homepage</label>
+                <strong id="countHomepage">0</strong>
+                <span>object / record</span>
+              </div>
+
+              <div class="snapshot-card">
+                <label>Banners</label>
+                <strong id="countBanners">0</strong>
+                <span>records</span>
+              </div>
+
+              <div class="snapshot-card">
+                <label>Projects</label>
+                <strong id="countProjects">0</strong>
+                <span>records</span>
+              </div>
+
+              <div class="snapshot-card">
+                <label>Media</label>
+                <strong id="countMedia">0</strong>
+                <span>records</span>
+              </div>
+
+              <div class="snapshot-card">
+                <label>Admins</label>
+                <strong id="countAdmins">0</strong>
+                <span>accounts</span>
+              </div>
+
+              <div class="snapshot-card">
+                <label>Activity</label>
+                <strong id="countActivity">0</strong>
+                <span>logs</span>
+              </div>
+
+            </div>
+
+            <div style="height:13px"></div>
+
+            <div class="snapshot-card">
+              <label>Last Local Backup</label>
+              <strong id="lastBackup">Never</strong>
+              <span id="lastBackupMeta">
+                No local backup has been created from this page.
+              </span>
+            </div>
+
+          </div>
+
+        </section>
+
+      </div>
+
+      <!-- ==================================================
+           RESTORE
+      =================================================== -->
+      <section class="panel" style="margin-bottom:16px;">
+
+        <div class="panel-header">
+
+          <div class="panel-title">
+            <strong>Restore Backup</strong>
+            <span>Load a previously downloaded AKHI JSON backup.</span>
+          </div>
+
+          <span class="status empty" id="restoreStatus">
+            ● No file selected
+          </span>
+
+        </div>
+
+        <div class="panel-body">
+
+          <div
+            class="dropzone"
+            id="dropzone"
+          >
+
+            <div class="drop-icon">↥</div>
+
+            <strong>Drop your backup JSON here</strong>
+
+            <p>
+              Or choose a backup file manually. The file will be validated
+              before any data is written to localStorage.
+            </p>
+
+            <div class="restore-actions">
+
+              <button class="btn btn-primary" id="chooseFileBtn">
+                Choose Backup File
+              </button>
+
+              <button class="btn" id="clearImportBtn" style="display:none;">
+                Remove File
+              </button>
+
+            </div>
+
+            <input
+              type="file"
+              id="fileInput"
+              accept=".json,application/json"
+            >
+
+          </div>
+
+          <div class="preview" id="importPreview">
+
+            <div class="preview-header">
+              <strong>Backup Preview</strong>
+              <span id="previewVersion">—</span>
+            </div>
+
+            <div class="preview-grid">
+
+              <div class="preview-item">
+                <label>Created</label>
+                <strong id="previewCreated">—</strong>
+              </div>
+
+              <div class="preview-item">
+                <label>Datasets</label>
+                <strong id="previewDatasets">0</strong>
+              </div>
+
+              <div class="preview-item">
+                <label>Records</label>
+                <strong id="previewRecords">0</strong>
+              </div>
+
+            </div>
+
+            <div class="preview-status" id="previewStatus">
+              Backup validated.
+            </div>
+
+            <div class="modal-actions">
+              <button class="btn" id="previewJsonBtn">
+                View JSON
+              </button>
+
+              <button class="btn btn-danger" id="restoreBtn">
+                Restore Backup
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ==================================================
+           STORAGE INVENTORY
+      =================================================== -->
+      <section class="panel" style="margin-bottom:16px;">
+
+        <div class="panel-header">
+
+          <div class="panel-title">
+            <strong>Storage Inventory</strong>
+            <span>Keys recognized by the AKHI admin system.</span>
+          </div>
+
+          <button class="btn" id="refreshStorageBtn">↻ Refresh</button>
+
+        </div>
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Dataset</th>
+                <th>Storage Key</th>
+                <th>Type</th>
+                <th>Items</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+
+            <tbody id="storageBody"></tbody>
+
+          </table>
+
+        </div>
+
+      </section>
+
+      <!-- ==================================================
+           LAST JSON PREVIEW
+      =================================================== -->
+      <section class="panel">
+
+        <div class="panel-header">
+
+          <div class="panel-title">
+            <strong>Generated Backup Preview</strong>
+            <span id="previewLabel">
+              Create a backup to preview its JSON structure.
+            </span>
+          </div>
+
+          <button class="btn" id="copyPreviewBtn">
+            Copy JSON
+          </button>
+
+        </div>
+
+        <div class="panel-body">
+
+          <pre class="json-preview" id="jsonPreview">{
+  "message": "No backup generated yet."
+}</pre>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+</div>
+
+<!-- ========================================================
+     RESTORE CONFIRMATION MODAL
+========================================================= -->
+<div class="overlay" id="confirmOverlay">
+
+  <div class="modal">
+
+    <div class="modal-head">
+
+      <div>
+        <strong>Confirm Restore</strong>
+        <span>Existing selected data will be replaced.</span>
+      </div>
+
+      <button class="btn btn-icon" id="closeConfirmBtn">×</button>
+
+    </div>
+
+    <div class="modal-body">
+
+      <div class="confirm-box">
+        Restoring this backup will overwrite the selected datasets in
+        this browser's localStorage. This action is intended for the
+        AKHI admin system and cannot be automatically undone.
+      </div>
+
+      <div style="height:12px"></div>
+
+      <div class="preview-grid" id="restoreSummary"></div>
+
+      <div class="modal-actions">
+
+        <button class="btn" id="cancelRestoreBtn">
+          Cancel
+        </button>
+
+        <button class="btn btn-danger" id="confirmRestoreBtn">
+          Yes, Restore Backup
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ========================================================
+     JSON VIEW MODAL
+========================================================= -->
+<div class="overlay" id="jsonOverlay">
+
+  <div class="modal">
+
+    <div class="modal-head">
+
+      <div>
+        <strong>Backup JSON</strong>
+        <span>Read-only preview</span>
+      </div>
+
+      <button class="btn btn-icon" id="closeJsonBtn">×</button>
+
+    </div>
+
+    <div class="modal-body">
+      <pre class="json-preview" id="modalJsonPreview"></pre>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script src="./auth.js"></script>
+
+<script>
+(function(){
+
+  "use strict";
+
+  /* ======================================================
+     CONFIG
+  ====================================================== */
+
+  const KEY_MAP = {
+
+    homepage: [
+      "aki_homepage_content_v1",
+      "aki_homepage"
+    ],
+
+    banners: [
+      "aki_banners_v1",
+      "aki_banners"
+    ],
+
+    projects: [
+      "aki_projects_v1",
+      "aki_projects"
+    ],
+
+    media: [
+      "aki_media_v1",
+      "aki_media"
+    ],
+
+    settings: [
+      "aki_site_settings_v1",
+      "aki_site_settings"
+    ],
+
+    admins: [
+      "aki_admin_users_v1",
+      "aki_admin_users"
+    ],
+
+    activity: [
+      "aki_admin_activity_v1",
+      "aki_activity_log_v1",
+      "aki_admin_activity",
+      "aki_activity"
+    ],
+
+    accounts: [
+      "aki_admin_accounts_v1"
+    ]
+
+  };
+
+  const LABELS = {
+    homepage:"Homepage",
+    banners:"Banners",
+    projects:"Projects",
+    media:"Media Registry",
+    settings:"Site Settings",
+    admins:"Admin Registry",
+    activity:"Activity Log",
+    accounts:"Login Registry Bridge"
+  };
+
+  const BACKUP_VERSION = "1.10";
+  const LAST_BACKUP_KEY = "aki_last_backup_v1";
+  const THEME_KEY = "aki_admin_theme";
+
+  let currentSession = null;
+  let importedBackup = null;
+  let lastGeneratedBackup = null;
+
+  /* ======================================================
+     DOM
+  ====================================================== */
+
+  const $ = selector => document.querySelector(selector);
+
+  /* ======================================================
+     HELPERS
+  ====================================================== */
+
+  function escapeHtml(value){
+    return String(value ?? "")
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
+  }
+
+  function safeJsonParse(value,fallback){
+    try{
+      return JSON.parse(value);
+    }catch(error){
+      return fallback;
+    }
+  }
+
+  function getInitials(name){
+
+    const value =
+      String(name || "Admin")
+        .trim();
+
+    if(!value){
+      return "A";
+    }
+
+    const parts =
+      value
+        .split(/\s+/)
+        .filter(Boolean);
+
+    if(parts.length === 1){
+      return parts[0]
+        .slice(0,2)
+        .toUpperCase();
+    }
+
+    return (
+      (parts[0][0] || "") +
+      (parts[parts.length - 1][0] || "")
+    ).toUpperCase();
+
+  }
+
+  function normalizeRole(role){
+
+    const value =
+      String(role || "")
+        .toLowerCase()
+        .replace(/[\s_-]+/g,"");
+
+    if(value === "superadmin"){
+      return "superadmin";
+    }
+
+    if(value === "admin"){
+      return "admin";
+    }
+
+    return "admin";
+
+  }
+
+  function roleLabel(role){
+
+    return normalizeRole(role) === "superadmin"
+      ? "Super Admin"
+      : "Admin";
+
+  }
+
+  function requireAuthentication(){
+
+    try{
+
+      if(
+        window.AKIAdmin &&
+        typeof window.AKIAdmin.requireAuth === "function"
+      ){
+
+        const result =
+          window.AKIAdmin.requireAuth();
+
+        if(result === false){
+          window.location.href = "./login.html";
+          return false;
+        }
+
+      }
+
+    }catch(error){
+      console.warn(
+        "AKIAdmin auth check failed:",
+        error
+      );
+    }
+
+    try{
+
+      if(
+        window.AKIAdmin &&
+        typeof window.AKIAdmin.getSession === "function"
+      ){
+        currentSession =
+          window.AKIAdmin.getSession();
+      }
+
+    }catch(error){}
+
+    if(!currentSession){
+
+      currentSession =
+        safeJsonParse(
+          localStorage.getItem(
+            "aki_admin_session"
+          ),
+          null
+        ) ||
+        safeJsonParse(
+          sessionStorage.getItem(
+            "aki_admin_session"
+          ),
+          null
+        );
+
+    }
+
+    if(!currentSession){
+
+      currentSession = {
+        name:"Admin",
+        role:"admin"
+      };
+
+    }
+
+    return true;
+
+  }
+
+  function isSuperAdmin(){
+
+    const role =
+      normalizeRole(
+        currentSession?.role ||
+        currentSession?.userRole
+      );
+
+    if(role === "superadmin"){
+      return true;
+    }
+
+    try{
+
+      if(
+        window.AKIAdmin &&
+        typeof window.AKIAdmin.hasPermission === "function"
+      ){
+
+        return (
+          window.AKIAdmin.hasPermission("*") ||
+          window.AKIAdmin.hasPermission("backup.write")
+        );
+
+      }
+
+    }catch(error){}
+
+    return false;
+
+  }
+
+  function renderSession(){
+
+    const name =
+      currentSession?.name ||
+      currentSession?.displayName ||
+      currentSession?.email ||
+      "Admin";
+
+    const role =
+      currentSession?.role ||
+      currentSession?.userRole ||
+      "admin";
+
+    $("#sessionName").textContent = name;
+    $("#sessionRole").textContent = roleLabel(role);
+    $("#sessionAvatar").textContent = getInitials(name);
+
+    if(!isSuperAdmin()){
+
+      $("#adminsNav").style.display = "none";
+
+    }
+
+  }
+
+  function getExistingKey(dataset){
+
+    const keys = KEY_MAP[dataset] || [];
+
+    for(const key of keys){
+
+      if(localStorage.getItem(key) !== null){
+        return key;
+      }
+
+    }
+
+    return keys[0] || "";
+
+  }
+
+  function readRaw(dataset){
+
+    const key = getExistingKey(dataset);
+
+    if(!key){
+      return null;
+    }
+
+    const value =
+      localStorage.getItem(key);
+
+    if(value === null){
+      return null;
+    }
+
+    return safeJsonParse(
+      value,
+      value
+    );
+
+  }
+
+  function countValue(value){
+
+    if(value === null || value === undefined){
+      return 0;
+    }
+
+    if(Array.isArray(value)){
+      return value.length;
+    }
+
+    if(typeof value === "object"){
+      return Object.keys(value).length || 1;
+    }
+
+    return 1;
+
+  }
+
+  function clone(value){
+
+    if(value === null || value === undefined){
+      return value;
+    }
+
+    if(
+      typeof structuredClone === "function"
+    ){
+
+      try{
+        return structuredClone(value);
+      }catch(error){}
+
+    }
+
+    try{
+      return JSON.parse(
+        JSON.stringify(value)
+      );
+    }catch(error){
+      return value;
+    }
+
+  }
+
+  function datasetSnapshot(dataset){
+
+    const key = getExistingKey(dataset);
+
+    if(localStorage.getItem(key) === null){
+
+      return {
+        exists:false,
+        key,
+        data:null,
+        count:0
+      };
+
+    }
+
+    const raw =
+      localStorage.getItem(key);
+
+    const parsed =
+      safeJsonParse(
+        raw,
+        raw
+      );
+
+    return {
+      exists:true,
+      key,
+      data:clone(parsed),
+      count:countValue(parsed)
+    };
+
+  }
+
+  /* ======================================================
+     THEME
+  ====================================================== */
+
+  function currentTheme(){
+
+    return (
+      localStorage.getItem(THEME_KEY) ||
+      "dark"
+    );
+
+  }
+
+  function applyTheme(theme){
+
+    const finalTheme =
+      theme === "light"
+        ? "light"
+        : "dark";
+
+    document.documentElement.dataset.theme =
+      finalTheme;
+
+    localStorage.setItem(
+      THEME_KEY,
+      finalTheme
+    );
+
+    const icon =
+      finalTheme === "dark"
+        ? "☼"
+        : "☾";
+
+    $("#themeBtn").innerHTML =
+      icon + " Theme";
+
+    $("#mobileThemeBtn").textContent =
+      icon;
+
+  }
+
+  function toggleTheme(){
+
+    applyTheme(
+      currentTheme() === "dark"
+        ? "light"
+        : "dark"
+    );
+
+  }
+
+  /* ======================================================
+     STORAGE INVENTORY
+  ====================================================== */
+
+  function refreshStorage(){
+
+    const tbody =
+      $("#storageBody");
+
+    tbody.innerHTML = "";
+
+    Object.keys(KEY_MAP)
+      .forEach(dataset => {
+
+        const key =
+          getExistingKey(dataset);
+
+        const exists =
+          localStorage.getItem(key) !== null;
+
+        const value =
+          exists
+            ? safeJsonParse(
+                localStorage.getItem(key),
+                localStorage.getItem(key)
+              )
+            : null;
+
+        const count =
+          countValue(value);
+
+        const tr =
+          document.createElement("tr");
+
+        tr.innerHTML = `
+          <td>
+            <strong>${escapeHtml(LABELS[dataset])}</strong>
+          </td>
+
+          <td>
+            <span class="storage-key">
+              ${escapeHtml(key || "—")}
+            </span>
+          </td>
+
+          <td>
+            ${
+              Array.isArray(value)
+                ? "Array"
+                : typeof value === "object" && value !== null
+                  ? "Object"
+                  : exists
+                    ? "Value"
+                    : "—"
+            }
+          </td>
+
+          <td>
+            <span class="data-number">
+              ${count.toLocaleString()}
+            </span>
+          </td>
+
+          <td>
+            ${
+              exists
+                ? `<span class="status good">● Available</span>`
+                : `<span class="status empty">○ Empty</span>`
+            }
+          </td>
+        `;
+
+        tbody.appendChild(tr);
+
+      });
+
+  }
+
+  /* ======================================================
+     SNAPSHOT COUNTS
+  ====================================================== */
+
+  function refreshSnapshot(){
+
+    const homepage =
+      datasetSnapshot("homepage");
+
+    const banners =
+      datasetSnapshot("banners");
+
+    const projects =
+      datasetSnapshot("projects");
+
+    const media =
+      datasetSnapshot("media");
+
+    const admins =
+      datasetSnapshot("admins");
+
+    const activity =
+      datasetSnapshot("activity");
+
+    $("#countHomepage").textContent =
+      homepage.count.toLocaleString();
+
+    $("#countBanners").textContent =
+      banners.count.toLocaleString();
+
+    $("#countProjects").textContent =
+      projects.count.toLocaleString();
+
+    $("#countMedia").textContent =
+      media.count.toLocaleString();
+
+    $("#countAdmins").textContent =
+      admins.count.toLocaleString();
+
+    $("#countActivity").textContent =
+      activity.count.toLocaleString();
+
+    const last =
+      localStorage.getItem(
+        LAST_BACKUP_KEY
+      );
+
+    if(last){
+
+      const info =
+        safeJsonParse(last,null);
+
+      if(info){
+
+        $("#lastBackup").textContent =
+          formatDate(info.timestamp);
+
+        $("#lastBackupMeta").textContent =
+          (
+            Number(info.count || 0)
+              .toLocaleString()
+          ) +
+          " records across " +
+          (
+            Number(info.datasets || 0)
+              .toLocaleString()
+          ) +
+          " datasets.";
+
+      }else{
+
+        $("#lastBackup").textContent =
+          "Available";
+
+      }
+
+    }else{
+
+      $("#lastBackup").textContent =
+        "Never";
+
+      $("#lastBackupMeta").textContent =
+        "No local backup has been created from this page.";
+
+    }
+
+  }
+
+  /* ======================================================
+     DATE
+  ====================================================== */
+
+  function formatDate(timestamp){
+
+    const date =
+      new Date(timestamp);
+
+    if(Number.isNaN(date.getTime())){
+      return "Unknown";
+    }
+
+    return new Intl.DateTimeFormat(
+      undefined,
+      {
+        day:"2-digit",
+        month:"short",
+        year:"numeric",
+        hour:"2-digit",
+        minute:"2-digit"
+      }
+    ).format(date);
+
+  }
+
+  /* ======================================================
+     DATASET SELECTION
+  ====================================================== */
+
+  function selectedDatasets(){
+
+    return [
+      ...document.querySelectorAll(
+        ".dataset-check:checked"
+      )
+    ].map(
+      input => input.dataset.key
+    );
+
+  }
+
+  function updateSelectionLabel(){
+
+    const count =
+      selectedDatasets().length;
+
+    $("#selectedDatasetsLabel").textContent =
+      count +
+      " dataset" +
+      (count === 1 ? "" : "s") +
+      " selected";
+
+  }
+
+  function selectAllDatasets(){
+
+    document
+      .querySelectorAll(".dataset-check")
+      .forEach(input => {
+        input.checked = true;
+      });
+
+    updateSelectionLabel();
+
+  }
+
+  function selectNoneDatasets(){
+
+    document
+      .querySelectorAll(".dataset-check")
+      .forEach(input => {
+        input.checked = false;
+      });
+
+    updateSelectionLabel();
+
+  }
+
+  /* ======================================================
+     BUILD BACKUP
+  ====================================================== */
+
+  function buildBackup(){
+
+    const datasets =
+      selectedDatasets();
+
+    if(!datasets.length){
+
+      toast(
+        "No datasets selected",
+        "Select at least one dataset for backup.",
+        "error"
+      );
+
+      return null;
+
+    }
+
+    const payload = {
+      format:"AKHI-ENGINEERING-BACKUP",
+      version:BACKUP_VERSION,
+
+      app:{
+        name:"AKHI Engineering Workshop",
+        module:"Admin Backup & Restore"
+      },
+
+      createdAt:new Date().toISOString(),
+
+      createdBy:{
+        name:
+          currentSession?.name ||
+          currentSession?.email ||
+          "Admin",
+        role:
+          currentSession?.role ||
+          "admin"
+      },
+
+      datasets:{},
+
+      meta:{
+        datasetCount:datasets.length,
+        recordCount:0,
+        browserStorage:"localStorage"
+      }
+
+    };
+
+    datasets.forEach(dataset => {
+
+      const snapshot =
+        datasetSnapshot(dataset);
+
+      payload.datasets[dataset] = {
+        label:LABELS[dataset],
+        storageKey:snapshot.key,
+        exists:snapshot.exists,
+        count:snapshot.count,
+        data:snapshot.data
+      };
+
+      payload.meta.recordCount +=
+        snapshot.count;
+
+    });
+
+    return payload;
+
+  }
+
+  function showGeneratedBackup(payload){
+
+    lastGeneratedBackup =
+      payload;
+
+    const text =
+      JSON.stringify(
+        payload,
+        null,
+        2
+      );
+
+    $("#jsonPreview").textContent =
+      text;
+
+    $("#previewLabel").textContent =
+      (
+        payload.meta.datasetCount
+      ) +
+      " datasets • " +
+      (
+        payload.meta.recordCount
+      ) +
+      " records • created " +
+      formatDate(payload.createdAt);
+
+  }
+
+  function downloadBackup(payload){
+
+    const text =
+      JSON.stringify(
+        payload,
+        null,
+        2
+      );
+
+    const blob =
+      new Blob(
+        [text],
+        {
+          type:"application/json"
+        }
+      );
+
+    const url =
+      URL.createObjectURL(blob);
+
+    const now =
+      new Date();
+
+    const filename =
+      "akhi-workshop-backup-" +
+      now.getFullYear() +
+      "-" +
+      String(
+        now.getMonth()+1
+      ).padStart(2,"0") +
+      "-" +
+      String(
+        now.getDate()
+      ).padStart(2,"0") +
+      "-" +
+      String(
+        now.getHours()
+      ).padStart(2,"0") +
+      String(
+        now.getMinutes()
+      ).padStart(2,"0") +
+      ".json";
+
+    const a =
+      document.createElement("a");
+
+    a.href = url;
+    a.download = filename;
+
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    setTimeout(
+      () => URL.revokeObjectURL(url),
+      1200
+    );
+
+    localStorage.setItem(
+      LAST_BACKUP_KEY,
+      JSON.stringify({
+        timestamp:Date.now(),
+        datasets:
+          payload.meta.datasetCount,
+        count:
+          payload.meta.recordCount
+      })
+    );
+
+    refreshSnapshot();
+
+  }
+
+  function createBackup(){
+
+    const payload =
+      buildBackup();
+
+    if(!payload){
+      return;
+    }
+
+    showGeneratedBackup(payload);
+    downloadBackup(payload);
+
+    recordActivity(
+      "Backup: Created",
+      {
+        datasets:
+          Object.keys(payload.datasets),
+        count:
+          payload.meta.recordCount
+      }
+    );
+
+    toast(
+      "Backup created",
+      "Your AKHI admin backup has been downloaded.",
+      "success"
+    );
+
+  }
+
+  /* ======================================================
+     QUICK BACKUP
+  ====================================================== */
+
+  function quickBackup(){
+
+    selectAllDatasets();
+    createBackup();
+
+  }
+
+  /* ======================================================
+     IMPORT
+  ====================================================== */
+
+  function validateBackup(data){
+
+    const errors = [];
+
+    if(
+      !data ||
+      typeof data !== "object" ||
+      Array.isArray(data)
+    ){
+
+      errors.push(
+        "Backup root must be a JSON object."
+      );
+
+      return {
+        valid:false,
+        errors
+      };
+
+    }
+
+    if(
+      data.format !==
+      "AKHI-ENGINEERING-BACKUP"
+    ){
+
+      errors.push(
+        "Unsupported backup format."
+      );
+
+    }
+
+    if(
+      !data.version
+    ){
+
+      errors.push(
+        "Backup version is missing."
+      );
+
+    }
+
+    if(
+      !data.createdAt
+    ){
+
+      errors.push(
+        "Backup creation time is missing."
+      );
+
+    }
+
+    if(
+      !data.datasets ||
+      typeof data.datasets !== "object"
+    ){
+
+      errors.push(
+        "Backup datasets are missing."
+      );
+
+    }else{
+
+      const supported =
+        Object.keys(KEY_MAP);
+
+      const incoming =
+        Object.keys(data.datasets);
+
+      incoming.forEach(key => {
+
+        if(!supported.includes(key)){
+
+          errors.push(
+            "Unsupported dataset: " +
+            key
+          );
+
+        }
+
+      });
+
+    }
+
+    return {
+      valid:errors.length === 0,
+      errors
+    };
+
+  }
+
+  function countBackupRecords(data){
+
+    let total = 0;
+
+    Object.values(
+      data.datasets || {}
+    ).forEach(item => {
+
+      total +=
+        Number(
+          item?.count ??
+          countValue(item?.data) ??
+          0
+        );
+
+    });
+
+    return total;
+
+  }
+
+  function handleImportedJson(data,fileName){
+
+    const validation =
+      validateBackup(data);
+
+    importedBackup = null;
+
+    $("#importPreview")
+      .classList.remove("show");
+
+    $("#restoreStatus").className =
+      "status empty";
+
+    $("#restoreStatus").textContent =
+      "● No file selected";
+
+    $("#clearImportBtn").style.display =
+      "none";
+
+    if(!validation.valid){
+
+      $("#restoreStatus").className =
+        "status";
+
+      $("#restoreStatus").textContent =
+        "● Invalid backup";
+
+      $("#importPreview")
+        .classList.add("show");
+
+      $("#previewStatus").className =
+        "preview-status error";
+
+      $("#previewStatus").textContent =
+        validation.errors.join(" ");
+
+      $("#previewVersion").textContent =
+        "Invalid";
+
+      $("#previewCreated").textContent =
+        "—";
+
+      $("#previewDatasets").textContent =
+        "0";
+
+      $("#previewRecords").textContent =
+        "0";
+
+      toast(
+        "Invalid backup",
+        validation.errors[0] ||
+        "The selected backup could not be validated.",
+        "error"
+      );
+
+      return;
+
+    }
+
+    importedBackup = data;
+
+    const datasetCount =
+      Object.keys(
+        data.datasets || {}
+      ).length;
+
+    const recordCount =
+      countBackupRecords(data);
+
+    $("#restoreStatus").className =
+      "status good";
+
+    $("#restoreStatus").textContent =
+      "● Backup validated";
+
+    $("#clearImportBtn").style.display =
+      "inline-flex";
+
+    $("#importPreview")
+      .classList.add("show");
+
+    $("#previewVersion").textContent =
+      "v" + String(data.version);
+
+    $("#previewCreated").textContent =
+      formatDate(data.createdAt);
+
+    $("#previewDatasets").textContent =
+      datasetCount.toLocaleString();
+
+    $("#previewRecords").textContent =
+      recordCount.toLocaleString();
+
+    $("#previewStatus").className =
+      "preview-status";
+
+    $("#previewStatus").textContent =
+      (
+        fileName
+          ? fileName + " — "
+          : ""
+      ) +
+      "Backup format is valid. No data has been restored yet.";
+
+    toast(
+      "Backup loaded",
+      "The file passed validation and is ready to restore.",
+      "success"
+    );
+
+  }
+
+  function readFile(file){
+
+    if(!file){
+      return;
+    }
+
+    if(
+      !file.name
+        .toLowerCase()
+        .endsWith(".json") &&
+      file.type !== "application/json"
+    ){
+
+      toast(
+        "Wrong file type",
+        "Please choose an AKHI JSON backup file.",
+        "error"
+      );
+
+      return;
+
+    }
+
+    const reader =
+      new FileReader();
+
+    reader.onload = function(){
+
+      try{
+
+        const data =
+          JSON.parse(
+            reader.result
+          );
+
+        handleImportedJson(
+          data,
+          file.name
+        );
+
+      }catch(error){
+
+        toast(
+          "Invalid JSON",
+          "The selected file could not be parsed as JSON.",
+          "error"
+        );
+
+      }
+
+    };
+
+    reader.onerror = function(){
+
+      toast(
+        "File error",
+        "The backup file could not be read.",
+        "error"
+      );
+
+    };
+
+    reader.readAsText(file);
+
+  }
+
+  /* ======================================================
+     RESTORE CONFIRMATION
+  ====================================================== */
+
+  function openRestoreConfirm(){
+
+    if(!importedBackup){
+
+      toast(
+        "No backup selected",
+        "Load and validate a backup file first.",
+        "error"
+      );
+
+      return;
+
+    }
+
+    const summary =
+      $("#restoreSummary");
+
+    summary.innerHTML = "";
+
+    Object.entries(
+      importedBackup.datasets || {}
+    ).forEach(
+      ([key,item]) => {
+
+        const div =
+          document.createElement("div");
+
+        div.className =
+          "preview-item";
+
+        div.innerHTML = `
+          <label>${escapeHtml(
+            LABELS[key] || item.label || key
+          )}</label>
+
+          <strong>
+            ${Number(
+              item.count || 0
+            ).toLocaleString()}
+          </strong>
+        `;
+
+        summary.appendChild(div);
+
+      }
+    );
+
+    $("#confirmOverlay")
+      .classList.add("open");
+
+  }
+
+  function closeRestoreConfirm(){
+
+    $("#confirmOverlay")
+      .classList.remove("open");
+
+  }
+
+  function performRestore(){
+
+    if(!isSuperAdmin()){
+
+      toast(
+        "Permission denied",
+        "Only Super Admin can restore a backup.",
+        "error"
+      );
+
+      closeRestoreConfirm();
+      return;
+
+    }
+
+    if(!importedBackup){
+
+      closeRestoreConfirm();
+      return;
+
+    }
+
+    const datasets =
+      Object.keys(
+        importedBackup.datasets || {}
+      );
+
+    let restored = 0;
+
+    try{
+
+      datasets.forEach(dataset => {
+
+        const item =
+          importedBackup.datasets[dataset];
+
+        const key =
+          item.storageKey ||
+          getExistingKey(dataset);
+
+        if(!key){
+          return;
+        }
+
+        if(item.exists){
+
+          localStorage.setItem(
+            key,
+            JSON.stringify(
+              item.data
+            )
+          );
+
+        }else{
+
+          localStorage.removeItem(key);
+
+        }
+
+        restored++;
+
+      });
+
+    }catch(error){
+
+      toast(
+        "Restore failed",
+        error.message ||
+        "The backup could not be fully restored.",
+        "error"
+      );
+
+      closeRestoreConfirm();
+      return;
+
+    }
+
+    recordActivity(
+      "Backup: Restored",
+      {
+        datasets,
+        count:dCount(importedBackup),
+        restoredDatasets:restored
+      }
+    );
+
+    closeRestoreConfirm();
+
+    refreshStorage();
+    refreshSnapshot();
+
+    showGeneratedBackup(
+      importedBackup
+    );
+
+    toast(
+      "Restore complete",
+      restored +
+      " dataset(s) restored successfully.",
+      "success"
+    );
+
+  }
+
+  function dCount(backup){
+
+    return countBackupRecords(
+      backup
+    );
+
+  }
+
+  /* ======================================================
+     JSON MODAL
+  ====================================================== */
+
+  function openJsonPreview(){
+
+    const payload =
+      importedBackup ||
+      lastGeneratedBackup;
+
+    if(!payload){
+
+      toast(
+        "Nothing to preview",
+        "Create or load a backup first.",
+        "error"
+      );
+
+      return;
+
+    }
+
+    $("#modalJsonPreview").textContent =
+      JSON.stringify(
+        payload,
+        null,
+        2
+      );
+
+    $("#jsonOverlay")
+      .classList.add("open");
+
+  }
+
+  function closeJsonPreview(){
+
+    $("#jsonOverlay")
+      .classList.remove("open");
+
+  }
+
+  /* ======================================================
+     COPY
+  ====================================================== */
+
+  async function copyPreview(){
+
+    const payload =
+      importedBackup ||
+      lastGeneratedBackup;
+
+    if(!payload){
+
+      toast(
+        "Nothing to copy",
+        "Create or load a backup first.",
+        "error"
+      );
+
+      return;
+
+    }
+
+    const text =
+      JSON.stringify(
+        payload,
+        null,
+        2
+      );
+
+    try{
+
+      await navigator.clipboard.writeText(
+        text
+      );
+
+      toast(
+        "JSON copied",
+        "Backup JSON copied to your clipboard.",
+        "success"
+      );
+
+    }catch(error){
+
+      toast(
+        "Copy failed",
+        "Clipboard access was blocked by the browser.",
+        "error"
+      );
+
+    }
+
+  }
+
+  /* ======================================================
+     ACTIVITY LOG
+  ====================================================== */
+
+  function recordActivity(action,payload){
+
+    try{
+
+      if(
+        window.AKIAdmin &&
+        typeof window.AKIAdmin.logActivity === "function"
+      ){
+
+        window.AKIAdmin.logActivity(
+          action,
+          payload || {}
+        );
+
+        return;
+
+      }
+
+    }catch(error){
+      console.warn(
+        "AKIAdmin.logActivity failed:",
+        error
+      );
+    }
+
+    const key =
+      "aki_admin_activity_v1";
+
+    const current =
+      safeJsonParse(
+        localStorage.getItem(key),
+        []
+      );
+
+    if(!Array.isArray(current)){
+      return;
+    }
+
+    const record = {
+
+      id:
+        "log_" +
+        Date.now() +
+        "_" +
+        Math.random()
+          .toString(36)
+          .slice(2,8),
+
+      timestamp:
+        Date.now(),
+
+      actor:
+        currentSession?.name ||
+        currentSession?.email ||
+        "Admin",
+
+      role:
+        currentSession?.role ||
+        "admin",
+
+      action,
+
+      target:"Backup & Restore",
+
+      description:
+        "Backup system activity",
+
+      category:
+        "system",
+
+      payload:
+        payload || {}
+
+    };
+
+    current.unshift(record);
+
+    try{
+
+      localStorage.setItem(
+        key,
+        JSON.stringify(
+          current.slice(0,5000)
+        )
+      );
+
+    }catch(error){}
+
+  }
+
+  /* ======================================================
+     TOAST
+  ====================================================== */
+
+  function toast(title,message,type){
+
+    const wrap =
+      $("#toastWrap");
+
+    const item =
+      document.createElement("div");
+
+    item.className =
+      "toast " +
+      (
+        type || "success"
+      );
+
+    item.innerHTML = `
+      <strong>${escapeHtml(title)}</strong>
+      <span>${escapeHtml(message)}</span>
+    `;
+
+    wrap.appendChild(item);
+
+    setTimeout(
+      () => {
+
+        item.style.opacity = "0";
+        item.style.transform =
+          "translateY(8px)";
+
+        setTimeout(
+          () => item.remove(),
+          220
+        );
+
+      },
+      3200
+    );
+
+  }
+
+  /* ======================================================
+     MOBILE
+  ====================================================== */
+
+  function openSidebar(){
+    $("#sidebar")
+      .classList.add("open");
+  }
+
+  function closeSidebar(){
+    $("#sidebar")
+      .classList.remove("open");
+  }
+
+  /* ======================================================
+     LOGOUT
+  ====================================================== */
+
+  function logout(){
+
+    const ok =
+      window.confirm(
+        "Are you sure you want to logout?"
+      );
+
+    if(!ok){
+      return;
+    }
+
+    try{
+
+      if(
+        window.AKIAdmin &&
+        typeof window.AKIAdmin.logout === "function"
+      ){
+
+        window.AKIAdmin.logout();
+        return;
+
+      }
+
+    }catch(error){}
+
+    try{
+      localStorage.removeItem(
+        "aki_admin_session"
+      );
+
+      sessionStorage.removeItem(
+        "aki_admin_session"
+      );
+    }catch(error){}
+
+    window.location.href =
+      "./login.html";
+
+  }
+
+  /* ======================================================
+     RESET IMPORT UI
+  ====================================================== */
+
+  function clearImport(){
+
+    importedBackup = null;
+
+    $("#fileInput").value = "";
+
+    $("#importPreview")
+      .classList.remove("show");
+
+    $("#clearImportBtn").style.display =
+      "none";
+
+    $("#restoreStatus").className =
+      "status empty";
+
+    $("#restoreStatus").textContent =
+      "● No file selected";
+
+  }
+
+  /* ======================================================
+     EVENT BINDINGS
+  ====================================================== */
+
+  function bindEvents(){
+
+    $("#themeBtn")
+      .addEventListener(
+        "click",
+        toggleTheme
+      );
+
+    $("#mobileThemeBtn")
+      .addEventListener(
+        "click",
+        toggleTheme
+      );
+
+    $("#menuBtn")
+      .addEventListener(
+        "click",
+        openSidebar
+      );
+
+    $("#logoutBtn")
+      .addEventListener(
+        "click",
+        logout
+      );
+
+    $("#refreshBtn")
+      .addEventListener(
+        "click",
+        () => {
+
+          refreshStorage();
+          refreshSnapshot();
+
+          toast(
+            "Data refreshed",
+            "Storage inventory and snapshot updated.",
+            "success"
+          );
+
+        }
+      );
+
+    $("#refreshStorageBtn")
+      .addEventListener(
+        "click",
+        () => {
+
+          refreshStorage();
+          refreshSnapshot();
+
+        }
+      );
+
+    $("#quickBackupBtn")
+      .addEventListener(
+        "click",
+        quickBackup
+      );
+
+    $("#createBackupBtn")
+      .addEventListener(
+        "click",
+        createBackup
+      );
+
+    $("#selectAllBtn")
+      .addEventListener(
+        "click",
+        selectAllDatasets
+      );
+
+    $("#selectNoneBtn")
+      .addEventListener(
+        "click",
+        selectNoneDatasets
+      );
+
+    document
+      .querySelectorAll(".dataset-check")
+      .forEach(
+        input => {
+
+          input.addEventListener(
+            "change",
+            updateSelectionLabel
+          );
+
+        }
+      );
+
+    $("#chooseFileBtn")
+      .addEventListener(
+        "click",
+        () => {
+          $("#fileInput").click();
+        }
+      );
+
+    $("#fileInput")
+      .addEventListener(
+        "change",
+        function(){
+
+          const file =
+            this.files?.[0];
+
+          readFile(file);
+
+        }
+      );
+
+    $("#clearImportBtn")
+      .addEventListener(
+        "click",
+        clearImport
+      );
+
+    $("#restoreBtn")
+      .addEventListener(
+        "click",
+        openRestoreConfirm
+      );
+
+    $("#confirmRestoreBtn")
+      .addEventListener(
+        "click",
+        performRestore
+      );
+
+    $("#cancelRestoreBtn")
+      .addEventListener(
+        "click",
+        closeRestoreConfirm
+      );
+
+    $("#closeConfirmBtn")
+      .addEventListener(
+        "click",
+        closeRestoreConfirm
+      );
+
+    $("#previewJsonBtn")
+      .addEventListener(
+        "click",
+        openJsonPreview
+      );
+
+    $("#closeJsonBtn")
+      .addEventListener(
+        "click",
+        closeJsonPreview
+      );
+
+    $("#copyPreviewBtn")
+      .addEventListener(
+        "click",
+        copyPreview
+      );
+
+    $("#dropzone")
+      .addEventListener(
+        "dragover",
+        function(event){
+
+          event.preventDefault();
+
+          this.classList.add(
+            "dragover"
+          );
+
+        }
+      );
+
+    $("#dropzone")
+      .addEventListener(
+        "dragleave",
+        function(){
+
+          this.classList.remove(
+            "dragover"
+          );
+
+        }
+      );
+
+    $("#dropzone")
+      .addEventListener(
+        "drop",
+        function(event){
+
+          event.preventDefault();
+
+          this.classList.remove(
+            "dragover"
+          );
+
+          const file =
+            event.dataTransfer?.files?.[0];
+
+          readFile(file);
+
+        }
+      );
+
+    $("#confirmOverlay")
+      .addEventListener(
+        "click",
+        function(event){
+
+          if(event.target === this){
+            closeRestoreConfirm();
+          }
+
+        }
+      );
+
+    $("#jsonOverlay")
+      .addEventListener(
+        "click",
+        function(event){
+
+          if(event.target === this){
+            closeJsonPreview();
+          }
+
+        }
+      );
+
+    document
+      .querySelectorAll(".sidebar a")
+      .forEach(
+        link => {
+
+          link.addEventListener(
+            "click",
+            () => {
+
+              if(window.innerWidth <= 900){
+                closeSidebar();
+              }
+
+            }
+          );
+
+        }
+      );
+
+    document.addEventListener(
+      "keydown",
+      function(event){
+
+        if(event.key === "Escape"){
+
+          closeRestoreConfirm();
+          closeJsonPreview();
+          closeSidebar();
+
+        }
+
+      }
+    );
+
+  }
+
+  /* ======================================================
+     INIT
+  ====================================================== */
+
+  function init(){
+
+    applyTheme(
+      currentTheme()
+    );
+
+    if(!requireAuthentication()){
+      return;
+    }
+
+    renderSession();
+
+    updateSelectionLabel();
+
+    refreshStorage();
+    refreshSnapshot();
+
+    bindEvents();
+
+  }
+
+  init();
+
+})();
+</script>
+
+</body>
+</html>
