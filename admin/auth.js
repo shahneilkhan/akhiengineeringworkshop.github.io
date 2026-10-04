@@ -1,164 +1,484 @@
 /*
-  AKI ENGINEERING WORKSHOP — ADMIN AUTH CORE v1.1
-  Browser-side session bridge for GitHub Pages.
+  AKHI ENGINEERING WORKSHOP
+  ADMIN AUTH CORE v1.3 — SECURITY HARDENING
 
   IMPORTANT:
-  This is NOT server-side security. Credentials remain in client-side code.
-  Use Firebase Auth / a secure backend before handling sensitive production data.
+  This GitHub Pages version is still client-side authentication.
+  It is not equivalent to server-side authentication.
+
+  Final production phase:
+  Supabase Auth + RLS + Passkey/WebAuthn
 */
 
-(function (window, document) {
-  'use strict';
+(function(window, document){
 
-  const SESSION_KEY = 'aki_admin_session';
-  const REMEMBER_KEY = 'aki_admin_remember';
-  const EMAIL_KEY = 'aki_admin_email';
-  const ACTIVITY_KEY = 'aki_admin_activity_v1';
+  "use strict";
+
+  const VERSION = "1.3";
+
+  const SESSION_KEY = "aki_admin_session";
+  const REMEMBER_KEY = "aki_admin_remember";
+  const EMAIL_KEY = "aki_admin_email";
+
+  const ACTIVITY_KEY = "aki_admin_activity_v1";
+  const ACCOUNTS_KEY = "aki_admin_accounts_v1";
+  const SECURITY_KEY = "aki_security_settings_v1";
 
   const SESSION_TTL = 12 * 60 * 60 * 1000;
   const REMEMBER_TTL = 30 * 24 * 60 * 60 * 1000;
 
-  const VERSION = '1.1';
-
   /*
-    Role permission system
+    Permission model
   */
+
   const ROLE_PERMISSIONS = {
-    admin: [
-      'dashboard.read',
 
-      'homepage.read',
-      'homepage.write',
+    admin:[
+      "dashboard.read",
 
-      'banner.read',
-      'banner.write',
+      "homepage.read",
+      "homepage.write",
 
-      'projects.read',
-      'projects.write',
+      "banner.read",
+      "banner.write",
 
-      'media.read',
-      'media.write',
+      "projects.read",
+      "projects.write",
 
-      'settings.read',
-      'settings.write',
+      "media.read",
+      "media.write",
 
-      'ai.read',
-      'ai.use'
+      "settings.read",
+      "settings.write",
+
+      "ai.read",
+      "ai.use",
+
+      "activity.read"
     ],
 
-    superadmin: ['*']
+    superadmin:[
+      "*"
+    ]
+
   };
 
   /*
-    Find /admin/ base path
+    Security defaults
   */
-  function adminBase() {
-    const path = location.pathname;
-    const marker = '/admin/';
 
-    const index = path.indexOf(marker);
+  const SECURITY_DEFAULTS = {
+
+    biometricEnabled:false,
+
+    requireBiometric:false,
+
+    passkeyReady:false,
+
+    failedAttemptProtection:true,
+
+    rememberDeviceAllowed:true,
+
+    sessionTimeoutMinutes:720,
+
+    developerCreditLocked:true,
+
+    securityVersion:"1.0"
+
+  };
+
+  /*
+    Legacy fallback accounts.
+
+    The role selector is no longer exposed.
+    The role is resolved silently from credentials.
+  */
+
+  const LEGACY_ACCOUNTS = [
+
+    {
+      email:"admin@akiworkshop.com",
+      password:"AKI@2026",
+      name:"Workshop Admin",
+      role:"admin"
+    },
+
+    {
+      email:"master@nusratafsana.com",
+      password:"SNK@Master2026!",
+      name:"Super Admin",
+      role:"superadmin"
+    }
+
+  ];
+
+  /* ======================================================
+     BASIC HELPERS
+  ====================================================== */
+
+  function safeJson(value){
+
+    try{
+      return JSON.parse(value);
+    }catch(error){
+      return null;
+    }
+
+  }
+
+  function normalizeRole(role){
+
+    const value =
+      String(role || "")
+        .toLowerCase()
+        .replace(/[\s_-]+/g,"");
+
+    if(value === "superadmin"){
+      return "superadmin";
+    }
+
+    return "admin";
+
+  }
+
+  function normalizeEmail(email){
+
+    return String(email || "")
+      .trim()
+      .toLowerCase();
+
+  }
+
+  /* ======================================================
+     URLS
+  ====================================================== */
+
+  function adminBase(){
+
+    const path =
+      location.pathname;
+
+    const marker =
+      "/admin/";
+
+    const index =
+      path.indexOf(marker);
 
     const prefix =
       index >= 0
-        ? path.slice(0, index)
-        : '';
+        ? path.slice(0,index)
+        : "";
 
-    return prefix + '/admin';
+    return prefix + "/admin";
+
   }
 
-  /*
-    Login URL
-  */
-  function loginUrl() {
-    return adminBase() + '/login/';
+  function loginUrl(){
+
+    return adminBase() + "/login/";
+
   }
 
-  /*
-    Dashboard URL
-  */
-  function dashboardUrl() {
-    return adminBase() + '/dashboard.html';
+  function dashboardUrl(){
+
+    return adminBase() + "/dashboard.html";
+
   }
 
-  /*
-    Safe JSON parser
-  */
-  function safeJson(value) {
-    try {
-      return JSON.parse(value);
-    } catch (_) {
-      return null;
-    }
+  function securityUrl(){
+
+    return adminBase() + "/security.html";
+
   }
 
-  /*
-    Validate / normalize session
-  */
-  function normalizeSession(raw) {
+  /* ======================================================
+     SECURITY SETTINGS
+  ====================================================== */
 
-    if (!raw || typeof raw !== 'object') {
+  function getSecuritySettings(){
+
+    const saved =
+      safeJson(
+        localStorage.getItem(
+          SECURITY_KEY
+        )
+      );
+
+    return {
+      ...SECURITY_DEFAULTS,
+      ...(saved && typeof saved === "object"
+        ? saved
+        : {})
+    };
+
+  }
+
+  function saveSecuritySettings(settings){
+
+    const current =
+      getSecuritySettings();
+
+    const next = {
+      ...current,
+      ...(settings || {})
+    };
+
+    localStorage.setItem(
+      SECURITY_KEY,
+      JSON.stringify(next)
+    );
+
+    return next;
+
+  }
+
+  /* ======================================================
+     ACCOUNT REGISTRY
+  ====================================================== */
+
+  function getAccounts(){
+
+    const raw =
+      safeJson(
+        localStorage.getItem(
+          ACCOUNTS_KEY
+        )
+      );
+
+    if(!Array.isArray(raw)){
+      return [];
+    }
+
+    return raw;
+
+  }
+
+  function normalizeAccount(account){
+
+    if(
+      !account ||
+      typeof account !== "object"
+    ){
       return null;
     }
 
-    if (raw.loggedIn !== true) {
-      return null;
-    }
+    const email =
+      normalizeEmail(
+        account.email ||
+        account.username
+      );
 
-    if (
-      !raw.email ||
-      !raw.role ||
-      !raw.loginTime ||
-      !raw.expiresAt
-    ) {
-      return null;
-    }
-
-    const role = String(raw.role).toLowerCase();
-
-    if (!['admin', 'superadmin'].includes(role)) {
-      return null;
-    }
-
-    if (Number(raw.expiresAt) <= Date.now()) {
+    if(!email){
       return null;
     }
 
     return {
-      email: String(raw.email).toLowerCase(),
+
+      id:
+        account.id ||
+        account.uid ||
+        account._id ||
+        "account_" + email,
+
+      email,
+
+      password:
+        String(
+          account.password ||
+          ""
+        ),
+
+      name:
+        account.name ||
+        account.displayName ||
+        email,
+
+      role:
+        normalizeRole(
+          account.role
+        ),
+
+      enabled:
+        account.enabled !== false &&
+        account.active !== false,
+
+      permissions:
+        Array.isArray(
+          account.permissions
+        )
+          ? account.permissions
+          : []
+
+    };
+
+  }
+
+  function registryAccount(email,password){
+
+    const normalizedEmail =
+      normalizeEmail(email);
+
+    const accounts =
+      getAccounts();
+
+    for(
+      const rawAccount of accounts
+    ){
+
+      const account =
+        normalizeAccount(
+          rawAccount
+        );
+
+      if(!account){
+        continue;
+      }
+
+      if(
+        account.enabled &&
+        account.email === normalizedEmail &&
+        account.password === password
+      ){
+
+        return account;
+
+      }
+
+    }
+
+    return null;
+
+  }
+
+  function legacyAccount(email,password){
+
+    const normalizedEmail =
+      normalizeEmail(email);
+
+    return (
+      LEGACY_ACCOUNTS.find(
+        account =>
+          normalizeEmail(
+            account.email
+          ) === normalizedEmail &&
+          account.password === password
+      ) ||
+      null
+    );
+
+  }
+
+  function resolveAccount(email,password){
+
+    const registry =
+      registryAccount(
+        email,
+        password
+      );
+
+    if(registry){
+      return registry;
+    }
+
+    return legacyAccount(
+      email,
+      password
+    );
+
+  }
+
+  /* ======================================================
+     SESSION
+  ====================================================== */
+
+  function normalizeSession(raw){
+
+    if(
+      !raw ||
+      typeof raw !== "object"
+    ){
+      return null;
+    }
+
+    if(
+      raw.loggedIn !== true
+    ){
+      return null;
+    }
+
+    if(
+      !raw.email ||
+      !raw.role ||
+      !raw.loginTime ||
+      !raw.expiresAt
+    ){
+      return null;
+    }
+
+    const role =
+      normalizeRole(
+        raw.role
+      );
+
+    if(
+      !["admin","superadmin"]
+        .includes(role)
+    ){
+      return null;
+    }
+
+    if(
+      Number(raw.expiresAt) <=
+      Date.now()
+    ){
+      return null;
+    }
+
+    return {
+
+      email:
+        normalizeEmail(
+          raw.email
+        ),
 
       name:
         raw.name ||
         (
-          role === 'superadmin'
-            ? 'Super Admin'
-            : 'Workshop Admin'
+          role === "superadmin"
+            ? "Super Admin"
+            : "Workshop Admin"
         ),
 
-      role: role,
+      role,
 
-      loggedIn: true,
+      loggedIn:true,
 
-      loginTime: raw.loginTime,
+      loginTime:
+        raw.loginTime,
 
       lastSeen:
         raw.lastSeen ||
         raw.loginTime,
 
       expiresAt:
-        Number(raw.expiresAt),
+        Number(
+          raw.expiresAt
+        ),
 
       remember:
-        Boolean(raw.remember),
+        Boolean(
+          raw.remember
+        ),
 
       version:
-        raw.version || VERSION
+        raw.version ||
+        VERSION
+
     };
+
   }
 
-  /*
-    Read active session
-  */
-  function readSession() {
+  function readSession(){
 
     const candidates = [
 
@@ -172,11 +492,11 @@
 
     ];
 
-    for (
+    for(
       const value of candidates
-    ) {
+    ){
 
-      if (!value) {
+      if(!value){
         continue;
       }
 
@@ -185,18 +505,17 @@
           safeJson(value)
         );
 
-      if (session) {
+      if(session){
         return session;
       }
+
     }
 
     return null;
+
   }
 
-  /*
-    Write session
-  */
-  function writeSession(session) {
+  function writeSession(session){
 
     const payload =
       JSON.stringify(session);
@@ -209,106 +528,134 @@
       REMEMBER_KEY
     );
 
-    if (session.remember) {
+    if(session.remember){
 
       localStorage.setItem(
         REMEMBER_KEY,
         payload
       );
 
-    } else {
+    }else{
 
       sessionStorage.setItem(
         SESSION_KEY,
         payload
       );
+
     }
+
   }
 
-  /*
-    Activity log
-  */
+  /* ======================================================
+     ACTIVITY
+  ====================================================== */
+
   function logActivity(
     action,
     meta
-  ) {
+  ){
 
     const session =
       readSession();
 
-    const records =
+    const existing =
       safeJson(
         localStorage.getItem(
           ACTIVITY_KEY
         )
-      ) || [];
+      );
+
+    const records =
+      Array.isArray(existing)
+        ? existing
+        : [];
 
     records.unshift({
 
       id:
-        'act_' +
+        "act_" +
         Date.now() +
-        '_' +
+        "_" +
         Math.random()
           .toString(36)
-          .slice(2, 8),
+          .slice(2,8),
 
-      action: action,
+      action:
+        String(
+          action ||
+          "activity"
+        ),
 
       actor:
         session
           ? session.email
-          : 'anonymous',
+          : "anonymous",
 
       role:
         session
           ? session.role
-          : 'guest',
+          : "guest",
 
       meta:
         meta || {},
 
       at:
         new Date().toISOString()
+
     });
 
-    /*
-      Keep only latest 200 records
-    */
     localStorage.setItem(
       ACTIVITY_KEY,
       JSON.stringify(
-        records.slice(0, 200)
+        records.slice(0,500)
       )
     );
+
   }
 
-  /*
-    Create login session
-  */
+  /* ======================================================
+     LOGIN
+  ====================================================== */
+
   function createSession(
     account,
     remember
-  ) {
+  ){
+
+    if(
+      !account ||
+      !account.email ||
+      !account.role
+    ){
+      return null;
+    }
 
     const now =
       Date.now();
 
+    const role =
+      normalizeRole(
+        account.role
+      );
+
     const session = {
 
       email:
-        String(account.email)
-          .toLowerCase(),
+        normalizeEmail(
+          account.email
+        ),
 
       name:
-        account.name,
+        account.name ||
+        (
+          role === "superadmin"
+            ? "Super Admin"
+            : "Workshop Admin"
+        ),
 
-      role:
-        String(account.role)
-          .toLowerCase(),
+      role,
 
-      loggedIn:
-        true,
+      loggedIn:true,
 
       loginTime:
         new Date(now)
@@ -329,8 +676,8 @@
       remember:
         Boolean(remember),
 
-      version:
-        VERSION
+      version:VERSION
+
     };
 
     writeSession(
@@ -339,32 +686,242 @@
 
     localStorage.setItem(
       EMAIL_KEY,
-      account.email
-        .toLowerCase()
+      session.email
     );
 
     logActivity(
-      'login',
+      "login",
       {
         mode:
           remember
-            ? 'remembered'
-            : 'session'
+            ? "remembered"
+            : "session",
+
+        role:
+          session.role
       }
     );
 
     return session;
+
   }
 
-  /*
-    Update last seen
-  */
-  function touch() {
+  function authenticate(
+    email,
+    password,
+    remember
+  ){
+
+    const security =
+      getSecuritySettings();
+
+    if(
+      security.failedAttemptProtection
+    ){
+
+      clearExpiredLoginAttempts();
+
+      const locked =
+        isLoginLocked();
+
+      if(locked){
+
+        return {
+          success:false,
+          error:
+            "Too many failed attempts. Please try again later."
+        };
+
+      }
+
+    }
+
+    const account =
+      resolveAccount(
+        email,
+        password
+      );
+
+    if(!account){
+
+      recordFailedLogin();
+
+      return {
+        success:false,
+        error:
+          "Invalid email or password."
+      };
+
+    }
+
+    clearLoginFailures();
+
+    const session =
+      createSession(
+        account,
+        remember
+      );
+
+    return {
+      success:true,
+      session
+    };
+
+  }
+
+  /* ======================================================
+     FAILED LOGIN PROTECTION
+  ====================================================== */
+
+  const FAILED_KEY =
+    "aki_login_failures_v1";
+
+  function getFailureState(){
+
+    const data =
+      safeJson(
+        localStorage.getItem(
+          FAILED_KEY
+        )
+      );
+
+    if(
+      !data ||
+      typeof data !== "object"
+    ){
+
+      return {
+        count:0,
+        firstAt:0,
+        lockedUntil:0
+      };
+
+    }
+
+    return {
+
+      count:
+        Number(
+          data.count || 0
+        ),
+
+      firstAt:
+        Number(
+          data.firstAt || 0
+        ),
+
+      lockedUntil:
+        Number(
+          data.lockedUntil || 0
+        )
+
+    };
+
+  }
+
+  function saveFailureState(
+    state
+  ){
+
+    localStorage.setItem(
+      FAILED_KEY,
+      JSON.stringify(state)
+    );
+
+  }
+
+  function recordFailedLogin(){
+
+    const state =
+      getFailureState();
+
+    const now =
+      Date.now();
+
+    if(
+      !state.firstAt ||
+      now - state.firstAt >
+      15 * 60 * 1000
+    ){
+
+      state.count = 0;
+      state.firstAt = now;
+
+    }
+
+    state.count++;
+
+    if(
+      state.count >= 6
+    ){
+
+      state.lockedUntil =
+        now +
+        10 * 60 * 1000;
+
+      logActivity(
+        "security_login_lock",
+        {
+          count:
+            state.count
+        }
+      );
+
+    }
+
+    saveFailureState(
+      state
+    );
+
+  }
+
+  function clearLoginFailures(){
+
+    localStorage.removeItem(
+      FAILED_KEY
+    );
+
+  }
+
+  function clearExpiredLoginAttempts(){
+
+    const state =
+      getFailureState();
+
+    if(
+      state.lockedUntil &&
+      state.lockedUntil <=
+      Date.now()
+    ){
+
+      clearLoginFailures();
+
+    }
+
+  }
+
+  function isLoginLocked(){
+
+    const state =
+      getFailureState();
+
+    return (
+      state.lockedUntil >
+      Date.now()
+    );
+
+  }
+
+  /* ======================================================
+     SESSION MANAGEMENT
+  ====================================================== */
+
+  function touch(){
 
     const session =
       readSession();
 
-    if (!session) {
+    if(!session){
       return null;
     }
 
@@ -377,23 +934,26 @@
     );
 
     return session;
+
   }
 
-  /*
-    Logout
-  */
   function logout(
-    redirect
-  ) {
+    redirect=true
+  ){
 
     const session =
       readSession();
 
-    if (session) {
+    if(session){
 
       logActivity(
-        'logout'
+        "logout",
+        {
+          role:
+            session.role
+        }
       );
+
     }
 
     sessionStorage.removeItem(
@@ -408,80 +968,111 @@
       EMAIL_KEY
     );
 
-    if (redirect !== false) {
+    if(redirect){
 
       location.href =
         loginUrl();
+
     }
+
   }
 
-  /*
-    Permission checker
-  */
-  function hasPermission(
-    permission
-  ) {
+  function getSession(){
+
+    return readSession();
+
+  }
+
+  function requireAuth(){
 
     const session =
       readSession();
 
-    if (!session) {
+    if(!session){
+
+      location.href =
+        loginUrl();
+
+      return false;
+
+    }
+
+    touch();
+
+    return true;
+
+  }
+
+  /* ======================================================
+     PERMISSIONS
+  ====================================================== */
+
+  function hasPermission(
+    permission
+  ){
+
+    const session =
+      readSession();
+
+    if(!session){
       return false;
     }
 
-    const list =
+    const rolePermissions =
       ROLE_PERMISSIONS[
         session.role
       ] || [];
 
     return (
-      list.includes('*') ||
-      list.includes(permission)
+      rolePermissions.includes("*") ||
+      rolePermissions.includes(
+        permission
+      )
     );
+
   }
 
-  /*
-    Require permission
-  */
   function requirePermission(
     permission
-  ) {
+  ){
 
-    if (!requireAuth()) {
+    if(
+      !requireAuth()
+    ){
       return false;
     }
 
-    if (
+    if(
       hasPermission(
         permission
       )
-    ) {
+    ){
 
       return true;
+
     }
 
     location.href =
       dashboardUrl();
 
     return false;
+
   }
 
-  /*
-    Require specific role
-  */
   function requireRole(
     role
-  ) {
+  ){
 
     const session =
       readSession();
 
-    if (!session) {
+    if(!session){
 
       location.href =
         loginUrl();
 
       return false;
+
     }
 
     const allowed =
@@ -491,78 +1082,96 @@
 
     const normalized =
       allowed.map(
-        function (value) {
-          return String(value)
-            .toLowerCase();
-        }
+        item =>
+          normalizeRole(item)
       );
 
-    if (
+    if(
       normalized.includes(
         session.role
       )
-    ) {
+    ){
 
       return true;
+
     }
 
     location.href =
       dashboardUrl();
 
     return false;
+
   }
 
-  /*
-    Require authenticated user
-  */
-  function requireAuth() {
+  /* ======================================================
+     SECURITY ACCESS
+  ====================================================== */
+
+  function isSuperAdmin(){
 
     const session =
       readSession();
 
-    if (!session) {
+    return Boolean(
+      session &&
+      session.role ===
+      "superadmin"
+    );
 
-      location.href =
-        loginUrl();
+  }
 
+  function requireSuperAdmin(){
+
+    if(
+      !requireAuth()
+    ){
       return false;
     }
 
-    touch();
+    if(
+      isSuperAdmin()
+    ){
 
-    return true;
+      return true;
+
+    }
+
+    location.href =
+      dashboardUrl();
+
+    return false;
+
   }
 
-  /*
-    Get current session
-  */
-  function getSession() {
-    return readSession();
-  }
+  /* ======================================================
+     ACTIVITY GETTER
+  ====================================================== */
 
-  /*
-    Get activity logs
-  */
-  function getActivity() {
+  function getActivity(){
 
-    return (
+    const data =
       safeJson(
         localStorage.getItem(
           ACTIVITY_KEY
         )
-      ) || []
-    );
+      );
+
+    return Array.isArray(data)
+      ? data
+      : [];
+
   }
 
-  /*
-    Remove expired session
-  */
-  function clearExpired() {
+  /* ======================================================
+     SESSION CLEANUP
+  ====================================================== */
+
+  function clearExpired(){
 
     const session =
       readSession();
 
-    if (session) {
+    if(session){
       return session;
     }
 
@@ -575,93 +1184,129 @@
     );
 
     return null;
+
   }
 
-  /*
-    Public AKI Admin API
-  */
+  /* ======================================================
+     PASSKEY / WEB AUTHN DETECTION
+  ====================================================== */
+
+  function isPasskeySupported(){
+
+    return Boolean(
+      window.PublicKeyCredential &&
+      navigator.credentials &&
+      typeof navigator.credentials.create ===
+        "function" &&
+      typeof navigator.credentials.get ===
+        "function"
+    );
+
+  }
+
+  /* ======================================================
+     GLOBAL API
+  ====================================================== */
+
   window.AKIAdmin = {
 
     VERSION,
 
     SESSION_KEY,
-
     REMEMBER_KEY,
 
     ROLE_PERMISSIONS,
 
-    loginUrl,
+    SECURITY_DEFAULTS,
 
+    loginUrl,
     dashboardUrl,
+    securityUrl,
 
     getSession,
-
     createSession,
+    authenticate,
 
     logout,
 
     requireAuth,
-
     requireRole,
+    requirePermission,
+    requireSuperAdmin,
 
     hasPermission,
-
-    requirePermission,
+    isSuperAdmin,
 
     getActivity,
 
-    clearExpired,
+    getSecuritySettings,
+    saveSecuritySettings,
 
+    isPasskeySupported,
+
+    clearExpired,
     touch,
 
     logActivity
+
   };
 
-  /*
-    Automatically protect admin pages
-  */
+  /* ======================================================
+     OPTIONAL AUTO GUARD
+  ====================================================== */
+
   document.addEventListener(
-    'DOMContentLoaded',
-    function () {
+    "DOMContentLoaded",
+    function(){
+
+      const path =
+        location.pathname;
 
       const isLogin =
         /\/admin\/login(?:\/|\.html)?$/i
-          .test(location.pathname)
-        ||
+          .test(path) ||
         /\/admin\/login\/index\.html$/i
-          .test(location.pathname);
+          .test(path);
 
-      /*
-        Add:
-        <html data-admin-guard="true">
-        to pages that require authentication.
-      */
+      const isSecurity =
+        /\/admin\/security\.html$/i
+          .test(path);
 
-      if (
-        !isLogin &&
+      const guard =
         document.documentElement
           .dataset
-          .adminGuard === 'true'
-      ) {
+          .adminGuard === "true";
 
-        requireAuth();
+      if(
+        !isLogin &&
+        guard
+      ){
+
+        if(isSecurity){
+
+          requireSuperAdmin();
+
+        }else{
+
+          requireAuth();
+
+        }
+
       }
 
-      /*
-        Logout buttons
-      */
       document
         .querySelectorAll(
-          '[data-admin-logout]'
+          "[data-admin-logout]"
         )
         .forEach(
-          function (button) {
+          button => {
 
             button.addEventListener(
-              'click',
-              function () {
+              "click",
+              function(){
 
                 logout();
+
               }
             );
 
@@ -671,4 +1316,4 @@
     }
   );
 
-})(window, document);
+})(window,document);
