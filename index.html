@@ -1,63 +1,5270 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#07090c">
-<meta name="description" content="AKI Engineering Workshop secure administration portal">
-<title>Admin Login | AKI Engineering Workshop</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="../auth.js"></script>
-<style>
-:root{--bg:#05070a;--panel:#0c1117;--panel2:#111720;--border:rgba(255,255,255,.09);--text:#f5f7fa;--muted:#8d98a6;--muted2:#596574;--accent:#c8ff3d;--danger:#ff6b80;--radius:26px;}
-*{box-sizing:border-box;margin:0;padding:0}html,body{min-height:100%;background:var(--bg)}body{min-height:100vh;padding:28px;display:grid;place-items:center;color:var(--text);font-family:Inter,sans-serif;background:radial-gradient(circle at 12% 12%,rgba(200,255,61,.09),transparent 28%),radial-gradient(circle at 90% 88%,rgba(117,168,255,.05),transparent 24%),var(--bg)}body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:42px 42px}.shell{width:min(1080px,100%);min-height:680px;display:grid;grid-template-columns:1.05fr .95fr;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:rgba(12,17,23,.82);box-shadow:0 35px 100px rgba(0,0,0,.55);backdrop-filter:blur(22px);position:relative;z-index:1}.brand{padding:46px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--border);background:radial-gradient(circle at 50% 34%,rgba(200,255,61,.11),transparent 34%),linear-gradient(145deg,rgba(255,255,255,.025),transparent)}.mark{display:flex;gap:13px;align-items:center}.logo{width:50px;height:50px;border-radius:15px;display:grid;place-items:center;background:var(--accent);color:#061000;font-weight:900;letter-spacing:-1px;font-family:"Space Grotesk";box-shadow:0 0 34px rgba(200,255,61,.18)}.brand-name{font-weight:800;font-family:"Space Grotesk";font-size:20px}.brand-name small{display:block;margin-top:3px;color:var(--muted);font:500 10px Inter;letter-spacing:1.4px;text-transform:uppercase}.center{text-align:center}.orb{width:150px;height:150px;margin:0 auto 34px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 34% 28%,#efffc2 0,#c8ff3d 22%,#7da815 48%,#161b0b 72%,#07090c 100%);box-shadow:0 0 48px rgba(200,255,61,.2),0 0 110px rgba(200,255,61,.08);animation:float 5s ease-in-out infinite}.orb:before,.orb:after{content:"";position:absolute;width:186px;height:186px;border:1px solid rgba(200,255,61,.13);border-radius:50%;animation:spin 12s linear infinite}.orb:after{width:218px;height:218px;border-style:dashed;opacity:.35;animation-direction:reverse;animation-duration:20s}.orb b{font:900 30px "Space Grotesk";color:#071000}.center h1{font:700 clamp(31px,4vw,48px)/1 "Space Grotesk";letter-spacing:-2px;margin-bottom:16px}.center h1 span{color:var(--accent)}.center p{color:var(--muted);font-size:13px;line-height:1.75;max-width:430px;margin:auto}.features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.feature{padding:13px;border:1px solid var(--border);border-radius:13px;background:rgba(255,255,255,.025)}.feature strong{display:block;font-size:11px;margin-bottom:4px}.feature span{font-size:9px;color:var(--muted2)}.form-panel{padding:54px 48px;display:flex;flex-direction:column;justify-content:center}.badge{display:inline-flex;width:max-content;align-items:center;gap:8px;padding:8px 11px;border:1px solid rgba(200,255,61,.16);border-radius:999px;background:rgba(200,255,61,.05);color:var(--accent);font-size:10px;font-weight:800;margin-bottom:20px}.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}h2{font:700 34px/1 "Space Grotesk";letter-spacing:-1.5px;margin-bottom:9px}.intro{color:var(--muted);font-size:12px;line-height:1.7;margin-bottom:24px}.roles{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}.role{height:44px;border:1px solid var(--border);background:rgba(255,255,255,.025);border-radius:12px;color:var(--muted);font-weight:700;font-size:11px}.role.active{color:var(--accent);border-color:rgba(200,255,61,.25);background:rgba(200,255,61,.055)}.field{margin-bottom:16px}.field label{display:block;font-size:11px;font-weight:800;margin:0 0 8px;color:#dce1e7}.wrap{position:relative}.wrap input{width:100%;height:53px;padding:0 44px 0 14px;border:1px solid var(--border);outline:0;background:rgba(255,255,255,.03);border-radius:13px;color:var(--text);font:500 13px Inter}.wrap input:focus{border-color:rgba(200,255,61,.34);box-shadow:0 0 0 4px rgba(200,255,61,.045)}.toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:35px;height:35px;border:0;border-radius:9px;background:transparent;color:var(--muted);cursor:pointer}.toggle:hover{background:rgba(255,255,255,.05);color:var(--accent)}.options{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:2px 0 18px}.remember{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:10px}.remember input{accent-color:var(--accent)}.forgot{border:0;background:none;color:var(--accent);font-size:10px;font-weight:700;cursor:pointer}.error{display:none;margin-bottom:15px;padding:11px 13px;border-radius:12px;border:1px solid rgba(255,107,128,.2);background:rgba(255,107,128,.06);color:#ff9eaa;font-size:10px;line-height:1.5}.error.show{display:block}.submit{height:55px;width:100%;border:0;border-radius:14px;background:var(--accent);color:#071000;font-weight:900;cursor:pointer;box-shadow:0 14px 32px rgba(200,255,61,.14);transition:.2s}.submit:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(200,255,61,.2)}.submit:disabled{opacity:.65;pointer-events:none}.footer{margin-top:23px;padding-top:18px;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:15px;color:var(--muted2);font-size:9px}.toast{position:fixed;right:22px;bottom:22px;display:none;z-index:20;min-width:260px;max-width:360px;padding:13px 15px;border:1px solid var(--border);border-radius:12px;background:#11161c;box-shadow:0 20px 50px rgba(0,0,0,.45);font-size:11px}.toast.show{display:block}.spin{width:15px;height:15px;display:inline-block;border:2px solid rgba(0,0,0,.2);border-top-color:#071000;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-3px;margin-right:8px}@keyframes spin{to{transform:rotate(360deg)}}@keyframes float{50%{transform:translateY(-8px)}}
-@media(max-width:850px){.shell{grid-template-columns:1fr}.brand{display:none}.form-panel{padding:34px 25px}.footer{font-size:8px}}@media(max-width:460px){body{padding:12px}.form-panel{padding:28px 18px}.roles{grid-template-columns:1fr}.footer{flex-direction:column}}
-</style>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0"
+  >
+
+  <title id="pageTitle">
+    AKHI Engineering Workshop
+  </title>
+
+  <meta
+    name="description"
+    id="pageDescription"
+    content="Professional engineering workshop and fabrication solutions."
+  >
+
+  <meta
+    name="keywords"
+    id="pageKeywords"
+    content="engineering workshop, fabrication, engineering, AKHI Engineering Workshop"
+  >
+
+  <meta
+    name="robots"
+    id="pageRobots"
+    content="index,follow"
+  >
+
+  <meta
+    name="theme-color"
+    id="themeColorMeta"
+    content="#d7a646"
+  >
+
+  <meta
+    property="og:title"
+    id="ogTitle"
+    content="AKHI Engineering Workshop"
+  >
+
+  <meta
+    property="og:description"
+    id="ogDescription"
+    content="Professional engineering workshop solutions."
+  >
+
+  <meta
+    property="og:image"
+    id="ogImage"
+    content=""
+  >
+
+  <meta
+    property="og:type"
+    content="website"
+  >
+
+  <link
+    rel="icon"
+    id="favicon"
+    href=""
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    :root{
+      --bg:#09090a;
+      --bg2:#101012;
+      --panel:#141416;
+      --panel2:#19191c;
+      --line:rgba(255,255,255,.08);
+      --line2:rgba(255,255,255,.13);
+      --text:#f5f2eb;
+      --muted:#9b999f;
+      --muted2:#727077;
+
+      --accent:#d7a646;
+      --accent2:#f0c66f;
+
+      --green:#5bd38a;
+      --danger:#f16d73;
+
+      --max:1440px;
+      --radius:24px;
+
+      --shadow:
+        0 30px 90px
+        rgba(0,0,0,.32);
+    }
+
+    [data-theme="light"]{
+      --bg:#f5f2eb;
+      --bg2:#ece8df;
+      --panel:#fffdfa;
+      --panel2:#f6f2e9;
+      --line:rgba(0,0,0,.08);
+      --line2:rgba(0,0,0,.13);
+      --text:#171614;
+      --muted:#69655e;
+      --muted2:#89857d;
+
+      --shadow:
+        0 30px 70px
+        rgba(37,30,18,.10);
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      min-height:100vh;
+
+      overflow-x:hidden;
+
+      font-family:
+        "DM Sans",
+        sans-serif;
+
+      color:var(--text);
+
+      background:
+        radial-gradient(
+          circle at 8% 0%,
+          rgba(215,166,70,.09),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 95% 18%,
+          rgba(215,166,70,.05),
+          transparent 25%
+        ),
+        var(--bg);
+
+      transition:
+        background .3s ease,
+        color .3s ease;
+    }
+
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    img{
+      display:block;
+      max-width:100%;
+    }
+
+    button,
+    input,
+    textarea{
+      font:inherit;
+    }
+
+    button{
+      cursor:pointer;
+    }
+
+    ::selection{
+      background:var(--accent);
+      color:#161207;
+    }
+
+    /* =====================================================
+       GLOBAL
+    ====================================================== */
+
+    .container{
+      width:min(
+        var(--max),
+        calc(100% - 44px)
+      );
+
+      margin:auto;
+    }
+
+    .section{
+      position:relative;
+      padding:110px 0;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+
+      color:var(--accent);
+
+      font-size:10px;
+      font-weight:800;
+
+      letter-spacing:.18em;
+      text-transform:uppercase;
+    }
+
+    .eyebrow::before{
+      content:"";
+
+      width:22px;
+      height:1px;
+
+      background:var(--accent);
+    }
+
+    .section-heading{
+      max-width:850px;
+      margin-bottom:45px;
+    }
+
+    .section-heading h2{
+      margin-top:13px;
+
+      font-family:
+        "Manrope",
+        sans-serif;
+
+      font-size:
+        clamp(
+          35px,
+          5vw,
+          68px
+        );
+
+      line-height:.98;
+
+      letter-spacing:-.055em;
+    }
+
+    .section-heading p{
+      max-width:700px;
+
+      margin-top:18px;
+
+      color:var(--muted);
+
+      font-size:15px;
+
+      line-height:1.8;
+    }
+
+    .btn{
+      min-height:47px;
+
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+
+      gap:8px;
+
+      padding:0 18px;
+
+      border-radius:13px;
+
+      border:
+        1px solid
+        var(--line2);
+
+      background:var(--panel2);
+
+      color:var(--text);
+
+      font-size:11px;
+      font-weight:800;
+
+      letter-spacing:.01em;
+
+      transition:
+        transform .2s ease,
+        border-color .2s ease,
+        background .2s ease;
+    }
+
+    .btn:hover{
+      transform:translateY(-2px);
+
+      border-color:
+        rgba(215,166,70,.35);
+    }
+
+    .btn-primary{
+      color:#211a0b;
+
+      border-color:transparent;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--accent2),
+          var(--accent)
+        );
+
+      box-shadow:
+        0 15px 40px
+        rgba(215,166,70,.16);
+    }
+
+    .btn-ghost{
+      background:transparent;
+    }
+
+    .muted{
+      color:var(--muted);
+    }
+
+    /* =====================================================
+       PAGE LOADER
+    ====================================================== */
+
+    #siteLoader{
+      position:fixed;
+      inset:0;
+      z-index:1000;
+
+      display:grid;
+      place-items:center;
+
+      background:var(--bg);
+
+      transition:
+        opacity .45s ease,
+        visibility .45s ease;
+    }
+
+    #siteLoader.hide{
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+    }
+
+    .loader-inner{
+      text-align:center;
+    }
+
+    .loader-mark{
+      width:62px;
+      height:62px;
+
+      margin:auto;
+
+      display:grid;
+      place-items:center;
+
+      border-radius:19px;
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--accent2),
+          var(--accent)
+        );
+
+      color:#241c0c;
+
+      font-family:"Manrope",sans-serif;
+
+      font-size:13px;
+      font-weight:900;
+
+      box-shadow:
+        0 20px 50px
+        rgba(215,166,70,.17);
+
+      animation:
+        loaderPulse 1.5s
+        infinite ease-in-out;
+    }
+
+    .loader-inner span{
+      display:block;
+
+      margin-top:12px;
+
+      color:var(--muted);
+
+      font-size:9px;
+
+      letter-spacing:.18em;
+      text-transform:uppercase;
+    }
+
+    @keyframes loaderPulse{
+      0%,
+      100%{
+        transform:scale(1);
+      }
+
+      50%{
+        transform:scale(1.05);
+      }
+    }
+
+    /* =====================================================
+       MAINTENANCE
+    ====================================================== */
+
+    #maintenanceScreen{
+      position:fixed;
+      inset:0;
+      z-index:900;
+
+      display:none;
+      place-items:center;
+
+      padding:30px;
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(215,166,70,.10),
+          transparent 35%
+        ),
+        var(--bg);
+
+      text-align:center;
+    }
+
+    #maintenanceScreen.show{
+      display:grid;
+    }
+
+    .maintenance-box{
+      width:min(650px,100%);
+    }
+
+    .maintenance-icon{
+      width:74px;
+      height:74px;
+
+      margin:0 auto 22px;
+
+      display:grid;
+      place-items:center;
+
+      border-radius:23px;
+
+      background:
+        rgba(215,166,70,.09);
+
+      border:
+        1px solid
+        rgba(215,166,70,.17);
+
+      color:var(--accent2);
+
+      font-size:28px;
+    }
+
+    .maintenance-box h1{
+      font-family:"Manrope",sans-serif;
+
+      font-size:
+        clamp(
+          35px,
+          6vw,
+          58px
+        );
+
+      letter-spacing:-.05em;
+    }
+
+    .maintenance-box p{
+      margin-top:15px;
+
+      color:var(--muted);
+
+      line-height:1.8;
+    }
+
+    .maintenance-note{
+      margin-top:22px;
+
+      color:var(--muted2);
+
+      font-size:11px;
+    }
+
+    /* =====================================================
+       HEADER
+    ====================================================== */
+
+    .site-header{
+      position:fixed;
+
+      left:0;
+      right:0;
+      top:0;
+
+      z-index:100;
+
+      border-bottom:
+        1px solid
+        transparent;
+
+      transition:
+        background .25s ease,
+        border-color .25s ease,
+        backdrop-filter .25s ease;
+    }
+
+    .site-header.scrolled{
+      background:
+        color-mix(
+          in srgb,
+          var(--bg) 78%,
+          transparent
+        );
+
+      backdrop-filter:blur(18px);
+
+      border-color:var(--line);
+    }
+
+    .header-inner{
+      min-height:80px;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:20px;
+    }
+
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:10px;
+
+      min-width:0;
+    }
+
+    .logo-image{
+      width:39px;
+      height:39px;
+
+      flex:0 0 39px;
+
+      object-fit:contain;
+
+      border-radius:11px;
+    }
+
+    .logo-fallback{
+      width:39px;
+      height:39px;
+
+      flex:0 0 39px;
+
+      display:grid;
+      place-items:center;
+
+      border-radius:11px;
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--accent2),
+          var(--accent)
+        );
+
+      color:#211a0b;
+
+      font-size:10px;
+      font-weight:900;
+    }
+
+    .logo-copy strong{
+      display:block;
+
+      font-family:"Manrope",sans-serif;
+
+      font-size:12px;
+
+      letter-spacing:-.025em;
+
+      white-space:nowrap;
+    }
+
+    .logo-copy span{
+      display:block;
+
+      margin-top:2px;
+
+      color:var(--muted);
+
+      font-size:8px;
+
+      white-space:nowrap;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+
+      gap:22px;
+    }
+
+    .nav a{
+      position:relative;
+
+      color:var(--muted);
+
+      font-size:11px;
+      font-weight:700;
+
+      transition:.2s ease;
+    }
+
+    .nav a:hover,
+    .nav a.active{
+      color:var(--text);
+    }
+
+    .nav a.active::after{
+      content:"";
+
+      position:absolute;
+
+      left:50%;
+      bottom:-8px;
+
+      width:4px;
+      height:4px;
+
+      transform:translateX(-50%);
+
+      border-radius:50%;
+
+      background:var(--accent);
+    }
+
+    .header-actions{
+      display:flex;
+      align-items:center;
+      gap:7px;
+    }
+
+    .header-icon{
+      width:38px;
+      height:38px;
+
+      display:grid;
+      place-items:center;
+
+      border:
+        1px solid
+        var(--line2);
+
+      border-radius:11px;
+
+      background:var(--panel2);
+
+      color:var(--muted);
+
+      font-size:13px;
+
+      transition:.2s ease;
+    }
+
+    .header-icon:hover{
+      color:var(--text);
+
+      border-color:
+        rgba(215,166,70,.28);
+    }
+
+    .menu-btn{
+      display:none;
+    }
+
+    /* =====================================================
+       HERO
+    ====================================================== */
+
+    .hero{
+      min-height:
+        max(
+          760px,
+          100vh
+        );
+
+      display:flex;
+      align-items:center;
+
+      padding:
+        140px 0
+        80px;
+
+      overflow:hidden;
+    }
+
+    .hero-grid{
+      display:grid;
+
+      grid-template-columns:
+        minmax(0,1.05fr)
+        minmax(420px,.95fr);
+
+      gap:60px;
+
+      align-items:center;
+    }
+
+    .hero-copy{
+      position:relative;
+      z-index:2;
+    }
+
+    .hero-title{
+      max-width:930px;
+
+      margin-top:20px;
+
+      font-family:
+        "Manrope",
+        sans-serif;
+
+      font-size:
+        clamp(
+          48px,
+          7.2vw,
+          105px
+        );
+
+      line-height:.89;
+
+      letter-spacing:-.065em;
+    }
+
+    .hero-title span{
+      color:var(--accent);
+    }
+
+    .hero-description{
+      max-width:650px;
+
+      margin-top:26px;
+
+      color:var(--muted);
+
+      font-size:15px;
+
+      line-height:1.8;
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+
+      gap:9px;
+
+      margin-top:30px;
+    }
+
+    .hero-meta{
+      display:flex;
+      flex-wrap:wrap;
+
+      gap:9px;
+
+      margin-top:28px;
+    }
+
+    .meta-pill{
+      display:inline-flex;
+      align-items:center;
+
+      min-height:29px;
+
+      padding:0 10px;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:999px;
+
+      background:
+        rgba(255,255,255,.02);
+
+      color:var(--muted);
+
+      font-size:9px;
+      font-weight:700;
+    }
+
+    .hero-visual{
+      position:relative;
+
+      min-height:570px;
+
+      display:grid;
+      place-items:center;
+    }
+
+    .hero-orbit{
+      position:absolute;
+
+      width:
+        min(
+          560px,
+          45vw
+        );
+
+      aspect-ratio:1;
+
+      border-radius:50%;
+
+      border:
+        1px solid
+        rgba(215,166,70,.11);
+
+      animation:
+        orbit 22s
+        linear infinite;
+    }
+
+    .hero-orbit::before,
+    .hero-orbit::after{
+      content:"";
+
+      position:absolute;
+
+      border-radius:50%;
+    }
+
+    .hero-orbit::before{
+      width:8px;
+      height:8px;
+
+      top:17%;
+      left:13%;
+
+      background:var(--accent);
+
+      box-shadow:
+        0 0 25px
+        var(--accent);
+    }
+
+    .hero-orbit::after{
+      width:5px;
+      height:5px;
+
+      right:14%;
+      bottom:19%;
+
+      background:var(--accent2);
+    }
+
+    @keyframes orbit{
+      from{
+        transform:rotate(0deg);
+      }
+
+      to{
+        transform:rotate(360deg);
+      }
+    }
+
+    .hero-frame{
+      position:relative;
+      z-index:2;
+
+      width:
+        min(
+          520px,
+          100%
+        );
+
+      aspect-ratio:4 / 5;
+
+      overflow:hidden;
+
+      border-radius:
+        30px;
+
+      border:
+        1px solid
+        var(--line2);
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--panel2),
+          var(--panel)
+        );
+
+      box-shadow:
+        var(--shadow);
+
+      transform:
+        rotate(2deg);
+    }
+
+    .hero-frame::before{
+      content:"";
+
+      position:absolute;
+      inset:0;
+
+      z-index:2;
+
+      pointer-events:none;
+
+      background:
+        linear-gradient(
+          145deg,
+          transparent 30%,
+          rgba(215,166,70,.10),
+          transparent 70%
+        );
+    }
+
+    .hero-frame img{
+      width:100%;
+      height:100%;
+
+      object-fit:cover;
+
+      transition:
+        transform
+        .7s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .hero-frame:hover img{
+      transform:scale(1.04);
+    }
+
+    .hero-empty{
+      width:100%;
+      height:100%;
+
+      display:grid;
+      place-items:center;
+
+      padding:50px;
+
+      text-align:center;
+
+      background:
+        radial-gradient(
+          circle at 30% 20%,
+          rgba(215,166,70,.17),
+          transparent 35%
+        ),
+        radial-gradient(
+          circle at 80% 80%,
+          rgba(215,166,70,.08),
+          transparent 35%
+        );
+    }
+
+    .hero-empty-inner{
+      max-width:280px;
+    }
+
+    .hero-empty-mark{
+      width:68px;
+      height:68px;
+
+      margin:auto;
+
+      display:grid;
+      place-items:center;
+
+      border-radius:22px;
+
+      background:
+        rgba(215,166,70,.12);
+
+      color:var(--accent2);
+
+      font-family:"Manrope",sans-serif;
+      font-size:13px;
+      font-weight:900;
+    }
+
+    .hero-empty strong{
+      display:block;
+
+      margin-top:15px;
+
+      font-family:"Manrope",sans-serif;
+
+      font-size:20px;
+    }
+
+    .hero-empty p{
+      margin-top:8px;
+
+      color:var(--muted);
+
+      font-size:11px;
+
+      line-height:1.6;
+    }
+
+    /* =====================================================
+       STATS
+    ====================================================== */
+
+    .stats-section{
+      padding-top:0;
+      padding-bottom:75px;
+    }
+
+    .stats-grid{
+      display:grid;
+
+      grid-template-columns:
+        repeat(4,1fr);
+
+      gap:10px;
+    }
+
+    .stat-card{
+      padding:20px;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:17px;
+
+      background:var(--panel);
+
+      transition:.2s ease;
+    }
+
+    .stat-card:hover{
+      transform:translateY(-2px);
+
+      border-color:
+        rgba(215,166,70,.2);
+    }
+
+    .stat-number{
+      font-family:"Manrope",sans-serif;
+
+      font-size:34px;
+
+      font-weight:800;
+
+      letter-spacing:-.05em;
+
+      color:var(--accent2);
+    }
+
+    .stat-label{
+      margin-top:5px;
+
+      color:var(--muted);
+
+      font-size:10px;
+      font-weight:700;
+    }
+
+    /* =====================================================
+       BANNER
+    ====================================================== */
+
+    .banner-section{
+      padding-top:35px;
+    }
+
+    .banner-shell{
+      position:relative;
+
+      overflow:hidden;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:26px;
+
+      background:var(--panel);
+
+      box-shadow:
+        var(--shadow);
+    }
+
+    .banner-track{
+      display:flex;
+
+      transition:
+        transform
+        .5s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .banner-slide{
+      min-width:100%;
+
+      min-height:290px;
+
+      display:grid;
+
+      grid-template-columns:
+        minmax(0,1fr)
+        minmax(260px,.7fr);
+
+      gap:20px;
+
+      padding:34px;
+    }
+
+    .banner-copy{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+
+    .banner-category{
+      color:var(--accent);
+
+      font-size:9px;
+      font-weight:800;
+
+      text-transform:uppercase;
+
+      letter-spacing:.15em;
+    }
+
+    .banner-title{
+      margin-top:9px;
+
+      font-family:"Manrope",sans-serif;
+
+      font-size:
+        clamp(
+          28px,
+          4vw,
+          50px
+        );
+
+      line-height:1;
+
+      letter-spacing:-.05em;
+    }
+
+    .banner-description{
+      max-width:590px;
+
+      margin-top:13px;
+
+      color:var(--muted);
+
+      font-size:12px;
+
+      line-height:1.7;
+    }
+
+    .banner-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+
+      margin-top:20px;
+    }
+
+    .banner-visual{
+      min-height:220px;
+
+      overflow:hidden;
+
+      border-radius:19px;
+
+      border:
+        1px solid
+        var(--line);
+
+      background:var(--panel2);
+    }
+
+    .banner-visual img{
+      width:100%;
+      height:100%;
+
+      object-fit:cover;
+    }
+
+    .banner-dots{
+      position:absolute;
+
+      left:34px;
+      bottom:18px;
+
+      display:flex;
+      gap:6px;
+    }
+
+    .banner-dot{
+      width:24px;
+      height:4px;
+
+      border:0;
+
+      border-radius:999px;
+
+      background:
+        rgba(255,255,255,.17);
+
+      transition:.2s ease;
+    }
+
+    .banner-dot.active{
+      width:38px;
+
+      background:
+        var(--accent);
+    }
+
+    /* =====================================================
+       SERVICES
+    ====================================================== */
+
+    .service-grid{
+      display:grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap:11px;
+    }
+
+    .service-card{
+      position:relative;
+
+      padding:25px;
+
+      min-height:220px;
+
+      overflow:hidden;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:20px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.018),
+          transparent
+        ),
+        var(--panel);
+
+      transition:.25s ease;
+    }
+
+    .service-card:hover{
+      transform:translateY(-4px);
+
+      border-color:
+        rgba(215,166,70,.25);
+
+      box-shadow:
+        0 20px 50px
+        rgba(0,0,0,.20);
+    }
+
+    .service-number{
+      color:var(--muted2);
+
+      font-size:10px;
+      font-weight:800;
+
+      letter-spacing:.1em;
+    }
+
+    .service-card h3{
+      margin-top:42px;
+
+      font-family:"Manrope",sans-serif;
+
+      font-size:22px;
+
+      letter-spacing:-.035em;
+    }
+
+    .service-card p{
+      margin-top:9px;
+
+      color:var(--muted);
+
+      font-size:11px;
+
+      line-height:1.7;
+    }
+
+    .service-arrow{
+      position:absolute;
+
+      right:20px;
+      bottom:18px;
+
+      color:var(--accent);
+
+      font-size:15px;
+    }
+
+    /* =====================================================
+       ABOUT
+    ====================================================== */
+
+    .about-grid{
+      display:grid;
+
+      grid-template-columns:
+        .8fr
+        1.2fr;
+
+      gap:30px;
+
+      align-items:start;
+    }
+
+    .about-card{
+      padding:30px;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:22px;
+
+      background:var(--panel);
+    }
+
+    .about-label{
+      color:var(--muted2);
+
+      font-size:9px;
+      font-weight:800;
+
+      text-transform:uppercase;
+
+      letter-spacing:.12em;
+    }
+
+    .about-heading{
+      margin-top:11px;
+
+      font-family:"Manrope",sans-serif;
+
+      font-size:
+        clamp(
+          28px,
+          4vw,
+          53px
+        );
+
+      line-height:1;
+
+      letter-spacing:-.055em;
+    }
+
+    .about-copy{
+      margin-top:18px;
+
+      color:var(--muted);
+
+      font-size:13px;
+
+      line-height:1.85;
+
+      white-space:pre-line;
+    }
+
+    .about-image{
+      overflow:hidden;
+
+      min-height:420px;
+
+      border-radius:24px;
+
+      border:
+        1px solid
+        var(--line);
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--panel2),
+          var(--panel)
+        );
+    }
+
+    .about-image img{
+      width:100%;
+      height:100%;
+
+      min-height:420px;
+
+      object-fit:cover;
+    }
+
+    /* =====================================================
+       PROJECTS
+    ====================================================== */
+
+    .projects-grid{
+      display:grid;
+
+      grid-template-columns:
+        repeat(2,1fr);
+
+      gap:13px;
+    }
+
+    .project-card{
+      overflow:hidden;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:22px;
+
+      background:var(--panel);
+
+      transition:
+        transform .25s ease,
+        border-color .25s ease;
+    }
+
+    .project-card:hover{
+      transform:translateY(-4px);
+
+      border-color:
+        rgba(215,166,70,.24);
+    }
+
+    .project-image{
+      position:relative;
+
+      aspect-ratio:
+        16 / 10;
+
+      overflow:hidden;
+
+      background:var(--panel2);
+    }
+
+    .project-image img{
+      width:100%;
+      height:100%;
+
+      object-fit:cover;
+
+      transition:
+        transform
+        .6s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .project-card:hover
+    .project-image img{
+      transform:scale(1.05);
+    }
+
+    .project-content{
+      padding:21px;
+    }
+
+    .project-meta{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:8px;
+
+      color:var(--muted2);
+
+      font-size:9px;
+      font-weight:700;
+    }
+
+    .project-category{
+      color:var(--accent);
+
+      text-transform:uppercase;
+
+      letter-spacing:.1em;
+    }
+
+    .project-content h3{
+      margin-top:9px;
+
+      font-family:"Manrope",sans-serif;
+
+      font-size:22px;
+
+      letter-spacing:-.035em;
+    }
+
+    .project-content p{
+      margin-top:8px;
+
+      color:var(--muted);
+
+      font-size:11px;
+
+      line-height:1.7;
+    }
+
+    .project-tags{
+      display:flex;
+      flex-wrap:wrap;
+
+      gap:5px;
+
+      margin-top:12px;
+    }
+
+    .project-tag{
+      display:inline-flex;
+
+      min-height:22px;
+
+      align-items:center;
+
+      padding:0 7px;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:999px;
+
+      color:var(--muted);
+
+      font-size:8px;
+    }
+
+    .project-actions{
+      display:flex;
+
+      flex-wrap:wrap;
+
+      gap:7px;
+
+      margin-top:17px;
+    }
+
+    /* =====================================================
+       FINAL CTA
+    ====================================================== */
+
+    .cta-shell{
+      position:relative;
+
+      overflow:hidden;
+
+      padding:
+        clamp(
+          35px,
+          6vw,
+          80px
+        );
+
+      border:
+        1px solid
+        rgba(215,166,70,.18);
+
+      border-radius:28px;
+
+      background:
+        radial-gradient(
+          circle at 80% 20%,
+          rgba(215,166,70,.12),
+          transparent 35%
+        ),
+        linear-gradient(
+          145deg,
+          var(--panel2),
+          var(--panel)
+        );
+    }
+
+    .cta-shell::before{
+      content:"";
+
+      position:absolute;
+
+      width:290px;
+      height:290px;
+
+      right:-130px;
+      bottom:-160px;
+
+      border-radius:50%;
+
+      border:
+        1px solid
+        rgba(215,166,70,.10);
+    }
+
+    .cta-shell h2{
+      max-width:870px;
+
+      font-family:"Manrope",sans-serif;
+
+      font-size:
+        clamp(
+          36px,
+          6vw,
+          76px
+        );
+
+      line-height:.96;
+
+      letter-spacing:-.06em;
+    }
+
+    .cta-shell p{
+      max-width:650px;
+
+      margin-top:16px;
+
+      color:var(--muted);
+
+      line-height:1.8;
+
+      font-size:13px;
+    }
+
+    .cta-actions{
+      display:flex;
+      flex-wrap:wrap;
+
+      gap:8px;
+
+      margin-top:24px;
+    }
+
+    /* =====================================================
+       CONTACT
+    ====================================================== */
+
+    .contact-grid{
+      display:grid;
+
+      grid-template-columns:
+        1fr
+        1fr;
+
+      gap:13px;
+    }
+
+    .contact-card{
+      padding:23px;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:18px;
+
+      background:var(--panel);
+    }
+
+    .contact-label{
+      color:var(--muted2);
+
+      font-size:9px;
+      font-weight:800;
+
+      text-transform:uppercase;
+      letter-spacing:.09em;
+    }
+
+    .contact-value{
+      margin-top:8px;
+
+      font-family:"Manrope",sans-serif;
+
+      font-size:16px;
+      font-weight:700;
+
+      letter-spacing:-.02em;
+    }
+
+    .contact-value a:hover{
+      color:var(--accent);
+    }
+
+    /* =====================================================
+       FOOTER
+    ====================================================== */
+
+    footer{
+      padding:
+        50px 0
+        30px;
+
+      border-top:
+        1px solid
+        var(--line);
+    }
+
+    .footer-top{
+      display:flex;
+
+      align-items:flex-start;
+      justify-content:space-between;
+
+      gap:30px;
+    }
+
+    .footer-copy{
+      max-width:500px;
+    }
+
+    .footer-copy strong{
+      font-family:"Manrope",sans-serif;
+
+      font-size:15px;
+    }
+
+    .footer-copy p{
+      margin-top:8px;
+
+      color:var(--muted);
+
+      font-size:10px;
+
+      line-height:1.7;
+    }
+
+    .footer-links{
+      display:flex;
+      flex-wrap:wrap;
+
+      gap:10px 18px;
+    }
+
+    .footer-links a{
+      color:var(--muted);
+
+      font-size:10px;
+    }
+
+    .footer-links a:hover{
+      color:var(--text);
+    }
+
+    .footer-bottom{
+      display:flex;
+
+      align-items:center;
+      justify-content:space-between;
+
+      gap:15px;
+
+      margin-top:32px;
+      padding-top:15px;
+
+      border-top:
+        1px solid
+        var(--line);
+
+      color:var(--muted2);
+
+      font-size:9px;
+    }
+
+    /* =====================================================
+       LIVE CMS STATUS
+    ====================================================== */
+
+    .cms-status{
+      position:fixed;
+
+      right:15px;
+      bottom:15px;
+
+      z-index:80;
+
+      display:inline-flex;
+      align-items:center;
+
+      gap:7px;
+
+      min-height:29px;
+
+      padding:0 9px;
+
+      border:
+        1px solid
+        rgba(91,211,138,.14);
+
+      border-radius:999px;
+
+      background:
+        rgba(9,9,10,.72);
+
+      backdrop-filter:blur(12px);
+
+      color:#a5ddb8;
+
+      font-size:8px;
+      font-weight:800;
+
+      opacity:.82;
+    }
+
+    [data-theme="light"] .cms-status{
+      background:
+        rgba(255,253,250,.78);
+    }
+
+    .cms-pulse{
+      width:5px;
+      height:5px;
+
+      border-radius:50%;
+
+      background:var(--green);
+
+      box-shadow:
+        0 0 0 4px
+        rgba(91,211,138,.07);
+    }
+
+    /* =====================================================
+       EMPTY STATES
+    ====================================================== */
+
+    .empty-section{
+      padding:40px;
+
+      border:
+        1px dashed
+        var(--line2);
+
+      border-radius:18px;
+
+      color:var(--muted);
+
+      text-align:center;
+
+      font-size:11px;
+    }
+
+    /* =====================================================
+       REVEAL
+    ====================================================== */
+
+    .reveal{
+      opacity:0;
+
+      transform:
+        translateY(22px);
+
+      transition:
+        opacity .65s ease,
+        transform .65s ease;
+    }
+
+    .reveal.visible{
+      opacity:1;
+      transform:none;
+    }
+
+    /* =====================================================
+       MOBILE NAV
+    ====================================================== */
+
+    .mobile-nav{
+      position:fixed;
+
+      inset:
+        80px 16px auto;
+
+      z-index:99;
+
+      display:none;
+
+      padding:10px;
+
+      border:
+        1px solid
+        var(--line2);
+
+      border-radius:17px;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--panel) 92%,
+          transparent
+        );
+
+      backdrop-filter:blur(18px);
+
+      box-shadow:
+        0 25px 70px
+        rgba(0,0,0,.3);
+    }
+
+    .mobile-nav.open{
+      display:grid;
+    }
+
+    .mobile-nav a{
+      padding:12px;
+
+      border-radius:10px;
+
+      color:var(--muted);
+
+      font-size:11px;
+      font-weight:700;
+    }
+
+    .mobile-nav a:hover{
+      color:var(--text);
+
+      background:var(--panel2);
+    }
+
+    /* =====================================================
+       RESPONSIVE
+    ====================================================== */
+
+    @media(max-width:1100px){
+
+      .hero-grid{
+        grid-template-columns:1fr;
+
+        gap:45px;
+      }
+
+      .hero-visual{
+        min-height:520px;
+      }
+
+      .hero-orbit{
+        width:min(510px,75vw);
+      }
+
+      .hero-frame{
+        width:min(510px,90vw);
+      }
+
+      .service-grid{
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+      .stats-grid{
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+    }
+
+    @media(max-width:850px){
+
+      .nav{
+        display:none;
+      }
+
+      .header-actions
+      .header-cta{
+        display:none;
+      }
+
+      .menu-btn{
+        display:grid;
+      }
+
+      .header-actions{
+        margin-left:auto;
+      }
+
+      .banner-slide{
+        grid-template-columns:1fr;
+      }
+
+      .banner-visual{
+        min-height:190px;
+      }
+
+      .about-grid{
+        grid-template-columns:1fr;
+      }
+
+      .about-image{
+        min-height:350px;
+      }
+
+      .about-image img{
+        min-height:350px;
+      }
+
+    }
+
+    @media(max-width:650px){
+
+      .container{
+        width:
+          min(
+            var(--max),
+            calc(100% - 28px)
+          );
+      }
+
+      .section{
+        padding:78px 0;
+      }
+
+      .hero{
+        min-height:auto;
+
+        padding:
+          140px 0
+          70px;
+      }
+
+      .hero-title{
+        font-size:
+          clamp(
+            43px,
+            14vw,
+            70px
+          );
+      }
+
+      .hero-visual{
+        min-height:410px;
+      }
+
+      .hero-orbit{
+        width:350px;
+      }
+
+      .hero-frame{
+        width:330px;
+      }
+
+      .stats-grid{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .stat-card{
+        padding:16px;
+      }
+
+      .stat-number{
+        font-size:28px;
+      }
+
+      .service-grid{
+        grid-template-columns:1fr;
+      }
+
+      .projects-grid{
+        grid-template-columns:1fr;
+      }
+
+      .contact-grid{
+        grid-template-columns:1fr;
+      }
+
+      .banner-slide{
+        padding:25px;
+      }
+
+      .banner-dots{
+        left:25px;
+      }
+
+      .footer-top,
+      .footer-bottom{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .cms-status{
+        right:10px;
+        bottom:10px;
+      }
+
+    }
+
+    @media(max-width:420px){
+
+      .stats-grid{
+        grid-template-columns:1fr;
+      }
+
+      .hero-frame{
+        width:290px;
+      }
+
+      .hero-orbit{
+        width:310px;
+      }
+
+    }
+
+  </style>
 </head>
+
 <body>
-<main class="shell">
-<section class="brand">
-  <div class="mark"><div class="logo">AKI</div><div class="brand-name">AKI Engineering Workshop<small>Administration Portal</small></div></div>
-  <div class="center"><div class="orb"><b>AKI</b></div><h1>Control the <span>Workshop.</span></h1><p>One administration layer for homepage content, banners, projects, media, settings and the AKI AI workspace.</p></div>
-  <div class="features"><div class="feature"><strong>Content</strong><span>CMS control</span></div><div class="feature"><strong>Projects</strong><span>Portfolio control</span></div><div class="feature"><strong>Security</strong><span>Role based access</span></div></div>
-</section>
-<section class="form-panel">
-  <span class="badge"><i class="dot"></i> SECURE ADMIN ACCESS</span>
-  <h2>Welcome back.</h2>
-  <p class="intro">Sign in with your assigned administrator account.</p>
-  <div class="roles"><button class="role active" data-role="admin" type="button">Admin</button><button class="role" data-role="superadmin" type="button">Super Admin</button></div>
-  <div id="error" class="error" role="alert"></div>
-  <form id="form" novalidate>
-    <div class="field"><label for="email">EMAIL ADDRESS</label><div class="wrap"><input id="email" type="email" autocomplete="username" placeholder="admin@akiworkshop.com" required></div></div>
-    <div class="field"><label for="password">PASSWORD</label><div class="wrap"><input id="password" type="password" autocomplete="current-password" placeholder="Enter password" required><button class="toggle" id="toggle" type="button" aria-label="Show password">◉</button></div></div>
-    <div class="options"><label class="remember"><input id="remember" type="checkbox"> Remember this device</label><button class="forgot" id="forgot" type="button">Forgot password?</button></div>
-    <button class="submit" id="submit" type="submit">Sign In to Admin</button>
-  </form>
-  <div class="footer"><span>Protected administration area</span><span>AKI Admin v1.1</span></div>
-</section>
+
+<!-- =======================================================
+     LOADER
+======================================================== -->
+
+<div id="siteLoader">
+
+  <div class="loader-inner">
+
+    <div class="loader-mark">
+      AKHI
+    </div>
+
+    <span>
+      Loading Workshop
+    </span>
+
+  </div>
+
+</div>
+
+<!-- =======================================================
+     MAINTENANCE
+======================================================== -->
+
+<div id="maintenanceScreen">
+
+  <div class="maintenance-box">
+
+    <div class="maintenance-icon">
+      ⚙
+    </div>
+
+    <h1>
+      Workshop Maintenance
+    </h1>
+
+    <p id="maintenanceText">
+      We are currently updating the website.
+      Please check back shortly.
+    </p>
+
+    <div class="maintenance-note">
+      AKHI Engineering Workshop
+    </div>
+
+  </div>
+
+</div>
+
+<!-- =======================================================
+     HEADER
+======================================================== -->
+
+<header class="site-header" id="siteHeader">
+
+  <div class="container header-inner">
+
+    <a
+      href="#home"
+      class="logo"
+    >
+
+      <img
+        id="brandLogo"
+        class="logo-image"
+        alt="AKHI Engineering Workshop"
+        style="display:none;"
+      >
+
+      <div
+        class="logo-fallback"
+        id="brandFallback"
+      >
+        AKHI
+      </div>
+
+      <div class="logo-copy">
+
+        <strong id="brandName">
+          AKHI Engineering Workshop
+        </strong>
+
+        <span id="brandTagline">
+          Engineering • Fabrication • Precision
+        </span>
+
+      </div>
+
+    </a>
+
+    <nav class="nav" id="desktopNav">
+
+      <a
+        href="#home"
+        class="active"
+      >
+        Home
+      </a>
+
+      <a href="#work">
+        Work
+      </a>
+
+      <a href="#services">
+        Services
+      </a>
+
+      <a href="#about">
+        About
+      </a>
+
+      <a href="#contact">
+        Contact
+      </a>
+
+    </nav>
+
+    <div class="header-actions">
+
+      <button
+        class="header-icon"
+        id="themeToggle"
+        aria-label="Toggle theme"
+      >
+        ☼
+      </button>
+
+      <a
+        href="#contact"
+        class="btn btn-primary header-cta"
+        id="headerCta"
+      >
+        Get a Quote
+      </a>
+
+      <button
+        class="header-icon menu-btn"
+        id="menuBtn"
+        aria-label="Open navigation"
+      >
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+<!-- =======================================================
+     MOBILE NAV
+======================================================== -->
+
+<nav
+  class="mobile-nav"
+  id="mobileNav"
+>
+
+  <a href="#home">
+    Home
+  </a>
+
+  <a href="#work">
+    Work
+  </a>
+
+  <a href="#services">
+    Services
+  </a>
+
+  <a href="#about">
+    About
+  </a>
+
+  <a href="#contact">
+    Contact
+  </a>
+
+</nav>
+
+<!-- =======================================================
+     MAIN
+======================================================== -->
+
+<main id="siteMain">
+
+  <!-- =====================================================
+       HERO
+  ====================================================== -->
+
+  <section
+    class="hero"
+    id="home"
+  >
+
+    <div class="container hero-grid">
+
+      <div class="hero-copy reveal">
+
+        <div
+          class="eyebrow"
+          id="heroEyebrow"
+        >
+          Engineering • Fabrication • Precision
+        </div>
+
+        <h1
+          class="hero-title"
+          id="heroTitle"
+        >
+          Engineering that
+          <span>
+            works.
+          </span>
+        </h1>
+
+        <p
+          class="hero-description"
+          id="heroDescription"
+        >
+          Professional engineering workshop solutions
+          built around practical requirements,
+          precise execution and quality finishing.
+        </p>
+
+        <div class="hero-actions">
+
+          <a
+            href="#work"
+            class="btn btn-primary"
+            id="heroPrimaryBtn"
+          >
+            Explore Our Work
+          </a>
+
+          <a
+            href="#contact"
+            class="btn btn-ghost"
+            id="heroSecondaryBtn"
+          >
+            Get in Touch
+          </a>
+
+        </div>
+
+        <div
+          class="hero-meta"
+          id="heroMeta"
+        >
+
+          <span class="meta-pill">
+            Precision Focused
+          </span>
+
+          <span class="meta-pill">
+            Practical Engineering
+          </span>
+
+          <span class="meta-pill">
+            Workshop Execution
+          </span>
+
+        </div>
+
+      </div>
+
+      <div class="hero-visual reveal">
+
+        <div class="hero-orbit"></div>
+
+        <div class="hero-frame">
+
+          <img
+            id="heroImage"
+            alt=""
+            style="display:none;"
+          >
+
+          <div
+            class="hero-empty"
+            id="heroEmpty"
+          >
+
+            <div class="hero-empty-inner">
+
+              <div class="hero-empty-mark">
+                AKHI
+              </div>
+
+              <strong>
+                Engineering Workshop
+              </strong>
+
+              <p>
+                Your hero image can be managed from
+                Admin → Homepage.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- =====================================================
+       STATS
+  ====================================================== -->
+
+  <section
+    class="section stats-section"
+    id="stats"
+  >
+
+    <div class="container">
+
+      <div
+        class="stats-grid"
+        id="statsGrid"
+      ></div>
+
+    </div>
+
+  </section>
+
+  <!-- =====================================================
+       BANNERS
+  ====================================================== -->
+
+  <section
+    class="section banner-section"
+    id="bannerSection"
+    style="display:none;"
+  >
+
+    <div class="container">
+
+      <div class="banner-shell">
+
+        <div
+          class="banner-track"
+          id="bannerTrack"
+        ></div>
+
+        <div
+          class="banner-dots"
+          id="bannerDots"
+        ></div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- =====================================================
+       SERVICES
+  ====================================================== -->
+
+  <section
+    class="section"
+    id="services"
+  >
+
+    <div class="container">
+
+      <div class="section-heading reveal">
+
+        <span class="eyebrow">
+          What We Do
+        </span>
+
+        <h2>
+          Practical engineering.
+          <br>
+          Built properly.
+        </h2>
+
+        <p>
+          Workshop services designed around real requirements,
+          precision, reliability and professional finishing.
+        </p>
+
+      </div>
+
+      <div
+        class="service-grid"
+        id="serviceGrid"
+      ></div>
+
+    </div>
+
+  </section>
+
+  <!-- =====================================================
+       ABOUT
+  ====================================================== -->
+
+  <section
+    class="section"
+    id="about"
+  >
+
+    <div class="container about-grid">
+
+      <div class="about-card reveal">
+
+        <div class="about-label">
+          About the Workshop
+        </div>
+
+        <div
+          class="about-heading"
+          id="aboutTitle"
+        >
+          Engineering
+          with purpose.
+        </div>
+
+        <div
+          class="about-copy"
+          id="aboutText"
+        >
+          AKHI Engineering Workshop focuses on
+          practical engineering, fabrication and
+          custom workshop execution.
+        </div>
+
+      </div>
+
+      <div
+        class="about-image reveal"
+        id="aboutImageWrap"
+        style="display:none;"
+      >
+
+        <img
+          id="aboutImage"
+          alt=""
+        >
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- =====================================================
+       PROJECTS
+  ====================================================== -->
+
+  <section
+    class="section"
+    id="work"
+  >
+
+    <div class="container">
+
+      <div class="section-heading reveal">
+
+        <span class="eyebrow">
+          Selected Work
+        </span>
+
+        <h2>
+          Work that speaks
+          through detail.
+        </h2>
+
+        <p>
+          A selection of workshop and engineering projects
+          managed directly from the AKHI Admin CMS.
+        </p>
+
+      </div>
+
+      <div
+        class="projects-grid"
+        id="projectsGrid"
+      ></div>
+
+    </div>
+
+  </section>
+
+  <!-- =====================================================
+       FINAL CTA
+  ====================================================== -->
+
+  <section
+    class="section"
+    id="cta"
+  >
+
+    <div class="container">
+
+      <div class="cta-shell reveal">
+
+        <div class="eyebrow">
+          Start Your Project
+        </div>
+
+        <h2 id="ctaTitle">
+          Have an engineering
+          requirement?
+        </h2>
+
+        <p id="ctaText">
+          Tell us what you need to build,
+          fabricate or improve. We will help
+          turn the requirement into a practical
+          engineering solution.
+        </p>
+
+        <div class="cta-actions">
+
+          <a
+            href="#contact"
+            class="btn btn-primary"
+            id="ctaPrimaryBtn"
+          >
+            Discuss Your Requirement
+          </a>
+
+          <a
+            href="#work"
+            class="btn"
+          >
+            View Our Work
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- =====================================================
+       CONTACT
+  ====================================================== -->
+
+  <section
+    class="section"
+    id="contact"
+  >
+
+    <div class="container">
+
+      <div class="section-heading reveal">
+
+        <span class="eyebrow">
+          Contact
+        </span>
+
+        <h2>
+          Let's build something
+          useful.
+        </h2>
+
+        <p>
+          Reach out with your requirement,
+          project idea or workshop need.
+        </p>
+
+      </div>
+
+      <div
+        class="contact-grid"
+        id="contactGrid"
+      ></div>
+
+    </div>
+
+  </section>
+
 </main>
-<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<!-- =======================================================
+     FOOTER
+======================================================== -->
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-top">
+
+      <div class="footer-copy">
+
+        <strong id="footerName">
+          AKHI Engineering Workshop
+        </strong>
+
+        <p id="footerDescription">
+          Professional engineering workshop
+          and fabrication solutions.
+        </p>
+
+      </div>
+
+      <div class="footer-links">
+
+        <a href="#home">
+          Home
+        </a>
+
+        <a href="#work">
+          Work
+        </a>
+
+        <a href="#services">
+          Services
+        </a>
+
+        <a href="#about">
+          About
+        </a>
+
+        <a href="#contact">
+          Contact
+        </a>
+
+        <a
+          id="footerPrivacy"
+          href="#"
+          style="display:none;"
+        >
+          Privacy
+        </a>
+
+        <a
+          id="footerTerms"
+          href="#"
+          style="display:none;"
+        >
+          Terms
+        </a>
+
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+      <span id="footerCopyright">
+        © 2026 AKHI Engineering Workshop
+      </span>
+
+      <span id="footerCredit">
+        Built with precision.
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+<!-- =======================================================
+     CMS STATUS
+======================================================== -->
+
+<div class="cms-status">
+
+  <span class="cms-pulse"></span>
+
+  <span>
+    CMS Sync Active
+  </span>
+
+</div>
+
 <script>
 (function(){
-  const ACCOUNTS={
-    admin:{email:'admin@akiworkshop.com',password:'AKI@2026',role:'admin',name:'Workshop Admin'},
-    superadmin:{email:'master@nusratafsana.com',password:'SNK@Master2026!',role:'superadmin',name:'Super Admin'}
+
+  "use strict";
+
+  /* ======================================================
+     STORAGE
+  ====================================================== */
+
+  const KEYS = {
+
+    homepage:[
+      "aki_homepage_content_v1",
+      "aki_homepage"
+    ],
+
+    banners:[
+      "aki_banners_v1",
+      "aki_banners"
+    ],
+
+    projects:[
+      "aki_projects_v1",
+      "aki_projects"
+    ],
+
+    media:[
+      "aki_media_v1",
+      "aki_media"
+    ],
+
+    settings:[
+      "aki_site_settings_v1",
+      "aki_site_settings"
+    ]
+
   };
-  const form=document.getElementById('form'), email=document.getElementById('email'), password=document.getElementById('password'), remember=document.getElementById('remember'), submit=document.getElementById('submit'), error=document.getElementById('error'), toast=document.getElementById('toast'), toggle=document.getElementById('toggle'), forgot=document.getElementById('forgot');
-  const roleButtons=[...document.querySelectorAll('.role')]; let selected='admin';
-  function showError(msg){error.textContent=msg;error.classList.add('show')}
-  function clearError(){error.textContent='';error.classList.remove('show')}
-  function notify(msg){toast.textContent=msg;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2600)}
-  roleButtons.forEach(btn=>btn.addEventListener('click',()=>{roleButtons.forEach(x=>x.classList.remove('active'));btn.classList.add('active');selected=btn.dataset.role;clearError();email.placeholder=selected==='superadmin'?'master account email':'admin@akiworkshop.com';submit.textContent=selected==='superadmin'?'Sign In as Super Admin':'Sign In to Admin'}));
-  toggle.addEventListener('click',()=>{const hide=password.type==='password';password.type=hide?'text':'password';toggle.textContent=hide?'◌':'◉';toggle.setAttribute('aria-label',hide?'Hide password':'Show password')});
-  const existing=AKIAdmin.getSession(); if(existing){location.href=AKIAdmin.dashboardUrl();return}
-  const saved=localStorage.getItem('aki_admin_email'); if(saved){email.value=saved;remember.checked=true}
-  form.addEventListener('submit',async(e)=>{e.preventDefault();clearError();const em=email.value.trim().toLowerCase(), pw=password.value; if(!em||!pw){showError('Please enter your email address and password.');return} submit.disabled=true;submit.innerHTML='<span class="spin"></span>Authenticating...'; await new Promise(r=>setTimeout(r,500)); const acc=ACCOUNTS[selected]; if(!acc||em!==acc.email||pw!==acc.password){submit.disabled=false;submit.textContent=selected==='superadmin'?'Sign In as Super Admin':'Sign In to Admin';showError('Invalid credentials for the selected account type.');password.focus();return} AKIAdmin.createSession(acc,remember.checked); notify('Access granted. Redirecting…'); submit.textContent='Access Granted'; setTimeout(()=>location.href=AKIAdmin.dashboardUrl(),420)});
-  forgot.addEventListener('click',()=>showError('Password recovery is managed by the Super Admin in this GitHub Pages version.'));
-  [email,password].forEach(el=>el.addEventListener('input',clearError));
+
+  let state = {
+    homepage:{},
+    banners:[],
+    projects:[],
+    media:[],
+    settings:{}
+  };
+
+  let bannerIndex = 0;
+  let bannerTimer = null;
+
+  let lastSignature = "";
+
+  /* ======================================================
+     HELPERS
+  ====================================================== */
+
+  function parse(value,fallback){
+
+    try{
+      return JSON.parse(value);
+    }catch(error){
+      return fallback;
+    }
+
+  }
+
+  function escapeHtml(value){
+
+    return String(value ?? "")
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
+
+  }
+
+  function text(...values){
+
+    for(const value of values){
+
+      if(
+        value !== undefined &&
+        value !== null &&
+        String(value).trim()
+      ){
+
+        return String(value).trim();
+
+      }
+
+    }
+
+    return "";
+
+  }
+
+  function array(value){
+
+    if(Array.isArray(value)){
+      return value;
+    }
+
+    if(
+      value &&
+      typeof value === "object"
+    ){
+
+      if(Array.isArray(value.items)){
+        return value.items;
+      }
+
+      if(Array.isArray(value.data)){
+        return value.data;
+      }
+
+    }
+
+    return [];
+
+  }
+
+  function readDataset(keys){
+
+    for(const key of keys){
+
+      const raw =
+        localStorage.getItem(key);
+
+      if(raw !== null){
+
+        return parse(raw,raw);
+
+      }
+
+    }
+
+    return null;
+
+  }
+
+  function homeContent(){
+
+    const home = state.homepage || {};
+
+    if(
+      home.content &&
+      typeof home.content === "object"
+    ){
+
+      return home.content;
+
+    }
+
+    return home;
+
+  }
+
+  function homeValue(...keys){
+
+    const content =
+      homeContent();
+
+    for(const key of keys){
+
+      if(
+        content[key] !== undefined &&
+        content[key] !== null &&
+        String(content[key]).trim()
+      ){
+
+        return content[key];
+
+      }
+
+      if(
+        state.homepage?.[key] !== undefined
+      ){
+
+        return state.homepage[key];
+
+      }
+
+    }
+
+    return "";
+
+  }
+
+  function getInitialState(){
+
+    state.homepage =
+      readDataset(
+        KEYS.homepage
+      ) || {};
+
+    state.banners =
+      array(
+        readDataset(
+          KEYS.banners
+        )
+      );
+
+    state.projects =
+      array(
+        readDataset(
+          KEYS.projects
+        )
+      );
+
+    state.media =
+      array(
+        readDataset(
+          KEYS.media
+        )
+      );
+
+    state.settings =
+      readDataset(
+        KEYS.settings
+      ) || {};
+
+  }
+
+  /* ======================================================
+     DEFAULT DATA
+  ====================================================== */
+
+  function defaults(){
+
+    return {
+
+      siteName:
+        "AKHI Engineering Workshop",
+
+      tagline:
+        "Engineering • Fabrication • Precision",
+
+      heroEyebrow:
+        "Engineering • Fabrication • Precision",
+
+      heroHeading:
+        "Engineering that works.",
+
+      heroDescription:
+        "Professional engineering workshop solutions built around practical requirements, precise execution and quality finishing.",
+
+      heroPrimaryText:
+        "Explore Our Work",
+
+      heroPrimaryLink:
+        "#work",
+
+      heroSecondaryText:
+        "Get in Touch",
+
+      heroSecondaryLink:
+        "#contact",
+
+      aboutTitle:
+        "Engineering with purpose.",
+
+      aboutText:
+        "AKHI Engineering Workshop focuses on practical engineering, fabrication and custom workshop execution.",
+
+      finalCtaTitle:
+        "Have an engineering requirement?",
+
+      finalCtaText:
+        "Tell us what you need to build, fabricate or improve. We will help turn the requirement into a practical engineering solution.",
+
+      finalCtaTextButton:
+        "Discuss Your Requirement",
+
+      services:[
+        {
+          title:"Engineering Fabrication",
+          description:
+            "Precise fabrication and workshop execution built around practical requirements."
+        },
+        {
+          title:"Custom Workshop Solutions",
+          description:
+            "Custom-built solutions for project-specific engineering and fabrication needs."
+        },
+        {
+          title:"Project Execution",
+          description:
+            "From measurement and planning to fabrication and final finishing."
+        }
+      ]
+
+    };
+
+  }
+
+  const DEFAULTS =
+    defaults();
+
+  /* ======================================================
+     SETTINGS
+  ====================================================== */
+
+  function applySettings(){
+
+    const settings =
+      state.settings || {};
+
+    const business =
+      text(
+        settings.businessName,
+        settings.name,
+        settings.shortName,
+        homeValue(
+          "businessName",
+          "siteName"
+        ),
+        DEFAULTS.siteName
+      );
+
+    const tagline =
+      text(
+        settings.tagline,
+        homeValue("tagline"),
+        DEFAULTS.tagline
+      );
+
+    const title =
+      text(
+        settings.seoTitle,
+        settings.title,
+        business
+      );
+
+    const description =
+      text(
+        settings.metaDescription,
+        settings.description,
+        homeValue("description"),
+        DEFAULTS.heroDescription
+      );
+
+    const keywords =
+      text(
+        settings.keywords,
+        "engineering workshop, fabrication, engineering, " +
+        business
+      );
+
+    const robots =
+      text(
+        settings.robots,
+        "index,follow"
+      );
+
+    const themeColor =
+      text(
+        settings.themeColor,
+        settings.primaryColor,
+        "#d7a646"
+      );
+
+    const favicon =
+      text(
+        settings.faviconUrl
+      );
+
+    const ogImage =
+      text(
+        settings.ogImage,
+        settings.ogImageUrl
+      );
+
+    const canonical =
+      text(
+        settings.canonical
+      );
+
+    /* ================================================
+       Brand
+    ================================================= */
+
+    $("#brandName").textContent =
+      business;
+
+    $("#brandTagline").textContent =
+      tagline;
+
+    $("#footerName").textContent =
+      business;
+
+    /* ================================================
+       SEO
+    ================================================= */
+
+    document.title =
+      title;
+
+    $("#pageTitle").textContent =
+      title;
+
+    $("#pageDescription")
+      .setAttribute(
+        "content",
+        description
+      );
+
+    $("#pageKeywords")
+      .setAttribute(
+        "content",
+        keywords
+      );
+
+    $("#pageRobots")
+      .setAttribute(
+        "content",
+        robots
+      );
+
+    $("#themeColorMeta")
+      .setAttribute(
+        "content",
+        themeColor
+      );
+
+    $("#ogTitle")
+      .setAttribute(
+        "content",
+        title
+      );
+
+    $("#ogDescription")
+      .setAttribute(
+        "content",
+        description
+      );
+
+    if(ogImage){
+
+      $("#ogImage")
+        .setAttribute(
+          "content",
+          ogImage
+        );
+
+    }else{
+
+      $("#ogImage")
+        .removeAttribute("content");
+
+    }
+
+    if(favicon){
+
+      $("#favicon")
+        .setAttribute(
+          "href",
+          favicon
+        );
+
+    }
+
+    if(canonical){
+
+      let canonicalEl =
+        document.querySelector(
+          'link[rel="canonical"]'
+        );
+
+      if(!canonicalEl){
+
+        canonicalEl =
+          document.createElement(
+            "link"
+          );
+
+        canonicalEl.rel =
+          "canonical";
+
+        document.head.appendChild(
+          canonicalEl
+        );
+
+      }
+
+      canonicalEl.href =
+        canonical;
+
+    }
+
+    /* ================================================
+       Branding colors
+    ================================================= */
+
+    const root =
+      document.documentElement;
+
+    const primary =
+      text(
+        settings.primaryColor,
+        "#d7a646"
+      );
+
+    const accent =
+      text(
+        settings.accentColor,
+        primary
+      );
+
+    root.style.setProperty(
+      "--accent",
+      primary
+    );
+
+    root.style.setProperty(
+      "--accent2",
+      accent
+    );
+
+    /* ================================================
+       Footer
+    ================================================= */
+
+    const footerDescription =
+      text(
+        settings.footerDescription,
+        settings.description,
+        "Professional engineering workshop and fabrication solutions."
+      );
+
+    $("#footerDescription").textContent =
+      footerDescription;
+
+    const copyright =
+      text(
+        settings.copyright,
+        "© " +
+        new Date().getFullYear() +
+        " " +
+        business
+      );
+
+    $("#footerCopyright").textContent =
+      copyright;
+
+    const credit =
+      text(
+        settings.credit,
+        "Built with precision."
+      );
+
+    $("#footerCredit").textContent =
+      credit;
+
+    setupFooterLink(
+      "#footerPrivacy",
+      settings.privacyUrl
+    );
+
+    setupFooterLink(
+      "#footerTerms",
+      settings.termsUrl
+    );
+
+  }
+
+  function setupFooterLink(
+    selector,
+    value
+  ){
+
+    const link =
+      $(selector);
+
+    if(
+      value &&
+      String(value).trim()
+    ){
+
+      link.href =
+        value;
+
+      link.style.display =
+        "inline";
+
+    }else{
+
+      link.style.display =
+        "none";
+
+    }
+
+  }
+
+  /* ======================================================
+     THEME
+  ====================================================== */
+
+  function applySavedTheme(){
+
+    const saved =
+      localStorage.getItem(
+        "aki_public_theme"
+      );
+
+    let theme =
+      saved;
+
+    if(!theme){
+
+      const setting =
+        text(
+          state.settings?.theme,
+          state.settings?.defaultTheme
+        );
+
+      theme =
+        setting === "light"
+          ? "light"
+          : "dark";
+
+    }
+
+    document.documentElement.dataset.theme =
+      theme === "light"
+        ? "light"
+        : "dark";
+
+    updateThemeIcon();
+
+  }
+
+  function updateThemeIcon(){
+
+    const theme =
+      document.documentElement.dataset.theme;
+
+    $("#themeToggle").textContent =
+      theme === "dark"
+        ? "☼"
+        : "☾";
+
+  }
+
+  $("#themeToggle")
+    .addEventListener(
+      "click",
+      function(){
+
+        const current =
+          document.documentElement.dataset.theme ||
+          "dark";
+
+        const next =
+          current === "dark"
+            ? "light"
+            : "dark";
+
+        document.documentElement.dataset.theme =
+          next;
+
+        localStorage.setItem(
+          "aki_public_theme",
+          next
+        );
+
+        updateThemeIcon();
+
+      }
+    );
+
+  /* ======================================================
+     HERO
+  ====================================================== */
+
+  function renderHero(){
+
+    const eyebrow =
+      text(
+        homeValue(
+          "heroEyebrow",
+          "eyebrow"
+        ),
+        DEFAULTS.heroEyebrow
+      );
+
+    const heading =
+      text(
+        homeValue(
+          "heroHeading",
+          "heroTitle",
+          "title"
+        ),
+        DEFAULTS.heroHeading
+      );
+
+    const description =
+      text(
+        homeValue(
+          "heroDescription",
+          "description"
+        ),
+        DEFAULTS.heroDescription
+      );
+
+    const primaryText =
+      text(
+        homeValue(
+          "heroPrimaryText",
+          "primaryText",
+          "ctaText"
+        ),
+        DEFAULTS.heroPrimaryText
+      );
+
+    const primaryLink =
+      text(
+        homeValue(
+          "heroPrimaryLink",
+          "primaryLink",
+          "ctaLink"
+        ),
+        DEFAULTS.heroPrimaryLink
+      );
+
+    const secondaryText =
+      text(
+        homeValue(
+          "heroSecondaryText",
+          "secondaryText"
+        ),
+        DEFAULTS.heroSecondaryText
+      );
+
+    const secondaryLink =
+      text(
+        homeValue(
+          "heroSecondaryLink",
+          "secondaryLink"
+        ),
+        DEFAULTS.heroSecondaryLink
+      );
+
+    const heroImage =
+      text(
+        homeValue(
+          "heroImage",
+          "heroImageUrl",
+          "bannerImage"
+        )
+      );
+
+    $("#heroEyebrow").textContent =
+      eyebrow;
+
+    renderHeading(
+      $("#heroTitle"),
+      heading
+    );
+
+    $("#heroDescription").textContent =
+      description;
+
+    $("#heroPrimaryBtn").textContent =
+      primaryText;
+
+    $("#heroPrimaryBtn").href =
+      primaryLink;
+
+    $("#heroSecondaryBtn").textContent =
+      secondaryText;
+
+    $("#heroSecondaryBtn").href =
+      secondaryLink;
+
+    if(heroImage){
+
+      $("#heroImage").src =
+        heroImage;
+
+      $("#heroImage").alt =
+        heading;
+
+      $("#heroImage").style.display =
+        "block";
+
+      $("#heroEmpty").style.display =
+        "none";
+
+    }else{
+
+      $("#heroImage").style.display =
+        "none";
+
+      $("#heroEmpty").style.display =
+        "grid";
+
+    }
+
+    const stats =
+      array(
+        homeValue("stats")
+      );
+
+    renderStats(stats);
+
+  }
+
+  function renderHeading(element,value){
+
+    const parts =
+      String(value)
+        .split(
+          /\s+(?=[^.]*$)/
+        );
+
+    if(
+      value &&
+      String(value).toLowerCase().includes(
+        "engineering"
+      )
+    ){
+
+      const clean =
+        String(value)
+          .replace(
+            /engineering/i,
+            "ENGINEERING"
+          );
+
+      element.innerHTML =
+        escapeHtml(clean)
+          .replace(
+            /ENGINEERING/,
+            "<span>ENGINEERING</span>"
+          );
+
+    }else{
+
+      element.textContent =
+        value;
+
+    }
+
+  }
+
+  /* ======================================================
+     STATS
+  ====================================================== */
+
+  function renderStats(adminStats){
+
+    const stats =
+      adminStats.length
+        ? adminStats
+        : [
+            {
+              value:state.projects.length,
+              label:"Projects"
+            },
+            {
+              value:state.banners.length,
+              label:"Active Banners"
+            },
+            {
+              value:state.media.length,
+              label:"Media Assets"
+            },
+            {
+              value:state.projects.length ||
+                state.media.length ||
+                0,
+              label:"Published Work"
+            }
+          ];
+
+    const grid =
+      $("#statsGrid");
+
+    grid.innerHTML = "";
+
+    stats
+      .slice(0,8)
+      .forEach(
+        (stat,index) => {
+
+          const value =
+            text(
+              stat?.value,
+              stat?.number,
+              stat?.count,
+              "0"
+            );
+
+          const label =
+            text(
+              stat?.label,
+              stat?.title,
+              stat?.name,
+              "Stat"
+            );
+
+          const card =
+            document.createElement(
+              "div"
+            );
+
+          card.className =
+            "stat-card reveal";
+
+          card.innerHTML = `
+            <div class="stat-number">
+              ${escapeHtml(value)}
+            </div>
+
+            <div class="stat-label">
+              ${escapeHtml(label)}
+            </div>
+          `;
+
+          grid.appendChild(card);
+
+        }
+      );
+
+  }
+
+  /* ======================================================
+     BANNERS
+  ====================================================== */
+
+  function renderBanners(){
+
+    const all =
+      state.banners
+        .filter(
+          item =>
+            item &&
+            item.enabled !== false &&
+            item.published !== false &&
+            item.active !== false
+        )
+        .sort(
+          (a,b) =>
+            Number(a.order || 0) -
+            Number(b.order || 0)
+        );
+
+    const bannerSection =
+      $("#bannerSection");
+
+    const track =
+      $("#bannerTrack");
+
+    const dots =
+      $("#bannerDots");
+
+    clearInterval(
+      bannerTimer
+    );
+
+    track.innerHTML =
+      "";
+
+    dots.innerHTML =
+      "";
+
+    bannerIndex =
+      0;
+
+    if(!all.length){
+
+      bannerSection.style.display =
+        "none";
+
+      return;
+
+    }
+
+    bannerSection.style.display =
+      "block";
+
+    all.forEach(
+      (banner,index) => {
+
+        const title =
+          text(
+            banner.title,
+            banner.name,
+            "AKHI Engineering Workshop"
+          );
+
+        const description =
+          text(
+            banner.description,
+            banner.text,
+            banner.subtitle,
+            "Engineering solutions built around practical requirements."
+          );
+
+        const category =
+          text(
+            banner.category,
+            banner.campaign,
+            "Workshop"
+          );
+
+        const image =
+          text(
+            banner.image,
+            banner.imageUrl,
+            banner.bannerImage
+          );
+
+        const primaryText =
+          text(
+            banner.ctaText,
+            banner.buttonText,
+            "Learn More"
+          );
+
+        const primaryLink =
+          text(
+            banner.ctaLink,
+            banner.link,
+            "#contact"
+          );
+
+        const secondaryLink =
+          text(
+            banner.secondaryLink,
+            ""
+          );
+
+        const slide =
+          document.createElement(
+            "article"
+          );
+
+        slide.className =
+          "banner-slide";
+
+        slide.innerHTML = `
+
+          <div class="banner-copy">
+
+            <div class="banner-category">
+              ${escapeHtml(category)}
+            </div>
+
+            <h3 class="banner-title">
+              ${escapeHtml(title)}
+            </h3>
+
+            <p class="banner-description">
+              ${escapeHtml(description)}
+            </p>
+
+            <div class="banner-actions">
+
+              <a
+                class="btn btn-primary"
+                href="${escapeAttr(primaryLink)}"
+              >
+                ${escapeHtml(primaryText)}
+              </a>
+
+              ${
+                secondaryLink
+                  ? `
+                    <a
+                      class="btn"
+                      href="${escapeAttr(secondaryLink)}"
+                    >
+                      View Details
+                    </a>
+                  `
+                  : ""
+              }
+
+            </div>
+
+          </div>
+
+          <div class="banner-visual">
+
+            ${
+              image
+                ? `
+                  <img
+                    src="${escapeAttr(image)}"
+                    alt="${escapeAttr(title)}"
+                    loading="lazy"
+                  >
+                `
+                : `
+                  <div
+                    class="hero-empty"
+                    style="min-height:220px;"
+                  >
+                    <div class="hero-empty-inner">
+                      <div class="hero-empty-mark">
+                        AKHI
+                      </div>
+
+                      <strong>
+                        ${escapeHtml(title)}
+                      </strong>
+                    </div>
+                  </div>
+                `
+            }
+
+          </div>
+        `;
+
+        track.appendChild(
+          slide
+        );
+
+        const dot =
+          document.createElement(
+            "button"
+          );
+
+        dot.className =
+          "banner-dot" +
+          (
+            index === 0
+              ? " active"
+              : ""
+          );
+
+        dot.type =
+          "button";
+
+        dot.addEventListener(
+          "click",
+          () => {
+
+            bannerIndex =
+              index;
+
+            updateBannerPosition();
+
+          }
+        );
+
+        dots.appendChild(
+          dot
+        );
+
+      }
+    );
+
+    const duration =
+      Number(
+        all[0]?.duration ||
+        5000
+      );
+
+    bannerTimer =
+      setInterval(
+        () => {
+
+          bannerIndex++;
+
+          if(
+            bannerIndex >=
+            all.length
+          ){
+
+            bannerIndex =
+              0;
+
+          }
+
+          updateBannerPosition();
+
+        },
+        Math.max(
+          duration,
+          2500
+        )
+      );
+
+  }
+
+  function updateBannerPosition(){
+
+    $("#bannerTrack").style.transform =
+      "translateX(-" +
+      (bannerIndex * 100) +
+      "%)";
+
+    document
+      .querySelectorAll(
+        ".banner-dot"
+      )
+      .forEach(
+        (dot,index) => {
+
+          dot.classList.toggle(
+            "active",
+            index === bannerIndex
+          );
+
+        }
+      );
+
+  }
+
+  /* ======================================================
+     SERVICES
+  ====================================================== */
+
+  function renderServices(){
+
+    const custom =
+      array(
+        homeValue("services")
+      );
+
+    const services =
+      custom.length
+        ? custom
+        : (
+            DEFAULTS.services
+          );
+
+    const grid =
+      $("#serviceGrid");
+
+    grid.innerHTML =
+      "";
+
+    services
+      .filter(Boolean)
+      .slice(0,12)
+      .forEach(
+        (service,index) => {
+
+          const title =
+            text(
+              service.title,
+              service.name,
+              service.label,
+              service.service,
+              "Workshop Service"
+            );
+
+          const description =
+            text(
+              service.description,
+              service.text,
+              service.details,
+              "Professional workshop service built around practical requirements."
+            );
+
+          const link =
+            text(
+              service.link,
+              service.url,
+              "#contact"
+            );
+
+          const card =
+            document.createElement(
+              "article"
+            );
+
+          card.className =
+            "service-card reveal";
+
+          card.innerHTML = `
+
+            <div class="service-number">
+              ${String(
+                index + 1
+              ).padStart(2,"0")}
+            </div>
+
+            <h3>
+              ${escapeHtml(title)}
+            </h3>
+
+            <p>
+              ${escapeHtml(description)}
+            </p>
+
+            <a
+              href="${escapeAttr(link)}"
+              class="service-arrow"
+              aria-label="Open service"
+            >
+              ↗
+            </a>
+
+          `;
+
+          grid.appendChild(
+            card
+          );
+
+        }
+      );
+
+  }
+
+  /* ======================================================
+     ABOUT
+  ====================================================== */
+
+  function renderAbout(){
+
+    const title =
+      text(
+        homeValue(
+          "aboutTitle",
+          "aboutHeading"
+        ),
+        DEFAULTS.aboutTitle
+      );
+
+    const description =
+      text(
+        homeValue(
+          "aboutText",
+          "aboutDescription",
+          "about"
+        ),
+        DEFAULTS.aboutText
+      );
+
+    const image =
+      text(
+        homeValue(
+          "aboutImage",
+          "aboutImageUrl"
+        )
+      );
+
+    $("#aboutTitle").textContent =
+      title;
+
+    $("#aboutText").textContent =
+      description;
+
+    if(image){
+
+      $("#aboutImage").src =
+        image;
+
+      $("#aboutImage").alt =
+        title;
+
+      $("#aboutImageWrap")
+        .style.display =
+        "block";
+
+    }else{
+
+      $("#aboutImageWrap")
+        .style.display =
+        "none";
+
+    }
+
+  }
+
+  /* ======================================================
+     PROJECTS
+  ====================================================== */
+
+  function renderProjects(){
+
+    const grid =
+      $("#projectsGrid");
+
+    grid.innerHTML =
+      "";
+
+    const projects =
+      state.projects
+        .filter(
+          project =>
+            project &&
+            project.published !== false &&
+            project.enabled !== false &&
+            project.status !== "draft"
+        )
+        .sort(
+          (a,b) =>
+            Number(a.order || 0) -
+            Number(b.order || 0)
+        );
+
+    const selected =
+      projects
+        .filter(
+          project =>
+            project.featured === true
+        );
+
+    const finalProjects =
+      (
+        selected.length
+          ? selected
+          : projects
+      ).slice(
+        0,
+        8
+      );
+
+    if(!finalProjects.length){
+
+      grid.innerHTML = `
+        <div
+          class="empty-section"
+          style="grid-column:1/-1;"
+        >
+          Projects will appear here when published
+          from Admin → Projects.
+        </div>
+      `;
+
+      return;
+
+    }
+
+    finalProjects.forEach(
+      (project,index) => {
+
+        const title =
+          text(
+            project.name,
+            project.title,
+            "Engineering Project"
+          );
+
+        const description =
+          text(
+            project.description,
+            project.summary,
+            project.shortDescription,
+            "Professional engineering workshop project."
+          );
+
+        const category =
+          text(
+            project.category,
+            "Engineering"
+          );
+
+        const year =
+          text(
+            project.year,
+            ""
+          );
+
+        const image =
+          text(
+            project.image,
+            project.imageUrl,
+            project.thumbnail
+          );
+
+        const live =
+          text(
+            project.link,
+            project.projectLink,
+            project.liveLink,
+            ""
+          );
+
+        const gallery =
+          text(
+            project.gallery,
+            project.galleryLink,
+            ""
+          );
+
+        const tags =
+          array(
+            project.tags
+          );
+
+        const card =
+          document.createElement(
+            "article"
+          );
+
+        card.className =
+          "project-card reveal";
+
+        const imageHtml =
+          image
+            ? `
+              <img
+                src="${escapeAttr(image)}"
+                alt="${escapeAttr(title)}"
+                loading="lazy"
+              >
+            `
+            : `
+              <div
+                class="hero-empty"
+                style="height:100%;min-height:0;"
+              >
+                <div class="hero-empty-inner">
+                  <div class="hero-empty-mark">
+                    ${String(
+                      index + 1
+                    ).padStart(2,"0")}
+                  </div>
+                </div>
+              </div>
+            `;
+
+        const tagsHtml =
+          tags
+            .slice(0,6)
+            .map(
+              tag =>
+                `<span class="project-tag">
+                  ${escapeHtml(
+                    typeof tag === "string"
+                      ? tag
+                      : text(
+                          tag?.name,
+                          tag?.title,
+                          ""
+                        )
+                  )}
+                </span>`
+            )
+            .join("");
+
+        const actions = [];
+
+        if(live){
+
+          actions.push(
+            `
+              <a
+                href="${escapeAttr(live)}"
+                class="btn btn-primary"
+                target="_blank"
+                rel="noopener"
+              >
+                View Project ↗
+              </a>
+            `
+          );
+
+        }
+
+        if(gallery){
+
+          actions.push(
+            `
+              <a
+                href="${escapeAttr(gallery)}"
+                class="btn"
+                target="_blank"
+                rel="noopener"
+              >
+                Gallery ↗
+              </a>
+            `
+          );
+
+        }
+
+        card.innerHTML = `
+
+          <div class="project-image">
+            ${imageHtml}
+          </div>
+
+          <div class="project-content">
+
+            <div class="project-meta">
+
+              <span class="project-category">
+                ${escapeHtml(category)}
+              </span>
+
+              ${
+                year
+                  ? `
+                    <span>
+                      ${escapeHtml(year)}
+                    </span>
+                  `
+                  : ""
+              }
+
+            </div>
+
+            <h3>
+              ${escapeHtml(title)}
+            </h3>
+
+            <p>
+              ${escapeHtml(description)}
+            </p>
+
+            ${
+              tagsHtml
+                ? `
+                  <div class="project-tags">
+                    ${tagsHtml}
+                  </div>
+                `
+                : ""
+            }
+
+            ${
+              actions.length
+                ? `
+                  <div class="project-actions">
+                    ${actions.join("")}
+                  </div>
+                `
+                : ""
+            }
+
+          </div>
+
+        `;
+
+        grid.appendChild(
+          card
+        );
+
+      }
+    );
+
+  }
+
+  /* ======================================================
+     CTA
+  ====================================================== */
+
+  function renderCTA(){
+
+    const title =
+      text(
+        homeValue(
+          "finalCtaTitle",
+          "ctaTitle"
+        ),
+        DEFAULTS.finalCtaTitle
+      );
+
+    const description =
+      text(
+        homeValue(
+          "finalCtaText",
+          "ctaText"
+        ),
+        DEFAULTS.finalCtaText
+      );
+
+    const buttonText =
+      text(
+        homeValue(
+          "finalCtaTextButton",
+          "ctaButtonText"
+        ),
+        DEFAULTS.finalCtaTextButton
+      );
+
+    $("#ctaTitle").textContent =
+      title;
+
+    $("#ctaText").textContent =
+      description;
+
+    $("#ctaPrimaryBtn").textContent =
+      buttonText;
+
+  }
+
+  /* ======================================================
+     CONTACT
+  ====================================================== */
+
+  function renderContact(){
+
+    const settings =
+      state.settings || {};
+
+    const phone =
+      text(
+        settings.primaryPhone,
+        settings.phone,
+        settings.mobile
+      );
+
+    const email =
+      text(
+        settings.email,
+        settings.primaryEmail
+      );
+
+    const whatsapp =
+      text(
+        settings.whatsapp,
+        settings.whatsappNumber
+      );
+
+    const address =
+      text(
+        settings.address,
+        settings.city
+          ? (
+              settings.address
+                ? settings.address +
+                  ", " +
+                  settings.city
+                : settings.city
+            )
+          : "",
+        "Contact us for workshop location"
+      );
+
+    const maps =
+      text(
+        settings.mapsUrl,
+        settings.googleMaps,
+        settings.maps
+      );
+
+    const website =
+      text(
+        settings.website,
+        location.origin
+      );
+
+    const social = [
+      {
+        label:"Facebook",
+        value:text(settings.facebook),
+        url:text(settings.facebook)
+      },
+      {
+        label:"Instagram",
+        value:text(settings.instagram),
+        url:text(settings.instagram)
+      },
+      {
+        label:"YouTube",
+        value:text(settings.youtube),
+        url:text(settings.youtube)
+      },
+      {
+        label:"WhatsApp",
+        value:whatsapp,
+        url:
+          whatsapp
+            ? whatsappLink(
+                whatsapp
+              )
+            : ""
+      }
+    ]
+      .filter(
+        item => item.value
+      );
+
+    const contacts = [];
+
+    if(phone){
+
+      contacts.push({
+        label:"Phone",
+        value:phone,
+        url:
+          "tel:" +
+          phone.replace(
+            /\s+/g,
+            ""
+          )
+      });
+
+    }
+
+    if(email){
+
+      contacts.push({
+        label:"Email",
+        value:email,
+        url:"mailto:" + email
+      });
+
+    }
+
+    if(address){
+
+      contacts.push({
+        label:"Workshop",
+        value:address,
+        url:maps
+      });
+
+    }
+
+    if(social.length){
+
+      contacts.push({
+        label:"Social",
+        value:social
+          .map(
+            item =>
+              item.label
+          )
+          .join(" • "),
+        url:
+          social[0].url
+      });
+
+    }
+
+    if(!contacts.length){
+
+      contacts.push(
+        {
+          label:"Contact",
+          value:"Contact details will appear here.",
+          url:"#"
+        }
+      );
+
+    }
+
+    const grid =
+      $("#contactGrid");
+
+    grid.innerHTML = "";
+
+    contacts
+      .slice(0,6)
+      .forEach(
+        item => {
+
+          const card =
+            document.createElement(
+              "article"
+            );
+
+          card.className =
+            "contact-card reveal";
+
+          const clickable =
+            item.url &&
+            item.url !== "#";
+
+          card.innerHTML = `
+
+            <div class="contact-label">
+              ${escapeHtml(item.label)}
+            </div>
+
+            <div class="contact-value">
+
+              ${
+                clickable
+                  ? `
+                    <a
+                      href="${escapeAttr(item.url)}"
+                      ${
+                        /^https?:/i.test(
+                          item.url
+                        )
+                          ? `
+                            target="_blank"
+                            rel="noopener"
+                          `
+                          : ""
+                      }
+                    >
+                      ${escapeHtml(item.value)}
+                    </a>
+                  `
+                  : escapeHtml(
+                      item.value
+                    )
+              }
+
+            </div>
+          `;
+
+          grid.appendChild(
+            card
+          );
+
+        }
+      );
+
+    /* Website fallback */
+
+    if(website && !phone && !email){
+
+      /* Nothing else needed. */
+
+    }
+
+  }
+
+  function whatsappLink(number){
+
+    const clean =
+      String(number)
+        .replace(
+          /[^0-9+]/g,
+          ""
+        )
+        .replace(
+          /^\+/,
+          ""
+        );
+
+    if(!clean){
+      return "";
+    }
+
+    return (
+      "https://wa.me/" +
+      clean
+    );
+
+  }
+
+  /* ======================================================
+     ENABLE / DISABLE
+  ====================================================== */
+
+  function checkSiteEnabled(){
+
+    const settings =
+      state.settings || {};
+
+    const enabled =
+      settings.siteEnabled !== false;
+
+    const maintenance =
+      settings.maintenanceMode === true;
+
+    const screen =
+      $("#maintenanceScreen");
+
+    if(!enabled || maintenance){
+
+      screen.classList.add(
+        "show"
+      );
+
+      $("#maintenanceText").textContent =
+        text(
+          settings.holidayNote,
+          settings.maintenanceMessage,
+          "We are currently updating the website. Please check back shortly."
+        );
+
+      document
+        .getElementById(
+          "siteMain"
+        )
+        .style.display =
+        "none";
+
+      document.querySelector(
+        "footer"
+      ).style.display =
+        "none";
+
+      return;
+
+    }
+
+    screen.classList.remove(
+      "show"
+    );
+
+    document
+      .getElementById(
+        "siteMain"
+      )
+      .style.display =
+      "";
+
+    document.querySelector(
+      "footer"
+    ).style.display =
+      "";
+
+  }
+
+  /* ======================================================
+     HEADER / SCROLL
+  ====================================================== */
+
+  function setupScroll(){
+
+    const header =
+      $("#siteHeader");
+
+    const update =
+      () => {
+
+        header.classList.toggle(
+          "scrolled",
+          window.scrollY > 25
+        );
+
+      };
+
+    update();
+
+    window.addEventListener(
+      "scroll",
+      update,
+      {
+        passive:true
+      }
+    );
+
+  }
+
+  /* ======================================================
+     ACTIVE NAV
+  ====================================================== */
+
+  function setupActiveNav(){
+
+    const links =
+      [
+        ...document.querySelectorAll(
+          ".nav a"
+        )
+      ];
+
+    const sections =
+      [
+        ...document.querySelectorAll(
+          "main section[id]"
+        )
+      ];
+
+    const observer =
+      new IntersectionObserver(
+        entries => {
+
+          entries.forEach(
+            entry => {
+
+              if(
+                !entry.isIntersecting
+              ){
+
+                return;
+
+              }
+
+              const id =
+                entry.target.id;
+
+              links.forEach(
+                link => {
+
+                  link.classList.toggle(
+                    "active",
+                    link.getAttribute(
+                      "href"
+                    ) ===
+                    "#" + id
+                  );
+
+                }
+              );
+
+            }
+          );
+
+        },
+        {
+          rootMargin:
+            "-35% 0px -55% 0px"
+        }
+      );
+
+    sections.forEach(
+      section =>
+        observer.observe(
+          section
+        )
+    );
+
+  }
+
+  /* ======================================================
+     MOBILE NAV
+  ====================================================== */
+
+  function setupMobileNav(){
+
+    $("#menuBtn")
+      .addEventListener(
+        "click",
+        function(){
+
+          $("#mobileNav")
+            .classList.toggle(
+              "open"
+            );
+
+        }
+      );
+
+    $("#mobileNav")
+      .querySelectorAll("a")
+      .forEach(
+        link => {
+
+          link.addEventListener(
+            "click",
+            () => {
+
+              $("#mobileNav")
+                .classList.remove(
+                  "open"
+                );
+
+            }
+          );
+
+        }
+      );
+
+  }
+
+  /* ======================================================
+     IMAGE ERROR HANDLING
+  ====================================================== */
+
+  document.addEventListener(
+    "error",
+    function(event){
+
+      const target =
+        event.target;
+
+      if(
+        target &&
+        target.tagName === "IMG"
+      ){
+
+        target.style.display =
+          "none";
+
+      }
+
+    },
+    true
+  );
+
+  /* ======================================================
+     REVEAL
+  ====================================================== */
+
+  function revealElements(){
+
+    const observer =
+      new IntersectionObserver(
+        entries => {
+
+          entries.forEach(
+            entry => {
+
+              if(
+                entry.isIntersecting
+              ){
+
+                entry.target
+                  .classList.add(
+                    "visible"
+                  );
+
+                observer.unobserve(
+                  entry.target
+                );
+
+              }
+
+            }
+          );
+
+        },
+        {
+          threshold:.1
+        }
+      );
+
+    document
+      .querySelectorAll(
+        ".reveal"
+      )
+      .forEach(
+        element =>
+          observer.observe(
+            element
+          )
+      );
+
+  }
+
+  /* ======================================================
+     SIGNATURE
+  ====================================================== */
+
+  function generateSignature(){
+
+    const data = {
+
+      homepage:
+        localStorage.getItem(
+          KEYS.homepage[0]
+        ) ||
+        localStorage.getItem(
+          KEYS.homepage[1]
+        ),
+
+      banners:
+        localStorage.getItem(
+          KEYS.banners[0]
+        ) ||
+        localStorage.getItem(
+          KEYS.banners[1]
+        ),
+
+      projects:
+        localStorage.getItem(
+          KEYS.projects[0]
+        ) ||
+        localStorage.getItem(
+          KEYS.projects[1]
+        ),
+
+      media:
+        localStorage.getItem(
+          KEYS.media[0]
+        ) ||
+        localStorage.getItem(
+          KEYS.media[1]
+        ),
+
+      settings:
+        localStorage.getItem(
+          KEYS.settings[0]
+        ) ||
+        localStorage.getItem(
+          KEYS.settings[1]
+        )
+
+    };
+
+    return JSON.stringify(data);
+
+  }
+
+  /* ======================================================
+     RENDER EVERYTHING
+  ====================================================== */
+
+  function renderSite(){
+
+    getInitialState();
+
+    applySettings();
+
+    checkSiteEnabled();
+
+    applySavedTheme();
+
+    renderHero();
+
+    renderBanners();
+
+    renderServices();
+
+    renderAbout();
+
+    renderProjects();
+
+    renderCTA();
+
+    renderContact();
+
+    revealElements();
+
+    setupActiveNav();
+
+  }
+
+  function checkForCMSChanges(){
+
+    const signature =
+      generateSignature();
+
+    if(
+      !lastSignature
+    ){
+
+      lastSignature =
+        signature;
+
+      renderSite();
+
+      return;
+
+    }
+
+    if(
+      signature !==
+      lastSignature
+    ){
+
+      lastSignature =
+        signature;
+
+      renderSite();
+
+    }
+
+  }
+
+  /* ======================================================
+     ESCAPE ATTR
+  ====================================================== */
+
+  function escapeAttr(value){
+
+    return escapeHtml(
+      String(value || "")
+    );
+
+  }
+
+  /* ======================================================
+     LOAD
+  ====================================================== */
+
+  function finishLoader(){
+
+    setTimeout(
+      () => {
+
+        $("#siteLoader")
+          .classList.add(
+            "hide"
+          );
+
+      },
+      250
+    );
+
+  }
+
+  /* ======================================================
+     STORAGE EVENT
+  ====================================================== */
+
+  window.addEventListener(
+    "storage",
+    function(event){
+
+      const relevant =
+        Object.values(
+          KEYS
+        )
+          .flat()
+          .includes(
+            event.key
+          );
+
+      if(relevant){
+
+        lastSignature =
+          "";
+
+        checkForCMSChanges();
+
+      }
+
+    }
+  );
+
+  /* ======================================================
+     VISIBILITY
+  ====================================================== */
+
+  document.addEventListener(
+    "visibilitychange",
+    function(){
+
+      if(
+        !document.hidden
+      ){
+
+        lastSignature =
+          "";
+
+        checkForCMSChanges();
+
+      }
+
+    }
+  );
+
+  /* ======================================================
+     PERIODIC SYNC
+  ====================================================== */
+
+  setInterval(
+    checkForCMSChanges,
+    1800
+  );
+
+  /* ======================================================
+     INIT
+  ====================================================== */
+
+  function init(){
+
+    getInitialState();
+
+    lastSignature =
+      generateSignature();
+
+    renderSite();
+
+    setupScroll();
+
+    setupMobileNav();
+
+    finishLoader();
+
+  }
+
+  init();
+
 })();
 </script>
+
 </body>
 </html>
