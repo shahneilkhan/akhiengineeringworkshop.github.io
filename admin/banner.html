@@ -1,1641 +1,1088 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark" data-admin-guard="true">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+  <title>Banner Manager — Akhi Engineering Workshop</title>
 
   <meta
     name="description"
-    content="AKI Engineering Workshop — Banner Management"
+    content="Akhi Engineering Workshop Banner Management"
   >
-
-  <meta name="theme-color" content="#06080b">
-
-  <title>Banner Manager | AKI Engineering Workshop</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
   >
 
+  <script src="./auth.js"></script>
+
   <style>
-    :root {
-      --bg:#06080b;
-      --panel:#0c1015;
-      --panel-2:#10151b;
-      --panel-3:#151b22;
-
+    :root{
+      --bg:#0a0b0c;
+      --panel:#151719;
+      --panel2:#1a1c1f;
+      --text:#f4f3ef;
+      --soft:#a8adaf;
+      --muted:#71777c;
       --border:rgba(255,255,255,.08);
-      --border-strong:rgba(255,255,255,.14);
-
-      --text:#f5f7fa;
-      --muted:#929ca8;
-      --muted-2:#626c78;
-
-      --accent:#c8ff3d;
-      --accent-soft:rgba(200,255,61,.08);
-      --accent-border:rgba(200,255,61,.2);
-
-      --blue:#7aa8ff;
-      --purple:#b88cff;
-      --orange:#ffb45e;
-      --red:#ff657d;
-      --cyan:#61dfff;
-
-      --sidebar:270px;
-      --topbar:78px;
-
-      --radius-xl:25px;
-      --radius-lg:19px;
-      --radius-md:14px;
+      --border2:rgba(255,255,255,.14);
+      --accent:#d7a646;
+      --accent2:#f0c66f;
+      --accentSoft:rgba(215,166,70,.11);
+      --green:#68d29b;
+      --greenSoft:rgba(104,210,155,.11);
+      --red:#ff7075;
+      --redSoft:rgba(255,112,117,.11);
+      --yellow:#efc56d;
+      --yellowSoft:rgba(239,197,109,.11);
+      --sidebar:272px;
+      --topbar:74px;
+      --radius:18px;
+      --shadow:0 25px 80px rgba(0,0,0,.25);
     }
 
-    * {
+    html[data-theme="light"]{
+      --bg:#f1f1ed;
+      --panel:#fff;
+      --panel2:#f7f7f4;
+      --text:#151618;
+      --soft:#646a6e;
+      --muted:#8b9094;
+      --border:rgba(0,0,0,.08);
+      --border2:rgba(0,0,0,.14);
+      --accent:#a8751c;
+      --accent2:#bd913d;
+      --accentSoft:rgba(168,117,28,.09);
+      --green:#188b5d;
+      --greenSoft:rgba(24,139,93,.09);
+      --red:#cb424a;
+      --redSoft:rgba(203,66,74,.09);
+      --yellow:#ae781a;
+      --yellowSoft:rgba(174,120,26,.09);
+      --shadow:0 25px 60px rgba(0,0,0,.08);
+    }
+
+    *{
+      box-sizing:border-box;
       margin:0;
       padding:0;
-      box-sizing:border-box;
     }
 
-    html {
-      background:var(--bg);
-      scroll-behavior:smooth;
-    }
-
-    body {
+    body{
       min-height:100vh;
-      overflow-x:hidden;
-
-      font-family:"Inter",sans-serif;
-      color:var(--text);
-
       background:
         radial-gradient(
-          circle at 90% 0%,
-          rgba(200,255,61,.055),
+          circle at 75% 0%,
+          rgba(215,166,70,.065),
           transparent 28%
         ),
-        radial-gradient(
-          circle at 0% 100%,
-          rgba(122,168,255,.035),
-          transparent 30%
-        ),
         var(--bg);
+      color:var(--text);
+      font-family:"DM Sans",Arial,sans-serif;
+      overflow-x:hidden;
     }
 
-    button,
-    input,
-    textarea,
-    select {
-      font:inherit;
-    }
-
-    button {
-      cursor:pointer;
-    }
-
-    a {
+    a{
       color:inherit;
       text-decoration:none;
     }
 
-    /* =========================================
-       SIDEBAR
-    ========================================= */
+    button,input,select{
+      font:inherit;
+    }
 
-    .sidebar {
+    button{
+      cursor:pointer;
+    }
+
+    ::selection{
+      background:var(--accent);
+      color:#16110a;
+    }
+
+    /* ==============================
+       SIDEBAR
+    ============================== */
+
+    .sidebar{
       position:fixed;
       inset:0 auto 0 0;
       width:var(--sidebar);
-      z-index:100;
-
+      padding:20px 16px;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,.025),
+          rgba(255,255,255,.006)
+        ),
+        var(--panel);
+      border-right:1px solid var(--border);
       display:flex;
       flex-direction:column;
-
-      padding:22px 14px;
-
-      background:rgba(9,12,16,.97);
-      border-right:1px solid var(--border);
-
-      backdrop-filter:blur(25px);
-
+      z-index:100;
       transition:transform .3s ease;
     }
 
-    .brand {
+    .brand{
       display:flex;
       align-items:center;
-      gap:11px;
-
-      padding:3px 9px 23px;
-
-      border-bottom:1px solid var(--border);
+      gap:12px;
+      padding:4px 8px 20px;
     }
 
-    .brand-logo {
-      width:43px;
-      height:43px;
-
+    .brand-mark{
+      width:44px;
+      height:44px;
       display:grid;
       place-items:center;
-
-      border-radius:13px;
-
-      background:var(--accent);
-      color:#070900;
-
-      font-family:"Space Grotesk",sans-serif;
-      font-size:13px;
-      font-weight:900;
-      letter-spacing:-1px;
-
-      box-shadow:0 0 30px rgba(200,255,61,.14);
+      border-radius:14px;
+      background:
+        linear-gradient(
+          145deg,
+          var(--accent2),
+          var(--accent)
+        );
+      color:#171209;
+      font:900 14px "Manrope",sans-serif;
+      box-shadow:
+        0 12px 28px rgba(215,166,70,.16);
     }
 
-    .brand-title {
-      font-family:"Space Grotesk",sans-serif;
-      font-size:15px;
-      font-weight:800;
-      letter-spacing:-.5px;
+    .brand-copy strong{
+      display:block;
+      font:800 13px "Manrope",sans-serif;
     }
 
-    .brand-subtitle {
+    .brand-copy span{
+      display:block;
       margin-top:3px;
-      color:var(--muted-2);
-
-      font-size:8px;
-      font-weight:600;
-      letter-spacing:1.25px;
+      color:var(--muted);
+      font-size:9px;
+      font-weight:700;
+      letter-spacing:.14em;
       text-transform:uppercase;
     }
 
-    .nav-label {
-      padding:24px 11px 9px;
-
-      color:#4e5864;
-
+    .side-label{
+      padding:13px 10px 8px;
+      color:var(--muted);
       font-size:9px;
       font-weight:800;
-      letter-spacing:1.5px;
+      letter-spacing:.16em;
       text-transform:uppercase;
     }
 
-    .nav {
-      display:flex;
-      flex-direction:column;
-      gap:4px;
+    .nav{
+      display:grid;
+      gap:5px;
     }
 
-    .nav-link {
+    .nav a{
       min-height:44px;
-
+      padding:0 12px;
       display:flex;
       align-items:center;
-      gap:11px;
-
-      padding:0 12px;
-
-      border:1px solid transparent;
+      gap:12px;
       border-radius:12px;
-
-      color:var(--muted);
-
-      font-size:11px;
-      font-weight:600;
-
+      color:var(--soft);
       transition:.2s ease;
     }
 
-    .nav-link svg {
-      width:17px;
-      height:17px;
-      flex:0 0 17px;
-    }
-
-    .nav-link:hover {
+    .nav a:hover{
       color:var(--text);
-      background:rgba(255,255,255,.035);
-      border-color:var(--border);
+      background:var(--accentSoft);
+      transform:translateX(2px);
     }
 
-    .nav-link.active {
-      color:var(--accent);
-      background:var(--accent-soft);
-      border-color:rgba(200,255,61,.12);
+    .nav a.active{
+      color:var(--accent2);
+      background:
+        linear-gradient(
+          90deg,
+          var(--accentSoft),
+          transparent
+        );
+      box-shadow:inset 3px 0 0 var(--accent);
     }
 
-    .nav-badge {
-      margin-left:auto;
+    .nav-icon{
+      width:19px;
+      text-align:center;
+      font-size:15px;
+    }
 
+    .nav-text{
+      flex:1;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .nav-badge{
       min-width:20px;
       height:20px;
-
-      padding:0 5px;
-
       display:grid;
       place-items:center;
-
+      padding:0 6px;
       border-radius:999px;
-
-      background:rgba(255,255,255,.055);
-      color:var(--muted-2);
-
-      font-size:8px;
-      font-weight:800;
-    }
-
-    .nav-link.active .nav-badge {
-      background:rgba(200,255,61,.12);
-      color:var(--accent);
-    }
-
-    .sidebar-bottom {
-      margin-top:auto;
-      padding-top:14px;
-
-      border-top:1px solid var(--border);
-    }
-
-    .ai-card {
-      padding:14px;
-
-      border:1px solid rgba(200,255,61,.12);
-      border-radius:16px;
-
-      background:
-        radial-gradient(
-          circle at 100% 0,
-          rgba(200,255,61,.08),
-          transparent 45%
-        ),
-        rgba(255,255,255,.02);
-    }
-
-    .ai-card-head {
-      display:flex;
-      align-items:center;
-      gap:8px;
-
-      margin-bottom:9px;
-    }
-
-    .ai-status {
-      width:8px;
-      height:8px;
-
-      border-radius:50%;
-
-      background:var(--accent);
-      box-shadow:0 0 12px var(--accent);
-    }
-
-    .ai-card strong {
-      font-family:"Space Grotesk",sans-serif;
-      font-size:11px;
-    }
-
-    .ai-card p {
-      margin-bottom:10px;
-
-      color:var(--muted-2);
-
-      font-size:9px;
-      line-height:1.6;
-    }
-
-    .ai-card a {
-      display:block;
-
-      padding:9px;
-
-      border-radius:9px;
-
-      background:var(--accent);
-      color:#070900;
-
-      text-align:center;
-
+      background:var(--accentSoft);
+      color:var(--accent2);
       font-size:9px;
       font-weight:900;
     }
 
-    .logout {
-      width:100%;
-      height:39px;
+    .sidebar-footer{
+      margin-top:auto;
+      padding:14px 8px 4px;
+    }
 
-      margin-top:9px;
-
+    .mini-profile{
       display:flex;
       align-items:center;
-      gap:9px;
-
-      padding:0 11px;
-
-      border:1px solid transparent;
-      border-radius:10px;
-
-      background:transparent;
-      color:var(--muted-2);
-
-      text-align:left;
-
-      font-size:10px;
-      font-weight:600;
-
-      transition:.2s ease;
+      gap:10px;
+      padding:12px;
+      border:1px solid var(--border);
+      border-radius:16px;
+      background:var(--panel2);
     }
 
-    .logout:hover {
-      color:var(--red);
-      background:rgba(255,101,125,.05);
-      border-color:rgba(255,101,125,.1);
+    .avatar{
+      width:38px;
+      height:38px;
+      display:grid;
+      place-items:center;
+      border-radius:50%;
+      background:
+        linear-gradient(
+          145deg,
+          var(--accent2),
+          var(--accent)
+        );
+      color:#171209;
+      font-size:12px;
+      font-weight:900;
+      flex:0 0 auto;
     }
 
-    /* =========================================
+    .profile-copy{
+      min-width:0;
+      flex:1;
+    }
+
+    .profile-copy strong{
+      display:block;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      font-size:11px;
+    }
+
+    .profile-copy span{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
+      font-size:9px;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+    }
+
+    /* ==============================
        MAIN
-    ========================================= */
+    ============================== */
 
-    .main {
+    .main{
+      min-width:0;
       min-height:100vh;
       margin-left:var(--sidebar);
     }
 
-    .topbar {
+    .topbar{
       position:sticky;
       top:0;
-      z-index:60;
-
       height:var(--topbar);
-
+      padding:0 28px;
       display:flex;
       align-items:center;
       justify-content:space-between;
-
-      padding:0 30px;
-
-      background:rgba(6,8,11,.82);
+      background:
+        color-mix(
+          in srgb,
+          var(--bg) 82%,
+          transparent
+        );
+      backdrop-filter:blur(18px);
       border-bottom:1px solid var(--border);
-
-      backdrop-filter:blur(22px);
+      z-index:80;
     }
 
-    .top-left {
+    .topbar-left{
       display:flex;
       align-items:center;
-      gap:12px;
-    }
-
-    .mobile-menu {
-      display:none;
-
-      width:37px;
-      height:37px;
-
-      place-items:center;
-
-      border:1px solid var(--border);
-      border-radius:10px;
-
-      background:rgba(255,255,255,.025);
-      color:var(--text);
-    }
-
-    .breadcrumb {
-      color:var(--muted-2);
-      font-size:10px;
-    }
-
-    .breadcrumb strong {
-      color:var(--text);
-    }
-
-    .top-actions {
-      display:flex;
-      align-items:center;
-      gap:9px;
-    }
-
-    .online {
-      height:34px;
-
-      display:flex;
-      align-items:center;
-      gap:7px;
-
-      padding:0 11px;
-
-      border:1px solid rgba(200,255,61,.12);
-      border-radius:999px;
-
-      background:rgba(200,255,61,.04);
-
-      color:var(--accent);
-
-      font-size:8px;
-      font-weight:800;
-    }
-
-    .online span {
-      width:6px;
-      height:6px;
-
-      border-radius:50%;
-
-      background:var(--accent);
-      box-shadow:0 0 9px var(--accent);
-    }
-
-    .top-icon {
-      width:35px;
-      height:35px;
-
-      display:grid;
-      place-items:center;
-
-      border:1px solid var(--border);
-      border-radius:10px;
-
-      background:rgba(255,255,255,.025);
-      color:var(--muted);
-
-      transition:.2s ease;
-    }
-
-    .top-icon:hover {
-      color:var(--accent);
-      border-color:var(--accent-border);
-    }
-
-    .profile {
-      display:flex;
-      align-items:center;
-      gap:9px;
-      padding-left:4px;
-    }
-
-    .avatar {
-      width:35px;
-      height:35px;
-
-      display:grid;
-      place-items:center;
-
-      border-radius:10px;
-
-      background:
-        linear-gradient(
-          135deg,
-          var(--accent),
-          #7fa91d
-        );
-
-      color:#070900;
-
-      font-size:10px;
-      font-weight:900;
-    }
-
-    .profile-text strong {
-      display:block;
-      font-size:9px;
-    }
-
-    .profile-text span {
-      display:block;
-
-      margin-top:2px;
-
-      color:var(--accent);
-
-      font-size:7px;
-      font-weight:800;
-
-      text-transform:uppercase;
-    }
-
-    /* =========================================
-       CONTENT
-    ========================================= */
-
-    .content {
-      max-width:1550px;
-
-      margin:0 auto;
-
-      padding:30px 30px 60px;
-    }
-
-    .page-heading {
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-
-      gap:20px;
-
-      margin-bottom:22px;
-    }
-
-    .eyebrow {
-      display:inline-flex;
-      align-items:center;
-      gap:7px;
-
-      margin-bottom:9px;
-
-      color:var(--accent);
-
-      font-size:8px;
-      font-weight:900;
-
-      letter-spacing:1.6px;
-      text-transform:uppercase;
-    }
-
-    .eyebrow::before {
-      content:"";
-
-      width:18px;
-      height:1px;
-
-      background:var(--accent);
-    }
-
-    .page-heading h1 {
-      font-family:"Space Grotesk",sans-serif;
-
-      font-size:clamp(27px,3vw,42px);
-
-      line-height:1;
-      letter-spacing:-1.8px;
-    }
-
-    .page-heading h1 span {
-      color:var(--accent);
-    }
-
-    .page-heading p {
-      max-width:700px;
-
-      margin-top:9px;
-
-      color:var(--muted);
-
-      font-size:10px;
-      line-height:1.7;
-    }
-
-    .heading-actions {
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-
-    .button {
-      min-height:39px;
-
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-
-      padding:0 14px;
-
-      border-radius:10px;
-
-      font-size:9px;
-      font-weight:800;
-
-      transition:.2s ease;
-    }
-
-    .button-primary {
-      border:1px solid var(--accent);
-      background:var(--accent);
-      color:#070900;
-    }
-
-    .button-primary:hover {
-      transform:translateY(-1px);
-      box-shadow:0 10px 24px rgba(200,255,61,.14);
-    }
-
-    .button-secondary {
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.025);
-      color:var(--text);
-    }
-
-    .button-secondary:hover {
-      background:rgba(255,255,255,.05);
-      border-color:var(--border-strong);
-    }
-
-    /* =========================================
-       STATS
-    ========================================= */
-
-    .stats-grid {
-      display:grid;
-
-      grid-template-columns:
-        repeat(4,minmax(0,1fr));
-
-      gap:12px;
-
-      margin-bottom:18px;
-    }
-
-    .stat-card {
-      position:relative;
-      overflow:hidden;
-
-      min-height:112px;
-
-      padding:17px;
-
-      border:1px solid var(--border);
-      border-radius:16px;
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,.028),
-          rgba(255,255,255,.012)
-        );
-    }
-
-    .stat-card::after {
-      content:"";
-
-      position:absolute;
-
-      width:90px;
-      height:90px;
-
-      right:-35px;
-      top:-35px;
-
-      border:1px solid rgba(200,255,61,.07);
-      border-radius:50%;
-    }
-
-    .stat-top {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-    }
-
-    .stat-icon {
-      width:31px;
-      height:31px;
-
-      display:grid;
-      place-items:center;
-
-      border-radius:9px;
-
-      background:var(--accent-soft);
-      color:var(--accent);
-    }
-
-    .stat-label {
-      color:var(--muted-2);
-
-      font-size:8px;
-      font-weight:700;
-
-      text-transform:uppercase;
-      letter-spacing:.7px;
-    }
-
-    .stat-number {
-      margin-top:14px;
-
-      font-family:"Space Grotesk",sans-serif;
-
-      font-size:22px;
-      font-weight:700;
-
-      letter-spacing:-1px;
-    }
-
-    /* =========================================
-       PANEL
-    ========================================= */
-
-    .panel {
-      overflow:hidden;
-
-      border:1px solid var(--border);
-      border-radius:var(--radius-lg);
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,.028),
-          rgba(255,255,255,.012)
-        );
-    }
-
-    .panel-head {
-      min-height:63px;
-
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-
-      gap:12px;
-
-      padding:0 18px;
-
-      border-bottom:1px solid var(--border);
-    }
-
-    .panel-title {
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
-
-    .panel-icon {
-      width:32px;
-      height:32px;
-
-      display:grid;
-      place-items:center;
-
-      border:1px solid rgba(200,255,61,.12);
-      border-radius:9px;
-
-      background:var(--accent-soft);
-      color:var(--accent);
-    }
-
-    .panel-title h2 {
-      font-family:"Space Grotesk",sans-serif;
-      font-size:12px;
-    }
-
-    .panel-title p {
-      margin-top:2px;
-
-      color:var(--muted-2);
-
-      font-size:8px;
-    }
-
-    .panel-body {
-      padding:19px;
-    }
-
-    /* =========================================
-       WORKSPACE
-    ========================================= */
-
-    .workspace {
-      display:grid;
-
-      grid-template-columns:
-        minmax(360px,.72fr)
-        minmax(0,1.28fr);
-
-      gap:16px;
-
-      align-items:start;
-    }
-
-    .left-column,
-    .right-column {
-      display:flex;
-      flex-direction:column;
-      gap:15px;
-    }
-
-    /* =========================================
-       FORM
-    ========================================= */
-
-    .form-grid {
-      display:grid;
-
-      grid-template-columns:
-        repeat(2,minmax(0,1fr));
-
       gap:13px;
     }
 
-    .field {
-      display:flex;
-      flex-direction:column;
-      gap:7px;
-    }
-
-    .field.full {
-      grid-column:1 / -1;
-    }
-
-    .field label {
-      color:#b8c0c9;
-
-      font-size:8px;
-      font-weight:800;
-
-      letter-spacing:.8px;
-      text-transform:uppercase;
-    }
-
-    .input,
-    .textarea,
-    .select {
-      width:100%;
-
+    .mobile-menu,
+    .icon-btn{
+      width:42px;
+      height:42px;
+      display:grid;
+      place-items:center;
       border:1px solid var(--border);
-      border-radius:11px;
-
-      outline:none;
-
-      background:rgba(0,0,0,.16);
-      color:var(--text);
-
+      border-radius:12px;
+      background:var(--panel);
+      color:var(--soft);
       transition:.2s ease;
     }
 
-    .input,
-    .select {
-      min-height:42px;
-      padding:0 12px;
+    .mobile-menu{
+      display:none;
+    }
 
+    .mobile-menu:hover,
+    .icon-btn:hover{
+      color:var(--text);
+      border-color:var(--border2);
+      transform:translateY(-1px);
+    }
+
+    .page-title h1{
+      font:800 18px "Manrope",sans-serif;
+    }
+
+    .page-title p{
+      margin-top:2px;
+      color:var(--muted);
       font-size:10px;
     }
 
-    .textarea {
-      min-height:84px;
-      padding:12px;
+    .topbar-actions{
+      display:flex;
+      align-items:center;
+      gap:7px;
+    }
 
-      resize:vertical;
+    .logout-btn{
+      height:42px;
+      padding:0 14px;
+      border:1px solid rgba(255,112,117,.18);
+      border-radius:12px;
+      background:var(--redSoft);
+      color:var(--red);
+      font-size:11px;
+      font-weight:800;
+    }
 
+    /* ==============================
+       CONTENT
+    ============================== */
+
+    .content{
+      width:100%;
+      max-width:1600px;
+      margin:0 auto;
+      padding:28px;
+    }
+
+    .page-header{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:20px;
+      margin-bottom:20px;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      color:var(--accent2);
+      font-size:9px;
+      font-weight:800;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      margin-bottom:8px;
+    }
+
+    .eyebrow:before{
+      content:"";
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:var(--green);
+      box-shadow:0 0 0 4px var(--greenSoft);
+    }
+
+    .page-header h2{
+      font:800 clamp(26px,3vw,40px)/1.02 "Manrope",sans-serif;
+      letter-spacing:-.04em;
+    }
+
+    .page-header p{
+      max-width:700px;
+      margin-top:9px;
+      color:var(--soft);
+      font-size:12px;
+      line-height:1.7;
+    }
+
+    .header-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .btn{
+      min-height:42px;
+      padding:0 14px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:var(--panel);
+      color:var(--text);
+      font-size:11px;
+      font-weight:800;
+      transition:.2s ease;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+      border-color:var(--border2);
+    }
+
+    .btn.primary{
+      border-color:transparent;
+      color:#171209;
+      background:
+        linear-gradient(
+          135deg,
+          var(--accent2),
+          var(--accent)
+        );
+    }
+
+    .btn.danger{
+      color:var(--red);
+      background:var(--redSoft);
+      border-color:rgba(255,112,117,.16);
+    }
+
+    /* ==============================
+       STATS
+    ============================== */
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:12px;
+      margin-bottom:18px;
+    }
+
+    .stat{
+      padding:17px;
+      border:1px solid var(--border);
+      border-radius:16px;
+      background:var(--panel);
+    }
+
+    .stat-label{
+      color:var(--muted);
+      font-size:9px;
+      font-weight:800;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+    }
+
+    .stat-value{
+      margin-top:9px;
+      font:800 28px "Manrope",sans-serif;
+      letter-spacing:-.04em;
+    }
+
+    .stat-meta{
+      margin-top:5px;
+      color:var(--muted);
+      font-size:9px;
+    }
+
+    /* ==============================
+       FILTER BAR
+    ============================== */
+
+    .filter-panel{
+      margin-bottom:18px;
+      padding:14px;
+      border:1px solid var(--border);
+      border-radius:16px;
+      background:var(--panel);
+    }
+
+    .filter-row{
+      display:grid;
+      grid-template-columns:minmax(200px,1fr) 180px auto auto auto;
+      gap:8px;
+      align-items:center;
+    }
+
+    .input,
+    .select{
+      width:100%;
+      height:42px;
+      padding:0 11px;
+      border:1px solid var(--border);
+      border-radius:11px;
+      outline:none;
+      background:var(--panel2);
+      color:var(--text);
+      font-size:11px;
+    }
+
+    .input:focus,
+    .select:focus{
+      border-color:rgba(215,166,70,.5);
+      box-shadow:0 0 0 4px rgba(215,166,70,.08);
+    }
+
+    /* ==============================
+       BANNER LIST
+    ============================== */
+
+    .banner-list{
+      display:grid;
+      gap:13px;
+    }
+
+    .banner-card{
+      display:grid;
+      grid-template-columns:230px minmax(0,1fr) auto;
+      gap:15px;
+      padding:13px;
+      border:1px solid var(--border);
+      border-radius:18px;
+      background:var(--panel);
+      transition:.22s ease;
+    }
+
+    .banner-card:hover{
+      transform:translateY(-1px);
+      border-color:var(--border2);
+    }
+
+    .banner-image{
+      position:relative;
+      min-height:145px;
+      overflow:hidden;
+      border-radius:13px;
+      background:
+        linear-gradient(
+          135deg,
+          #242629,
+          #111315
+        );
+    }
+
+    .banner-image img{
+      width:100%;
+      height:100%;
+      min-height:145px;
+      object-fit:cover;
+      display:block;
+    }
+
+    .banner-image.no-image{
+      display:grid;
+      place-items:center;
+      color:rgba(255,255,255,.42);
+      font-size:10px;
+    }
+
+    .image-badge{
+      position:absolute;
+      left:9px;
+      top:9px;
+      min-height:22px;
+      padding:0 8px;
+      display:inline-flex;
+      align-items:center;
+      border-radius:999px;
+      background:rgba(0,0,0,.55);
+      color:#fff;
+      font-size:8px;
+      font-weight:800;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+      backdrop-filter:blur(8px);
+    }
+
+    .banner-copy{
+      min-width:0;
+      padding:3px 0;
+    }
+
+    .banner-topline{
+      display:flex;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-bottom:7px;
+    }
+
+    .pill{
+      min-height:23px;
+      padding:0 8px;
+      display:inline-flex;
+      align-items:center;
+      border-radius:999px;
+      font-size:8px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+
+    .pill.active{
+      color:var(--green);
+      background:var(--greenSoft);
+    }
+
+    .pill.inactive{
+      color:var(--red);
+      background:var(--redSoft);
+    }
+
+    .pill.featured{
+      color:var(--accent2);
+      background:var(--accentSoft);
+    }
+
+    .banner-title{
+      font:800 18px/1.2 "Manrope",sans-serif;
+      letter-spacing:-.02em;
+    }
+
+    .banner-subtitle{
+      margin-top:4px;
+      color:var(--accent2);
+      font-size:10px;
+      font-weight:700;
+    }
+
+    .banner-description{
+      margin-top:9px;
+      max-width:680px;
+      color:var(--soft);
+      font-size:11px;
+      line-height:1.65;
+      display:-webkit-box;
+      -webkit-line-clamp:3;
+      -webkit-box-orient:vertical;
+      overflow:hidden;
+    }
+
+    .banner-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:7px;
+      margin-top:11px;
+    }
+
+    .meta-item{
+      padding:5px 8px;
+      border-radius:8px;
+      background:var(--panel2);
+      color:var(--muted);
+      font-size:8px;
+    }
+
+    .banner-actions{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      flex-direction:column;
+      gap:7px;
+      min-width:92px;
+    }
+
+    .action-btn{
+      width:92px;
+      min-height:36px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      background:var(--panel2);
+      color:var(--soft);
+      font-size:10px;
+      font-weight:800;
+      transition:.2s ease;
+    }
+
+    .action-btn:hover{
+      color:var(--text);
+      border-color:var(--border2);
+    }
+
+    .action-btn.primary{
+      background:var(--accentSoft);
+      color:var(--accent2);
+    }
+
+    .action-btn.danger{
+      color:var(--red);
+      background:var(--redSoft);
+    }
+
+    .empty-state{
+      padding:55px 20px;
+      text-align:center;
+      border:1px dashed var(--border2);
+      border-radius:18px;
+      background:var(--panel);
+    }
+
+    .empty-icon{
+      width:54px;
+      height:54px;
+      margin:0 auto 12px;
+      display:grid;
+      place-items:center;
+      border-radius:16px;
+      background:var(--accentSoft);
+      color:var(--accent2);
+      font-size:20px;
+    }
+
+    .empty-state strong{
+      display:block;
+      font:800 15px "Manrope",sans-serif;
+    }
+
+    .empty-state p{
+      max-width:430px;
+      margin:7px auto 0;
+      color:var(--muted);
       font-size:10px;
       line-height:1.6;
     }
 
-    .input:focus,
-    .textarea:focus,
-    .select:focus {
-      border-color:rgba(200,255,61,.38);
+    /* ==============================
+       MODAL
+    ============================== */
 
-      background:rgba(200,255,61,.025);
-
-      box-shadow:
-        0 0 0 3px rgba(200,255,61,.045);
-    }
-
-    .input::placeholder,
-    .textarea::placeholder {
-      color:#4d5661;
-    }
-
-    .select {
-      appearance:none;
-    }
-
-    .field-note {
-      color:var(--muted-2);
-
-      font-size:7px;
-      line-height:1.5;
-    }
-
-    /* =========================================
-       IMAGE
-    ========================================= */
-
-    .image-upload {
-      position:relative;
-
-      min-height:150px;
-
-      display:flex;
-      align-items:center;
-      justify-content:center;
-
-      overflow:hidden;
-
-      border:1px dashed rgba(255,255,255,.12);
-      border-radius:13px;
-
-      background:
-        radial-gradient(
-          circle at center,
-          rgba(200,255,61,.04),
-          transparent 55%
-        );
-    }
-
-    .image-upload img {
-      position:absolute;
+    .modal-overlay{
+      position:fixed;
       inset:0;
-
-      width:100%;
-      height:100%;
-
-      object-fit:cover;
-
+      z-index:900;
+      display:grid;
+      place-items:center;
+      padding:20px;
+      background:rgba(0,0,0,.68);
+      backdrop-filter:blur(8px);
       opacity:0;
-
+      visibility:hidden;
       transition:.25s ease;
     }
 
-    .image-upload.has-image img {
+    .modal-overlay.show{
       opacity:1;
+      visibility:visible;
     }
 
-    .upload-content {
-      position:relative;
-      z-index:2;
-
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-
-      gap:7px;
-
-      text-align:center;
-    }
-
-    .upload-icon {
-      width:38px;
-      height:38px;
-
-      display:grid;
-      place-items:center;
-
-      border:1px solid rgba(200,255,61,.13);
-      border-radius:11px;
-
-      background:var(--accent-soft);
-      color:var(--accent);
-    }
-
-    .upload-content strong {
-      font-size:9px;
-    }
-
-    .upload-content span {
-      color:var(--muted-2);
-      font-size:7px;
-    }
-
-    .upload-button {
-      margin-top:4px;
-
-      padding:7px 10px;
-
-      border:1px solid var(--border);
-      border-radius:8px;
-
-      background:rgba(255,255,255,.035);
-      color:var(--text);
-
-      font-size:8px;
-      font-weight:800;
-    }
-
-    .upload-button:hover {
-      border-color:var(--accent-border);
-      color:var(--accent);
-    }
-
-    /* =========================================
-       TOGGLE
-    ========================================= */
-
-    .toggle-row {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-
-      gap:20px;
-
-      padding:13px;
-
-      border:1px solid var(--border);
-      border-radius:12px;
-
-      background:rgba(255,255,255,.018);
-    }
-
-    .toggle-copy strong {
-      display:block;
-      font-size:9px;
-    }
-
-    .toggle-copy span {
-      display:block;
-
-      margin-top:4px;
-
-      color:var(--muted-2);
-
-      font-size:8px;
-      line-height:1.5;
-    }
-
-    .switch {
-      position:relative;
-
-      width:43px;
-      height:24px;
-
-      flex:0 0 43px;
-    }
-
-    .switch input {
-      opacity:0;
-      width:0;
-      height:0;
-    }
-
-    .slider {
-      position:absolute;
-      inset:0;
-
-      border-radius:999px;
-
-      background:#20262d;
-      border:1px solid var(--border);
-
-      transition:.2s ease;
-    }
-
-    .slider::before {
-      content:"";
-
-      position:absolute;
-
-      width:16px;
-      height:16px;
-
-      left:3px;
-      top:3px;
-
-      border-radius:50%;
-
-      background:#78818b;
-
-      transition:.2s ease;
-    }
-
-    .switch input:checked + .slider {
-      background:rgba(200,255,61,.18);
-      border-color:rgba(200,255,61,.32);
-    }
-
-    .switch input:checked + .slider::before {
-      transform:translateX(19px);
-
-      background:var(--accent);
-
-      box-shadow:0 0 10px rgba(200,255,61,.4);
-    }
-
-    /* =========================================
-       BANNER LIST
-    ========================================= */
-
-    .banner-list {
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-
-    .banner-item {
-      display:grid;
-
-      grid-template-columns:
-        145px
-        minmax(0,1fr)
-        auto;
-
-      gap:14px;
-
-      align-items:center;
-
-      padding:10px;
-
-      border:1px solid var(--border);
-      border-radius:14px;
-
-      background:rgba(255,255,255,.018);
-
-      transition:.2s ease;
-    }
-
-    .banner-item:hover {
-      border-color:var(--border-strong);
-      background:rgba(255,255,255,.027);
-    }
-
-    .banner-thumb {
-      position:relative;
-
-      overflow:hidden;
-
-      height:82px;
-
-      border-radius:10px;
-
-      background:
-        linear-gradient(
-          135deg,
-          #141b20,
-          #080b0e
-        );
-    }
-
-    .banner-thumb img {
-      width:100%;
-      height:100%;
-
-      object-fit:cover;
-    }
-
-    .banner-thumb::after {
-      content:"";
-
-      position:absolute;
-      inset:0;
-
-      background:
-        linear-gradient(
-          90deg,
-          rgba(0,0,0,.42),
-          transparent
-        );
-    }
-
-    .banner-info {
-      min-width:0;
-    }
-
-    .banner-info h3 {
-      overflow:hidden;
-
-      white-space:nowrap;
-      text-overflow:ellipsis;
-
-      font-family:"Space Grotesk",sans-serif;
-
-      font-size:11px;
-    }
-
-    .banner-info p {
-      overflow:hidden;
-
-      margin-top:5px;
-
-      color:var(--muted-2);
-
-      font-size:8px;
-      line-height:1.5;
-
-      white-space:nowrap;
-      text-overflow:ellipsis;
-    }
-
-    .banner-meta {
-      display:flex;
-      align-items:center;
-      gap:7px;
-
-      margin-top:8px;
-    }
-
-    .status-pill {
-      display:inline-flex;
-      align-items:center;
-      gap:5px;
-
-      padding:5px 7px;
-
-      border-radius:999px;
-
-      font-size:7px;
-      font-weight:900;
-
-      text-transform:uppercase;
-      letter-spacing:.4px;
-    }
-
-    .status-pill.active {
-      color:var(--accent);
-      background:rgba(200,255,61,.07);
-      border:1px solid rgba(200,255,61,.12);
-    }
-
-    .status-pill.inactive {
-      color:var(--muted-2);
-      background:rgba(255,255,255,.035);
-      border:1px solid var(--border);
-    }
-
-    .status-dot {
-      width:5px;
-      height:5px;
-
-      border-radius:50%;
-
-      background:currentColor;
-    }
-
-    .banner-actions {
-      display:flex;
-      flex-direction:column;
-      gap:5px;
-    }
-
-    .mini-button {
-      min-width:58px;
-      min-height:29px;
-
-      padding:0 9px;
-
-      border:1px solid var(--border);
-      border-radius:8px;
-
-      background:rgba(255,255,255,.025);
-
-      color:var(--muted);
-
-      font-size:7px;
-      font-weight:800;
-
-      transition:.2s ease;
-    }
-
-    .mini-button:hover {
-      color:var(--text);
-      border-color:var(--border-strong);
-    }
-
-    .mini-button.edit:hover {
-      color:var(--accent);
-      border-color:var(--accent-border);
-    }
-
-    .mini-button.delete:hover {
-      color:var(--red);
-      border-color:rgba(255,101,125,.18);
-    }
-
-    /* =========================================
-       EMPTY STATE
-    ========================================= */
-
-    .empty-state {
-      display:none;
-
-      padding:40px 20px;
-
-      text-align:center;
-
-      color:var(--muted-2);
-    }
-
-    .empty-icon {
-      width:45px;
-      height:45px;
-
-      margin:0 auto 10px;
-
-      display:grid;
-      place-items:center;
-
-      border:1px solid var(--border);
-      border-radius:13px;
-
-      background:rgba(255,255,255,.02);
-    }
-
-    .empty-state strong {
-      display:block;
-
-      color:var(--text);
-
-      font-size:10px;
-    }
-
-    .empty-state p {
-      margin-top:5px;
-      font-size:8px;
-    }
-
-    /* =========================================
-       MODAL
-    ========================================= */
-
-    .modal {
-      position:fixed;
-      inset:0;
-
-      z-index:500;
-
-      display:none;
-      align-items:center;
-      justify-content:center;
-
-      padding:20px;
-
-      background:rgba(0,0,0,.74);
-
-      backdrop-filter:blur(12px);
-    }
-
-    .modal.show {
-      display:flex;
-    }
-
-    .modal-card {
-      width:min(620px,100%);
+    .modal{
+      width:min(850px,100%);
       max-height:90vh;
       overflow:auto;
-
-      border:1px solid var(--border-strong);
-      border-radius:20px;
-
-      background:#0b0f14;
-
-      box-shadow:
-        0 35px 100px rgba(0,0,0,.55);
+      border:1px solid var(--border2);
+      border-radius:22px;
+      background:var(--panel);
+      box-shadow:var(--shadow);
     }
 
-    .modal-head {
+    .modal-head{
+      padding:18px;
       display:flex;
-      align-items:center;
       justify-content:space-between;
-
-      padding:17px 19px;
-
+      align-items:center;
+      gap:15px;
       border-bottom:1px solid var(--border);
     }
 
-    .modal-head h2 {
-      font-family:"Space Grotesk",sans-serif;
-      font-size:14px;
+    .modal-head strong{
+      font:800 14px "Manrope",sans-serif;
     }
 
-    .modal-close {
-      width:32px;
-      height:32px;
-
-      display:grid;
-      place-items:center;
-
+    .modal-close{
+      width:34px;
+      height:34px;
       border:1px solid var(--border);
       border-radius:9px;
-
-      background:transparent;
-      color:var(--muted);
+      background:var(--panel2);
+      color:var(--soft);
     }
 
-    .modal-close:hover {
-      color:var(--red);
+    .modal-body{
+      padding:18px;
     }
 
-    .modal-body {
-      padding:19px;
+    .preview-banner{
+      overflow:hidden;
+      border:1px solid var(--border);
+      border-radius:18px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(215,166,70,.10),
+          transparent 55%
+        ),
+        var(--panel2);
     }
 
-    .modal-actions {
-      display:flex;
-      justify-content:flex-end;
-      gap:8px;
-
-      margin-top:18px;
+    .preview-banner-image{
+      min-height:210px;
+      display:grid;
+      place-items:center;
+      background:#151719;
     }
 
-    /* =========================================
-       TOAST
-    ========================================= */
-
-    .toast {
-      position:fixed;
-
-      right:24px;
-      bottom:24px;
-
-      z-index:999;
-
-      min-width:245px;
-
-      display:flex;
-      align-items:center;
-      gap:10px;
-
-      padding:12px 14px;
-
-      border:1px solid rgba(200,255,61,.17);
-      border-radius:12px;
-
-      background:rgba(13,17,22,.97);
-
-      box-shadow:0 18px 50px rgba(0,0,0,.4);
-
-      transform:translateY(30px);
-      opacity:0;
-      pointer-events:none;
-
-      transition:.3s ease;
-    }
-
-    .toast.show {
-      transform:translateY(0);
-      opacity:1;
-    }
-
-    .toast-dot {
-      width:7px;
-      height:7px;
-
-      flex:0 0 7px;
-
-      border-radius:50%;
-
-      background:var(--accent);
-      box-shadow:0 0 10px var(--accent);
-    }
-
-    .toast-text strong {
+    .preview-banner-image img{
+      width:100%;
+      max-height:300px;
+      object-fit:cover;
       display:block;
+    }
+
+    .preview-banner-copy{
+      padding:20px;
+    }
+
+    .preview-eyebrow{
+      color:var(--accent2);
+      font-size:9px;
+      font-weight:900;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+
+    .preview-title{
+      margin-top:8px;
+      font:800 28px/1.05 "Manrope",sans-serif;
+      letter-spacing:-.035em;
+    }
+
+    .preview-subtitle{
+      margin-top:7px;
+      color:var(--accent2);
+      font-size:11px;
+      font-weight:700;
+    }
+
+    .preview-desc{
+      margin-top:10px;
+      color:var(--soft);
+      font-size:11px;
+      line-height:1.7;
+    }
+
+    .preview-buttons{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:15px;
+    }
+
+    .preview-btn{
+      min-height:36px;
+      padding:0 12px;
+      display:inline-flex;
+      align-items:center;
+      border-radius:10px;
+      border:1px solid var(--border);
+      color:var(--soft);
+      font-size:10px;
+      font-weight:800;
+    }
+
+    .preview-btn.primary{
+      background:var(--accent);
+      color:#171209;
+      border-color:transparent;
+    }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:24px;
+      z-index:999;
+      min-width:270px;
+      max-width:calc(100vw - 30px);
+      padding:13px 15px;
+      border:1px solid var(--border2);
+      border-radius:14px;
+      background:var(--panel2);
+      box-shadow:var(--shadow);
+      transform:translate(-50%,30px);
+      opacity:0;
+      visibility:hidden;
+      transition:.25s ease;
+    }
+
+    .toast.show{
+      transform:translate(-50%,0);
+      opacity:1;
+      visibility:visible;
+    }
+
+    .toast strong{
+      display:block;
+      font-size:11px;
+    }
+
+    .toast span{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
       font-size:9px;
     }
 
-    .toast-text span {
-      display:block;
-
-      margin-top:2px;
-
-      color:var(--muted-2);
-
-      font-size:8px;
-    }
-
-    /* =========================================
-       OVERLAY
-    ========================================= */
-
-    .overlay {
-      position:fixed;
-      inset:0;
-      z-index:90;
-
-      display:none;
-
-      background:rgba(0,0,0,.65);
-      backdrop-filter:blur(3px);
-    }
-
-    /* =========================================
+    /* ==============================
        RESPONSIVE
-    ========================================= */
+    ============================== */
 
-    @media (max-width:1200px) {
-      .workspace {
-        grid-template-columns:1fr;
-      }
-
-      .right-column {
-        order:-1;
-      }
+    .sidebar-overlay{
+      display:none;
     }
 
-    @media (max-width:1000px) {
-      .stats-grid {
+    @media(max-width:1200px){
+      .banner-card{
+        grid-template-columns:190px minmax(0,1fr) auto;
+      }
+
+      .filter-row{
         grid-template-columns:
-          repeat(2,minmax(0,1fr));
+          minmax(160px,1fr)
+          160px
+          auto
+          auto;
+      }
+
+      .filter-row .extra-filter{
+        display:none;
       }
     }
 
-    @media (max-width:900px) {
-      .sidebar {
+    @media(max-width:950px){
+      .sidebar{
         transform:translateX(-100%);
       }
 
-      .sidebar.open {
+      .sidebar.open{
         transform:translateX(0);
       }
 
-      .main {
+      .sidebar-overlay{
+        display:block;
+        position:fixed;
+        inset:0;
+        z-index:90;
+        background:rgba(0,0,0,.5);
+        backdrop-filter:blur(3px);
+        opacity:0;
+        visibility:hidden;
+        transition:.25s ease;
+      }
+
+      .sidebar-overlay.show{
+        opacity:1;
+        visibility:visible;
+      }
+
+      .main{
         margin-left:0;
       }
 
-      .mobile-menu {
+      .mobile-menu{
         display:grid;
       }
 
-      .overlay.show {
-        display:block;
+      .content{
+        padding:20px;
       }
 
-      .content {
-        padding:25px 20px 50px;
+      .banner-card{
+        grid-template-columns:1fr;
       }
 
-      .topbar {
-        padding:0 20px;
+      .banner-image{
+        min-height:180px;
+      }
+
+      .banner-image img{
+        min-height:180px;
+      }
+
+      .banner-actions{
+        flex-direction:row;
+        justify-content:flex-start;
       }
     }
 
-    @media (max-width:680px) {
-      .profile-text,
-      .online {
+    @media(max-width:720px){
+      .topbar{
+        padding:0 15px;
+      }
+
+      .page-title p{
         display:none;
       }
 
-      .page-heading {
-        align-items:flex-start;
-        flex-direction:column;
+      .content{
+        padding:15px;
       }
 
-      .heading-actions {
+      .page-header{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .stats{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+
+      .filter-row{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .filter-row .search{
+        grid-column:1 / -1;
+      }
+    }
+
+    @media(max-width:520px){
+      .stats{
+        grid-template-columns:1fr;
+      }
+
+      .filter-row{
+        grid-template-columns:1fr;
+      }
+
+      .filter-row .search{
+        grid-column:auto;
+      }
+
+      .header-actions{
         width:100%;
       }
 
-      .heading-actions .button {
+      .header-actions .btn{
         flex:1;
       }
 
-      .form-grid {
-        grid-template-columns:1fr;
+      .topbar-actions{
+        gap:5px;
       }
 
-      .field.full {
-        grid-column:auto;
-      }
-
-      .banner-item {
-        grid-template-columns:100px minmax(0,1fr);
-      }
-
-      .banner-actions {
-        grid-column:1 / -1;
-        flex-direction:row;
-      }
-
-      .banner-actions .mini-button {
-        flex:1;
-      }
-    }
-
-    @media (max-width:480px) {
-      .content {
-        padding:20px 13px 45px;
-      }
-
-      .topbar {
-        padding:0 13px;
-      }
-
-      .stats-grid {
-        grid-template-columns:1fr;
-      }
-
-      .panel-body {
-        padding:14px;
-      }
-
-      .panel-head {
-        padding:0 14px;
-      }
-
-      .banner-item {
-        grid-template-columns:1fr;
-      }
-
-      .banner-thumb {
-        height:150px;
-      }
-
-      .banner-actions {
-        grid-column:auto;
-      }
-
-      .toast {
-        left:13px;
-        right:13px;
-        bottom:13px;
-        min-width:0;
-      }
-    }
-
-    @media (prefers-reduced-motion:reduce) {
-      *,
-      *::before,
-      *::after {
-        animation:none !important;
-        transition:none !important;
-        scroll-behavior:auto !important;
+      .logout-btn{
+        padding:0 10px;
       }
     }
   </style>
@@ -1643,233 +1090,115 @@
 
 <body>
 
-  <!-- MOBILE OVERLAY -->
-  <div class="overlay" id="overlay"></div>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-  <!-- =========================================
-       SIDEBAR
-  ========================================= -->
+  <div class="app">
 
-  <aside class="sidebar" id="sidebar">
+    <aside class="sidebar" id="sidebar">
 
-    <div class="brand">
+      <div class="brand">
+        <div class="brand-mark">AKI</div>
 
-      <div class="brand-logo">
-        AKI
-      </div>
-
-      <div>
-        <div class="brand-title">
-          AKI Workshop
-        </div>
-
-        <div class="brand-subtitle">
-          Engineering Command Center
+        <div class="brand-copy">
+          <strong>Akhi Engineering</strong>
+          <span>Workshop Admin</span>
         </div>
       </div>
 
-    </div>
+      <div class="side-label">Main</div>
 
-    <div class="nav-label">
-      Main
-    </div>
+      <nav class="nav">
 
-    <nav class="nav">
-
-      <a class="nav-link" href="index.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <rect x="3" y="3" width="7" height="7" rx="1"/>
-          <rect x="14" y="3" width="7" height="7" rx="1"/>
-          <rect x="3" y="14" width="7" height="7" rx="1"/>
-          <rect x="14" y="14" width="7" height="7" rx="1"/>
-        </svg>
-        Command Center
-      </a>
-
-      <a class="nav-link" href="dashboard.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path d="M4 19V5"/>
-          <path d="M4 19h16"/>
-          <path d="M7 15l3-4 3 2 5-7"/>
-        </svg>
-        Dashboard
-      </a>
-
-      <a class="nav-link" href="homepage.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path d="M3 11.5L12 4l9 7.5"/>
-          <path d="M5.5 10.5V20h13v-9.5"/>
-          <path d="M9 20v-5h6v5"/>
-        </svg>
-        Homepage
-      </a>
-
-      <a class="nav-link active" href="banner.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <rect x="3" y="5" width="18" height="14" rx="2"/>
-          <circle cx="8" cy="10" r="1.4"/>
-          <path d="M5 16l4-4 3 3 3-3 4 4"/>
-        </svg>
-
-        Banners
-
-        <span class="nav-badge" id="navBannerCount">
-          04
-        </span>
-      </a>
-
-      <a class="nav-link" href="browser-ui.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <rect x="3" y="4" width="18" height="16" rx="2"/>
-          <path d="M3 9h18"/>
-          <path d="M7 6.5h.01"/>
-          <path d="M10 6.5h.01"/>
-        </svg>
-        Browser UI
-      </a>
-
-      <a class="nav-link" href="newsletter.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <rect x="3" y="5" width="18" height="14" rx="2"/>
-          <path d="M3 7l9 6 9-6"/>
-        </svg>
-        Newsletter
-        <span class="nav-badge">12</span>
-      </a>
-
-    </nav>
-
-    <div class="nav-label">
-      System
-    </div>
-
-    <nav class="nav">
-
-      <a class="nav-link" href="admin-management.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/>
-          <circle cx="9.5" cy="7" r="4"/>
-          <path d="M19 8v6"/>
-          <path d="M22 11h-6"/>
-        </svg>
-
-        Admin Management
-
-        <span class="nav-badge">
-          SA
-        </span>
-      </a>
-
-      <a class="nav-link" href="system.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.7 1.7-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1 1.56V20h-2.4v-.2a1.7 1.7 0 0 0-1-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-1.7-1.7.06-.06A1.7 1.7 0 0 0 6.6 15a1.7 1.7 0 0 0-1.56-1H4.8v-2.4h.24a1.7 1.7 0 0 0 1.56-1 1.7 1.7 0 0 0-.34-1.88L6.2 8.66l1.7-1.7.06.06a1.7 1.7 0 0 0 1.88.34 1.7 1.7 0 0 0 1-1.56V5.6h2.4v.2a1.7 1.7 0 0 0 1 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 1.7 1.7-.06.06A1.7 1.7 0 0 0 18.4 10a1.7 1.7 0 0 0 1.56 1h.24v2.4h-.24a1.7 1.7 0 0 0-1.56 1.6Z"/>
-        </svg>
-
-        System Settings
-      </a>
-
-    </nav>
-
-    <div class="sidebar-bottom">
-
-      <div class="ai-card">
-
-        <div class="ai-card-head">
-          <span class="ai-status"></span>
-          <strong>AKHI.AI</strong>
-        </div>
-
-        <p>
-          Engineering intelligence assistant is online.
-        </p>
-
-        <a href="akhi-ai/index.html">
-          Open AI Assistant
+        <a href="./dashboard.html">
+          <span class="nav-icon">⌂</span>
+          <span class="nav-text">Dashboard</span>
         </a>
 
-      </div>
+        <a href="./homepage.html">
+          <span class="nav-icon">▣</span>
+          <span class="nav-text">Homepage</span>
+        </a>
 
-      <button class="logout" id="logoutBtn" type="button">
+        <a href="./banner.html" class="active">
+          <span class="nav-icon">▰</span>
+          <span class="nav-text">Banners</span>
+        </a>
 
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path d="M10 17l5-5-5-5"/>
-          <path d="M15 12H3"/>
-          <path d="M21 3v18"/>
-        </svg>
+        <a href="./projects.html">
+          <span class="nav-icon">◫</span>
+          <span class="nav-text">Projects</span>
+        </a>
 
-        Sign out
+        <a href="./akhi-ai/index.html">
+          <span class="nav-icon">✦</span>
+          <span class="nav-text">AKHI AI</span>
+          <span class="nav-badge">AI</span>
+        </a>
 
-      </button>
+      </nav>
 
-    </div>
+      <div class="side-label">Management</div>
 
-  </aside>
+      <nav class="nav">
 
-  <!-- =========================================
-       MAIN
-  ========================================= -->
+        <a href="./media.html">
+          <span class="nav-icon">▧</span>
+          <span class="nav-text">Media</span>
+        </a>
 
-  <main class="main">
+        <a href="./settings.html">
+          <span class="nav-icon">⚙</span>
+          <span class="nav-text">Site Settings</span>
+        </a>
 
-    <header class="topbar">
+        <a href="./admins.html" id="adminManagementNav">
+          <span class="nav-icon">♙</span>
+          <span class="nav-text">Admin Management</span>
+        </a>
 
-      <div class="top-left">
+        <a href="./activity.html">
+          <span class="nav-icon">◷</span>
+          <span class="nav-text">Activity Log</span>
+        </a>
 
-        <button
-          class="mobile-menu"
-          id="mobileMenu"
-          type="button"
-          aria-label="Open navigation"
+      </nav>
+
+      <div class="side-label">System</div>
+
+      <nav class="nav">
+
+        <a href="./backup.html">
+          <span class="nav-icon">⇩</span>
+          <span class="nav-text">Backup & Restore</span>
+        </a>
+
+        <a
+          href="../index.html"
+          target="_blank"
+          rel="noopener"
         >
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M4 6h16"/>
-            <path d="M4 12h16"/>
-            <path d="M4 18h16"/>
-          </svg>
-        </button>
+          <span class="nav-icon">↗</span>
+          <span class="nav-text">View Website</span>
+        </a>
 
-        <div class="breadcrumb">
-          Admin / <strong>Banner Manager</strong>
-        </div>
+      </nav>
 
-      </div>
+      <div class="sidebar-footer">
 
-      <div class="top-actions">
+        <div class="mini-profile">
 
-        <div class="online">
-          <span></span>
-          Admin System Online
-        </div>
-
-        <button
-          class="top-icon"
-          id="refreshBtn"
-          type="button"
-          title="Refresh banners"
-        >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <path d="M20 11a8.1 8.1 0 0 0-15.5-2"/>
-            <path d="M4 4v5h5"/>
-            <path d="M4 13a8.1 8.1 0 0 0 15.5 2"/>
-            <path d="M20 20v-5h-5"/>
-          </svg>
-        </button>
-
-        <div class="profile">
-
-          <div class="avatar" id="avatar">
-            AD
+          <div class="avatar" id="sidebarAvatar">
+            A
           </div>
 
-          <div class="profile-text">
+          <div class="profile-copy">
 
-            <strong id="profileName">
+            <strong id="sidebarName">
               Admin
             </strong>
 
-            <span id="profileRole">
-              Administrator
+            <span id="sidebarRole">
+              Admin
             </span>
 
           </div>
@@ -1878,704 +1207,355 @@
 
       </div>
 
-    </header>
+    </aside>
 
-    <section class="content">
 
-      <!-- PAGE HEADING -->
+    <main class="main">
 
-      <div class="page-heading">
+      <header class="topbar">
 
-        <div>
+        <div class="topbar-left">
 
-          <div class="eyebrow">
-            Visual Content
+          <button
+            class="mobile-menu"
+            id="mobileMenu"
+            type="button"
+          >
+            ☰
+          </button>
+
+          <div class="page-title">
+
+            <h1>Banner Manager</h1>
+
+            <p>
+              Create, edit and publish homepage banners
+            </p>
+
           </div>
 
-          <h1>
-            Banner <span>Manager</span>
-          </h1>
-
-          <p>
-            Create and manage premium website banners, promotional
-            campaigns and homepage visual announcements.
-          </p>
-
         </div>
 
-        <div class="heading-actions">
+        <div class="topbar-actions">
 
           <button
-            class="button button-secondary"
-            id="clearAllBtn"
+            class="icon-btn"
+            id="themeToggle"
             type="button"
+            title="Toggle theme"
           >
-            Clear All
+            ◐
           </button>
 
           <button
-            class="button button-primary"
-            id="addBannerBtn"
+            class="icon-btn"
+            id="refreshBtn"
             type="button"
+            title="Refresh"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14"/>
-              <path d="M5 12h14"/>
-            </svg>
+            ↻
+          </button>
 
-            Add New Banner
+          <button
+            class="logout-btn"
+            type="button"
+            data-admin-logout
+          >
+            Logout
           </button>
 
         </div>
 
-      </div>
+      </header>
 
-      <!-- STATS -->
 
-      <div class="stats-grid">
+      <section class="content">
 
-        <div class="stat-card">
+        <div class="page-header">
 
-          <div class="stat-top">
+          <div>
 
-            <span class="stat-label">
+            <div class="eyebrow">
+              Homepage Content
+            </div>
+
+            <h2>
+              Banner Control Center
+            </h2>
+
+            <p>
+              Manage workshop promotional banners,
+              hero slides, calls-to-action, images,
+              publishing status and display order.
+            </p>
+
+          </div>
+
+          <div class="header-actions">
+
+            <button
+              class="btn"
+              type="button"
+              id="exportBtn"
+            >
+              Export
+            </button>
+
+            <button
+              class="btn"
+              type="button"
+              id="importBtn"
+            >
+              Import
+            </button>
+
+            <input
+              type="file"
+              id="importFile"
+              accept="application/json"
+              hidden
+            >
+
+            <a
+              href="./banner-edit.html"
+              class="btn primary"
+            >
+              + Add Banner
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <div class="stats">
+
+          <div class="stat">
+            <div class="stat-label">
               Total Banners
-            </span>
-
-            <div class="stat-icon">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <rect x="3" y="5" width="18" height="14" rx="2"/>
-                <path d="M5 16l4-4 3 3 3-3 4 4"/>
-              </svg>
             </div>
 
+            <div
+              class="stat-value"
+              id="totalCount"
+            >
+              0
+            </div>
+
+            <div class="stat-meta">
+              All stored banners
+            </div>
           </div>
 
-          <div
-            class="stat-number"
-            id="totalCount"
-          >
-            0
-          </div>
-
-        </div>
-
-        <div class="stat-card">
-
-          <div class="stat-top">
-
-            <span class="stat-label">
+          <div class="stat">
+            <div class="stat-label">
               Active
-            </span>
-
-            <div class="stat-icon">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <path d="M20 6L9 17l-5-5"/>
-              </svg>
             </div>
 
-          </div>
-
-          <div
-            class="stat-number"
-            id="activeCount"
-          >
-            0
-          </div>
-
-        </div>
-
-        <div class="stat-card">
-
-          <div class="stat-top">
-
-            <span class="stat-label">
-              Inactive
-            </span>
-
-            <div class="stat-icon">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <path d="M18 6L6 18"/>
-                <path d="M6 6l12 12"/>
-              </svg>
+            <div
+              class="stat-value"
+              id="activeCount"
+            >
+              0
             </div>
 
+            <div class="stat-meta">
+              Currently publishable
+            </div>
           </div>
 
-          <div
-            class="stat-number"
-            id="inactiveCount"
-          >
-            0
-          </div>
-
-        </div>
-
-        <div class="stat-card">
-
-          <div class="stat-top">
-
-            <span class="stat-label">
-              Last Update
-            </span>
-
-            <div class="stat-icon">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <circle cx="12" cy="12" r="9"/>
-                <path d="M12 7v5l3 2"/>
-              </svg>
+          <div class="stat">
+            <div class="stat-label">
+              Featured
             </div>
 
+            <div
+              class="stat-value"
+              id="featuredCount"
+            >
+              0
+            </div>
+
+            <div class="stat-meta">
+              Featured banners
+            </div>
           </div>
 
-          <div
-            class="stat-number"
-            id="lastUpdate"
-            style="font-size:13px"
-          >
-            Just now
+          <div class="stat">
+            <div class="stat-label">
+              Storage
+            </div>
+
+            <div
+              class="stat-value"
+              style="font-size:20px"
+            >
+              Local
+            </div>
+
+            <div class="stat-meta">
+              Browser CMS storage
+            </div>
           </div>
 
         </div>
 
-      </div>
 
-      <div class="workspace">
-
-        <!-- =====================================
-             LEFT COLUMN
-        ====================================== -->
-
-        <div class="left-column">
-
-          <!-- BANNER EDITOR -->
-
-          <section class="panel">
-
-            <div class="panel-head">
-
-              <div class="panel-title">
-
-                <div class="panel-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                    <path d="M12 20h9"/>
-                    <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/>
-                  </svg>
-                </div>
-
-                <div>
-                  <h2 id="editorTitle">
-                    Create Banner
-                  </h2>
-
-                  <p>
-                    Configure visual campaign content
-                  </p>
-                </div>
-
-              </div>
-
-              <span
-                class="status-pill active"
-                id="editorMode"
-              >
-                NEW
-              </span>
-
-            </div>
-
-            <div class="panel-body">
-
-              <form id="bannerForm">
-
-                <div class="form-grid">
-
-                  <div class="field full">
-
-                    <label for="bannerTitle">
-                      Banner Title
-                    </label>
-
-                    <input
-                      class="input"
-                      id="bannerTitle"
-                      type="text"
-                      maxlength="120"
-                      placeholder="Engineering solutions for your next project"
-                      required
-                    >
-
-                  </div>
-
-                  <div class="field full">
-
-                    <label for="bannerSubtitle">
-                      Subtitle
-                    </label>
-
-                    <textarea
-                      class="textarea"
-                      id="bannerSubtitle"
-                      maxlength="350"
-                      placeholder="Short promotional description..."
-                    ></textarea>
-
-                  </div>
-
-                  <div class="field">
-
-                    <label for="bannerBadge">
-                      Badge
-                    </label>
-
-                    <input
-                      class="input"
-                      id="bannerBadge"
-                      type="text"
-                      maxlength="50"
-                      placeholder="NEW / FEATURED / OFFER"
-                    >
-
-                  </div>
-
-                  <div class="field">
-
-                    <label for="bannerOrder">
-                      Display Order
-                    </label>
-
-                    <input
-                      class="input"
-                      id="bannerOrder"
-                      type="number"
-                      min="1"
-                      max="99"
-                      value="1"
-                    >
-
-                  </div>
-
-                  <div class="field">
-
-                    <label for="ctaText">
-                      CTA Text
-                    </label>
-
-                    <input
-                      class="input"
-                      id="ctaText"
-                      type="text"
-                      maxlength="40"
-                      placeholder="Learn More"
-                    >
-
-                  </div>
-
-                  <div class="field">
-
-                    <label for="ctaLink">
-                      CTA Link
-                    </label>
-
-                    <input
-                      class="input"
-                      id="ctaLink"
-                      type="text"
-                      placeholder="#services"
-                    >
-
-                  </div>
-
-                  <div class="field full">
-
-                    <label for="imageUrl">
-                      Banner Image URL
-                    </label>
-
-                    <input
-                      class="input"
-                      id="imageUrl"
-                      type="url"
-                      placeholder="https://example.com/banner.jpg"
-                    >
-
-                    <span class="field-note">
-                      Use a public HTTPS image URL or upload an image below.
-                    </span>
-
-                  </div>
-
-                  <div class="field full">
-
-                    <label>
-                      Image Preview
-                    </label>
-
-                    <div
-                      class="image-upload"
-                      id="imageUpload"
-                    >
-
-                      <img
-                        id="imagePreview"
-                        alt="Banner preview"
-                      >
-
-                      <div class="upload-content">
-
-                        <div class="upload-icon">
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                            <path d="M12 16V4"/>
-                            <path d="M8 8l4-4 4 4"/>
-                            <path d="M5 20h14"/>
-                          </svg>
-                        </div>
-
-                        <strong>
-                          Upload Banner
-                        </strong>
-
-                        <span>
-                          JPG, PNG, WEBP — demo browser preview
-                        </span>
-
-                        <label
-                          class="upload-button"
-                          for="imageFile"
-                        >
-                          Choose Image
-                        </label>
-
-                        <input
-                          id="imageFile"
-                          type="file"
-                          accept="image/png,image/jpeg,image/webp"
-                          hidden
-                        >
-
-                      </div>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-                <div style="height:14px"></div>
-
-                <div class="toggle-row">
-
-                  <div class="toggle-copy">
-
-                    <strong>
-                      Publish Banner
-                    </strong>
-
-                    <span>
-                      Active banners can appear on the public website.
-                    </span>
-
-                  </div>
-
-                  <label class="switch">
-
-                    <input
-                      id="bannerActive"
-                      type="checkbox"
-                      checked
-                    >
-
-                    <span class="slider"></span>
-
-                  </label>
-
-                </div>
-
-                <div class="toggle-row" style="margin-top:9px">
-
-                  <div class="toggle-copy">
-
-                    <strong>
-                      Open CTA in New Tab
-                    </strong>
-
-                    <span>
-                      Useful when linking to external project or service pages.
-                    </span>
-
-                  </div>
-
-                  <label class="switch">
-
-                    <input
-                      id="ctaNewTab"
-                      type="checkbox"
-                    >
-
-                    <span class="slider"></span>
-
-                  </label>
-
-                </div>
-
-                <div class="modal-actions">
-
-                  <button
-                    class="button button-secondary"
-                    id="cancelEditBtn"
-                    type="button"
-                    style="display:none"
-                  >
-                    Cancel Edit
-                  </button>
-
-                  <button
-                    class="button button-primary"
-                    type="submit"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h10l6 6v10a2 2 0 0 1-2 2Z"/>
-                      <path d="M17 21v-8H7v8"/>
-                      <path d="M7 3v5h8"/>
-                    </svg>
-
-                    <span id="submitText">
-                      Create Banner
-                    </span>
-                  </button>
-
-                </div>
-
-              </form>
-
-            </div>
-
-          </section>
+        <div class="filter-panel">
+
+          <div class="filter-row">
+
+            <input
+              class="input search"
+              id="searchInput"
+              type="search"
+              placeholder="Search title, subtitle, description..."
+            >
+
+            <select
+              class="select"
+              id="statusFilter"
+            >
+              <option value="all">
+                All Status
+              </option>
+
+              <option value="active">
+                Active
+              </option>
+
+              <option value="inactive">
+                Inactive
+              </option>
+            </select>
+
+            <select
+              class="select extra-filter"
+              id="featuredFilter"
+            >
+              <option value="all">
+                All Featured
+              </option>
+
+              <option value="featured">
+                Featured
+              </option>
+
+              <option value="normal">
+                Normal
+              </option>
+            </select>
+
+            <button
+              class="btn"
+              id="sortBtn"
+              type="button"
+            >
+              Sort: Order
+            </button>
+
+            <button
+              class="btn"
+              id="clearFilters"
+              type="button"
+            >
+              Clear
+            </button>
+
+          </div>
 
         </div>
 
-        <!-- =====================================
-             RIGHT COLUMN
-        ====================================== -->
 
-        <div class="right-column">
+        <div
+          class="banner-list"
+          id="bannerList"
+        ></div>
 
-          <section class="panel">
+      </section>
 
-            <div class="panel-head">
+    </main>
 
-              <div class="panel-title">
+  </div>
 
-                <div class="panel-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                    <rect x="3" y="5" width="18" height="14" rx="2"/>
-                    <path d="M5 16l4-4 3 3 3-3 4 4"/>
-                  </svg>
-                </div>
 
-                <div>
-                  <h2>
-                    Banner Library
-                  </h2>
-
-                  <p>
-                    Manage all promotional banners
-                  </p>
-                </div>
-
-              </div>
-
-              <span
-                class="preview-label"
-                id="libraryStatus"
-              >
-                0 ITEMS
-              </span>
-
-            </div>
-
-            <div class="panel-body">
-
-              <div
-                class="banner-list"
-                id="bannerList"
-              ></div>
-
-              <div
-                class="empty-state"
-                id="emptyState"
-              >
-
-                <div class="empty-icon">
-
-                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                    <rect x="3" y="5" width="18" height="14" rx="2"/>
-                    <path d="M8 12h8"/>
-                  </svg>
-
-                </div>
-
-                <strong>
-                  No banners available
-                </strong>
-
-                <p>
-                  Create your first banner using the editor.
-                </p>
-
-              </div>
-
-            </div>
-
-          </section>
-
-          <!-- DESIGN GUIDELINE -->
-
-          <section class="panel">
-
-            <div class="panel-head">
-
-              <div class="panel-title">
-
-                <div class="panel-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                    <path d="M12 3l2.5 5.5L20 11l-5.5 2.5L12 19l-2.5-5.5L4 11l5.5-2.5L12 3Z"/>
-                  </svg>
-                </div>
-
-                <div>
-                  <h2>
-                    Banner Strategy
-                  </h2>
-
-                  <p>
-                    Recommended content guidelines
-                  </p>
-                </div>
-
-              </div>
-
-            </div>
-
-            <div class="panel-body">
-
-              <div class="toggle-row">
-
-                <div class="toggle-copy">
-                  <strong>01 — Strong headline</strong>
-                  <span>
-                    Keep the primary message short and memorable.
-                  </span>
-                </div>
-
-                <span class="status-pill active">
-                  TIP
-                </span>
-
-              </div>
-
-              <div style="height:9px"></div>
-
-              <div class="toggle-row">
-
-                <div class="toggle-copy">
-                  <strong>02 — Clear CTA</strong>
-                  <span>
-                    Give visitors one obvious next action.
-                  </span>
-                </div>
-
-                <span class="status-pill active">
-                  TIP
-                </span>
-
-              </div>
-
-              <div style="height:9px"></div>
-
-              <div class="toggle-row">
-
-                <div class="toggle-copy">
-                  <strong>03 — High quality image</strong>
-                  <span>
-                    Use clean engineering, workshop or project visuals.
-                  </span>
-                </div>
-
-                <span class="status-pill active">
-                  TIP
-                </span>
-
-              </div>
-
-            </div>
-
-          </section>
-
-        </div>
-
-      </div>
-
-    </section>
-
-  </main>
-
-  <!-- =========================================
-       CONFIRM MODAL
-  ========================================= -->
+  <!-- PREVIEW MODAL -->
 
   <div
-    class="modal"
-    id="confirmModal"
+    class="modal-overlay"
+    id="previewModal"
   >
 
-    <div class="modal-card">
+    <div class="modal">
 
       <div class="modal-head">
 
-        <h2>
-          Clear Banner Library
-        </h2>
+        <strong>
+          Banner Preview
+        </strong>
 
         <button
           class="modal-close"
-          id="closeConfirmBtn"
+          id="closePreview"
           type="button"
         >
-          ×
+          ✕
         </button>
 
       </div>
 
       <div class="modal-body">
 
-        <p style="color:var(--muted);font-size:10px;line-height:1.7">
-          This will remove all demo banners from this browser.
-          This action cannot be undone.
-        </p>
+        <div class="preview-banner">
 
-        <div class="modal-actions">
-
-          <button
-            class="button button-secondary"
-            id="cancelClearBtn"
-            type="button"
+          <div
+            class="preview-banner-image"
+            id="previewImage"
           >
-            Cancel
-          </button>
+            No image
+          </div>
 
-          <button
-            class="button"
-            id="confirmClearBtn"
-            type="button"
-            style="
-              background:rgba(255,101,125,.1);
-              color:#ff657d;
-              border:1px solid rgba(255,101,125,.18);
-            "
-          >
-            Clear Everything
-          </button>
+          <div class="preview-banner-copy">
+
+            <div
+              class="preview-eyebrow"
+              id="previewEyebrow"
+            ></div>
+
+            <div
+              class="preview-title"
+              id="previewTitle"
+            ></div>
+
+            <div
+              class="preview-subtitle"
+              id="previewSubtitle"
+            ></div>
+
+            <div
+              class="preview-desc"
+              id="previewDescription"
+            ></div>
+
+            <div class="preview-buttons">
+
+              <span
+                class="preview-btn primary"
+                id="previewPrimary"
+              >
+                Primary CTA
+              </span>
+
+              <span
+                class="preview-btn"
+                id="previewSecondary"
+              >
+                Secondary CTA
+              </span>
+
+            </div>
+
+          </div>
 
         </div>
 
@@ -2585,1575 +1565,1366 @@
 
   </div>
 
-  <!-- =========================================
-       TOAST
-  ========================================= -->
+
+  <!-- TOAST -->
 
   <div
     class="toast"
     id="toast"
   >
 
-    <div class="toast-dot"></div>
+    <strong id="toastTitle">
+      Done
+    </strong>
 
-    <div class="toast-text">
-
-      <strong id="toastTitle">
-        Saved
-      </strong>
-
-      <span id="toastMessage">
-        Banner updated successfully.
-      </span>
-
-    </div>
+    <span id="toastMessage">
+      Operation completed.
+    </span>
 
   </div>
 
+
   <script>
-    (() => {
+    (function(){
 
       "use strict";
 
-      /* =======================================
-         CONFIG
-      ======================================= */
 
-      const STORAGE_KEY =
-        "aki_banner_library";
-
-      const SESSION_KEYS = [
-        "aki_admin_session",
-        "aki_admin_remember"
-      ];
-
-      const DEFAULT_BANNERS = [
-
-        {
-          id: "banner-001",
-
-          title:
-            "Precision Engineering. Built to Perform.",
-
-          subtitle:
-            "Professional workshop solutions designed with precision, reliability and practical engineering expertise.",
-
-          badge:
-            "ENGINEERING",
-
-          ctaText:
-            "Explore Services",
-
-          ctaLink:
-            "#services",
-
-          ctaNewTab:
-            false,
-
-          image:
-            "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80",
-
-          order:
-            1,
-
-          active:
-            true
-
-        },
-
-        {
-          id: "banner-002",
-
-          title:
-            "Workshop Expertise for Your Next Project.",
-
-          subtitle:
-            "From concept to practical execution, AKI Engineering Workshop helps turn technical requirements into reliable results.",
-
-          badge:
-            "WORKSHOP",
-
-          ctaText:
-            "Request a Quote",
-
-          ctaLink:
-            "#quotation",
-
-          ctaNewTab:
-            false,
-
-          image:
-            "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=80",
-
-          order:
-            2,
-
-          active:
-            true
-
-        },
-
-        {
-          id: "banner-003",
-
-          title:
-            "Engineering Intelligence with AKHI.AI.",
-
-          subtitle:
-            "Get quick guidance about workshop services, project planning and engineering solutions.",
-
-          badge:
-            "AKHI.AI",
-
-          ctaText:
-            "Talk to AKHI.AI",
-
-          ctaLink:
-            "akhi-ai/index.html",
-
-          ctaNewTab:
-            false,
-
-          image:
-            "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
-
-          order:
-            3,
-
-          active:
-            true
-
-        },
-
-        {
-          id: "banner-004",
-
-          title:
-            "Reliable Solutions. Professional Execution.",
-
-          subtitle:
-            "A workshop environment focused on quality, safety and dependable engineering output.",
-
-          badge:
-            "FEATURED",
-
-          ctaText:
-            "Contact Workshop",
-
-          ctaLink:
-            "#contact",
-
-          ctaNewTab:
-            false,
-
-          image:
-            "https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=1200&q=80",
-
-          order:
-            4,
-
-          active:
-            false
-
-        }
-
-      ];
-
-      /* =======================================
-         DOM
-      ======================================= */
-
-      const sidebar =
-        document.getElementById("sidebar");
-
-      const overlay =
-        document.getElementById("overlay");
-
-      const mobileMenu =
-        document.getElementById("mobileMenu");
-
-      const logoutBtn =
-        document.getElementById("logoutBtn");
-
-      const bannerForm =
-        document.getElementById("bannerForm");
-
-      const addBannerBtn =
-        document.getElementById("addBannerBtn");
-
-      const cancelEditBtn =
-        document.getElementById("cancelEditBtn");
-
-      const clearAllBtn =
-        document.getElementById("clearAllBtn");
-
-      const confirmModal =
-        document.getElementById("confirmModal");
-
-      const closeConfirmBtn =
-        document.getElementById("closeConfirmBtn");
-
-      const cancelClearBtn =
-        document.getElementById("cancelClearBtn");
-
-      const confirmClearBtn =
-        document.getElementById("confirmClearBtn");
-
-      const bannerList =
-        document.getElementById("bannerList");
-
-      const emptyState =
-        document.getElementById("emptyState");
-
-      const totalCount =
-        document.getElementById("totalCount");
-
-      const activeCount =
-        document.getElementById("activeCount");
-
-      const inactiveCount =
-        document.getElementById("inactiveCount");
-
-      const lastUpdate =
-        document.getElementById("lastUpdate");
-
-      const libraryStatus =
-        document.getElementById("libraryStatus");
-
-      const navBannerCount =
-        document.getElementById("navBannerCount");
-
-      const editorTitle =
-        document.getElementById("editorTitle");
-
-      const editorMode =
-        document.getElementById("editorMode");
-
-      const submitText =
-        document.getElementById("submitText");
-
-      const profileName =
-        document.getElementById("profileName");
-
-      const profileRole =
-        document.getElementById("profileRole");
-
-      const avatar =
-        document.getElementById("avatar");
-
-      const imageUpload =
-        document.getElementById("imageUpload");
-
-      const imagePreview =
-        document.getElementById("imagePreview");
-
-      const imageFile =
-        document.getElementById("imageFile");
-
-      const imageUrl =
-        document.getElementById("imageUrl");
-
-      const refreshBtn =
-        document.getElementById("refreshBtn");
-
-      /* =======================================
-         STATE
-      ======================================= */
-
-      let banners = [];
-
-      let editingId = null;
-
-      let uploadedImageData = "";
-
-      let toastTimer = null;
-
-      /* =======================================
+      /* ==========================================
          AUTH
-      ======================================= */
+      ========================================== */
 
-      function getSession() {
-
-        for (const key of SESSION_KEYS) {
-
-          try {
-
-            const local =
-              localStorage.getItem(key);
-
-            const session =
-              sessionStorage.getItem(key);
-
-            const raw =
-              local || session;
-
-            if (!raw) continue;
-
-            const data =
-              JSON.parse(raw);
-
-            if (
-              data &&
-              (
-                data.email ||
-                data.role ||
-                data.user
-              )
-            ) {
-
-              return data;
-
-            }
-
-          } catch (error) {
-
-            console.warn(
-              "Session read error:",
-              error
-            );
-
-          }
-
-        }
-
-        return {
-          role:"Admin",
-          name:"Admin"
-        };
-
+      if(
+        !window.AKIAdmin ||
+        typeof AKIAdmin.requireAuth !== "function"
+      ){
+        location.href="./login/";
+        return;
       }
 
-      function applyRole() {
+      if(!AKIAdmin.requireAuth()){
+        return;
+      }
 
-        const session =
-          getSession();
+      if(
+        typeof AKIAdmin.hasPermission==="function" &&
+        !AKIAdmin.hasPermission("banner.read")
+      ){
+        alert("You do not have permission to manage banners.");
+        location.href="./dashboard.html";
+        return;
+      }
 
-        const role =
-          String(
-            session.role ||
-            session.userRole ||
-            "Admin"
+
+      /* ==========================================
+         STORAGE
+      ========================================== */
+
+      const STORAGE_KEY="aki_banners_v1";
+
+
+      const DEFAULT_BANNERS=[
+        {
+          id:"banner_001",
+          eyebrow:"AKHI ENGINEERING",
+          title:"Built Strong. Built Right.",
+          subtitle:"Engineering & Workshop Excellence",
+          description:
+            "Precision engineering, fabrication and practical workshop solutions built for durability.",
+          image:"",
+          primaryText:"Explore Our Work",
+          primaryLink:"#projects",
+          secondaryText:"Contact Us",
+          secondaryLink:"#contact",
+          active:true,
+          featured:true,
+          order:1,
+          createdAt:new Date().toISOString(),
+          updatedAt:new Date().toISOString()
+        }
+      ];
+
+
+      let banners=loadBanners();
+
+
+      /* ==========================================
+         DOM
+      ========================================== */
+
+      const $=(s)=>document.querySelector(s);
+      const $$=(s)=>document.querySelectorAll(s);
+
+
+      /* ==========================================
+         HELPERS
+      ========================================== */
+
+      function clone(data){
+        return JSON.parse(JSON.stringify(data));
+      }
+
+
+      function safeParse(value){
+        try{
+          return JSON.parse(value);
+        }catch{
+          return null;
+        }
+      }
+
+
+      function escapeHTML(value){
+        return String(value??"")
+          .replace(/&/g,"&amp;")
+          .replace(/</g,"&lt;")
+          .replace(/>/g,"&gt;")
+          .replace(/"/g,"&quot;")
+          .replace(/'/g,"&#039;");
+      }
+
+
+      function uid(){
+        return(
+          "banner_" +
+          Date.now().toString(36) +
+          "_" +
+          Math.random()
+            .toString(36)
+            .slice(2,8)
+        );
+      }
+
+
+      function loadBanners(){
+
+        const raw=
+          localStorage.getItem(
+            STORAGE_KEY
           );
 
-        const superAdmin =
-          role
-            .toLowerCase()
-            .replace(/\s+/g,"")
-            .includes("superadmin");
+        if(!raw){
+          return clone(DEFAULT_BANNERS);
+        }
 
-        const name =
+        const parsed=
+          safeParse(raw);
+
+        if(
+          !Array.isArray(parsed)
+        ){
+          return clone(DEFAULT_BANNERS);
+        }
+
+        return parsed;
+      }
+
+
+      function saveBanners(){
+
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify(banners)
+        );
+
+        /*
+          Compatibility alias.
+        */
+
+        localStorage.setItem(
+          "aki_banners",
+          JSON.stringify(banners)
+        );
+
+        if(
+          typeof AKIAdmin.logActivity==="function"
+        ){
+          AKIAdmin.logActivity(
+            "banners_updated",
+            {
+              count:banners.length
+            }
+          );
+        }
+      }
+
+
+      /* ==========================================
+         THEME
+      ========================================== */
+
+      function applyTheme(theme){
+
+        document.documentElement
+          .setAttribute(
+            "data-theme",
+            theme==="light"
+              ? "light"
+              : "dark"
+          );
+
+        localStorage.setItem(
+          "aki_admin_theme",
+          theme==="light"
+            ? "light"
+            : "dark"
+        );
+      }
+
+
+      applyTheme(
+        localStorage.getItem(
+          "aki_admin_theme"
+        ) || "dark"
+      );
+
+
+      $("#themeToggle")
+        .addEventListener(
+          "click",
+          function(){
+
+            const current=
+              document.documentElement
+                .getAttribute("data-theme");
+
+            applyTheme(
+              current==="dark"
+                ? "light"
+                : "dark"
+            );
+
+            showToast(
+              "Theme changed",
+              "Dashboard theme updated."
+            );
+          }
+        );
+
+
+      /* ==========================================
+         PROFILE
+      ========================================== */
+
+      function renderProfile(){
+
+        const session=
+          AKIAdmin.getSession();
+
+        if(!session){
+          return;
+        }
+
+        const name=
           session.name ||
-          session.displayName ||
-          (
-            session.email
-              ? session.email.split("@")[0]
-              : "Admin"
-          );
+          "Admin";
 
-        profileName.textContent =
-          name;
+        const role=
+          session.role==="superadmin"
+            ? "Super Admin"
+            : "Admin";
 
-        profileRole.textContent =
-          superAdmin
-            ? "Super Administrator"
-            : "Administrator";
+        const initial=
+          name
+            .trim()
+            .charAt(0)
+            .toUpperCase() ||
+          "A";
 
-        avatar.textContent =
-          superAdmin
-            ? "SA"
-            : "AD";
+        $("#sidebarAvatar")
+          .textContent=initial;
 
-      }
+        $("#sidebarName")
+          .textContent=name;
 
-      /* =======================================
-         DATA
-      ======================================= */
+        $("#sidebarRole")
+          .textContent=role;
 
-      function loadBanners() {
+        if(
+          role!=="Super Admin"
+        ){
 
-        try {
+          const adminNav=
+            $("#adminManagementNav");
 
-          const raw =
-            localStorage.getItem(
-              STORAGE_KEY
-            );
-
-          if (!raw) {
-
-            banners =
-              structuredClone(
-                DEFAULT_BANNERS
-              );
-
-            saveBanners();
-
-            return;
-
+          if(adminNav){
+            adminNav.style.display="none";
           }
-
-          const parsed =
-            JSON.parse(raw);
-
-          banners =
-            Array.isArray(parsed)
-              ? parsed
-              : structuredClone(
-                  DEFAULT_BANNERS
-                );
-
-        } catch (error) {
-
-          console.error(
-            "Banner data load failed:",
-            error
-          );
-
-          banners =
-            structuredClone(
-              DEFAULT_BANNERS
-            );
-
         }
-
       }
 
-      function saveBanners() {
 
-        try {
+      /* ==========================================
+         FILTER STATE
+      ========================================== */
 
-          localStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify(banners)
-          );
+      let sortDirection="asc";
 
-          return true;
 
-        } catch (error) {
+      function filteredBanners(){
 
-          console.error(
-            "Banner save failed:",
-            error
-          );
+        const query=
+          $("#searchInput")
+            .value
+            .trim()
+            .toLowerCase();
 
-          return false;
+        const status=
+          $("#statusFilter")
+            .value;
 
-        }
+        const featured=
+          $("#featuredFilter")
+            .value;
 
-      }
 
-      /* =======================================
-         RENDER
-      ======================================= */
+        let result=
+          banners.filter(
+            function(item){
 
-      function render() {
+              const searchable=[
+                item.eyebrow,
+                item.title,
+                item.subtitle,
+                item.description,
+                item.primaryText,
+                item.secondaryText
+              ]
+              .join(" ")
+              .toLowerCase();
 
-        const sorted =
-          [...banners].sort(
-            (a,b) =>
-              Number(a.order || 0) -
-              Number(b.order || 0)
-          );
+              if(
+                query &&
+                !searchable.includes(query)
+              ){
+                return false;
+              }
 
-        bannerList.innerHTML = "";
+              if(
+                status==="active" &&
+                item.active!==true
+              ){
+                return false;
+              }
 
-        if (!sorted.length) {
+              if(
+                status==="inactive" &&
+                item.active===true
+              ){
+                return false;
+              }
 
-          bannerList.style.display =
-            "none";
+              if(
+                featured==="featured" &&
+                item.featured!==true
+              ){
+                return false;
+              }
 
-          emptyState.style.display =
-            "block";
+              if(
+                featured==="normal" &&
+                item.featured===true
+              ){
+                return false;
+              }
 
-        } else {
-
-          bannerList.style.display =
-            "flex";
-
-          emptyState.style.display =
-            "none";
-
-          sorted.forEach(
-            banner => {
-
-              bannerList.appendChild(
-                createBannerElement(
-                  banner
-                )
-              );
-
+              return true;
             }
           );
 
-        }
 
-        updateStats();
+        result.sort(
+          function(a,b){
 
+            const diff=
+              Number(a.order||0)-
+              Number(b.order||0);
+
+            return sortDirection==="asc"
+              ? diff
+              : -diff;
+          }
+        );
+
+        return result;
       }
 
-      function createBannerElement(banner) {
 
-        const item =
-          document.createElement("article");
+      /* ==========================================
+         STATS
+      ========================================== */
 
-        item.className =
-          "banner-item";
+      function renderStats(){
 
-        const thumb =
-          document.createElement("div");
+        const total=banners.length;
 
-        thumb.className =
-          "banner-thumb";
-
-        const img =
-          document.createElement("img");
-
-        img.src =
-          banner.image ||
-          fallbackImage();
-
-        img.alt =
-          banner.title ||
-          "Banner";
-
-        img.onerror = () => {
-          img.src = fallbackImage();
-        };
-
-        thumb.appendChild(img);
-
-        const info =
-          document.createElement("div");
-
-        info.className =
-          "banner-info";
-
-        const title =
-          document.createElement("h3");
-
-        title.textContent =
-          banner.title ||
-          "Untitled Banner";
-
-        const description =
-          document.createElement("p");
-
-        description.textContent =
-          banner.subtitle ||
-          "No subtitle provided.";
-
-        const meta =
-          document.createElement("div");
-
-        meta.className =
-          "banner-meta";
-
-        const status =
-          document.createElement("span");
-
-        status.className =
-          "status-pill " +
-          (
-            banner.active
-              ? "active"
-              : "inactive"
-          );
-
-        status.innerHTML = `
-          <span class="status-dot"></span>
-          ${banner.active ? "Active" : "Inactive"}
-        `;
-
-        const order =
-          document.createElement("span");
-
-        order.className =
-          "status-pill inactive";
-
-        order.textContent =
-          `#${banner.order || 0}`;
-
-        meta.appendChild(status);
-        meta.appendChild(order);
-
-        info.appendChild(title);
-        info.appendChild(description);
-        info.appendChild(meta);
-
-        const actions =
-          document.createElement("div");
-
-        actions.className =
-          "banner-actions";
-
-        const edit =
-          document.createElement("button");
-
-        edit.type =
-          "button";
-
-        edit.className =
-          "mini-button edit";
-
-        edit.textContent =
-          "Edit";
-
-        edit.addEventListener(
-          "click",
-          () => editBanner(banner.id)
-        );
-
-        const toggle =
-          document.createElement("button");
-
-        toggle.type =
-          "button";
-
-        toggle.className =
-          "mini-button";
-
-        toggle.textContent =
-          banner.active
-            ? "Disable"
-            : "Activate";
-
-        toggle.addEventListener(
-          "click",
-          () =>
-            toggleBanner(
-              banner.id
-            )
-        );
-
-        const deleteButton =
-          document.createElement("button");
-
-        deleteButton.type =
-          "button";
-
-        deleteButton.className =
-          "mini-button delete";
-
-        deleteButton.textContent =
-          "Delete";
-
-        deleteButton.addEventListener(
-          "click",
-          () =>
-            deleteBanner(
-              banner.id
-            )
-        );
-
-        actions.appendChild(edit);
-        actions.appendChild(toggle);
-        actions.appendChild(deleteButton);
-
-        item.appendChild(thumb);
-        item.appendChild(info);
-        item.appendChild(actions);
-
-        return item;
-
-      }
-
-      function fallbackImage() {
-
-        return (
-          "data:image/svg+xml;charset=UTF-8," +
-          encodeURIComponent(`
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 width="1200"
-                 height="600"
-                 viewBox="0 0 1200 600">
-              <rect width="1200" height="600" fill="#10151b"/>
-              <circle cx="960" cy="100" r="260"
-                      fill="#c8ff3d"
-                      opacity=".08"/>
-              <text x="70" y="320"
-                    fill="#c8ff3d"
-                    font-family="Arial"
-                    font-size="70"
-                    font-weight="700">
-                AKI ENGINEERING
-              </text>
-            </svg>
-          `)
-        );
-
-      }
-
-      function updateStats() {
-
-        const total =
-          banners.length;
-
-        const active =
+        const active=
           banners.filter(
-            banner => banner.active
+            b=>b.active===true
           ).length;
 
-        const inactive =
-          total - active;
-
-        totalCount.textContent =
-          total;
-
-        activeCount.textContent =
-          active;
-
-        inactiveCount.textContent =
-          inactive;
-
-        libraryStatus.textContent =
-          `${total} ITEMS`;
-
-        navBannerCount.textContent =
-          String(active).padStart(
-            2,
-            "0"
-          );
-
-        lastUpdate.textContent =
-          total
-            ? new Date().toLocaleTimeString(
-                [],
-                {
-                  hour:"2-digit",
-                  minute:"2-digit"
-                }
-              )
-            : "—";
-
-      }
-
-      /* =======================================
-         FORM
-      ======================================= */
-
-      function resetForm() {
-
-        bannerForm.reset();
-
-        document.getElementById(
-          "bannerOrder"
-        ).value = "1";
-
-        document.getElementById(
-          "bannerActive"
-        ).checked = true;
-
-        document.getElementById(
-          "ctaNewTab"
-        ).checked = false;
-
-        uploadedImageData = "";
-
-        imagePreview.src = "";
-
-        imageUpload.classList.remove(
-          "has-image"
-        );
-
-        editingId = null;
-
-        editorTitle.textContent =
-          "Create Banner";
-
-        editorMode.textContent =
-          "NEW";
-
-        submitText.textContent =
-          "Create Banner";
-
-        cancelEditBtn.style.display =
-          "none";
-
-      }
-
-      function getFormData() {
-
-        return {
-
-          title:
-            document.getElementById(
-              "bannerTitle"
-            ).value.trim(),
-
-          subtitle:
-            document.getElementById(
-              "bannerSubtitle"
-            ).value.trim(),
-
-          badge:
-            document.getElementById(
-              "bannerBadge"
-            ).value.trim(),
-
-          order:
-            Number(
-              document.getElementById(
-                "bannerOrder"
-              ).value
-            ) || 1,
-
-          ctaText:
-            document.getElementById(
-              "ctaText"
-            ).value.trim(),
-
-          ctaLink:
-            document.getElementById(
-              "ctaLink"
-            ).value.trim(),
-
-          ctaNewTab:
-            document.getElementById(
-              "ctaNewTab"
-            ).checked,
-
-          image:
-            uploadedImageData ||
-            imageUrl.value.trim(),
-
-          active:
-            document.getElementById(
-              "bannerActive"
-            ).checked
-
-        };
-
-      }
-
-      function populateForm(banner) {
-
-        document.getElementById(
-          "bannerTitle"
-        ).value =
-          banner.title || "";
-
-        document.getElementById(
-          "bannerSubtitle"
-        ).value =
-          banner.subtitle || "";
-
-        document.getElementById(
-          "bannerBadge"
-        ).value =
-          banner.badge || "";
-
-        document.getElementById(
-          "bannerOrder"
-        ).value =
-          banner.order || 1;
-
-        document.getElementById(
-          "ctaText"
-        ).value =
-          banner.ctaText || "";
-
-        document.getElementById(
-          "ctaLink"
-        ).value =
-          banner.ctaLink || "";
-
-        document.getElementById(
-          "ctaNewTab"
-        ).checked =
-          Boolean(
-            banner.ctaNewTab
-          );
-
-        document.getElementById(
-          "bannerActive"
-        ).checked =
-          banner.active !== false;
-
-        imageUrl.value =
-          banner.image &&
-          !banner.image.startsWith(
-            "data:"
-          )
-            ? banner.image
-            : "";
-
-        uploadedImageData =
-          banner.image &&
-          banner.image.startsWith(
-            "data:"
-          )
-            ? banner.image
-            : "";
-
-        if (banner.image) {
-
-          imagePreview.src =
-            banner.image;
-
-          imageUpload.classList.add(
-            "has-image"
-          );
-
-        } else {
-
-          imagePreview.src = "";
-
-          imageUpload.classList.remove(
-            "has-image"
-          );
-
-        }
-
-      }
-
-      function editBanner(id) {
-
-        const banner =
-          banners.find(
-            item => item.id === id
-          );
-
-        if (!banner) {
-          return;
-        }
-
-        editingId =
-          id;
-
-        populateForm(
-          banner
-        );
-
-        editorTitle.textContent =
-          "Edit Banner";
-
-        editorMode.textContent =
-          "EDIT";
-
-        submitText.textContent =
-          "Update Banner";
-
-        cancelEditBtn.style.display =
-          "inline-flex";
-
-        window.scrollTo({
-          top:0,
-          behavior:"smooth"
-        });
-
-        showToast(
-          "Edit mode",
-          "Banner loaded into the editor."
-        );
-
-      }
-
-      function handleSubmit(event) {
-
-        event.preventDefault();
-
-        const data =
-          getFormData();
-
-        if (!data.title) {
-
-          showToast(
-            "Title required",
-            "Please enter a banner title."
-          );
-
-          document.getElementById(
-            "bannerTitle"
-          ).focus();
-
-          return;
-
-        }
-
-        if (
-          data.ctaLink &&
-          !isSafeLink(data.ctaLink)
-        ) {
-
-          showToast(
-            "Invalid link",
-            "Please use a valid website, path or anchor link."
-          );
-
-          return;
-
-        }
-
-        if (editingId) {
-
-          const index =
-            banners.findIndex(
-              banner =>
-                banner.id === editingId
-            );
-
-          if (index === -1) {
-            return;
-          }
-
-          banners[index] = {
-            ...banners[index],
-            ...data
-          };
-
-          saveBanners();
-
-          render();
-
-          resetForm();
-
-          showToast(
-            "Banner updated",
-            "Your banner has been updated successfully."
-          );
-
-          return;
-
-        }
-
-        const newBanner = {
-
-          id:
-            "banner-" +
-            Date.now(),
-
-          ...data
-
-        };
-
-        banners.push(
-          newBanner
-        );
-
-        saveBanners();
-
-        render();
-
-        resetForm();
-
-        showToast(
-          "Banner created",
-          "New banner added to your library."
-        );
-
-      }
-
-      /* =======================================
-         ACTIONS
-      ======================================= */
-
-      function toggleBanner(id) {
-
-        const banner =
-          banners.find(
-            item => item.id === id
-          );
-
-        if (!banner) {
-          return;
-        }
-
-        banner.active =
-          !banner.active;
-
-        saveBanners();
-
-        render();
-
-        showToast(
-          banner.active
-            ? "Banner activated"
-            : "Banner disabled",
-          banner.active
-            ? "This banner can now appear publicly."
-            : "This banner is hidden from the public site."
-        );
-
-      }
-
-      function deleteBanner(id) {
-
-        const banner =
-          banners.find(
-            item => item.id === id
-          );
-
-        if (!banner) {
-          return;
-        }
-
-        const confirmed =
-          window.confirm(
-            `Delete "${banner.title}"?`
-          );
-
-        if (!confirmed) {
-          return;
-        }
-
-        banners =
+        const featured=
           banners.filter(
-            item => item.id !== id
-          );
+            b=>b.featured===true
+          ).length;
 
-        saveBanners();
+        $("#totalCount")
+          .textContent=total;
 
-        if (
-          editingId === id
-        ) {
-          resetForm();
+        $("#activeCount")
+          .textContent=active;
+
+        $("#featuredCount")
+          .textContent=featured;
+      }
+
+
+      /* ==========================================
+         LIST
+      ========================================== */
+
+      function renderList(){
+
+        const list=
+          $("#bannerList");
+
+        const items=
+          filteredBanners();
+
+
+        if(!items.length){
+
+          list.innerHTML=`
+            <div class="empty-state">
+
+              <div class="empty-icon">
+                ▰
+              </div>
+
+              <strong>
+                No banners found
+              </strong>
+
+              <p>
+                Create a new banner or change the
+                current search and filters.
+              </p>
+
+              <div style="margin-top:14px;">
+                <a
+                  class="btn primary"
+                  href="./banner-edit.html"
+                >
+                  + Create Banner
+                </a>
+              </div>
+
+            </div>
+          `;
+
+          return;
         }
 
-        render();
 
-        showToast(
-          "Banner deleted",
-          "The banner was removed from the library."
-        );
+        list.innerHTML=
+          items
+            .map(
+              function(item){
 
-      }
+                return`
+                  <article
+                    class="banner-card"
+                    data-id="${escapeHTML(item.id)}"
+                  >
 
-      function openClearModal() {
+                    <div
+                      class="banner-image
+                        ${item.image ? "" : "no-image"}"
+                    >
 
-        confirmModal.classList.add(
-          "show"
-        );
+                      ${
+                        item.image
+                          ? `
+                            <img
+                              src="${escapeHTML(item.image)}"
+                              alt="${escapeHTML(item.title)}"
+                              loading="lazy"
+                              onerror="this.parentElement.classList.add('no-image');this.style.display='none';"
+                            >
+                          `
+                          : "No banner image"
+                      }
 
-      }
+                      <span class="image-badge">
+                        #${escapeHTML(item.order)}
+                      </span>
 
-      function closeClearModal() {
+                    </div>
 
-        confirmModal.classList.remove(
-          "show"
-        );
 
-      }
+                    <div class="banner-copy">
 
-      function clearAll() {
+                      <div class="banner-topline">
 
-        banners = [];
+                        <span
+                          class="pill ${
+                            item.active
+                              ? "active"
+                              : "inactive"
+                          }"
+                        >
+                          ${
+                            item.active
+                              ? "Active"
+                              : "Inactive"
+                          }
+                        </span>
 
-        saveBanners();
+                        ${
+                          item.featured
+                            ? `
+                              <span class="pill featured">
+                                Featured
+                              </span>
+                            `
+                            : ""
+                        }
 
-        resetForm();
+                      </div>
 
-        render();
 
-        closeClearModal();
+                      <h3 class="banner-title">
+                        ${escapeHTML(item.title)}
+                      </h3>
 
-        showToast(
-          "Library cleared",
-          "All demo banners have been removed."
-        );
 
-      }
+                      ${
+                        item.subtitle
+                          ? `
+                            <div class="banner-subtitle">
+                              ${escapeHTML(item.subtitle)}
+                            </div>
+                          `
+                          : ""
+                      }
 
-      /* =======================================
-         IMAGE HANDLING
-      ======================================= */
 
-      imageFile.addEventListener(
-        "change",
-        event => {
+                      <p class="banner-description">
+                        ${escapeHTML(item.description)}
+                      </p>
 
-          const file =
-            event.target.files[0];
 
-          if (!file) {
-            return;
-          }
+                      <div class="banner-meta">
 
-          if (
-            !file.type.startsWith(
-              "image/"
+                        <span class="meta-item">
+                          Order: ${escapeHTML(item.order)}
+                        </span>
+
+                        <span class="meta-item">
+                          Primary:
+                          ${escapeHTML(item.primaryText || "—")}
+                        </span>
+
+                        <span class="meta-item">
+                          Updated:
+                          ${escapeHTML(
+                            formatDate(item.updatedAt)
+                          )}
+                        </span>
+
+                      </div>
+
+                    </div>
+
+
+                    <div class="banner-actions">
+
+                      <button
+                        class="action-btn primary"
+                        type="button"
+                        data-action="edit"
+                        data-id="${escapeHTML(item.id)}"
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        class="action-btn"
+                        type="button"
+                        data-action="preview"
+                        data-id="${escapeHTML(item.id)}"
+                      >
+                        Preview
+                      </button>
+
+                      <button
+                        class="action-btn"
+                        type="button"
+                        data-action="toggle"
+                        data-id="${escapeHTML(item.id)}"
+                      >
+                        ${
+                          item.active
+                            ? "Disable"
+                            : "Publish"
+                        }
+                      </button>
+
+                      <button
+                        class="action-btn"
+                        type="button"
+                        data-action="duplicate"
+                        data-id="${escapeHTML(item.id)}"
+                      >
+                        Duplicate
+                      </button>
+
+                      <button
+                        class="action-btn danger"
+                        type="button"
+                        data-action="delete"
+                        data-id="${escapeHTML(item.id)}"
+                      >
+                        Delete
+                      </button>
+
+                    </div>
+
+                  </article>
+                `;
+              }
             )
-          ) {
+            .join("");
+      }
 
-            showToast(
-              "Invalid image",
-              "Please choose a valid image file."
+
+      function formatDate(value){
+
+        if(!value){
+          return "—";
+        }
+
+        try{
+
+          return new Date(value)
+            .toLocaleDateString(
+              "en-US",
+              {
+                day:"numeric",
+                month:"short",
+                year:"numeric"
+              }
             );
 
-            return;
+        }catch{
+          return "—";
+        }
+      }
 
-          }
 
-          if (
-            file.size >
-            5 * 1024 * 1024
-          ) {
+      /* ==========================================
+         ACTIONS
+      ========================================== */
 
-            showToast(
-              "Image too large",
-              "Please use an image under 5MB."
-            );
+      $("#bannerList")
+        .addEventListener(
+          "click",
+          function(event){
 
-            imageFile.value =
-              "";
-
-            return;
-
-          }
-
-          const reader =
-            new FileReader();
-
-          reader.onload =
-            event => {
-
-              uploadedImageData =
-                event.target.result;
-
-              imagePreview.src =
-                uploadedImageData;
-
-              imageUpload.classList.add(
-                "has-image"
+            const button=
+              event.target.closest(
+                "[data-action]"
               );
 
-              imageUrl.value =
-                "";
+            if(!button){
+              return;
+            }
+
+            const action=
+              button.dataset.action;
+
+            const id=
+              button.dataset.id;
+
+            const item=
+              banners.find(
+                b=>b.id===id
+              );
+
+            if(!item){
+              return;
+            }
+
+
+            if(action==="edit"){
+
+              location.href=
+                "./banner-edit.html?id=" +
+                encodeURIComponent(id);
+
+              return;
+            }
+
+
+            if(action==="preview"){
+
+              openPreview(item);
+
+              return;
+            }
+
+
+            if(action==="toggle"){
+
+              item.active=
+                !item.active;
+
+              item.updatedAt=
+                new Date().toISOString();
+
+              saveBanners();
+              renderAll();
 
               showToast(
-                "Image ready",
-                "Selected image is ready for this banner."
+                item.active
+                  ? "Banner published"
+                  : "Banner disabled",
+                item.active
+                  ? "This banner is now active."
+                  : "This banner has been disabled."
               );
 
-            };
+              return;
+            }
 
-          reader.readAsDataURL(
-            file
-          );
 
-        }
-      );
+            if(action==="duplicate"){
 
-      imageUrl.addEventListener(
-        "input",
-        () => {
+              const copy=
+                clone(item);
 
-          const value =
-            imageUrl.value.trim();
+              copy.id=uid();
 
-          if (!value) {
+              copy.title=
+                item.title +
+                " — Copy";
 
-            return;
+              copy.order=
+                banners.length+1;
+
+              copy.active=false;
+
+              copy.featured=false;
+
+              copy.createdAt=
+                new Date().toISOString();
+
+              copy.updatedAt=
+                new Date().toISOString();
+
+              banners.push(copy);
+
+              saveBanners();
+              renderAll();
+
+              showToast(
+                "Banner duplicated",
+                "A new editable copy has been created."
+              );
+
+              return;
+            }
+
+
+            if(action==="delete"){
+
+              const ok=
+                window.confirm(
+                  'Delete "' +
+                  item.title +
+                  '"? This action cannot be undone.'
+                );
+
+              if(!ok){
+                return;
+              }
+
+              banners=
+                banners.filter(
+                  b=>b.id!==id
+                );
+
+              /*
+                Normalize order.
+              */
+
+              banners.forEach(
+                function(b,index){
+                  b.order=index+1;
+                }
+              );
+
+              saveBanners();
+              renderAll();
+
+              showToast(
+                "Banner deleted",
+                "The selected banner has been removed."
+              );
+
+            }
 
           }
-
-          uploadedImageData =
-            "";
-
-          imagePreview.src =
-            value;
-
-          imageUpload.classList.add(
-            "has-image"
-          );
-
-        }
-      );
-
-      imagePreview.addEventListener(
-        "error",
-        () => {
-
-          imageUpload.classList.remove(
-            "has-image"
-          );
-
-          showToast(
-            "Image unavailable",
-            "The image URL could not be loaded."
-          );
-
-        }
-      );
-
-      /* =======================================
-         LINK SECURITY
-      ======================================= */
-
-      function isSafeLink(value) {
-
-        if (!value) {
-          return true;
-        }
-
-        return (
-          value.startsWith("#") ||
-          value.startsWith("/") ||
-          value.startsWith("./") ||
-          value.startsWith("../") ||
-          value.startsWith("https://") ||
-          value.startsWith("http://") ||
-          value.startsWith("mailto:") ||
-          value.startsWith("tel:")
         );
+
+
+      /* ==========================================
+         PREVIEW
+      ========================================== */
+
+      function openPreview(item){
+
+        $("#previewEyebrow")
+          .textContent=
+          item.eyebrow || "";
+
+        $("#previewTitle")
+          .textContent=
+          item.title || "";
+
+        $("#previewSubtitle")
+          .textContent=
+          item.subtitle || "";
+
+        $("#previewDescription")
+          .textContent=
+          item.description || "";
+
+        $("#previewPrimary")
+          .textContent=
+          item.primaryText ||
+          "Primary CTA";
+
+        $("#previewSecondary")
+          .textContent=
+          item.secondaryText ||
+          "Secondary CTA";
+
+
+        const image=
+          $("#previewImage");
+
+        image.innerHTML="";
+
+        if(item.image){
+
+          const img=
+            document.createElement("img");
+
+          img.src=item.image;
+          img.alt=item.title || "Banner";
+          img.loading="lazy";
+
+          img.onerror=
+            function(){
+              image.textContent=
+                "Image could not be loaded.";
+            };
+
+          image.appendChild(img);
+
+        }else{
+
+          image.textContent=
+            "No banner image";
+
+        }
+
+
+        $("#previewModal")
+          .classList.add("show");
+      }
+
+
+      function closePreview(){
+
+        $("#previewModal")
+          .classList.remove("show");
 
       }
 
-      /* =======================================
+
+      $("#closePreview")
+        .addEventListener(
+          "click",
+          closePreview
+        );
+
+
+      $("#previewModal")
+        .addEventListener(
+          "click",
+          function(event){
+
+            if(
+              event.target===
+              this
+            ){
+              closePreview();
+            }
+
+          }
+        );
+
+
+      /* ==========================================
+         FILTERS
+      ========================================== */
+
+      [
+        "#searchInput",
+        "#statusFilter",
+        "#featuredFilter"
+      ]
+      .forEach(
+        function(selector){
+
+          $(selector)
+            .addEventListener(
+              "input",
+              renderList
+            );
+
+          $(selector)
+            .addEventListener(
+              "change",
+              renderList
+            );
+
+        }
+      );
+
+
+      $("#sortBtn")
+        .addEventListener(
+          "click",
+          function(){
+
+            sortDirection=
+              sortDirection==="asc"
+                ? "desc"
+                : "asc";
+
+            this.textContent=
+              "Sort: Order " +
+              (
+                sortDirection==="asc"
+                  ? "↑"
+                  : "↓"
+              );
+
+            renderList();
+          }
+        );
+
+
+      $("#clearFilters")
+        .addEventListener(
+          "click",
+          function(){
+
+            $("#searchInput").value="";
+            $("#statusFilter").value="all";
+            $("#featuredFilter").value="all";
+
+            sortDirection="asc";
+
+            $("#sortBtn")
+              .textContent=
+              "Sort: Order";
+
+            renderList();
+
+          }
+        );
+
+
+      /* ==========================================
+         EXPORT
+      ========================================== */
+
+      $("#exportBtn")
+        .addEventListener(
+          "click",
+          function(){
+
+            const payload={
+              version:"1.4",
+              type:"banner-backup",
+              exportedAt:new Date().toISOString(),
+              banners:banners
+            };
+
+            const blob=
+              new Blob(
+                [
+                  JSON.stringify(
+                    payload,
+                    null,
+                    2
+                  )
+                ],
+                {
+                  type:"application/json"
+                }
+              );
+
+            const url=
+              URL.createObjectURL(blob);
+
+            const link=
+              document.createElement("a");
+
+            link.href=url;
+
+            link.download=
+              "akhi-banner-backup-" +
+              new Date()
+                .toISOString()
+                .slice(0,10) +
+              ".json";
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            link.remove();
+
+            URL.revokeObjectURL(url);
+
+            showToast(
+              "Export complete",
+              "Banner backup downloaded."
+            );
+
+          }
+        );
+
+
+      /* ==========================================
+         IMPORT
+      ========================================== */
+
+      $("#importBtn")
+        .addEventListener(
+          "click",
+          function(){
+            $("#importFile").click();
+          }
+        );
+
+
+      $("#importFile")
+        .addEventListener(
+          "change",
+          async function(){
+
+            const file=
+              this.files &&
+              this.files[0];
+
+            if(!file){
+              return;
+            }
+
+            try{
+
+              const text=
+                await file.text();
+
+              const payload=
+                JSON.parse(text);
+
+
+              const imported=
+                Array.isArray(payload)
+                  ? payload
+                  : payload.banners;
+
+
+              if(
+                !Array.isArray(imported)
+              ){
+                throw new Error(
+                  "Invalid banner backup."
+                );
+              }
+
+
+              const ok=
+                window.confirm(
+                  "Import " +
+                  imported.length +
+                  " banners and replace current banner data?"
+                );
+
+              if(!ok){
+                this.value="";
+                return;
+              }
+
+
+              banners=
+                imported.map(
+                  function(item,index){
+
+                    return{
+
+                      id:
+                        item.id ||
+                        uid(),
+
+                      eyebrow:
+                        item.eyebrow ||
+                        "",
+
+                      title:
+                        item.title ||
+                        "Untitled Banner",
+
+                      subtitle:
+                        item.subtitle ||
+                        "",
+
+                      description:
+                        item.description ||
+                        "",
+
+                      image:
+                        item.image ||
+                        "",
+
+                      primaryText:
+                        item.primaryText ||
+                        "",
+
+                      primaryLink:
+                        item.primaryLink ||
+                        "#contact",
+
+                      secondaryText:
+                        item.secondaryText ||
+                        "",
+
+                      secondaryLink:
+                        item.secondaryLink ||
+                        "#contact",
+
+                      active:
+                        item.active!==false,
+
+                      featured:
+                        item.featured===true,
+
+                      order:
+                        Number(item.order) ||
+                        index+1,
+
+                      createdAt:
+                        item.createdAt ||
+                        new Date().toISOString(),
+
+                      updatedAt:
+                        new Date().toISOString()
+
+                    };
+
+                  }
+                );
+
+
+              /*
+                Normalize order.
+              */
+
+              banners.sort(
+                (a,b)=>
+                  Number(a.order)-
+                  Number(b.order)
+              );
+
+              banners.forEach(
+                function(item,index){
+                  item.order=index+1;
+                }
+              );
+
+
+              saveBanners();
+              renderAll();
+
+              showToast(
+                "Import complete",
+                "Banner data imported successfully."
+              );
+
+
+            }catch(error){
+
+              showToast(
+                "Import failed",
+                "The selected backup file is invalid."
+              );
+
+            }
+
+            this.value="";
+
+          }
+        );
+
+
+      /* ==========================================
+         REFRESH
+      ========================================== */
+
+      $("#refreshBtn")
+        .addEventListener(
+          "click",
+          function(){
+
+            banners=
+              loadBanners();
+
+            renderAll();
+
+            showToast(
+              "Refreshed",
+              "Latest banner data has been loaded."
+            );
+
+          }
+        );
+
+
+      /* ==========================================
+         MOBILE
+      ========================================== */
+
+      $("#mobileMenu")
+        .addEventListener(
+          "click",
+          function(){
+
+            $("#sidebar")
+              .classList.add("open");
+
+            $("#sidebarOverlay")
+              .classList.add("show");
+
+          }
+        );
+
+
+      $("#sidebarOverlay")
+        .addEventListener(
+          "click",
+          function(){
+
+            $("#sidebar")
+              .classList.remove("open");
+
+            $("#sidebarOverlay")
+              .classList.remove("show");
+
+          }
+        );
+
+
+      $$(".sidebar a")
+        .forEach(
+          function(link){
+
+            link.addEventListener(
+              "click",
+              function(){
+
+                if(
+                  window.innerWidth<=950
+                ){
+
+                  $("#sidebar")
+                    .classList.remove("open");
+
+                  $("#sidebarOverlay")
+                    .classList.remove("show");
+
+                }
+
+              }
+            );
+
+          }
+        );
+
+
+      /* ==========================================
          TOAST
-      ======================================= */
+      ========================================== */
+
+      let toastTimer=null;
+
 
       function showToast(
         title,
         message
-      ) {
+      ){
 
-        document.getElementById(
-          "toastTitle"
-        ).textContent =
-          title;
+        $("#toastTitle")
+          .textContent=
+          title || "Done";
 
-        document.getElementById(
-          "toastMessage"
-        ).textContent =
-          message;
+        $("#toastMessage")
+          .textContent=
+          message || "";
 
-        document
-          .getElementById("toast")
+        $("#toast")
           .classList.add("show");
 
-        clearTimeout(
-          toastTimer
-        );
 
-        toastTimer =
+        clearTimeout(toastTimer);
+
+        toastTimer=
           setTimeout(
-            () => {
+            function(){
 
-              document
-                .getElementById("toast")
+              $("#toast")
                 .classList.remove("show");
 
             },
             3000
           );
+      }
+
+
+      /* ==========================================
+         RENDER ALL
+      ========================================== */
+
+      function renderAll(){
+
+        renderStats();
+        renderList();
 
       }
 
-      /* =======================================
-         MOBILE NAV
-      ======================================= */
 
-      function openSidebar() {
-
-        sidebar.classList.add(
-          "open"
-        );
-
-        overlay.classList.add(
-          "show"
-        );
-
-      }
-
-      function closeSidebar() {
-
-        sidebar.classList.remove(
-          "open"
-        );
-
-        overlay.classList.remove(
-          "show"
-        );
-
-      }
-
-      /* =======================================
-         LOGOUT
-      ======================================= */
-
-      function logout() {
-
-        localStorage.removeItem(
-          "aki_admin_session"
-        );
-
-        localStorage.removeItem(
-          "aki_admin_remember"
-        );
-
-        sessionStorage.removeItem(
-          "aki_admin_session"
-        );
-
-        window.location.href =
-          "login/";
-
-      }
-
-      /* =======================================
-         REFRESH
-      ======================================= */
-
-      function refreshData() {
-
-        loadBanners();
-
-        render();
-
-        showToast(
-          "Library refreshed",
-          "Banner data has been reloaded."
-        );
-
-      }
-
-      /* =======================================
-         EVENTS
-      ======================================= */
-
-      bannerForm.addEventListener(
-        "submit",
-        handleSubmit
-      );
-
-      addBannerBtn.addEventListener(
-        "click",
-        () => {
-
-          resetForm();
-
-          document.getElementById(
-            "bannerTitle"
-          ).focus();
-
-          window.scrollTo({
-            top:0,
-            behavior:"smooth"
-          });
-
-        }
-      );
-
-      cancelEditBtn.addEventListener(
-        "click",
-        resetForm
-      );
-
-      clearAllBtn.addEventListener(
-        "click",
-        openClearModal
-      );
-
-      closeConfirmBtn.addEventListener(
-        "click",
-        closeClearModal
-      );
-
-      cancelClearBtn.addEventListener(
-        "click",
-        closeClearModal
-      );
-
-      confirmClearBtn.addEventListener(
-        "click",
-        clearAll
-      );
-
-      confirmModal.addEventListener(
-        "click",
-        event => {
-
-          if (
-            event.target === confirmModal
-          ) {
-            closeClearModal();
-          }
-
-        }
-      );
-
-      mobileMenu.addEventListener(
-        "click",
-        openSidebar
-      );
-
-      overlay.addEventListener(
-        "click",
-        closeSidebar
-      );
-
-      logoutBtn.addEventListener(
-        "click",
-        logout
-      );
-
-      refreshBtn.addEventListener(
-        "click",
-        refreshData
-      );
-
-      document
-        .querySelectorAll(".nav-link")
-        .forEach(link => {
-
-          link.addEventListener(
-            "click",
-            () => {
-
-              if (
-                window.innerWidth <= 900
-              ) {
-                closeSidebar();
-              }
-
-            }
-          );
-
-        });
-
-      document.addEventListener(
-        "keydown",
-        event => {
-
-          if (
-            event.key === "Escape"
-          ) {
-
-            closeSidebar();
-            closeClearModal();
-
-          }
-
-          if (
-            (event.ctrlKey || event.metaKey) &&
-            event.key.toLowerCase() === "s"
-          ) {
-
-            event.preventDefault();
-
-            bannerForm.requestSubmit();
-
-          }
-
-        }
-      );
-
-      /* =======================================
+      /* ==========================================
          INIT
-      ======================================= */
+      ========================================== */
 
-      function init() {
-
-        applyRole();
-
-        loadBanners();
-
-        render();
-
-        resetForm();
-
-      }
-
-      init();
+      renderProfile();
+      renderAll();
 
     })();
   </script>
