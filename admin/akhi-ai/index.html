@@ -2,360 +2,503 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-  <title>AKHI.AI | AI Engineering Assistant</title>
+  <title>AKHI AI — Admin</title>
 
   <meta
     name="description"
-    content="AKHI.AI — Intelligent AI Engineering Assistant for AKI Engineering Workshop."
+    content="AKHI Engineering Workshop AI Assistant"
   >
 
-  <meta name="theme-color" content="#080a0d">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta
+    name="theme-color"
+    content="#d7a646"
+  >
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
 
-  <!-- =========================================================
-       APP
-  ========================================================== -->
+<div class="app">
 
-  <div class="app-shell">
+  <!-- =====================================================
+       SIDEBAR
+  ====================================================== -->
 
-    <!-- =======================================================
-         SIDEBAR
-    ======================================================== -->
+  <aside class="sidebar" id="sidebar">
 
-    <aside class="sidebar" id="sidebar">
+    <div class="brand">
 
-      <div class="sidebar-top">
+      <div class="brand-mark">
+        AKHI
+      </div>
 
-        <a href="../index.html" class="brand">
+      <div class="brand-copy">
+        <strong>AKHI Engineering</strong>
+        <span>AI Control Center</span>
+      </div>
 
-          <div class="brand-mark">
-            <span>AK</span>
-            <i></i>
-          </div>
+    </div>
 
-          <div class="brand-text">
-            <strong>AKHI<span>.AI</span></strong>
-            <small>Engineering Intelligence</small>
-          </div>
+    <div class="nav-scroll">
 
+      <div class="nav-group">
+        Main
+      </div>
+
+      <nav class="nav">
+
+        <a href="../dashboard.html">
+          <span class="nav-icon">⌂</span>
+          <span>Dashboard</span>
         </a>
 
-        <button
-          class="mobile-close"
-          id="mobileClose"
-          type="button"
-          aria-label="Close menu"
+        <a href="../homepage.html">
+          <span class="nav-icon">◈</span>
+          <span>Homepage</span>
+        </a>
+
+        <a href="../banner.html">
+          <span class="nav-icon">▣</span>
+          <span>Banners</span>
+        </a>
+
+        <a href="../projects.html">
+          <span class="nav-icon">▦</span>
+          <span>Projects</span>
+        </a>
+
+        <a
+          href="./index.html"
+          class="active"
         >
-          ×
+          <span class="nav-icon">✦</span>
+          <span>AKHI AI</span>
+        </a>
+
+      </nav>
+
+      <div class="nav-group">
+        Management
+      </div>
+
+      <nav class="nav">
+
+        <a href="../media.html">
+          <span class="nav-icon">◫</span>
+          <span>Media Manager</span>
+        </a>
+
+        <a href="../settings.html">
+          <span class="nav-icon">⚙</span>
+          <span>Site Settings</span>
+        </a>
+
+        <a
+          href="../admins.html"
+          id="adminsNav"
+        >
+          <span class="nav-icon">♙</span>
+          <span>Admin Management</span>
+        </a>
+
+        <a href="../activity.html">
+          <span class="nav-icon">◷</span>
+          <span>Activity Log</span>
+        </a>
+
+      </nav>
+
+      <div class="nav-group">
+        System
+      </div>
+
+      <nav class="nav">
+
+        <a href="../backup.html">
+          <span class="nav-icon">↥</span>
+          <span>Backup & Restore</span>
+        </a>
+
+        <a
+          href="../../index.html"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="nav-icon">↗</span>
+          <span>View Website</span>
+        </a>
+
+      </nav>
+
+    </div>
+
+    <div class="sidebar-bottom">
+
+      <div class="session-card">
+
+        <div class="session-top">
+
+          <div class="session-user">
+
+            <div
+              class="session-avatar"
+              id="sessionAvatar"
+            >
+              SA
+            </div>
+
+            <div>
+
+              <strong id="sessionName">
+                Admin
+              </strong>
+
+              <span id="sessionRole">
+                Administrator
+              </span>
+
+            </div>
+
+          </div>
+
+          <div class="status-dot"></div>
+
+        </div>
+
+      </div>
+
+      <div class="sidebar-actions">
+
+        <button
+          class="btn btn-ghost"
+          id="themeBtn"
+        >
+          ☼ Theme
+        </button>
+
+        <button
+          class="btn btn-ghost"
+          id="logoutBtn"
+        >
+          Logout
         </button>
 
       </div>
 
+    </div>
 
-      <!-- New Chat -->
+  </aside>
 
-      <button class="new-chat-btn" id="newChatBtn" type="button">
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
 
-        <span class="new-chat-icon">＋</span>
+  <main class="main">
 
-        <span>
-          New Conversation
-        </span>
+    <div class="mobile-topbar">
 
-      </button>
+      <div class="mobile-brand">
 
-
-      <!-- Navigation -->
-
-      <nav class="side-nav">
-
-        <div class="nav-label">
-          WORKSPACE
+        <div class="mobile-brand-mark">
+          AKHI
         </div>
 
-        <button class="nav-item active" data-view="chat" type="button">
-          <span class="nav-icon">⌁</span>
-          <span>AI Assistant</span>
-        </button>
-
-        <button class="nav-item" data-view="history" type="button">
-          <span class="nav-icon">◷</span>
-          <span>Chat History</span>
-        </button>
-
-        <button class="nav-item" data-view="knowledge" type="button">
-          <span class="nav-icon">◇</span>
-          <span>Knowledge Base</span>
-        </button>
-
-
-        <div class="nav-label">
-          WORKSHOP
+        <div>
+          <strong>AKHI AI</strong>
+          <span>Control Center</span>
         </div>
 
-        <button class="nav-item" data-view="services" type="button">
-          <span class="nav-icon">⚙</span>
-          <span>Services</span>
+      </div>
+
+      <div class="mobile-actions">
+
+        <button
+          class="btn btn-icon"
+          id="mobileThemeBtn"
+        >
+          ☼
         </button>
 
-        <button class="nav-item" data-view="quotation" type="button">
-          <span class="nav-icon">▣</span>
-          <span>Quotation</span>
+        <button
+          class="btn btn-icon"
+          id="menuBtn"
+        >
+          ☰
         </button>
 
-        <button class="nav-item" data-view="contact" type="button">
-          <span class="nav-icon">↗</span>
-          <span>Contact Workshop</span>
-        </button>
+      </div>
 
-      </nav>
+    </div>
 
-    </aside>
+    <div class="content">
 
+      <!-- =================================================
+           TOPBAR
+      ================================================= -->
 
-    <!-- =======================================================
-         MAIN
-    ======================================================== -->
+      <div class="topbar">
 
-    <main class="main-content">
+        <div class="page-title">
 
-      <!-- Header -->
-
-      <header class="topbar">
-
-        <div class="topbar-left">
-
-          <button
-            class="mobile-menu"
-            id="mobileMenu"
-            type="button"
-            aria-label="Open menu"
-          >
-            ☰
-          </button>
-
-          <div class="page-title">
-
-            <span class="eyebrow">
-              AKI ENGINEERING WORKSHOP
-            </span>
-
-            <h1 id="pageTitle">
-              AKHI.AI
-            </h1>
-
+          <div class="eyebrow">
+            AKHI AI / ADMIN INTELLIGENCE
           </div>
 
-        </div>
+          <h1>
+            Workshop AI Assistant
+          </h1>
 
-
-        <div class="topbar-right">
-
-          <div class="online-status">
-            <span class="status-dot"></span>
-            AI Online
-          </div>
-
-          <button
-            class="icon-btn"
-            id="themeBtn"
-            type="button"
-            aria-label="Toggle theme"
-          >
-            ◐
-          </button>
-
-          <a href="../dashboard.html" class="admin-link">
-            <span class="admin-avatar">A</span>
-            <span class="admin-name">Admin</span>
-          </a>
+          <p>
+            Generate website copy, project descriptions, SEO content,
+            social captions and admin-ready content using your current
+            AKHI website context.
+          </p>
 
         </div>
 
-      </header>
-
-
-      <!-- =====================================================
-           CHAT VIEW
-      ====================================================== -->
-
-      <section class="content-view chat-view" id="chatView">
-
-        <div class="chat-container">
-
-          <!-- Hero -->
-
-          <div class="chat-hero" id="chatHero">
-
-            <div class="ai-orb">
-
-              <div class="orb-ring ring-one"></div>
-              <div class="orb-ring ring-two"></div>
-
-              <div class="orb-core">
-                AK
-              </div>
-
-            </div>
-
-            <div class="hero-badge">
-              <span></span>
-              AI ENGINEERING ASSISTANT
-            </div>
-
-            <h2>
-              Meet <strong>AKHI.AI</strong>
-            </h2>
-
-            <p>
-              Your intelligent assistant for
-              engineering, workshop services,
-              project guidance and quotations.
-            </p>
-
-          </div>
-
-
-          <!-- Messages -->
+        <div class="top-actions">
 
           <div
-            class="messages"
-            id="messages"
-            aria-live="polite"
+            class="ai-status"
+            id="aiStatus"
           >
+            <span class="status-dot"></span>
+
+            <div>
+              <strong id="aiStatusTitle">
+                Local AI Mode
+              </strong>
+
+              <span id="aiStatusText">
+                Ready
+              </span>
+            </div>
 
           </div>
 
+          <button
+            class="btn"
+            id="contextBtn"
+          >
+            ⟳ Refresh Context
+          </button>
 
-          <!-- Suggested prompts -->
+          <button
+            class="btn"
+            id="clearChatBtn"
+          >
+            Clear Chat
+          </button>
 
-          <div class="suggestions" id="suggestions">
+        </div>
 
-            <button
-              class="suggestion-card"
-              data-prompt="What engineering services does AKI Workshop provide?"
-              type="button"
-            >
-              <span class="suggestion-icon">⚙</span>
+      </div>
+
+      <!-- =================================================
+           QUICK TOOLS
+      ================================================= -->
+
+      <section class="quick-tools">
+
+        <button
+          class="quick-tool"
+          data-preset="hero"
+        >
+          <span class="quick-icon">✦</span>
+
+          <span>
+            <strong>Hero Copy</strong>
+            <small>Premium homepage hero</small>
+          </span>
+        </button>
+
+        <button
+          class="quick-tool"
+          data-preset="project"
+        >
+          <span class="quick-icon">▦</span>
+
+          <span>
+            <strong>Project Description</strong>
+            <small>Engineering case study</small>
+          </span>
+        </button>
+
+        <button
+          class="quick-tool"
+          data-preset="service"
+        >
+          <span class="quick-icon">◈</span>
+
+          <span>
+            <strong>Service Copy</strong>
+            <small>Workshop services</small>
+          </span>
+        </button>
+
+        <button
+          class="quick-tool"
+          data-preset="seo"
+        >
+          <span class="quick-icon">⌕</span>
+
+          <span>
+            <strong>SEO Pack</strong>
+            <small>Title + description</small>
+          </span>
+        </button>
+
+        <button
+          class="quick-tool"
+          data-preset="social"
+        >
+          <span class="quick-icon">◎</span>
+
+          <span>
+            <strong>Social Caption</strong>
+            <small>Facebook / Instagram</small>
+          </span>
+        </button>
+
+        <button
+          class="quick-tool"
+          data-preset="bengali"
+        >
+          <span class="quick-icon">文</span>
+
+          <span>
+            <strong>Bangla Version</strong>
+            <small>Natural Bengali copy</small>
+          </span>
+        </button>
+
+      </section>
+
+      <!-- =================================================
+           WORKSPACE
+      ================================================= -->
+
+      <section class="workspace">
+
+        <!-- ===============================================
+             CHAT
+        ================================================ -->
+
+        <div class="chat-panel">
+
+          <div class="panel-head">
+
+            <div>
+
+              <strong>
+                AKHI Assistant
+              </strong>
 
               <span>
-                <strong>Workshop Services</strong>
-                <small>Explore our engineering services</small>
+                Context-aware workshop content assistant
               </span>
 
-              <b>→</b>
-            </button>
+            </div>
 
-
-            <button
-              class="suggestion-card"
-              data-prompt="I want to request a quotation for an engineering project."
-              type="button"
-            >
-              <span class="suggestion-icon">▣</span>
-
-              <span>
-                <strong>Request a Quotation</strong>
-                <small>Start your project estimate</small>
-              </span>
-
-              <b>→</b>
-            </button>
-
-
-            <button
-              class="suggestion-card"
-              data-prompt="How can I contact AKI Engineering Workshop?"
-              type="button"
-            >
-              <span class="suggestion-icon">↗</span>
-
-              <span>
-                <strong>Contact Workshop</strong>
-                <small>Get in touch with our team</small>
-              </span>
-
-              <b>→</b>
-            </button>
-
-
-            <button
-              class="suggestion-card"
-              data-prompt="I need help planning an engineering project."
-              type="button"
-            >
-              <span class="suggestion-icon">◇</span>
-
-              <span>
-                <strong>Project Guidance</strong>
-                <small>Discuss your engineering idea</small>
-              </span>
-
-              <b>→</b>
-            </button>
+            <div class="context-pill">
+              <span class="pulse"></span>
+              Context loaded
+            </div>
 
           </div>
 
+          <div
+            class="chat-messages"
+            id="chatMessages"
+          ></div>
 
-          <!-- Composer -->
+          <div class="typing-row" id="typingRow">
 
-          <div class="composer-wrap">
+            <div class="typing-avatar">
+              AI
+            </div>
 
-            <div class="composer">
+            <div class="typing-bubble">
 
-              <button
-                class="composer-action"
-                id="attachBtn"
-                type="button"
-                aria-label="Attach file"
+              <span></span>
+              <span></span>
+              <span></span>
+
+            </div>
+
+          </div>
+
+          <div class="composer">
+
+            <div class="composer-toolbar">
+
+              <div class="composer-hints">
+
+                <button
+                  class="hint"
+                  data-hint="Make it premium and concise."
+                >
+                  Premium
+                </button>
+
+                <button
+                  class="hint"
+                  data-hint="Write this in a professional engineering tone."
+                >
+                  Professional
+                </button>
+
+                <button
+                  class="hint"
+                  data-hint="Make it suitable for a Bangladeshi audience."
+                >
+                  Bangladesh
+                </button>
+
+              </div>
+
+              <span
+                class="char-counter"
+                id="charCounter"
               >
-                ＋
-              </button>
+                0 / 3000
+              </span>
 
-              <input
-                type="file"
-                id="fileInput"
-                hidden
-                accept="image/*,.pdf,.doc,.docx,.txt"
-              >
+            </div>
+
+            <div class="composer-box">
 
               <textarea
                 id="messageInput"
-                rows="1"
-                placeholder="Ask AKHI.AI anything..."
-                aria-label="Message AKHI.AI"
+                maxlength="3000"
+                placeholder="Ask AKHI AI to write, improve, summarize, translate or structure something..."
               ></textarea>
-
-              <button
-                class="voice-btn"
-                id="voiceBtn"
-                type="button"
-                aria-label="Voice input"
-              >
-                ◉
-              </button>
 
               <button
                 class="send-btn"
                 id="sendBtn"
-                type="button"
-                aria-label="Send message"
+                aria-label="Send"
               >
-                ↑
+                ↗
               </button>
 
             </div>
@@ -363,420 +506,406 @@
             <div class="composer-footer">
 
               <span>
-                AKHI.AI can make mistakes. Verify important engineering information.
+                Enter = send • Shift + Enter = new line
               </span>
+
+              <button
+                class="context-toggle"
+                id="useContextBtn"
+              >
+                ◉ Use Website Context
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ===============================================
+             CONTEXT
+        ================================================ -->
+
+        <aside class="context-panel">
+
+          <div class="panel-head">
+
+            <div>
+
+              <strong>
+                Website Context
+              </strong>
 
               <span>
-                <kbd>Enter</kbd> to send
+                Data available to AKHI AI
               </span>
 
             </div>
 
+            <button
+              class="icon-btn"
+              id="collapseContextBtn"
+            >
+              ↔
+            </button>
+
+          </div>
+
+          <div class="context-body">
+
+            <div class="context-summary">
+
+              <div class="context-stat">
+
+                <strong id="contextProjects">
+                  0
+                </strong>
+
+                <span>
+                  Projects
+                </span>
+
+              </div>
+
+              <div class="context-stat">
+
+                <strong id="contextBanners">
+                  0
+                </strong>
+
+                <span>
+                  Banners
+                </span>
+
+              </div>
+
+              <div class="context-stat">
+
+                <strong id="contextServices">
+                  0
+                </strong>
+
+                <span>
+                  Services
+                </span>
+
+              </div>
+
+              <div class="context-stat">
+
+                <strong id="contextMedia">
+                  0
+                </strong>
+
+                <span>
+                  Media
+                </span>
+
+              </div>
+
+            </div>
+
+            <div class="context-section">
+
+              <label>
+                Business
+              </label>
+
+              <div
+                class="context-value"
+                id="contextBusiness"
+              >
+                AKHI Engineering Workshop
+              </div>
+
+            </div>
+
+            <div class="context-section">
+
+              <label>
+                Tagline
+              </label>
+
+              <div
+                class="context-value"
+                id="contextTagline"
+              >
+                —
+              </div>
+
+            </div>
+
+            <div class="context-section">
+
+              <label>
+                Homepage Hero
+              </label>
+
+              <div
+                class="context-value large"
+                id="contextHero"
+              >
+                —
+              </div>
+
+            </div>
+
+            <div class="context-section">
+
+              <label>
+                Available Services
+              </label>
+
+              <div
+                class="chips"
+                id="serviceChips"
+              >
+                <span class="muted-chip">
+                  No services detected
+                </span>
+              </div>
+
+            </div>
+
+            <div class="context-section">
+
+              <label>
+                AI Mode
+              </label>
+
+              <div class="mode-card">
+
+                <div class="mode-icon">
+                  ✦
+                </div>
+
+                <div>
+
+                  <strong id="modeTitle">
+                    Local Smart Mode
+                  </strong>
+
+                  <span id="modeDescription">
+                    Template and context engine is active.
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="context-actions">
+
+              <button
+                class="btn"
+                id="exportChatBtn"
+              >
+                ⇩ Export Chat
+              </button>
+
+              <button
+                class="btn"
+                id="copyLastBtn"
+              >
+                Copy Last Answer
+              </button>
+
+            </div>
+
+          </div>
+
+        </aside>
+
+      </section>
+
+      <!-- =================================================
+           SYSTEM / API SETTINGS
+      ================================================= -->
+
+      <section class="system-panel">
+
+        <div class="system-copy">
+
+          <div class="system-icon">
+            ⚙
+          </div>
+
+          <div>
+
+            <strong>
+              AI Provider Bridge
+            </strong>
+
+            <span>
+              Secure API integration can be connected later through
+              a backend endpoint. Never put a permanent provider
+              secret directly in this GitHub Pages frontend.
+            </span>
+
           </div>
 
         </div>
 
-      </section>
+        <div class="system-actions">
 
-
-      <!-- =====================================================
-           HISTORY VIEW
-      ====================================================== -->
-
-      <section
-        class="content-view dashboard-view hidden"
-        id="historyView"
-      >
-
-        <div class="section-heading">
-
-          <span class="eyebrow">
-            CONVERSATIONS
+          <span
+            class="bridge-status"
+            id="bridgeStatus"
+          >
+            Local mode active
           </span>
 
-          <h2>Chat History</h2>
-
-          <p>
-            Your recent conversations with AKHI.AI.
-          </p>
-
-        </div>
-
-        <div class="empty-state">
-
-          <div class="empty-icon">◷</div>
-
-          <h3>No conversations yet</h3>
-
-          <p>
-            Start a conversation with AKHI.AI and
-            your recent chats will appear here.
-          </p>
-
           <button
-            class="primary-btn"
-            data-action="new-chat"
-            type="button"
+            class="btn"
+            id="configBtn"
           >
-            Start New Chat
+            AI Configuration
           </button>
 
         </div>
 
       </section>
 
+    </div>
 
-      <!-- =====================================================
-           KNOWLEDGE VIEW
-      ====================================================== -->
+  </main>
 
-      <section
-        class="content-view dashboard-view hidden"
-        id="knowledgeView"
+</div>
+
+<!-- =======================================================
+     CONFIG MODAL
+======================================================== -->
+
+<div
+  class="overlay"
+  id="configOverlay"
+>
+
+  <div class="modal">
+
+    <div class="modal-head">
+
+      <div>
+
+        <strong>
+          AI Configuration
+        </strong>
+
+        <span>
+          Optional secure API bridge settings
+        </span>
+
+      </div>
+
+      <button
+        class="btn btn-icon"
+        id="closeConfigBtn"
       >
+        ×
+      </button>
 
-        <div class="section-heading">
+    </div>
 
-          <span class="eyebrow">
-            AI KNOWLEDGE
+    <div class="modal-body">
+
+      <div class="warning-box">
+
+        <strong>
+          Security
+        </strong>
+
+        <p>
+          This field is designed for an API endpoint/proxy URL.
+          Do not paste a private OpenAI, Gemini or other provider
+          secret key into a public GitHub Pages website.
+        </p>
+
+      </div>
+
+      <div class="form-field">
+
+        <label>
+          Secure AI Endpoint
+        </label>
+
+        <input
+          type="url"
+          id="aiEndpoint"
+          placeholder="https://your-secure-api.example.com/ai"
+        >
+
+      </div>
+
+      <div class="form-field">
+
+        <label>
+          Model Label
+        </label>
+
+        <input
+          type="text"
+          id="aiModel"
+          placeholder="AKHI AI"
+          maxlength="100"
+        >
+
+      </div>
+
+      <div class="form-field">
+
+        <label>
+          Enable Remote AI
+        </label>
+
+        <label class="switch-row">
+
+          <input
+            type="checkbox"
+            id="remoteAiToggle"
+          >
+
+          <span class="switch-ui"></span>
+
+          <span>
+            Use the configured secure endpoint when available.
           </span>
 
-          <h2>Knowledge Base</h2>
+        </label>
 
-          <p>
-            Engineering knowledge and workshop information used by AKHI.AI.
-          </p>
+      </div>
 
-        </div>
+      <div class="modal-actions">
 
+        <button
+          class="btn"
+          id="cancelConfigBtn"
+        >
+          Cancel
+        </button>
 
-        <div class="info-grid">
+        <button
+          class="btn btn-primary"
+          id="saveConfigBtn"
+        >
+          Save Configuration
+        </button>
 
-          <article class="info-card">
-            <span class="card-number">01</span>
-            <h3>Workshop Profile</h3>
-            <p>
-              Company information, capabilities and engineering expertise.
-            </p>
-          </article>
+      </div>
 
-          <article class="info-card">
-            <span class="card-number">02</span>
-            <h3>Services</h3>
-            <p>
-              Workshop services, solutions and technical capabilities.
-            </p>
-          </article>
-
-          <article class="info-card">
-            <span class="card-number">03</span>
-            <h3>Project Knowledge</h3>
-            <p>
-              Project requirements, processes and frequently asked questions.
-            </p>
-          </article>
-
-        </div>
-
-      </section>
-
-
-      <!-- =====================================================
-           SERVICES VIEW
-      ====================================================== -->
-
-      <section
-        class="content-view dashboard-view hidden"
-        id="servicesView"
-      >
-
-        <div class="section-heading">
-
-          <span class="eyebrow">
-            AKI WORKSHOP
-          </span>
-
-          <h2>Engineering Services</h2>
-
-          <p>
-            Ask AKHI.AI about any of these workshop services.
-          </p>
-
-        </div>
-
-
-        <div class="service-grid">
-
-          <article class="service-card">
-            <div class="service-icon">⚙</div>
-            <h3>Engineering Solutions</h3>
-            <p>
-              Practical engineering solutions tailored to project requirements.
-            </p>
-            <button
-              class="ask-service"
-              data-prompt="Tell me about your engineering solutions."
-              type="button"
-            >
-              Ask AKHI.AI →
-            </button>
-          </article>
-
-
-          <article class="service-card">
-            <div class="service-icon">◇</div>
-            <h3>Technical Consultation</h3>
-            <p>
-              Discuss project ideas, requirements and technical approaches.
-            </p>
-            <button
-              class="ask-service"
-              data-prompt="I need technical consultation for my project."
-              type="button"
-            >
-              Ask AKHI.AI →
-            </button>
-          </article>
-
-
-          <article class="service-card">
-            <div class="service-icon">▣</div>
-            <h3>Project Estimation</h3>
-            <p>
-              Get help preparing the information required for a quotation.
-            </p>
-            <button
-              class="ask-service"
-              data-prompt="I want to estimate the cost of my engineering project."
-              type="button"
-            >
-              Ask AKHI.AI →
-            </button>
-          </article>
-
-
-          <article class="service-card">
-            <div class="service-icon">↗</div>
-            <h3>Custom Projects</h3>
-            <p>
-              Have a unique engineering requirement? Start a conversation.
-            </p>
-            <button
-              class="ask-service"
-              data-prompt="I have a custom engineering project requirement."
-              type="button"
-            >
-              Ask AKHI.AI →
-            </button>
-          </article>
-
-        </div>
-
-      </section>
-
-
-      <!-- =====================================================
-           QUOTATION VIEW
-      ====================================================== -->
-
-      <section
-        class="content-view dashboard-view hidden"
-        id="quotationView"
-      >
-
-        <div class="section-heading">
-
-          <span class="eyebrow">
-            PROJECT REQUEST
-          </span>
-
-          <h2>Request a Quotation</h2>
-
-          <p>
-            Tell AKHI.AI about your project and prepare your quotation request.
-          </p>
-
-        </div>
-
-
-        <div class="quotation-card">
-
-          <div class="quotation-header">
-            <div>
-              <span class="mini-label">PROJECT INTAKE</span>
-              <h3>Let's understand your project.</h3>
-            </div>
-
-            <span class="quotation-badge">
-              AI ASSISTED
-            </span>
-          </div>
-
-
-          <div class="form-grid">
-
-            <div class="form-field">
-
-              <label for="qName">
-                Your Name
-              </label>
-
-              <input
-                id="qName"
-                type="text"
-                placeholder="Enter your name"
-              >
-
-            </div>
-
-
-            <div class="form-field">
-
-              <label for="qPhone">
-                Phone Number
-              </label>
-
-              <input
-                id="qPhone"
-                type="tel"
-                placeholder="Enter phone number"
-              >
-
-            </div>
-
-
-            <div class="form-field full">
-
-              <label for="qProject">
-                Project Requirement
-              </label>
-
-              <textarea
-                id="qProject"
-                rows="5"
-                placeholder="Describe your engineering project..."
-              ></textarea>
-
-            </div>
-
-          </div>
-
-
-          <button
-            class="primary-btn"
-            id="quotationBtn"
-            type="button"
-          >
-            Continue with AKHI.AI →
-          </button>
-
-        </div>
-
-      </section>
-
-
-      <!-- =====================================================
-           CONTACT VIEW
-      ====================================================== -->
-
-      <section
-        class="content-view dashboard-view hidden"
-        id="contactView"
-      >
-
-        <div class="section-heading">
-
-          <span class="eyebrow">
-            AKI ENGINEERING WORKSHOP
-          </span>
-
-          <h2>Contact Workshop</h2>
-
-          <p>
-            Need to speak directly with the workshop team?
-          </p>
-
-        </div>
-
-
-        <div class="contact-grid">
-
-          <a
-            href="tel:+8800000000000"
-            class="contact-card"
-          >
-            <span class="contact-icon">☎</span>
-            <span>
-              <small>CALL US</small>
-              <strong>Call Workshop</strong>
-            </span>
-            <b>→</b>
-          </a>
-
-
-          <a
-            href="https://wa.me/8800000000000"
-            target="_blank"
-            rel="noopener"
-            class="contact-card"
-          >
-            <span class="contact-icon">◉</span>
-            <span>
-              <small>WHATSAPP</small>
-              <strong>Chat on WhatsApp</strong>
-            </span>
-            <b>→</b>
-          </a>
-
-
-          <a
-            href="mailto:info@akiworkshop.com"
-            class="contact-card"
-          >
-            <span class="contact-icon">✉</span>
-            <span>
-              <small>EMAIL</small>
-              <strong>Send an Email</strong>
-            </span>
-            <b>→</b>
-          </a>
-
-        </div>
-
-      </section>
-
-    </main>
+    </div>
 
   </div>
 
+</div>
 
-  <!-- =========================================================
-       MOBILE OVERLAY
-  ========================================================== -->
+<div
+  class="toast-wrap"
+  id="toastWrap"
+></div>
 
-  <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-
-  <!-- =========================================================
-       TOAST
-  ========================================================== -->
-
-  <div
-    class="toast"
-    id="toast"
-    role="status"
-    aria-live="polite"
-  >
-    <span class="toast-icon">✓</span>
-    <span id="toastText">Done</span>
-  </div>
-
-
-  <!-- =========================================================
-       SCRIPT
-  ========================================================== -->
-
-  <script src="script.js"></script>
+<script src="../auth.js"></script>
+<script src="./script.js"></script>
 
 </body>
 </html>
