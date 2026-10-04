@@ -1,0 +1,1 @@
+(function(){if(document.querySelector('.developer-credit'))return;const a=document.createElement('a');a.className='developer-credit';a.href='https://shahneilkhan.github.io/';a.target='_blank';a.rel='noopener';a.textContent='Developer · SNK';document.body.appendChild(a)})();

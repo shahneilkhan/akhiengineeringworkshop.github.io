@@ -1,0 +1,52 @@
+AKHI Engineering Workshop — Firebase 1.19
+
+Public:
+- index.html
+- style.css
+- script.js
+- assets/developer-credit.js
+
+Firebase client:
+- firebase-config.js
+- firebase-init.js
+
+Admin:
+- admin/index.html
+- admin/login/index.html
+- admin/auth.js
+- admin/admin-shell.js
+- admin/admin.css
+- admin/admin-page.js
+- admin/dashboard.html
+- admin/homepage.html
+- admin/banner.html
+- admin/projects.html
+- admin/media.html
+- admin/settings.html
+- admin/activity.html
+- admin/backup.html
+- admin/security.html
+- admin/qa.html
+- admin/site-qa.html
+- admin/responsive.html
+- admin/admins.html
+- admin/migrate.html
+
+Backend:
+- functions/index.js
+- functions/package.json
+- firestore.rules
+- storage.rules
+- firebase.json
+- .firebaserc
+
+Bootstrap:
+- scripts/bootstrap-superadmin.cjs
+
+Docs:
+- README.md
+- README-FIREBASE-1.19.md
+- FIREBASE-CONFIG-REQUIRED.md
+- FIREBASE-CONSOLE-CHECKLIST.md
+- QA-FIREBASE-1.19.md
+- QA-PREFIREBASE-1.18-C.md
