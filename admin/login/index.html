@@ -3,953 +3,1135 @@
 
 <head>
 
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width,initial-scale=1.0"
-  >
+<meta charset="UTF-8">
 
-  <meta
-    name="theme-color"
-    content="#07090c"
-  >
-
-  <meta
-    name="description"
-    content="AKHI Engineering Workshop secure administration portal"
-  >
-
-  <title>
-    Admin Login | AKHI Engineering Workshop
-  </title>
-
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
-
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  >
-
-  <script src="../auth.js"></script>
-
-  <style>
+<meta name="viewport"
+      content="width=device-width,initial-scale=1">
 
-    :root{
-      --bg:#05070a;
-      --panel:#0c1117;
-      --panel2:#111720;
-
-      --border:rgba(255,255,255,.09);
-
-      --text:#f5f7fa;
-      --muted:#8d98a6;
-      --muted2:#596574;
+<meta name="robots"
+      content="noindex,nofollow,noarchive">
 
-      --accent:#c8ff3d;
-      --danger:#ff6b80;
+<meta name="theme-color"
+      content="#070707">
 
-      --radius:26px;
-    }
+<title>
+  Admin Login — AKHI Engineering Workshop
+</title>
 
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
-    }
+<link rel="preconnect"
+      href="https://fonts.googleapis.com">
 
-    html,
-    body{
-      min-height:100%;
-      background:var(--bg);
-    }
+<link rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin>
 
-    body{
-      min-height:100vh;
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet">
 
-      padding:28px;
+<script src="../auth.js"></script>
 
-      display:grid;
-      place-items:center;
 
-      color:var(--text);
+<style>
 
-      font-family:Inter,sans-serif;
+:root{
 
-      background:
-        radial-gradient(
-          circle at 12% 12%,
-          rgba(200,255,61,.09),
-          transparent 28%
-        ),
-        radial-gradient(
-          circle at 90% 88%,
-          rgba(117,168,255,.05),
-          transparent 24%
-        ),
-        var(--bg);
-    }
+  --bg:#070707;
 
-    body::before{
-      content:"";
+  --panel:#101010;
 
-      position:fixed;
-      inset:0;
+  --panel2:#141414;
 
-      pointer-events:none;
+  --line:
+    rgba(255,255,255,.08);
 
-      opacity:.18;
+  --line2:
+    rgba(255,255,255,.14);
 
-      background-image:
-        linear-gradient(
-          rgba(255,255,255,.025) 1px,
-          transparent 1px
-        ),
-        linear-gradient(
-          90deg,
-          rgba(255,255,255,.025) 1px,
-          transparent 1px
-        );
+  --text:#f5f5f5;
 
-      background-size:42px 42px;
-    }
+  --muted:#8d8d8d;
 
-    button,
-    input{
-      font:inherit;
-    }
+  --muted2:#5e5e5e;
 
-    button{
-      cursor:pointer;
-    }
+  --accent:#65e6be;
 
-    .shell{
+  --accent2:#baffeb;
 
-      width:min(
-        1080px,
-        100%
-      );
+  --danger:#ff7373;
 
-      min-height:680px;
+  --radius:26px;
 
-      display:grid;
+}
 
-      grid-template-columns:
-        1.05fr
-        .95fr;
 
-      border:
-        1px solid
-        var(--border);
+*{
 
-      border-radius:
-        var(--radius);
+  box-sizing:border-box;
 
-      overflow:hidden;
+  margin:0;
 
-      background:
-        rgba(12,17,23,.82);
+  padding:0;
 
-      box-shadow:
-        0 35px 100px
-        rgba(0,0,0,.55);
+}
 
-      backdrop-filter:
-        blur(22px);
 
-      position:relative;
+html,
+body{
 
-      z-index:1;
-    }
+  min-height:100%;
 
-    /* =====================================================
-       LEFT
-    ====================================================== */
+  background:var(--bg);
 
-    .brand{
+}
 
-      padding:46px;
 
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
+body{
 
-      border-right:
-        1px solid
-        var(--border);
+  min-height:100vh;
 
-      background:
-        radial-gradient(
-          circle at 50% 34%,
-          rgba(200,255,61,.11),
-          transparent 34%
-        ),
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,.025),
-          transparent
-        );
+  padding:24px;
 
-    }
+  display:grid;
 
-    .mark{
-      display:flex;
+  place-items:center;
 
-      gap:13px;
+  color:var(--text);
 
-      align-items:center;
-    }
+  font-family:
+    Inter,
+    system-ui,
+    sans-serif;
 
-    .logo{
+  background:
 
-      width:50px;
-      height:50px;
+    radial-gradient(
+      circle at 10% 10%,
+      rgba(101,230,190,.075),
+      transparent 29%
+    ),
 
-      display:grid;
-      place-items:center;
+    radial-gradient(
+      circle at 90% 90%,
+      rgba(116,192,252,.05),
+      transparent 25%
+    ),
 
-      border-radius:15px;
+    var(--bg);
 
-      background:
-        var(--accent);
+}
 
-      color:#061000;
 
-      font-weight:900;
+body::before{
 
-      letter-spacing:-1px;
+  content:"";
 
-      font-family:
-        "Space Grotesk";
+  position:fixed;
 
-      box-shadow:
-        0 0 34px
-        rgba(200,255,61,.18);
-    }
+  inset:0;
 
-    .brand-name{
+  pointer-events:none;
 
-      font-weight:800;
+  opacity:.12;
 
-      font-family:
-        "Space Grotesk";
+  background-image:
 
-      font-size:20px;
-    }
+    linear-gradient(
+      rgba(255,255,255,.03)
+      1px,
+      transparent 1px
+    ),
 
-    .brand-name small{
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.03)
+      1px,
+      transparent 1px
+    );
 
-      display:block;
+  background-size:
+    44px 44px;
 
-      margin-top:3px;
+}
 
-      color:var(--muted);
 
-      font:
-        500 10px Inter;
+.shell{
 
-      letter-spacing:1.4px;
+  width:
+    min(
+      1040px,
+      100%
+    );
 
-      text-transform:uppercase;
-    }
+  min-height:
+    650px;
 
-    .center{
+  display:grid;
 
-      text-align:center;
-    }
+  grid-template-columns:
+    1.08fr
+    .92fr;
 
-    .orb{
+  overflow:hidden;
 
-      position:relative;
+  border:
+    1px solid var(--line2);
 
-      width:150px;
-      height:150px;
+  border-radius:
+    var(--radius);
 
-      margin:
-        0 auto
-        34px;
+  background:
+    rgba(16,16,16,.88);
 
-      border-radius:50%;
+  box-shadow:
+    0 35px 110px
+    rgba(0,0,0,.55);
 
-      display:grid;
-      place-items:center;
+  position:relative;
 
-      background:
-        radial-gradient(
-          circle at 34% 28%,
-          #efffc2 0,
-          #c8ff3d 22%,
-          #7da815 48%,
-          #161b0b 72%,
-          #07090c 100%
-        );
+  z-index:1;
 
-      box-shadow:
-        0 0 48px
-        rgba(200,255,61,.20),
-        0 0 110px
-        rgba(200,255,61,.08);
+  backdrop-filter:
+    blur(20px);
 
-      animation:
-        float 5s
-        ease-in-out
-        infinite;
-    }
+  -webkit-backdrop-filter:
+    blur(20px);
 
-    .orb::before,
-    .orb::after{
+}
 
-      content:"";
 
-      position:absolute;
+.visual{
 
-      border-radius:50%;
+  display:flex;
 
-      border:
-        1px solid
-        rgba(200,255,61,.13);
+  flex-direction:column;
 
-      animation:
-        spin
-        12s
-        linear
-        infinite;
-    }
+  justify-content:space-between;
 
-    .orb::before{
+  padding:44px;
 
-      width:186px;
-      height:186px;
-    }
+  border-right:
+    1px solid var(--line);
 
-    .orb::after{
+  background:
 
-      width:218px;
-      height:218px;
+    radial-gradient(
+      circle at 50% 35%,
+      rgba(101,230,190,.10),
+      transparent 34%
+    ),
 
-      border-style:dashed;
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.025),
+      transparent
+    );
 
-      opacity:.35;
+}
 
-      animation-direction:
-        reverse;
 
-      animation-duration:
-        20s;
-    }
+.mark{
 
-    .orb b{
+  display:flex;
 
-      font:
-        900 30px
-        "Space Grotesk";
+  align-items:center;
 
-      color:#071000;
-    }
+  gap:12px;
 
-    .center h1{
+}
 
-      font:
-        700
-        clamp(31px,4vw,48px)
-        /1
-        "Space Grotesk";
 
-      letter-spacing:-2px;
+.logo{
 
-      margin-bottom:16px;
-    }
+  width:50px;
 
-    .center h1 span{
-      color:var(--accent);
-    }
+  height:50px;
 
-    .center p{
+  display:grid;
 
-      color:var(--muted);
+  place-items:center;
 
-      font-size:13px;
+  border-radius:15px;
 
-      line-height:1.75;
+  background:
+    linear-gradient(
+      145deg,
+      #76efd0,
+      #43bd9d
+    );
 
-      max-width:430px;
+  color:#06120e;
 
-      margin:auto;
-    }
+  font:
+    900 15px
+    "Space Grotesk";
 
-    .features{
+  box-shadow:
+    0 0 35px
+    rgba(101,230,190,.15);
 
-      display:grid;
+}
 
-      grid-template-columns:
-        repeat(3,1fr);
 
-      gap:10px;
-    }
+.brand-name{
 
-    .feature{
+  color:#fff;
 
-      padding:13px;
+  font:
+    800 20px
+    "Space Grotesk";
 
-      border:
-        1px solid
-        var(--border);
+  letter-spacing:-.04em;
 
-      border-radius:13px;
+}
 
-      background:
-        rgba(255,255,255,.025);
-    }
 
-    .feature strong{
+.brand-name small{
 
-      display:block;
+  display:block;
 
-      font-size:11px;
+  margin-top:3px;
 
-      margin-bottom:4px;
-    }
+  color:var(--muted);
 
-    .feature span{
+  font:
+    500 9px
+    Inter;
 
-      font-size:9px;
+  letter-spacing:.14em;
 
-      color:var(--muted2);
-    }
+  text-transform:uppercase;
 
-    /* =====================================================
-       RIGHT
-    ====================================================== */
+}
 
-    .form-panel{
 
-      padding:
-        54px 48px;
+.visual-center{
 
-      display:flex;
-      flex-direction:column;
+  text-align:center;
 
-      justify-content:center;
-    }
+}
 
-    .badge{
 
-      display:inline-flex;
+.orb{
 
-      width:max-content;
+  width:150px;
 
-      align-items:center;
+  height:150px;
 
-      gap:8px;
+  margin:
+    0 auto 32px;
 
-      padding:
-        8px 11px;
+  display:grid;
 
-      border:
-        1px solid
-        rgba(200,255,61,.16);
+  place-items:center;
 
-      border-radius:999px;
+  border-radius:50%;
 
-      background:
-        rgba(200,255,61,.05);
+  background:
 
-      color:var(--accent);
+    radial-gradient(
+      circle at 35% 27%,
+      #e7fff7 0,
+      #75e6c8 20%,
+      #227e67 47%,
+      #111c18 70%,
+      #070707 100%
+    );
 
-      font-size:10px;
-      font-weight:800;
+  box-shadow:
 
-      margin-bottom:20px;
-    }
+    0 0 45px
+    rgba(101,230,190,.16),
 
-    .dot{
+    0 0 110px
+    rgba(101,230,190,.05);
 
-      width:7px;
-      height:7px;
+}
 
-      border-radius:50%;
 
-      background:var(--accent);
+.orb::before,
+.orb::after{
 
-      box-shadow:
-        0 0 12px
-        var(--accent);
-    }
+  content:"";
 
-    h2{
+  position:absolute;
 
-      font:
-        700 34px/1
-        "Space Grotesk";
+  width:185px;
 
-      letter-spacing:-1.5px;
+  height:185px;
 
-      margin-bottom:9px;
-    }
+  border:
+    1px solid
+    rgba(101,230,190,.10);
 
-    .intro{
+  border-radius:50%;
 
-      color:var(--muted);
+}
 
-      font-size:12px;
 
-      line-height:1.7;
+.orb::after{
 
-      margin-bottom:24px;
-    }
+  width:218px;
 
-    .field{
-      margin-bottom:16px;
-    }
+  height:218px;
 
-    .field label{
+  border-style:dashed;
 
-      display:block;
+  opacity:.25;
 
-      font-size:11px;
+}
 
-      font-weight:800;
 
-      margin:
-        0 0 8px;
+.orb strong{
 
-      color:#dce1e7;
-    }
+  color:#05120d;
 
-    .wrap{
-      position:relative;
-    }
+  font:
+    900 28px
+    "Space Grotesk";
 
-    .wrap input{
+}
 
-      width:100%;
-      height:53px;
 
-      padding:
-        0 44px
-        0 14px;
+.visual h1{
 
-      border:
-        1px solid
-        var(--border);
+  color:#fff;
 
-      outline:0;
+  font:
+    700 clamp(
+      31px,
+      4vw,
+      50px
+    )/
+    1.02
+    "Space Grotesk";
 
-      background:
-        rgba(255,255,255,.03);
+  letter-spacing:-.055em;
 
-      border-radius:13px;
+}
 
-      color:var(--text);
 
-      font:
-        500 13px Inter;
-    }
+.visual h1 span{
 
-    .wrap input:focus{
+  color:var(--accent);
 
-      border-color:
-        rgba(200,255,61,.34);
+}
 
-      box-shadow:
-        0 0 0 4px
-        rgba(200,255,61,.045);
-    }
 
-    .toggle{
+.visual-description{
 
-      position:absolute;
+  max-width:430px;
 
-      right:8px;
-      top:50%;
+  margin:
+    16px auto 0;
 
-      transform:
-        translateY(-50%);
+  color:var(--muted);
 
-      width:35px;
-      height:35px;
+  font-size:12px;
 
-      border:0;
+  line-height:1.8;
 
-      border-radius:9px;
+}
 
-      background:transparent;
 
-      color:var(--muted);
-    }
+.features{
 
-    .toggle:hover{
+  display:grid;
 
-      background:
-        rgba(255,255,255,.05);
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
 
-      color:var(--accent);
-    }
+  gap:9px;
 
-    .options{
+}
 
-      display:flex;
 
-      justify-content:space-between;
+.feature{
 
-      align-items:center;
+  padding:12px;
 
-      gap:12px;
+  border:
+    1px solid var(--line);
 
-      margin:
-        2px 0 18px;
-    }
+  border-radius:12px;
 
-    .remember{
+  background:
+    rgba(255,255,255,.02);
 
-      display:flex;
+}
 
-      align-items:center;
 
-      gap:8px;
+.feature strong{
 
-      color:var(--muted);
+  display:block;
 
-      font-size:10px;
-    }
+  font-size:10px;
 
-    .remember input{
-      accent-color:var(--accent);
-    }
+}
 
-    .forgot{
 
-      border:0;
+.feature span{
 
-      background:none;
+  display:block;
 
-      color:var(--accent);
+  margin-top:4px;
 
-      font-size:10px;
+  color:
+    var(--muted2);
 
-      font-weight:700;
-    }
+  font-size:8px;
 
-    .error{
+}
 
-      display:none;
 
-      margin-bottom:15px;
+.form-panel{
 
-      padding:
-        11px 13px;
+  padding:
+    50px 44px;
 
-      border-radius:12px;
+  display:flex;
 
-      border:
-        1px solid
-        rgba(255,107,128,.20);
+  align-items:center;
 
-      background:
-        rgba(255,107,128,.06);
+}
 
-      color:#ff9eaa;
 
-      font-size:10px;
+.form-wrap{
 
-      line-height:1.5;
-    }
+  width:100%;
 
-    .error.show{
-      display:block;
-    }
+  max-width:390px;
 
-    .submit{
+  margin:auto;
 
-      height:55px;
-      width:100%;
+}
 
-      border:0;
 
-      border-radius:14px;
+.badge{
 
-      background:
-        var(--accent);
+  display:inline-flex;
 
-      color:#071000;
+  align-items:center;
 
-      font-weight:900;
+  gap:7px;
 
-      box-shadow:
-        0 14px 32px
-        rgba(200,255,61,.14);
+  width:max-content;
 
-      transition:.2s;
-    }
+  padding:
+    7px 10px;
 
-    .submit:hover{
+  border:
+    1px solid
+    rgba(101,230,190,.16);
 
-      transform:
-        translateY(-2px);
+  border-radius:999px;
 
-      box-shadow:
-        0 18px 40px
-        rgba(200,255,61,.20);
-    }
+  background:
+    rgba(101,230,190,.045);
 
-    .submit:disabled{
+  color:
+    var(--accent);
 
-      opacity:.65;
+  font-size:9px;
 
-      pointer-events:none;
-    }
+  font-weight:900;
 
-    .passkey-note{
+  letter-spacing:.08em;
 
-      margin-top:15px;
+}
 
-      padding:11px 12px;
 
-      border:
-        1px solid
-        rgba(200,255,61,.10);
+.dot{
 
-      border-radius:12px;
+  width:6px;
 
-      background:
-        rgba(200,255,61,.035);
+  height:6px;
 
-      color:var(--muted);
+  border-radius:50%;
 
-      font-size:9px;
+  background:
+    var(--accent);
 
-      line-height:1.55;
-    }
+  box-shadow:
+    0 0 10px
+    var(--accent);
 
-    .passkey-note strong{
+}
 
-      color:var(--accent);
 
-      font-size:9px;
-    }
+.form-wrap h2{
 
-    .footer{
+  margin-top:18px;
 
-      margin-top:23px;
+  font:
+    700 34px/
+    1
+    "Space Grotesk";
 
-      padding-top:18px;
+  letter-spacing:-.05em;
 
-      border-top:
-        1px solid
-        var(--border);
+}
 
-      display:flex;
 
-      justify-content:space-between;
+.intro{
 
-      gap:15px;
+  margin-top:9px;
 
-      color:var(--muted2);
+  color:
+    var(--muted);
 
-      font-size:9px;
-    }
+  font-size:11px;
 
-    .spin{
+  line-height:1.65;
 
-      width:15px;
-      height:15px;
+}
 
-      display:inline-block;
 
-      border:
-        2px solid
-        rgba(0,0,0,.2);
+.field{
 
-      border-top-color:
-        #071000;
+  margin-top:19px;
 
-      border-radius:50%;
+}
 
-      animation:
-        spin .7s
-        linear
-        infinite;
 
-      vertical-align:-3px;
+.field label{
 
-      margin-right:8px;
-    }
+  display:block;
 
-    @keyframes spin{
+  margin-bottom:8px;
 
-      to{
-        transform:
-          rotate(360deg);
-      }
+  color:#d4d4d4;
 
-    }
+  font-size:9px;
 
-    @keyframes float{
+  font-weight:900;
 
-      50%{
-        transform:
-          translateY(-8px);
-      }
+  letter-spacing:.10em;
 
-    }
+}
 
-    @media(max-width:850px){
 
-      .shell{
-        grid-template-columns:1fr;
-      }
+.input-wrap{
 
-      .brand{
-        display:none;
-      }
+  position:relative;
 
-      .form-panel{
-        padding:
-          34px 25px;
-      }
+}
 
-      .footer{
-        font-size:8px;
-      }
 
-    }
+.input{
 
-    @media(max-width:460px){
+  width:100%;
 
-      body{
-        padding:12px;
-      }
+  height:53px;
 
-      .form-panel{
-        padding:
-          28px 18px;
-      }
+  padding:
+    0 14px;
 
-      .footer{
-        flex-direction:column;
-      }
+  border:
+    1px solid var(--line2);
 
-    }
+  border-radius:13px;
 
-  </style>
+  outline:none;
+
+  background:
+    rgba(255,255,255,.025);
+
+  color:#fff;
+
+  font-size:12px;
+
+  transition:.2s ease;
+
+}
+
+
+.input:focus{
+
+  border-color:
+    rgba(101,230,190,.38);
+
+  box-shadow:
+    0 0 0 4px
+    rgba(101,230,190,.045);
+
+}
+
+
+.password-wrap
+.input{
+
+  padding-right:52px;
+
+}
+
+
+.password-toggle{
+
+  position:absolute;
+
+  top:50%;
+
+  right:8px;
+
+  transform:
+    translateY(-50%);
+
+  width:35px;
+
+  height:35px;
+
+  border:0;
+
+  border-radius:9px;
+
+  background:transparent;
+
+  color:#777;
+
+  cursor:pointer;
+
+}
+
+
+.password-toggle:hover{
+
+  color:var(--accent);
+
+  background:
+    rgba(255,255,255,.04);
+
+}
+
+
+.options{
+
+  margin-top:14px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+}
+
+
+.remember{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:7px;
+
+  color:#777;
+
+  font-size:9px;
+
+}
+
+
+.remember input{
+
+  accent-color:
+    var(--accent);
+
+}
+
+
+.forgot{
+
+  border:0;
+
+  background:none;
+
+  color:
+    var(--accent);
+
+  font-size:9px;
+
+  font-weight:800;
+
+  cursor:pointer;
+
+}
+
+
+.error{
+
+  display:none;
+
+  margin-top:15px;
+
+  padding:
+    11px 12px;
+
+  border:
+    1px solid
+    rgba(255,115,115,.18);
+
+  border-radius:11px;
+
+  background:
+    rgba(255,115,115,.06);
+
+  color:#ffadad;
+
+  font-size:9px;
+
+  line-height:1.6;
+
+}
+
+
+.error.show{
+
+  display:block;
+
+}
+
+
+.info{
+
+  display:none;
+
+  margin-top:15px;
+
+  padding:
+    11px 12px;
+
+  border:
+    1px solid
+    rgba(101,230,190,.14);
+
+  border-radius:11px;
+
+  background:
+    rgba(101,230,190,.05);
+
+  color:#aaffea;
+
+  font-size:9px;
+
+  line-height:1.6;
+
+}
+
+
+.info.show{
+
+  display:block;
+
+}
+
+
+.submit{
+
+  width:100%;
+
+  height:54px;
+
+  margin-top:19px;
+
+  border:0;
+
+  border-radius:13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #77efd0,
+      #45bd9e
+    );
+
+  color:#06120e;
+
+  font-size:11px;
+
+  font-weight:900;
+
+  cursor:pointer;
+
+  transition:
+    .2s ease;
+
+  box-shadow:
+    0 16px 34px
+    rgba(69,189,158,.13);
+
+}
+
+
+.submit:hover{
+
+  transform:
+    translateY(-1px);
+
+}
+
+
+.submit:disabled{
+
+  opacity:.55;
+
+  cursor:not-allowed;
+
+  transform:none;
+
+}
+
+
+.footer{
+
+  margin-top:22px;
+
+  padding-top:17px;
+
+  border-top:
+    1px solid var(--line);
+
+  display:flex;
+
+  justify-content:space-between;
+
+  gap:12px;
+
+  color:
+    var(--muted2);
+
+  font-size:8px;
+
+}
+
+
+@media(max-width:850px){
+
+  .shell{
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .visual{
+
+    display:none;
+
+  }
+
+
+  .form-panel{
+
+    min-height:
+      630px;
+
+    padding:
+      35px 25px;
+
+  }
+
+}
+
+
+@media(max-width:460px){
+
+  body{
+
+    padding:
+      11px;
+
+  }
+
+
+  .form-panel{
+
+    padding:
+      28px 18px;
+
+  }
+
+
+  .options{
+
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+
+  }
+
+
+  .footer{
+
+    flex-direction:
+      column;
+
+  }
+
+}
+
+</style>
 
 </head>
 
+
 <body>
+
 
 <main class="shell">
 
-  <section class="brand">
 
-    <div class="mark">
+<section class="visual">
 
-      <div class="logo">
-        AKI
-      </div>
 
-      <div class="brand-name">
+  <div class="mark">
 
-        AKHI Engineering Workshop
+    <div class="logo">
+      AK
+    </div>
 
-        <small>
-          Administration Portal
-        </small>
+    <div class="brand-name">
 
-      </div>
+      AKHI Engineering Workshop
+
+      <small>
+        Administration
+      </small>
 
     </div>
 
-    <div class="center">
+  </div>
 
-      <div class="orb">
-        <b>AKI</b>
-      </div>
 
-      <h1>
-        Control the
-        <span>
-          Workshop.
-        </span>
-      </h1>
+  <div class="visual-center">
 
-      <p>
-        One administration layer for homepage content,
-        banners, projects, media, settings and the
-        AKHI AI workspace.
-      </p>
+    <div class="orb">
+
+      <strong>
+        AK
+      </strong>
 
     </div>
 
-    <div class="features">
 
-      <div class="feature">
-        <strong>
-          Content
-        </strong>
-        <span>
-          CMS control
-        </span>
-      </div>
+    <h1>
 
-      <div class="feature">
-        <strong>
-          Projects
-        </strong>
-        <span>
-          Portfolio control
-        </span>
-      </div>
+      Control the
+      <span>Workshop.</span>
 
-      <div class="feature">
-        <strong>
-          Security
-        </strong>
-        <span>
-          Role-based access
-        </span>
-      </div>
+    </h1>
+
+
+    <p class="visual-description">
+
+      A private administration layer for
+      homepage content, banners, projects,
+      media, settings and workshop operations.
+
+    </p>
+
+  </div>
+
+
+  <div class="features">
+
+    <div class="feature">
+
+      <strong>
+        Content
+      </strong>
+
+      <span>
+        CMS control
+      </span>
 
     </div>
 
-  </section>
 
-  <section class="form-panel">
+    <div class="feature">
+
+      <strong>
+        Projects
+      </strong>
+
+      <span>
+        Project management
+      </span>
+
+    </div>
+
+
+    <div class="feature">
+
+      <strong>
+        Security
+      </strong>
+
+      <span>
+        Permission control
+      </span>
+
+    </div>
+
+  </div>
+
+
+</section>
+
+
+<section class="form-panel">
+
+
+  <div class="form-wrap">
+
 
     <span class="badge">
 
       <i class="dot"></i>
 
-      SECURE ADMIN ACCESS
+      PRIVATE ADMIN ACCESS
 
     </span>
+
 
     <h2>
       Welcome back.
     </h2>
 
+
     <p class="intro">
-      Sign in with your assigned administrator account.
+
+      Sign in with your authorized
+      administrator account.
+
     </p>
 
+
     <div
-      id="error"
       class="error"
-      role="alert"
-    ></div>
+      id="error"
+      role="alert">
+    </div>
+
+
+    <div
+      class="info"
+      id="info"
+      role="status">
+    </div>
+
 
     <form
-      id="form"
-      novalidate
-    >
+      id="loginForm"
+      autocomplete="on">
+
 
       <div class="field">
 
@@ -957,19 +1139,21 @@
           EMAIL ADDRESS
         </label>
 
-        <div class="wrap">
+        <div class="input-wrap">
 
           <input
+            class="input"
             id="email"
+            name="email"
             type="email"
             autocomplete="username"
             placeholder="Enter your email"
-            required
-          >
+            required>
 
         </div>
 
       </div>
+
 
       <div class="field">
 
@@ -977,76 +1161,72 @@
           PASSWORD
         </label>
 
-        <div class="wrap">
+
+        <div class="input-wrap password-wrap">
 
           <input
+            class="input"
             id="password"
+            name="password"
             type="password"
             autocomplete="current-password"
-            placeholder="Enter password"
-            required
-          >
+            placeholder="Enter your password"
+            required>
+
 
           <button
-            class="toggle"
-            id="toggle"
+            class="password-toggle"
+            id="passwordToggle"
             type="button"
-            aria-label="Show password"
-          >
+            aria-label="Show password">
+
             ◉
+
           </button>
 
         </div>
 
       </div>
 
+
       <div class="options">
 
         <label class="remember">
 
           <input
-            id="remember"
             type="checkbox"
-          >
+            id="remember"
+            checked>
 
           Remember this device
 
         </label>
 
+
         <button
           class="forgot"
           id="forgot"
-          type="button"
-        >
+          type="button">
+
           Forgot password?
+
         </button>
 
       </div>
 
+
       <button
         class="submit"
         id="submit"
-        type="submit"
-      >
+        type="submit">
+
         Sign In
+
       </button>
+
 
     </form>
 
-    <div class="passkey-note">
-
-      <strong>
-        Enhanced security
-      </strong>
-
-      <br>
-
-      Passkey / biometric authentication is prepared
-      for the final Supabase security phase. On supported
-      devices this will use your device authenticator,
-      such as fingerprint, Face ID or Windows Hello.
-
-    </div>
 
     <div class="footer">
 
@@ -1055,21 +1235,20 @@
       </span>
 
       <span>
-        AKHI Admin v1.3
+        AKI Admin v1.4
       </span>
 
     </div>
 
-  </section>
+
+  </div>
+
+
+</section>
+
 
 </main>
 
-<div
-  id="toast"
-  class="toast"
-  role="status"
-  aria-live="polite"
-></div>
 
 <script>
 
@@ -1077,63 +1256,62 @@
 
   "use strict";
 
+
   const form =
     document.getElementById(
-      "form"
+      "loginForm"
     );
+
 
   const email =
     document.getElementById(
       "email"
     );
 
+
   const password =
     document.getElementById(
       "password"
     );
+
 
   const remember =
     document.getElementById(
       "remember"
     );
 
+
   const submit =
     document.getElementById(
       "submit"
     );
+
 
   const error =
     document.getElementById(
       "error"
     );
 
+
+  const info =
+    document.getElementById(
+      "info"
+    );
+
+
   const toggle =
     document.getElementById(
-      "toggle"
+      "passwordToggle"
     );
+
 
   const forgot =
     document.getElementById(
       "forgot"
     );
 
-  const toast =
-    document.getElementById(
-      "toast"
-    );
 
-  function showError(message){
-
-    error.textContent =
-      message;
-
-    error.classList.add(
-      "show"
-    );
-
-  }
-
-  function clearError(){
+  function clearMessages(){
 
     error.textContent =
       "";
@@ -1142,60 +1320,129 @@
       "show"
     );
 
-  }
 
-  function notify(message){
+    info.textContent =
+      "";
 
-    toast.textContent =
-      message;
-
-    toast.style.display =
-      "block";
-
-    setTimeout(
-      function(){
-
-        toast.style.display =
-          "none";
-
-      },
-      2600
+    info.classList.remove(
+      "show"
     );
 
   }
 
-  /* Existing session */
 
-  const existing =
-    AKIAdmin.getSession();
+  function showError(
+    text
+  ){
 
-  if(existing){
+    info.textContent =
+      "";
 
-    location.href =
-      AKIAdmin.dashboardUrl();
-
-    return;
-
-  }
-
-  /* Remembered email */
-
-  const savedEmail =
-    localStorage.getItem(
-      "aki_admin_email"
+    info.classList.remove(
+      "show"
     );
 
-  if(savedEmail){
 
-    email.value =
-      savedEmail;
+    error.textContent =
+      text;
 
-    remember.checked =
-      true;
+    error.classList.add(
+      "show"
+    );
 
   }
 
-  /* Password visibility */
+
+  function showInfo(
+    text
+  ){
+
+    error.textContent =
+      "";
+
+    error.classList.remove(
+      "show"
+    );
+
+
+    info.textContent =
+      text;
+
+    info.classList.add(
+      "show"
+    );
+
+  }
+
+
+  /* ======================================================
+     EXISTING SESSION
+  ====================================================== */
+
+  try{
+
+    const existing =
+      AKIAdmin.getSession();
+
+
+    if(
+      existing
+    ){
+
+      window.location.replace(
+        AKIAdmin.dashboardUrl()
+      );
+
+      return;
+
+    }
+
+  }catch{}
+
+
+  /* ======================================================
+     REMEMBERED EMAIL
+  ====================================================== */
+
+  try{
+
+    const saved =
+      localStorage.getItem(
+        "aki_admin_email"
+      );
+
+
+    if(
+      saved
+    ){
+
+      email.value =
+        saved;
+
+    }
+
+
+    const security =
+      AKIAdmin.getSecuritySettings();
+
+
+    if(
+      security &&
+      security.rememberDevice ===
+        false
+    ){
+
+      remember.checked =
+        false;
+
+    }
+
+  }catch{}
+
+
+  /* ======================================================
+     PASSWORD TOGGLE
+  ====================================================== */
 
   toggle.addEventListener(
     "click",
@@ -1205,20 +1452,68 @@
         password.type ===
         "password";
 
+
       password.type =
         hidden
           ? "text"
           : "password";
+
 
       toggle.textContent =
         hidden
           ? "◌"
           : "◉";
 
+
+      toggle.setAttribute(
+        "aria-label",
+        hidden
+          ? "Hide password"
+          : "Show password"
+      );
+
     }
   );
 
-  /* Login */
+
+  /* ======================================================
+     FORGOT PASSWORD
+  ====================================================== */
+
+  forgot.addEventListener(
+    "click",
+    function(){
+
+      showInfo(
+        "Password recovery is currently managed by the private administrator. Production password recovery will be connected during the final Firebase phase."
+      );
+
+    }
+  );
+
+
+  /* ======================================================
+     INPUT CLEAR
+  ====================================================== */
+
+  [
+    email,
+    password
+  ].forEach(
+    function(input){
+
+      input.addEventListener(
+        "input",
+        clearMessages
+      );
+
+    }
+  );
+
+
+  /* ======================================================
+     LOGIN
+  ====================================================== */
 
   form.addEventListener(
     "submit",
@@ -1226,17 +1521,23 @@
 
       event.preventDefault();
 
-      clearError();
+      clearMessages();
 
-      const em =
+
+      const emailValue =
         email.value
           .trim()
           .toLowerCase();
 
-      const pw =
+
+      const passwordValue =
         password.value;
 
-      if(!em || !pw){
+
+      if(
+        !emailValue ||
+        !passwordValue
+      ){
 
         showError(
           "Please enter your email address and password."
@@ -1246,28 +1547,90 @@
 
       }
 
+
       submit.disabled =
         true;
 
-      submit.innerHTML =
-        '<span class="spin"></span>Authenticating...';
+      submit.textContent =
+        "Authenticating…";
 
-      await new Promise(
-        resolve =>
-          setTimeout(
-            resolve,
-            450
-          )
-      );
 
-      const result =
-        AKIAdmin.authenticate(
-          em,
-          pw,
+      try{
+
+        await AKIAdmin.authenticate(
+          emailValue,
+          passwordValue,
           remember.checked
         );
 
-      if(!result.success){
+
+        showInfo(
+          "Access granted. Opening administration…"
+        );
+
+
+        submit.textContent =
+          "Access Granted";
+
+
+        window.setTimeout(
+          function(){
+
+            window.location.replace(
+              AKIAdmin.dashboardUrl()
+            );
+
+          },
+          300
+        );
+
+
+      }catch(err){
+
+        const message =
+          String(
+            err &&
+            err.message
+              ? err.message
+              : ""
+          );
+
+
+        if(
+          message.indexOf(
+            "LOGIN_TEMPORARILY_BLOCKED:"
+          ) === 0
+        ){
+
+          const minutes =
+            message
+              .split(
+                ":"
+              )[1] ||
+            "a few";
+
+
+          showError(
+            `Too many failed attempts. Try again in approximately ${minutes} minute(s).`
+          );
+
+        }else if(
+          message ===
+          "ACCOUNT_DISABLED"
+        ){
+
+          showError(
+            "This administrator account is currently disabled."
+          );
+
+        }else{
+
+          showError(
+            "Invalid email or password."
+          );
+
+        }
+
 
         submit.disabled =
           false;
@@ -1275,62 +1638,16 @@
         submit.textContent =
           "Sign In";
 
-        showError(
-          result.error ||
-          "Invalid email or password."
-        );
 
         password.focus();
 
-        return;
-
       }
-
-      notify(
-        "Access granted. Redirecting..."
-      );
-
-      submit.textContent =
-        "Access Granted";
-
-      setTimeout(
-        function(){
-
-          location.href =
-            AKIAdmin.dashboardUrl();
-
-        },
-        350
-      );
 
     }
   );
 
-  forgot.addEventListener(
-    "click",
-    function(){
-
-      showError(
-        "Password recovery is managed by the Super Admin."
-      );
-
-    }
-  );
-
-  [email,password]
-    .forEach(
-      input => {
-
-        input.addEventListener(
-          "input",
-          clearError
-        );
-
-      }
-    );
 
 })();
-
 </script>
 
 </body>
