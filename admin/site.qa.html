@@ -1,0 +1,2722 @@
+<!DOCTYPE html>
+<html lang="en" data-admin-guard="true">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="robots" content="noindex,nofollow,noarchive">
+
+<title>Full Website QA — AKHI Engineering Workshop</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet">
+
+<script src="./auth.js"></script>
+
+<style>
+
+:root{
+  --bg:#080808;
+  --panel:#111111;
+  --panel2:#151515;
+  --line:rgba(255,255,255,.08);
+  --line2:rgba(255,255,255,.14);
+  --text:#f4f4f4;
+  --muted:#8d8d8d;
+  --green:#65e6be;
+  --greenbg:rgba(101,230,190,.08);
+  --red:#ff7777;
+  --redbg:rgba(255,119,119,.08);
+  --yellow:#ffd166;
+  --yellowbg:rgba(255,209,102,.08);
+  --blue:#74c0fc;
+  --bluebg:rgba(116,192,252,.08);
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  margin:0;
+  min-height:100%;
+  background:
+    radial-gradient(
+      circle at 15% 8%,
+      rgba(101,230,190,.06),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 88% 85%,
+      rgba(116,192,252,.05),
+      transparent 30%
+    ),
+    var(--bg);
+  color:var(--text);
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+body{
+  min-height:100vh;
+}
+
+button,
+a{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.app{
+  width:min(1400px,calc(100% - 30px));
+  margin:0 auto;
+  padding:26px 0 60px;
+}
+
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:18px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.mark{
+  width:46px;
+  height:46px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--line2);
+  border-radius:14px;
+  background:#101010;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+
+.brand h1{
+  margin:0;
+  font-size:19px;
+  letter-spacing:-.03em;
+}
+
+.brand p{
+  margin:4px 0 0;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.btn{
+  min-height:42px;
+  padding:0 14px;
+  border:1px solid var(--line2);
+  border-radius:11px;
+  background:#151515;
+  color:#fff;
+  font-size:11px;
+  font-weight:800;
+}
+
+.btn:hover{
+  border-color:rgba(255,255,255,.25);
+}
+
+.btn.primary{
+  color:#b7ffea;
+  background:linear-gradient(135deg,#173a31,#10231e);
+  border-color:rgba(101,230,190,.22);
+}
+
+.btn.danger{
+  color:#ffb2b2;
+  background:var(--redbg);
+  border-color:rgba(255,119,119,.18);
+}
+
+.hero{
+  border:1px solid var(--line);
+  border-radius:24px;
+  background:rgba(17,17,17,.92);
+  padding:25px;
+  margin-bottom:17px;
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.45fr .55fr;
+  gap:18px;
+}
+
+.hero h2{
+  margin:0;
+  font-size:clamp(28px,5vw,48px);
+  line-height:1.03;
+  letter-spacing:-.06em;
+}
+
+.hero p{
+  max-width:820px;
+  margin:12px 0 0;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.75;
+}
+
+.score-box{
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:18px;
+  background:#0c0c0c;
+  min-height:160px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.score-label{
+  color:#616161;
+  font-size:9px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.15em;
+}
+
+.score{
+  margin-top:6px;
+  font-size:38px;
+  font-weight:900;
+  letter-spacing:-.06em;
+}
+
+.score-detail{
+  margin-top:6px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.5;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:16px;
+}
+
+.card{
+  grid-column:span 6;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:rgba(17,17,17,.94);
+}
+
+.card.full{
+  grid-column:span 12;
+}
+
+.card-head{
+  padding:16px 18px;
+  border-bottom:1px solid var(--line);
+}
+
+.card-head h3{
+  margin:0;
+  font-size:14px;
+}
+
+.card-head p{
+  margin:5px 0 0;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.5;
+}
+
+.card-body{
+  padding:16px 18px;
+}
+
+.metrics{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:9px;
+}
+
+.metric{
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:#0c0c0c;
+}
+
+.metric .num{
+  font-size:23px;
+  font-weight:900;
+}
+
+.metric .label{
+  margin-top:3px;
+  color:#656565;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.progress{
+  height:9px;
+  margin-top:14px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:#090909;
+}
+
+.progress-bar{
+  width:0;
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#4ccca8,#8dffe4);
+  transition:.3s ease;
+}
+
+.checks{
+  display:grid;
+  gap:8px;
+}
+
+.check{
+  display:grid;
+  grid-template-columns:32px 1fr auto;
+  align-items:center;
+  gap:10px;
+  padding:11px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:#0c0c0c;
+}
+
+.check-icon{
+  width:30px;
+  height:30px;
+  display:grid;
+  place-items:center;
+  border-radius:9px;
+  font-size:12px;
+  font-weight:900;
+}
+
+.check-icon.pass{
+  color:#adffe9;
+  background:var(--greenbg);
+}
+
+.check-icon.warn{
+  color:#ffe6a1;
+  background:var(--yellowbg);
+}
+
+.check-icon.fail{
+  color:#ffb4b4;
+  background:var(--redbg);
+}
+
+.check-name{
+  font-size:11px;
+  font-weight:800;
+}
+
+.check-detail{
+  margin-top:3px;
+  color:#686868;
+  font-size:9px;
+  line-height:1.5;
+}
+
+.badge{
+  padding:5px 8px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  color:#777;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+
+.badge.pass{
+  color:#a7ffe5;
+  border-color:rgba(101,230,190,.18);
+  background:var(--greenbg);
+}
+
+.badge.warn{
+  color:#ffe29b;
+  border-color:rgba(255,209,102,.18);
+  background:var(--yellowbg);
+}
+
+.badge.fail{
+  color:#ffabab;
+  border-color:rgba(255,119,119,.18);
+  background:var(--redbg);
+}
+
+.badge.info{
+  color:#b6ddff;
+  border-color:rgba(116,192,252,.18);
+  background:var(--bluebg);
+}
+
+.report{
+  min-height:300px;
+  max-height:560px;
+  overflow:auto;
+  padding:15px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:#090909;
+  color:#d6d6d6;
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  font-size:10px;
+  line-height:1.7;
+  white-space:pre-wrap;
+}
+
+.note{
+  margin-bottom:14px;
+  padding:12px 13px;
+  border:1px solid rgba(116,192,252,.16);
+  border-radius:13px;
+  background:var(--bluebg);
+  color:#c6e2ff;
+  font-size:11px;
+  line-height:1.6;
+}
+
+.footer{
+  margin-top:18px;
+  text-align:center;
+  color:#4f4f4f;
+  font-size:10px;
+}
+
+@media(max-width:900px){
+  .hero-grid{
+    grid-template-columns:1fr;
+  }
+
+  .card{
+    grid-column:span 12;
+  }
+}
+
+@media(max-width:650px){
+  .app{
+    width:min(100% - 18px,1400px);
+    padding-top:14px;
+  }
+
+  .topbar{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .metrics{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .hero{
+    padding:19px;
+  }
+
+  .card-body,
+  .card-head{
+    padding-left:14px;
+    padding-right:14px;
+  }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<main class="app">
+
+<header class="topbar">
+
+  <div class="brand">
+
+    <div class="mark">
+      AK
+    </div>
+
+    <div>
+
+      <h1>
+        Full Website QA
+      </h1>
+
+      <p>
+        AKHI Engineering Workshop · Production Readiness
+      </p>
+
+    </div>
+
+  </div>
+
+  <div class="actions">
+
+    <a
+      class="btn"
+      href="./dashboard.html">
+      Dashboard
+    </a>
+
+    <a
+      class="btn"
+      href="./qa.html">
+      Recovery QA
+    </a>
+
+    <button
+      class="btn primary"
+      id="runBtn">
+      Run Full QA
+    </button>
+
+  </div>
+
+</header>
+
+
+<section class="hero">
+
+  <div class="hero-grid">
+
+    <div>
+
+      <h2>
+        One final check before handover.
+      </h2>
+
+      <p>
+        This test checks the public website source,
+        admin pages, required assets, responsive readiness,
+        developer attribution, CMS storage, protected-page
+        guards and internal navigation.
+      </p>
+
+    </div>
+
+    <div class="score-box">
+
+      <div class="score-label">
+        Overall readiness
+      </div>
+
+      <div
+        class="score"
+        id="score">
+        —
+      </div>
+
+      <div
+        class="score-detail"
+        id="scoreDetail">
+        Run the full QA suite.
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<div class="note">
+  <strong>QA note:</strong>
+  browser-side QA can verify structure, availability and integration markers,
+  but it cannot prove server-side security. Firebase remains a later final phase.
+</div>
+
+
+<section class="grid">
+
+
+<article class="card full">
+
+  <div class="card-head">
+
+    <h3>
+      QA Summary
+    </h3>
+
+    <p>
+      Complete result after all tests finish.
+    </p>
+
+  </div>
+
+  <div class="card-body">
+
+    <div class="metrics">
+
+      <div class="metric">
+        <div
+          class="num"
+          id="total">
+          0
+        </div>
+        <div class="label">
+          Total
+        </div>
+      </div>
+
+      <div class="metric">
+        <div
+          class="num"
+          id="passed">
+          0
+        </div>
+        <div class="label">
+          Passed
+        </div>
+      </div>
+
+      <div class="metric">
+        <div
+          class="num"
+          id="warnings">
+          0
+        </div>
+        <div class="label">
+          Warnings
+        </div>
+      </div>
+
+      <div class="metric">
+        <div
+          class="num"
+          id="failed">
+          0
+        </div>
+        <div class="label">
+          Failed
+        </div>
+      </div>
+
+    </div>
+
+    <div class="progress">
+      <div
+        class="progress-bar"
+        id="progress">
+      </div>
+    </div>
+
+  </div>
+
+</article>
+
+
+<article class="card">
+
+  <div class="card-head">
+
+    <h3>
+      Public Website
+    </h3>
+
+    <p>
+      Homepage and public integration checks.
+    </p>
+
+  </div>
+
+  <div
+    class="card-body"
+    id="publicChecks">
+
+    <div class="check">
+
+      <div class="check-icon">
+        —
+      </div>
+
+      <div>
+        <div class="check-name">
+          Not tested
+        </div>
+        <div class="check-detail">
+          Run Full QA.
+        </div>
+      </div>
+
+      <div class="badge info">
+        WAIT
+      </div>
+
+    </div>
+
+  </div>
+
+</article>
+
+
+<article class="card">
+
+  <div class="card-head">
+
+    <h3>
+      Admin Pages
+    </h3>
+
+    <p>
+      Availability, guards and shell integration.
+    </p>
+
+  </div>
+
+  <div
+    class="card-body"
+    id="adminChecks">
+
+    <div class="check">
+
+      <div class="check-icon">
+        —
+      </div>
+
+      <div>
+        <div class="check-name">
+          Not tested
+        </div>
+        <div class="check-detail">
+          Run Full QA.
+        </div>
+      </div>
+
+      <div class="badge info">
+        WAIT
+      </div>
+
+    </div>
+
+  </div>
+
+</article>
+
+
+<article class="card">
+
+  <div class="card-head">
+
+    <h3>
+      CMS Storage
+    </h3>
+
+    <p>
+      Existing local CMS datasets and structure.
+    </p>
+
+  </div>
+
+  <div
+    class="card-body"
+    id="cmsChecks">
+
+  </div>
+
+</article>
+
+
+<article class="card">
+
+  <div class="card-head">
+
+    <h3>
+      Responsive Readiness
+    </h3>
+
+    <p>
+      Viewport and responsive CSS readiness checks.
+    </p>
+
+  </div>
+
+  <div
+    class="card-body"
+    id="responsiveChecks">
+
+  </div>
+
+</article>
+
+
+<article class="card full">
+
+  <div class="card-head">
+
+    <h3>
+      QA Report
+    </h3>
+
+    <p>
+      Downloadable machine-readable report for final handover.
+    </p>
+
+  </div>
+
+  <div class="card-body">
+
+    <div class="actions">
+
+      <button
+        class="btn primary"
+        id="downloadBtn">
+        Download QA Report
+      </button>
+
+      <button
+        class="btn"
+        id="copyBtn">
+        Copy Report
+      </button>
+
+    </div>
+
+    <div style="height:12px"></div>
+
+    <div
+      class="report"
+      id="report">
+      No QA report yet.
+    </div>
+
+  </div>
+
+</article>
+
+
+</section>
+
+
+<div class="footer">
+  AKHI Engineering Workshop · Full Website QA · Firebase remains final phase
+</div>
+
+</main>
+
+
+<script>
+
+(function(){
+
+  "use strict";
+
+
+  /* ======================================================
+     SUPER ADMIN GUARD
+  ====================================================== */
+
+  if(
+    !window.AKIAdmin ||
+    !AKIAdmin.requireSuperAdmin()
+  ){
+
+    return;
+
+  }
+
+
+  /* ======================================================
+     PAGE LIST
+  ====================================================== */
+
+  const PUBLIC_PAGES = [
+
+    {
+      path:
+        "../index.html",
+
+      label:
+        "Public Homepage"
+    },
+
+    {
+      path:
+        "../404.html",
+
+      label:
+        "Public 404"
+    }
+
+  ];
+
+
+  const ADMIN_PAGES = [
+
+    {
+      path:
+        "./dashboard.html",
+
+      label:
+        "Dashboard",
+
+      guarded:
+        true
+    },
+
+    {
+      path:
+        "./homepage.html",
+
+      label:
+        "Homepage CMS"
+    },
+
+    {
+      path:
+        "./banner.html",
+
+      label:
+        "Banner CMS"
+    },
+
+    {
+      path:
+        "./projects.html",
+
+      label:
+        "Projects CMS"
+    },
+
+    {
+      path:
+        "./media.html",
+
+      label:
+        "Media Manager"
+    },
+
+    {
+      path:
+        "./settings.html",
+
+      label:
+        "Site Settings"
+    },
+
+    {
+      path:
+        "./activity.html",
+
+      label:
+        "Activity Log"
+    },
+
+    {
+      path:
+        "./backup.html",
+
+      label:
+        "Backup & Restore"
+    },
+
+    {
+      path:
+        "./security.html",
+
+      label:
+        "Security Center",
+
+      guarded:
+        true
+    },
+
+    {
+      path:
+        "./admins.html",
+
+      label:
+        "Admin Management",
+
+      guarded:
+        true
+    },
+
+    {
+      path:
+        "./qa.html",
+
+      label:
+        "Recovery QA",
+
+      guarded:
+        true
+    },
+
+    {
+      path:
+        "./site-qa.html",
+
+      label:
+        "Website QA",
+
+      guarded:
+        true
+    }
+
+  ];
+
+
+  const REQUIRED_ASSETS = [
+
+    {
+      path:
+        "../assets/developer-credit.js",
+
+      label:
+        "Developer credit script"
+    }
+
+  ];
+
+
+  const CMS_DATASETS = [
+
+    {
+      key:
+        "aki_homepage_content_v1",
+
+      alias:
+        "aki_homepage",
+
+      label:
+        "Homepage CMS",
+
+      type:
+        "object"
+    },
+
+    {
+      key:
+        "aki_banners_v1",
+
+      alias:
+        "aki_banners",
+
+      label:
+        "Banners CMS",
+
+      type:
+        "array"
+    },
+
+    {
+      key:
+        "aki_projects_v1",
+
+      alias:
+        "aki_projects",
+
+      label:
+        "Projects CMS",
+
+      type:
+        "array"
+    },
+
+    {
+      key:
+        "aki_media_v1",
+
+      alias:
+        "aki_media",
+
+      label:
+        "Media CMS",
+
+      type:
+        "array"
+    },
+
+    {
+      key:
+        "aki_site_settings_v1",
+
+      alias:
+        "aki_site_settings",
+
+      label:
+        "Site Settings",
+
+      type:
+        "object"
+    },
+
+    {
+      key:
+        "aki_admin_activity_v1",
+
+      alias:
+        null,
+
+      label:
+        "Activity Log",
+
+      type:
+        "array"
+    }
+
+  ];
+
+
+  /* ======================================================
+     STATE
+  ====================================================== */
+
+  const state = {
+
+    startedAt:
+      null,
+
+    finishedAt:
+      null,
+
+    results:
+      [],
+
+    summary:{
+      total:
+        0,
+
+      passed:
+        0,
+
+      warnings:
+        0,
+
+      failed:
+        0
+    }
+
+  };
+
+
+  /* ======================================================
+     HELPERS
+  ====================================================== */
+
+  function $(id){
+
+    return document.getElementById(
+      id
+    );
+
+  }
+
+
+  function escapeHtml(value){
+
+    return String(
+      value ?? ""
+    )
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+      .replace(
+        /</g,
+        "&lt;"
+      )
+      .replace(
+        />/g,
+        "&gt;"
+      )
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+      .replace(
+        /'/g,
+        "&#039;"
+      );
+
+  }
+
+
+  function addResult(
+    group,
+    name,
+    status,
+    detail,
+    target
+  ){
+
+    state.results.push({
+
+      group,
+
+      name,
+
+      status,
+
+      detail,
+
+      at:
+        new Date()
+          .toISOString()
+
+    });
+
+
+    const icons = {
+
+      pass:
+        "✓",
+
+      warn:
+        "~",
+
+      fail:
+        "!"
+
+    };
+
+
+    const labels = {
+
+      pass:
+        "PASS",
+
+      warn:
+        "WARN",
+
+      fail:
+        "FAIL"
+
+    };
+
+
+    const el =
+      document.createElement(
+        "div"
+      );
+
+
+    el.className =
+      "check";
+
+
+    el.innerHTML = `
+
+      <div class="check-icon ${status}">
+        ${icons[status] || "?"}
+      </div>
+
+      <div>
+
+        <div class="check-name">
+          ${escapeHtml(name)}
+        </div>
+
+        <div class="check-detail">
+          ${escapeHtml(detail)}
+        </div>
+
+      </div>
+
+      <div class="badge ${status}">
+        ${labels[status] || "INFO"}
+      </div>
+
+    `;
+
+
+    const box =
+      $(target);
+
+
+    if(box){
+
+      box.appendChild(
+        el
+      );
+
+    }
+
+  }
+
+
+  function clearBoxes(){
+
+    [
+      "publicChecks",
+      "adminChecks",
+      "cmsChecks",
+      "responsiveChecks"
+    ].forEach(
+      function(id){
+
+        $(id).innerHTML =
+          "";
+
+      }
+    );
+
+  }
+
+
+  function parseJSON(
+    value
+  ){
+
+    try{
+
+      return JSON.parse(
+        value
+      );
+
+    }catch{
+
+      return null;
+
+    }
+
+  }
+
+
+  function countItems(
+    data
+  ){
+
+    if(
+      Array.isArray(data)
+    ){
+
+      return data.length;
+
+    }
+
+
+    if(
+      data &&
+      typeof data === "object"
+    ){
+
+      return Object.keys(
+        data
+      ).length;
+
+    }
+
+
+    return 0;
+
+  }
+
+
+  function absoluteUrl(
+    path
+  ){
+
+    return new URL(
+      path,
+      window.location.href
+    ).href;
+
+  }
+
+
+  async function fetchText(
+    path
+  ){
+
+    const response =
+      await fetch(
+        path +
+        (
+          path.includes("?")
+            ? "&"
+            : "?"
+        ) +
+        "qa=" +
+        Date.now(),
+        {
+          cache:
+            "no-store"
+        }
+      );
+
+
+    return {
+
+      response,
+
+      text:
+        response.ok
+          ? await response.text()
+          : ""
+
+    };
+
+  }
+
+
+  /* ======================================================
+     PUBLIC WEBSITE
+  ====================================================== */
+
+  async function runPublicQA(){
+
+    for(
+      const page of PUBLIC_PAGES
+    ){
+
+      try{
+
+        const result =
+          await fetchText(
+            page.path
+          );
+
+
+        if(
+          result.response.ok
+        ){
+
+          addResult(
+            "Public",
+            page.label,
+            "pass",
+            `HTTP ${result.response.status} — page is reachable.`,
+            "publicChecks"
+          );
+
+
+          const html =
+            result.text;
+
+
+          if(
+            /<meta[^>]+name=["']viewport["']/i
+              .test(html)
+          ){
+
+            addResult(
+              "Public",
+              `${page.label} viewport`,
+              "pass",
+              "Responsive viewport meta tag detected.",
+              "publicChecks"
+            );
+
+          }else{
+
+            addResult(
+              "Public",
+              `${page.label} viewport`,
+              "warn",
+              "Viewport meta tag was not detected.",
+              "publicChecks"
+            );
+
+          }
+
+
+          if(
+            page.path.includes(
+              "../index.html"
+            )
+          ){
+
+            if(
+              html.includes(
+                "Developer"
+              ) &&
+              html.includes(
+                "SNK"
+              )
+            ){
+
+              addResult(
+                "Public",
+                "Developer → SNK credit",
+                "pass",
+                "Developer attribution markers detected in the public homepage.",
+                "publicChecks"
+              );
+
+            }else{
+
+              addResult(
+                "Public",
+                "Developer → SNK credit",
+                "warn",
+                "SNK developer attribution was not detected in source.",
+                "publicChecks"
+              );
+
+            }
+
+
+            if(
+              html.includes(
+                'id="home"'
+              ) ||
+              html.includes(
+                "id='home'"
+              )
+            ){
+
+              addResult(
+                "Public",
+                "Home section",
+                "pass",
+                "#home anchor detected.",
+                "publicChecks"
+              );
+
+            }else{
+
+              addResult(
+                "Public",
+                "Home section",
+                "warn",
+                "#home anchor was not detected.",
+                "publicChecks"
+              );
+
+            }
+
+
+            if(
+              html.includes(
+                "Work"
+              ) ||
+              html.includes(
+                "Projects"
+              )
+            ){
+
+              addResult(
+                "Public",
+                "Work / Projects content",
+                "pass",
+                "Work/project content markers detected.",
+                "publicChecks"
+              );
+
+            }else{
+
+              addResult(
+                "Public",
+                "Work / Projects content",
+                "warn",
+                "Work/project markers were not detected.",
+                "publicChecks"
+              );
+
+            }
+
+          }
+
+        }else{
+
+          addResult(
+            "Public",
+            page.label,
+            page.path.includes(
+              "404.html"
+            )
+              ? "warn"
+              : "fail",
+            `HTTP ${result.response.status}.`,
+            "publicChecks"
+          );
+
+        }
+
+      }catch(error){
+
+        addResult(
+          "Public",
+          page.label,
+          page.path.includes(
+            "404.html"
+          )
+            ? "warn"
+            : "fail",
+          error.message ||
+            "Request failed.",
+          "publicChecks"
+        );
+
+      }
+
+    }
+
+
+    for(
+      const asset of REQUIRED_ASSETS
+    ){
+
+      try{
+
+        const result =
+          await fetchText(
+            asset.path
+          );
+
+
+        if(
+          result.response.ok
+        ){
+
+          addResult(
+            "Public",
+            asset.label,
+            "pass",
+            `Required asset responded with HTTP ${result.response.status}.`,
+            "publicChecks"
+          );
+
+        }else{
+
+          addResult(
+            "Public",
+            asset.label,
+            "warn",
+            `Asset responded with HTTP ${result.response.status}.`,
+            "publicChecks"
+          );
+
+        }
+
+      }catch(error){
+
+        addResult(
+          "Public",
+          asset.label,
+          "warn",
+          "Asset could not be verified automatically.",
+          "publicChecks"
+        );
+
+      }
+
+    }
+
+  }
+
+
+  /* ======================================================
+     ADMIN PAGES
+  ====================================================== */
+
+  async function runAdminQA(){
+
+    for(
+      const page of ADMIN_PAGES
+    ){
+
+      try{
+
+        const result =
+          await fetchText(
+            page.path
+          );
+
+
+        if(
+          result.response.ok
+        ){
+
+          addResult(
+            "Admin",
+            page.label,
+            "pass",
+            `HTTP ${result.response.status} — page is reachable.`,
+            "adminChecks"
+          );
+
+
+          const html =
+            result.text;
+
+
+          if(
+            html.includes(
+              "auth.js"
+            )
+          ){
+
+            addResult(
+              "Admin",
+              `${page.label} authentication`,
+              "pass",
+              "auth.js reference detected.",
+              "adminChecks"
+            );
+
+          }else{
+
+            addResult(
+              "Admin",
+              `${page.label} authentication`,
+              "warn",
+              "auth.js reference was not detected.",
+              "adminChecks"
+            );
+
+          }
+
+
+          if(
+            html.includes(
+              "admin-shell.js"
+            )
+          ){
+
+            addResult(
+              "Admin",
+              `${page.label} admin shell`,
+              "pass",
+              "Global admin shell reference detected.",
+              "adminChecks"
+            );
+
+          }else{
+
+            addResult(
+              "Admin",
+              `${page.label} admin shell`,
+              "warn",
+              "admin-shell.js reference is missing.",
+              "adminChecks"
+            );
+
+          }
+
+
+          if(
+            page.guarded
+          ){
+
+            if(
+              html.includes(
+                "data-admin-guard"
+              ) ||
+              html.includes(
+                "requireSuperAdmin"
+              )
+            ){
+
+              addResult(
+                "Admin",
+                `${page.label} protection`,
+                "pass",
+                "A page-level protection marker was detected.",
+                "adminChecks"
+              );
+
+            }else{
+
+              addResult(
+                "Admin",
+                `${page.label} protection`,
+                "warn",
+                "Could not detect a page-level protection marker.",
+                "adminChecks"
+              );
+
+            }
+
+          }
+
+        }else{
+
+          addResult(
+            "Admin",
+            page.label,
+            "fail",
+            `HTTP ${result.response.status}.`,
+            "adminChecks"
+          );
+
+        }
+
+      }catch(error){
+
+        addResult(
+          "Admin",
+          page.label,
+          "fail",
+          error.message ||
+            "Request failed.",
+          "adminChecks"
+        );
+
+      }
+
+    }
+
+  }
+
+
+  /* ======================================================
+     CMS
+  ====================================================== */
+
+  function runCMSQA(){
+
+    CMS_DATASETS.forEach(
+      function(dataset){
+
+        let raw =
+          localStorage.getItem(
+            dataset.key
+          );
+
+
+        let sourceKey =
+          dataset.key;
+
+
+        if(
+          raw === null &&
+          dataset.alias
+        ){
+
+          raw =
+            localStorage.getItem(
+              dataset.alias
+            );
+
+          sourceKey =
+            dataset.alias;
+
+        }
+
+
+        if(
+          raw === null
+        ){
+
+          addResult(
+            "CMS",
+            dataset.label,
+            "warn",
+            "No local dataset exists yet; public fallback/default content may still be active.",
+            "cmsChecks"
+          );
+
+          return;
+
+        }
+
+
+        const parsed =
+          parseJSON(raw);
+
+
+        if(
+          parsed === null &&
+          raw !== "null"
+        ){
+
+          addResult(
+            "CMS",
+            dataset.label,
+            "fail",
+            `${sourceKey} contains invalid JSON.`,
+            "cmsChecks"
+          );
+
+          return;
+
+        }
+
+
+        const actualType =
+          Array.isArray(parsed)
+            ? "array"
+            : typeof parsed;
+
+
+        if(
+          actualType !==
+          dataset.type
+        ){
+
+          addResult(
+            "CMS",
+            dataset.label,
+            "fail",
+            `Expected ${dataset.type}, found ${actualType}.`,
+            "cmsChecks"
+          );
+
+          return;
+
+        }
+
+
+        addResult(
+          "CMS",
+          dataset.label,
+          "pass",
+          `${sourceKey} is valid ${actualType} with ${countItems(parsed)} top-level item(s).`,
+          "cmsChecks"
+        );
+
+      }
+    );
+
+
+    /*
+      Legacy / duplicate key consistency.
+    */
+
+    [
+      [
+        "aki_homepage_content_v1",
+        "aki_homepage"
+      ],
+      [
+        "aki_banners_v1",
+        "aki_banners"
+      ],
+      [
+        "aki_projects_v1",
+        "aki_projects"
+      ],
+      [
+        "aki_media_v1",
+        "aki_media"
+      ],
+      [
+        "aki_site_settings_v1",
+        "aki_site_settings"
+      ]
+    ].forEach(
+      function(pair){
+
+        const primary =
+          localStorage.getItem(
+            pair[0]
+          );
+
+
+        const alias =
+          localStorage.getItem(
+            pair[1]
+          );
+
+
+        if(
+          primary === null ||
+          alias === null
+        ){
+
+          addResult(
+            "CMS",
+            `${pair[1]} alias`,
+            "warn",
+            "One of the primary/alias storage keys is missing.",
+            "cmsChecks"
+          );
+
+          return;
+
+        }
+
+
+        if(
+          primary === alias
+        ){
+
+          addResult(
+            "CMS",
+            `${pair[1]} primary/alias consistency`,
+            "pass",
+            "Primary and alias values currently match.",
+            "cmsChecks"
+          );
+
+        }else{
+
+          addResult(
+            "CMS",
+            `${pair[1]} primary/alias consistency`,
+            "warn",
+            "Primary and alias values differ. Review before migration.",
+            "cmsChecks"
+          );
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /* ======================================================
+     RESPONSIVE READINESS
+  ====================================================== */
+
+  async function runResponsiveQA(){
+
+    const targets = [
+
+      {
+        path:
+          "../index.html",
+
+        label:
+          "Public homepage"
+
+      },
+
+      {
+        path:
+          "./dashboard.html",
+
+        label:
+          "Admin dashboard"
+
+      },
+
+      {
+        path:
+          "./homepage.html",
+
+        label:
+          "Homepage CMS"
+
+      },
+
+      {
+        path:
+          "./projects.html",
+
+        label:
+          "Projects CMS"
+
+      },
+
+      {
+        path:
+          "./media.html",
+
+        label:
+          "Media Manager"
+
+      }
+
+    ];
+
+
+    for(
+      const target of targets
+    ){
+
+      try{
+
+        const result =
+          await fetchText(
+            target.path
+          );
+
+
+        if(
+          !result.response.ok
+        ){
+
+          addResult(
+            "Responsive",
+            target.label,
+            "warn",
+            "Page could not be fetched for viewport inspection.",
+            "responsiveChecks"
+          );
+
+          continue;
+
+        }
+
+
+        const html =
+          result.text;
+
+
+        const hasViewport =
+          /<meta[^>]+name=["']viewport["'][^>]+content=/i
+            .test(
+              html
+            );
+
+
+        const hasMedia =
+          /@media\s*\(/i
+            .test(
+              html
+            );
+
+
+        const hasGrid =
+          /display\s*:\s*grid/i
+            .test(
+              html
+            );
+
+
+        const hasFlex =
+          /display\s*:\s*flex/i
+            .test(
+              html
+            );
+
+
+        if(
+          hasViewport
+        ){
+
+          addResult(
+            "Responsive",
+            `${target.label} viewport`,
+            "pass",
+            "Viewport meta is present.",
+            "responsiveChecks"
+          );
+
+        }else{
+
+          addResult(
+            "Responsive",
+            `${target.label} viewport`,
+            "fail",
+            "Responsive viewport meta was not detected.",
+            "responsiveChecks"
+          );
+
+        }
+
+
+        if(
+          hasMedia ||
+          hasGrid ||
+          hasFlex
+        ){
+
+          addResult(
+            "Responsive",
+            `${target.label} layout`,
+            "pass",
+            "Responsive/layout CSS markers were detected.",
+            "responsiveChecks"
+          );
+
+        }else{
+
+          addResult(
+            "Responsive",
+            `${target.label} layout`,
+            "warn",
+            "No obvious responsive layout markers were detected in source.",
+            "responsiveChecks"
+          );
+
+        }
+
+      }catch(error){
+
+        addResult(
+          "Responsive",
+          target.label,
+          "warn",
+          "Could not inspect source automatically.",
+          "responsiveChecks"
+        );
+
+      }
+
+    }
+
+
+    /*
+      Current actual viewport.
+    */
+
+    const width =
+      window.innerWidth;
+
+
+    const height =
+      window.innerHeight;
+
+
+    if(
+      width >= 1200
+    ){
+
+      addResult(
+        "Responsive",
+        "Current desktop viewport",
+        "pass",
+        `${width} × ${height} — desktop QA viewport detected.`,
+        "responsiveChecks"
+      );
+
+    }else if(
+      width >= 768
+    ){
+
+      addResult(
+        "Responsive",
+        "Current tablet viewport",
+        "pass",
+        `${width} × ${height} — tablet QA viewport detected.`,
+        "responsiveChecks"
+      );
+
+    }else{
+
+      addResult(
+        "Responsive",
+        "Current mobile viewport",
+        "pass",
+        `${width} × ${height} — mobile QA viewport detected.`,
+        "responsiveChecks"
+      );
+
+    }
+
+  }
+
+
+  /* ======================================================
+     SUMMARY
+  ====================================================== */
+
+  function updateSummary(){
+
+    const total =
+      state.results.length;
+
+
+    const passed =
+      state.results.filter(
+        item =>
+          item.status === "pass"
+      ).length;
+
+
+    const warnings =
+      state.results.filter(
+        item =>
+          item.status === "warn"
+      ).length;
+
+
+    const failed =
+      state.results.filter(
+        item =>
+          item.status === "fail"
+      ).length;
+
+
+    state.summary = {
+
+      total,
+
+      passed,
+
+      warnings,
+
+      failed
+
+    };
+
+
+    $("total").textContent =
+      total;
+
+
+    $("passed").textContent =
+      passed;
+
+
+    $("warnings").textContent =
+      warnings;
+
+
+    $("failed").textContent =
+      failed;
+
+
+    const score =
+      total
+        ? Math.round(
+            (
+              passed /
+              total
+            ) * 100
+          )
+        : 0;
+
+
+    $("progress").style.width =
+      score + "%";
+
+
+    $("score").textContent =
+      score + "%";
+
+
+    if(
+      failed > 0
+    ){
+
+      $("score").style.color =
+        "#ff9c9c";
+
+
+      $("scoreDetail").textContent =
+        `${failed} blocking failure(s), ${warnings} warning(s).`;
+
+    }else if(
+      warnings > 0
+    ){
+
+      $("score").style.color =
+        "#ffe09b";
+
+
+      $("scoreDetail").textContent =
+        `${warnings} warning(s) remain. Review them before handover.`;
+
+    }else{
+
+      $("score").style.color =
+        "#9dffe5";
+
+
+      $("scoreDetail").textContent =
+        "All automated website QA checks passed.";
+
+    }
+
+  }
+
+
+  /* ======================================================
+     REPORT
+  ====================================================== */
+
+  function makeReport(){
+
+    return {
+
+      project:
+        "AKHI Engineering Workshop",
+
+      version:
+        "1.15",
+
+      startedAt:
+        state.startedAt,
+
+      finishedAt:
+        state.finishedAt,
+
+      currentUrl:
+        location.href,
+
+      viewport:{
+
+        width:
+          window.innerWidth,
+
+        height:
+          window.innerHeight
+
+      },
+
+      browser:{
+
+        userAgent:
+          navigator.userAgent,
+
+        language:
+          navigator.language,
+
+        online:
+          navigator.onLine
+
+      },
+
+      summary:
+        state.summary,
+
+      results:
+        state.results,
+
+      firebase:
+
+        "Intentionally deferred until final backend phase."
+
+    };
+
+  }
+
+
+  function renderReport(){
+
+    $("report").textContent =
+      JSON.stringify(
+        makeReport(),
+        null,
+        2
+      );
+
+  }
+
+
+  /* ======================================================
+     RUN
+  ====================================================== */
+
+  async function runQA(){
+
+    const button =
+      $("runBtn");
+
+
+    button.disabled =
+      true;
+
+
+    button.textContent =
+      "Running QA…";
+
+
+    state.startedAt =
+      new Date()
+        .toISOString();
+
+
+    state.finishedAt =
+      null;
+
+
+    state.results =
+      [];
+
+
+    clearBoxes();
+
+
+    $("score").textContent =
+      "…";
+
+
+    $("scoreDetail").textContent =
+      "Checking public site, admin pages, CMS and responsive readiness.";
+
+
+    try{
+
+      await runPublicQA();
+
+      await runAdminQA();
+
+      runCMSQA();
+
+      await runResponsiveQA();
+
+
+      state.finishedAt =
+        new Date()
+          .toISOString();
+
+
+      updateSummary();
+
+      renderReport();
+
+
+      try{
+
+        if(
+          typeof AKIAdmin.logActivity ===
+          "function"
+        ){
+
+          AKIAdmin.logActivity(
+            "Full website QA completed",
+            {
+              total:
+                state.summary.total,
+
+              passed:
+                state.summary.passed,
+
+              warnings:
+                state.summary.warnings,
+
+              failed:
+                state.summary.failed
+
+            }
+          );
+
+        }
+
+      }catch{}
+
+
+    }catch(error){
+
+      addResult(
+        "System",
+        "QA runner",
+        "fail",
+        error.message ||
+          "Unexpected QA error.",
+        "publicChecks"
+      );
+
+
+      state.finishedAt =
+        new Date()
+          .toISOString();
+
+
+      updateSummary();
+
+      renderReport();
+
+    }finally{
+
+      button.disabled =
+        false;
+
+      button.textContent =
+        "Run Full QA";
+
+    }
+
+  }
+
+
+  /* ======================================================
+     DOWNLOAD
+  ====================================================== */
+
+  function downloadReport(){
+
+    if(
+      !state.finishedAt
+    ){
+
+      alert(
+        "Run Full QA first."
+      );
+
+      return;
+
+    }
+
+
+    const blob =
+      new Blob(
+        [
+          JSON.stringify(
+            makeReport(),
+            null,
+            2
+          )
+        ],
+        {
+          type:
+            "application/json"
+        }
+      );
+
+
+    const url =
+      URL.createObjectURL(
+        blob
+      );
+
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+
+    const stamp =
+      new Date()
+        .toISOString()
+        .replace(
+          /[:.]/g,
+          "-"
+        );
+
+
+    link.href =
+      url;
+
+
+    link.download =
+      `AKHI-Website-QA-${stamp}.json`;
+
+
+    document.body.appendChild(
+      link
+    );
+
+
+    link.click();
+
+    link.remove();
+
+
+    URL.revokeObjectURL(
+      url
+    );
+
+  }
+
+
+  /* ======================================================
+     COPY
+  ====================================================== */
+
+  async function copyReport(){
+
+    const text =
+      $("report")
+        .textContent;
+
+
+    if(
+      !state.finishedAt
+    ){
+
+      alert(
+        "Run Full QA first."
+      );
+
+      return;
+
+    }
+
+
+    try{
+
+      await navigator.clipboard.writeText(
+        text
+      );
+
+
+      alert(
+        "QA report copied."
+      );
+
+    }catch{
+
+      alert(
+        "Clipboard access was blocked."
+      );
+
+    }
+
+  }
+
+
+  /* ======================================================
+     EVENTS
+  ====================================================== */
+
+  $("runBtn")
+    .addEventListener(
+      "click",
+      runQA
+    );
+
+
+  $("downloadBtn")
+    .addEventListener(
+      "click",
+      downloadReport
+    );
+
+
+  $("copyBtn")
+    .addEventListener(
+      "click",
+      copyReport
+    );
+
+
+  /* ======================================================
+     INITIAL
+  ====================================================== */
+
+  $("score").textContent =
+    "READY";
+
+
+  $("scoreDetail").textContent =
+    "Run Full QA to generate the production readiness score.";
+
+})();
+
+</script>
+
+</body>
+
+</html>
