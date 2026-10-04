@@ -2,69 +2,97 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0b0e0f">
-<meta name="description" content="AKHI Engineering Workshop — precision engineering, fabrication and workshop solutions.">
-<title>AKHI Engineering Workshop</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4efe7">
+<meta name="description" content="AKHI — elevated furniture for beautiful everyday living. Premium furniture, timeless forms, and considered details.">
+<title>AKHI — Furniture for Beautiful Living</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<div class="site-noise" aria-hidden="true"></div>
-<div class="topbar"><span>AKHI ENGINEERING WORKSHOP</span><span id="clock">LOCAL • WORKSHOP</span></div>
-<header class="nav-wrap">
-  <a class="brand" href="#top" aria-label="AKHI Engineering Workshop home"><span class="brand-mark">A</span><span><b>AKHI</b><em>ENGINEERING WORKSHOP</em></span></a>
-  <nav class="nav" aria-label="Primary navigation">
-    <a href="#work">Work</a><a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
+<div class="progress" id="progress"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="announcement"><span>Complimentary delivery on selected pieces</span><span>AKHI Furniture • Moulvibazar</span></div>
+
+<header class="site-header" id="header">
+  <a class="brand" href="#top" aria-label="AKHI home"><span class="brand-word">AKHI</span><span class="brand-sub">FURNITURE / LIVING</span></a>
+  <nav class="desktop-nav">
+    <a href="#collections">Collections</a>
+    <a href="#new">New in</a>
+    <a href="#story">Our story</a>
+    <a href="#showroom">Showroom</a>
   </nav>
-  <a class="nav-cta" href="./admin/login/">Admin</a>
+  <div class="header-actions">
+    <button class="icon-btn" data-open-search aria-label="Search">⌕</button>
+    <button class="icon-btn" data-open-menu aria-label="Open menu">☰</button>
+    <button class="cart-btn" data-open-cart><span>Bag</span><b id="cartCount">0</b></button>
+  </div>
 </header>
+
 <main id="top">
-<section class="hero section">
-  <div class="hero-copy reveal">
-    <div class="eyebrow"><span class="dot"></span> Precision • Fabrication • Engineering</div>
-    <h1 data-cms="heroTitle">Built for <span>hard work.</span><br>Finished with precision.</h1>
-    <p data-cms="heroDescription">AKHI Engineering Workshop delivers practical engineering, fabrication and workshop solutions with a focus on dependable execution, clean finishing and long-term use.</p>
-    <div class="hero-actions"><a class="btn primary" href="#contact">Start a Project <span>↗</span></a><a class="btn ghost" href="#work">View Selected Work</a></div>
-    <div class="hero-meta"><div><b>01</b><span>Engineering</span></div><div><b>02</b><span>Fabrication</span></div><div><b>03</b><span>Workshop</span></div></div>
-  </div>
-  <div class="hero-visual reveal"><div class="machine-card"><div class="machine-grid"></div><div class="ring r1"></div><div class="ring r2"></div><div class="machine-center">AKHI</div><span class="label l1">PRECISION</span><span class="label l2">WORKSHOP</span><span class="label l3">24/7 READY</span></div></div>
-</section>
-<section class="ticker" aria-label="Capabilities"><div>ENGINEERING <i>•</i> FABRICATION <i>•</i> MACHINE WORK <i>•</i> CUSTOM BUILD <i>•</i> REPAIR <i>•</i> MAINTENANCE <i>•</i> ENGINEERING <i>•</i> FABRICATION</div></section>
-<section id="work" class="section work-section">
-  <div class="section-head reveal"><div><span class="kicker">01 / SELECTED WORK</span><h2>Work that is made<br>to <span>perform.</span></h2></div><p>From custom fabrication to practical workshop builds, every job is approached around function first and finish second.</p></div>
-  <div class="work-grid" id="projectGrid">
-    <article class="work-card tall"><div class="work-art art-1"><span class="art-code">AKH / 001</span><span class="art-title">Custom Engineering</span></div><div class="work-info"><span>01</span><div><h3>Custom Engineering Build</h3><p>Built-to-purpose engineering and fabrication solutions.</p></div></div></article>
-    <article class="work-card"><div class="work-art art-2"><span class="art-code">AKH / 002</span><span class="art-title">Fabrication</span></div><div class="work-info"><span>02</span><div><h3>Workshop Fabrication</h3><p>Structural, metal and custom fabrication work.</p></div></div></article>
-    <article class="work-card"><div class="work-art art-3"><span class="art-code">AKH / 003</span><span class="art-title">Repair & Maintenance</span></div><div class="work-info"><span>03</span><div><h3>Repair & Maintenance</h3><p>Dependable service for machines, tools and workshop systems.</p></div></div></article>
-  </div>
-</section>
-<section id="services" class="section services-section">
-  <div class="section-head reveal"><div><span class="kicker">02 / SERVICES</span><h2>Practical capability.<br><span>Professional execution.</span></h2></div></div>
-  <div class="service-list">
-    <article class="service reveal"><span>01</span><div><h3>Custom Fabrication</h3><p>Made-to-measure metal and engineering work for specific site and workshop needs.</p></div><b>↗</b></article>
-    <article class="service reveal"><span>02</span><div><h3>Machine & Workshop Work</h3><p>Hands-on workshop support, modifications, repairs and precision adjustments.</p></div><b>↗</b></article>
-    <article class="service reveal"><span>03</span><div><h3>Repair & Maintenance</h3><p>Focused troubleshooting and maintenance to keep useful equipment working.</p></div><b>↗</b></article>
-    <article class="service reveal"><span>04</span><div><h3>Custom Engineering Solutions</h3><p>Engineering thinking applied to real-world problems, constraints and production requirements.</p></div><b>↗</b></article>
-  </div>
-</section>
-<section id="about" class="section about-section">
- <div class="about-panel reveal"><span class="kicker">03 / ABOUT</span><h2>A workshop built around <span>trust.</span></h2><p>AKHI Engineering Workshop combines practical workshop experience with a modern, organized approach to engineering jobs. The goal is simple: understand the requirement, build it properly and leave the client with something that works.</p><div class="signature"><span class="signature-line"></span><span>AKHI WORKSHOP / ENGINEERING</span></div></div>
- <div class="about-stats reveal"><div><strong>01</strong><span>Purpose-built<br>solutions</span></div><div><strong>02</strong><span>Clean & reliable<br>execution</span></div><div><strong>03</strong><span>Workshop-first<br>thinking</span></div></div>
-</section>
-<section id="contact" class="section contact-section">
-  <div class="contact-copy reveal"><span class="kicker">04 / CONTACT</span><h2>Have a job?<br><span>Let's build it.</span></h2><p>Send the requirement, measurements, photos or a short description. The workshop team can review the job and discuss the practical next step.</p></div>
-  <div class="contact-card reveal"><div class="contact-row"><span>PROJECT ENQUIRIES</span><a href="mailto:akhiprojects@gmail.com">akhiprojects@gmail.com ↗</a></div><div class="contact-row"><span>ADMIN</span><a href="./admin/login/">Open Dashboard ↗</a></div><div class="contact-note">For urgent workshop work, use the direct contact details supplied by the business.</div></div>
-</section>
+  <section class="hero" aria-label="AKHI Furniture">
+    <div class="hero-media" data-parallax=".03">
+      <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=2000&q=88" alt="Warm contemporary living room with elegant furniture">
+      <div class="hero-overlay"></div>
+      <div class="hero-caption"><span>01 / 04</span><strong>Quiet luxury,<br>made for living.</strong></div>
+    </div>
+    <div class="hero-copy">
+      <div class="eyebrow">AKHI / COLLECTION 01</div>
+      <h1>Furniture that<br><em>feels like home.</em></h1>
+      <p>Timeless silhouettes, honest materials and thoughtful proportions for spaces that deserve to feel considered.</p>
+      <div class="hero-actions"><a class="btn dark" href="#new">Shop the collection <span>↗</span></a><a class="text-link" href="#story">Discover AKHI</a></div>
+      <div class="hero-note"><span></span><small>Designed for everyday living</small></div>
+    </div>
+  </section>
+
+  <section class="marquee" aria-hidden="true"><div>CRAFTED IN BANGLADESH <i>✦</i> DESIGNED FOR EVERYDAY LIVING <i>✦</i> TIMELESS MATERIALS <i>✦</i> CRAFTED IN BANGLADESH <i>✦</i> DESIGNED FOR EVERYDAY LIVING <i>✦</i></div></section>
+
+  <section class="section intro" id="collections">
+    <div class="section-head"><span class="eyebrow">02 / EDITED COLLECTIONS</span><h2>A softer way<br>to <em>live well.</em></h2><p>AKHI brings together warm woods, tactile fabrics and clean-lined forms to create furniture that feels calm, useful and deeply personal.</p></div>
+    <div class="collection-grid">
+      <a class="collection-card large" href="#new"><img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1400&q=86" alt="Elegant living room furniture"><div><small>01 / Living</small><strong>Living,<br>beautifully.</strong><span>Explore →</span></div></a>
+      <a class="collection-card" href="#new"><img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=86" alt="Bedroom with premium wooden furniture"><div><small>02 / Bedroom</small><strong>Rest in<br>good design.</strong><span>Explore →</span></div></a>
+      <a class="collection-card" href="#new"><img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=1200&q=86" alt="Dining interior with wooden table"><div><small>03 / Dining</small><strong>Gather<br>around.</strong><span>Explore →</span></div></a>
+    </div>
+  </section>
+
+  <section class="section product-section" id="new">
+    <div class="section-head compact"><div><span class="eyebrow">03 / NEW IN</span><h2>Pieces with<br><em>presence.</em></h2></div><a class="text-link" href="#showroom">View all pieces →</a></div>
+    <div class="product-grid" id="productGrid"></div>
+  </section>
+
+  <section class="story" id="story">
+    <div class="story-media"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1800&q=86" alt="Minimal premium sofa in a calm living space"></div>
+    <div class="story-copy"><span class="eyebrow">04 / THE AKHI WAY</span><h2>Less noise.<br><em>More feeling.</em></h2><p>We believe the best furniture does not compete for attention. It settles naturally into a room, gets better with use and gives everyday rituals a little more beauty.</p><div class="story-points"><div><b>01</b><span>Thoughtful proportions</span></div><div><b>02</b><span>Long-lasting materials</span></div><div><b>03</b><span>Made with care</span></div></div><a class="btn dark" href="#showroom">Visit AKHI showroom <span>↗</span></a></div>
+  </section>
+
+  <section class="section editorial">
+    <div class="editorial-grid">
+      <div class="editorial-copy"><span class="eyebrow">05 / MATERIALS</span><h2>Warm wood.<br><em>Soft light.</em><br>Human detail.</h2><p>From the grain of natural timber to the touch of a softly woven textile, every material is selected to age beautifully and live comfortably.</p><a class="text-link" href="#showroom">Explore materials →</a></div>
+      <div class="editorial-images"><figure><img src="https://images.unsplash.com/photo-1540574163026-643ea20ade25?auto=format&fit=crop&w=1000&q=86" alt="Texture and detail of premium furniture"></figure><figure><img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=1000&q=86" alt="Craft detail in wood furniture"></figure></div>
+    </div>
+  </section>
+
+  <section class="showroom" id="showroom">
+    <div class="showroom-inner"><span class="eyebrow">06 / SHOWROOM</span><h2>See it.<br><em>Feel it.</em><br>Bring it home.</h2><p>Visit the AKHI showroom to experience finishes, fabrics and proportions in person.</p><div class="showroom-meta"><span>Moulvibazar, Bangladesh</span><span>Open 10:00 — 20:00</span><a href="mailto:akhiprojects@gmail.com">akhiprojects@gmail.com</a></div><a class="btn light" href="mailto:akhiprojects@gmail.com?subject=AKHI%20Showroom%20Visit">Book a showroom visit <span>↗</span></a></div>
+  </section>
+
+  <section class="section quote"><div class="quote-mark">“</div><blockquote>Good furniture should make a room feel quieter, warmer and more like you.</blockquote><cite>— AKHI / FURNITURE & LIVING</cite></section>
 </main>
-<footer><span>© <span id="year"></span> AKHI Engineering Workshop</span><a href="#top">Back to top ↑</a></footer>
-<a class="developer-credit" href="https://shahneilkhan.github.io/" target="_blank" rel="noopener">Developer · SNK</a>
+
+<footer class="site-footer"><div><a class="brand footer-brand" href="#top"><span class="brand-word">AKHI</span><span class="brand-sub">FURNITURE / LIVING</span></a><p>Furniture for beautiful everyday living.</p></div><div class="footer-links"><div><small>Explore</small><a href="#collections">Collections</a><a href="#new">New in</a><a href="#story">Our story</a></div><div><small>Contact</small><a href="mailto:akhiprojects@gmail.com">Email us</a><a href="#showroom">Showroom</a><a href="./admin/login/">Admin</a></div></div><div class="footer-bottom"><span>© <span id="year"></span> AKHI Furniture</span><a href="https://shahneilkhan.github.io/" target="_blank" rel="noopener">Developer · SNK</a></div></footer>
+
+<aside class="drawer" id="cartDrawer" aria-hidden="true"><div class="drawer-backdrop" data-close-cart></div><div class="drawer-panel"><div class="drawer-head"><div><small>YOUR BAG</small><h3>Selected pieces</h3></div><button data-close-cart>×</button></div><div id="cartItems" class="cart-items"></div><div class="cart-foot"><div><span>Estimated total</span><strong id="cartTotal">৳0</strong></div><a href="mailto:akhiprojects@gmail.com?subject=AKHI%20Furniture%20Order" class="btn dark full">Start enquiry <span>↗</span></a><p>Final price, delivery and availability are confirmed by AKHI.</p></div></div></aside>
+<aside class="search-panel" id="searchPanel"><div class="search-inner"><button data-close-search>×</button><span class="eyebrow">SEARCH AKHI</span><input id="searchInput" placeholder="Search sofas, beds, dining…" autocomplete="off"><div id="searchResults"></div></div></aside>
+<aside class="mobile-menu" id="mobileMenu"><div class="mobile-inner"><button data-close-menu>×</button><span class="eyebrow">AKHI / MENU</span><a href="#collections">Collections</a><a href="#new">New in</a><a href="#story">Our story</a><a href="#showroom">Showroom</a><a href="mailto:akhiprojects@gmail.com">Contact</a><a class="btn dark" href="./admin/login/">Admin <span>↗</span></a></div></aside>
+
 <script src="./firebase-config.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-check-compat.js"></script>
 <script src="./firebase-init.js"></script>
 <script src="./script.js" defer></script>
 </body>
