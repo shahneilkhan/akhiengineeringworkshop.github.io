@@ -1,99 +1,163 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark" data-admin-guard="true">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Admin Dashboard — Akhi Engineering Workshop</title>
 
   <meta
     name="description"
-    content="AKI Engineering Workshop Administration Dashboard"
+    content="Akhi Engineering Workshop administration dashboard."
   >
 
-  <meta name="theme-color" content="#07090c">
-
-  <title>Dashboard | AKI Engineering Workshop</title>
+  <meta name="theme-color" content="#111111">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
   >
 
+  <!-- CENTRAL AUTH -->
+  <script src="./auth.js"></script>
+
   <style>
+    /* =========================================================
+       AKHI ENGINEERING WORKSHOP
+       ADMIN DASHBOARD — 1.2
+    ========================================================= */
+
     :root {
-      --bg: #07090c;
-      --bg-2: #0a0d11;
-      --panel: #0d1116;
-      --panel-2: #11161d;
+      --bg: #0b0c0d;
+      --bg-soft: #111315;
+      --panel: #151719;
+      --panel-2: #191c1f;
+
+      --text: #f5f5f2;
+      --text-soft: #a6abae;
+      --text-muted: #72787d;
 
       --border: rgba(255,255,255,.08);
-      --border-hover: rgba(200,255,61,.28);
+      --border-strong: rgba(255,255,255,.13);
 
-      --text: #f5f7fa;
-      --muted: #8d98a6;
-      --muted-2: #626d7a;
+      --accent: #d9a94a;
+      --accent-2: #f0c872;
+      --accent-soft: rgba(217,169,74,.12);
 
-      --accent: #c8ff3d;
-      --accent-soft: rgba(200,255,61,.08);
-      --accent-glow: rgba(200,255,61,.20);
+      --success: #62d39b;
+      --success-soft: rgba(98,211,155,.12);
 
-      --danger: #ff637b;
-      --blue: #75a8ff;
-      --orange: #ffb45e;
+      --danger: #ff6f72;
+      --danger-soft: rgba(255,111,114,.11);
 
-      --sidebar: 270px;
-      --topbar: 78px;
+      --warning: #f3c56d;
+      --warning-soft: rgba(243,197,109,.12);
 
-      --radius-xl: 25px;
-      --radius-lg: 19px;
-      --radius-md: 14px;
+      --shadow:
+        0 20px 60px rgba(0,0,0,.24);
+
+      --sidebar-width: 272px;
+      --topbar-height: 74px;
+
+      --radius-sm: 12px;
+      --radius-md: 18px;
+      --radius-lg: 24px;
+    }
+
+    html[data-theme="light"] {
+
+      --bg: #f2f2ef;
+      --bg-soft: #ecece8;
+      --panel: #ffffff;
+      --panel-2: #f8f8f5;
+
+      --text: #151618;
+      --text-soft: #62686c;
+      --text-muted: #8c9296;
+
+      --border: rgba(20,20,20,.08);
+      --border-strong: rgba(20,20,20,.13);
+
+      --accent: #ae7b1f;
+      --accent-2: #c99735;
+
+      --accent-soft: rgba(174,123,31,.10);
+
+      --success: #168b5b;
+      --success-soft: rgba(22,139,91,.10);
+
+      --danger: #c73e47;
+      --danger-soft: rgba(199,62,71,.10);
+
+      --warning: #b07816;
+      --warning-soft: rgba(176,120,22,.10);
+
+      --shadow:
+        0 18px 50px rgba(0,0,0,.08);
     }
 
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
     html {
       scroll-behavior: smooth;
-      background: var(--bg);
     }
 
     body {
       min-height: 100vh;
-      font-family: "Inter", sans-serif;
-      color: var(--text);
       background:
         radial-gradient(
-          circle at 80% 0%,
-          rgba(200,255,61,.055),
-          transparent 28%
-        ),
-        radial-gradient(
-          circle at 10% 100%,
-          rgba(117,168,255,.035),
-          transparent 25%
+          circle at 20% 0%,
+          rgba(217,169,74,.07),
+          transparent 30%
         ),
         var(--bg);
+
+      color: var(--text);
+
+      font-family:
+        "DM Sans",
+        Arial,
+        sans-serif;
+
       overflow-x: hidden;
     }
 
-    button,
-    input,
-    textarea {
-      font: inherit;
-    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
 
-    button {
-      cursor: pointer;
+      pointer-events: none;
+
+      background:
+        linear-gradient(
+          rgba(255,255,255,.015) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,.015) 1px,
+          transparent 1px
+        );
+
+      background-size: 50px 50px;
+      mask-image: linear-gradient(
+        to bottom,
+        rgba(0,0,0,.5),
+        transparent
+      );
+
+      z-index: -1;
     }
 
     a {
@@ -101,532 +165,3159 @@
       text-decoration: none;
     }
 
-    /* =========================================
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: #111;
+    }
+
+    /* =========================================================
+       APP
+    ========================================================= */
+
+    .app {
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* =========================================================
        SIDEBAR
-    ========================================= */
+    ========================================================= */
 
     .sidebar {
       position: fixed;
       inset: 0 auto 0 0;
-      width: var(--sidebar);
-      z-index: 100;
+
+      width: var(--sidebar-width);
+
+      padding: 20px 16px;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,.025),
+          rgba(255,255,255,.008)
+        ),
+        var(--panel);
+
+      border-right: 1px solid var(--border);
+
       display: flex;
       flex-direction: column;
-      padding: 23px 15px;
-      background: rgba(10,13,17,.94);
-      border-right: 1px solid var(--border);
-      backdrop-filter: blur(25px);
-      transition: transform .3s ease;
+
+      z-index: 100;
+      transition:
+        transform .3s ease,
+        width .3s ease;
     }
 
     .brand {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 3px 9px 25px;
-      border-bottom: 1px solid var(--border);
+
+      padding: 4px 8px 20px;
     }
 
-    .brand-logo {
-      width: 43px;
-      height: 43px;
-      flex: 0 0 43px;
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+
+      border-radius: 14px;
+
       display: grid;
       place-items: center;
-      border-radius: 13px;
-      background: var(--accent);
-      color: #070900;
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 14px;
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--accent-2),
+          var(--accent)
+        );
+
+      color: #16120a;
+
+      font-family:
+        "Manrope",
+        sans-serif;
+
       font-weight: 900;
-      letter-spacing: -1px;
-      box-shadow: 0 0 25px rgba(200,255,61,.12);
-    }
-
-    .brand-title {
-      font-family: "Space Grotesk", sans-serif;
-      font-weight: 800;
       font-size: 15px;
-      letter-spacing: -.5px;
+
+      box-shadow:
+        0 10px 30px rgba(217,169,74,.16);
     }
 
-    .brand-subtitle {
-      margin-top: 3px;
-      color: var(--muted-2);
-      font-size: 9px;
-      letter-spacing: 1.3px;
+    .brand-copy strong {
+      display: block;
+
+      font-family:
+        "Manrope",
+        sans-serif;
+
+      font-size: 14px;
+      line-height: 1.25;
+    }
+
+    .brand-copy span {
+      display: block;
+
+      color: var(--text-muted);
+
+      font-size: 11px;
+
+      margin-top: 2px;
+
       text-transform: uppercase;
+      letter-spacing: .13em;
     }
 
-    .nav-label {
-      padding: 25px 11px 9px;
-      color: #505b68;
-      font-size: 9px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
+    .side-label {
+      padding: 13px 10px 8px;
+
+      color: var(--text-muted);
+
+      font-size: 10px;
+      font-weight: 700;
+
+      letter-spacing: .14em;
       text-transform: uppercase;
     }
 
     .nav {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+      display: grid;
+      gap: 5px;
     }
 
-    .nav-link {
-      min-height: 45px;
+    .nav a {
       display: flex;
       align-items: center;
       gap: 12px;
+
+      min-height: 44px;
+
       padding: 0 12px;
-      border: 1px solid transparent;
+
+      color: var(--text-soft);
+
       border-radius: 12px;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 600;
-      transition: .2s ease;
+
+      transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
     }
 
-    .nav-link svg {
-      width: 18px;
-      height: 18px;
-      flex: 0 0 18px;
-    }
-
-    .nav-link:hover {
-      color: var(--text);
-      background: rgba(255,255,255,.035);
-      border-color: var(--border);
-    }
-
-    .nav-link.active {
-      color: var(--accent);
+    .nav a:hover {
       background: var(--accent-soft);
-      border-color: rgba(200,255,61,.13);
+      color: var(--text);
+      transform: translateX(2px);
     }
 
-    .nav-link .nav-badge {
-      margin-left: auto;
+    .nav a.active {
+      background:
+        linear-gradient(
+          90deg,
+          var(--accent-soft),
+          transparent
+        );
+
+      color: var(--accent-2);
+
+      box-shadow:
+        inset 3px 0 0 var(--accent);
+    }
+
+    .nav-icon {
+      width: 20px;
+      text-align: center;
+      font-size: 16px;
+      opacity: .95;
+    }
+
+    .nav-text {
+      font-size: 13px;
+      font-weight: 600;
+      flex: 1;
+    }
+
+    .nav-badge {
       min-width: 20px;
       height: 20px;
+
       padding: 0 6px;
-      display: grid;
-      place-items: center;
+
       border-radius: 999px;
-      background: rgba(255,255,255,.06);
-      color: var(--muted);
-      font-size: 9px;
+
+      display: inline-grid;
+      place-items: center;
+
+      font-size: 10px;
+      font-weight: 700;
+
+      background: var(--accent-soft);
+      color: var(--accent-2);
     }
 
-    .nav-link.active .nav-badge {
-      background: rgba(200,255,61,.12);
-      color: var(--accent);
-    }
-
-    .sidebar-bottom {
+    .sidebar-footer {
       margin-top: auto;
-      padding-top: 15px;
-      border-top: 1px solid var(--border);
+
+      padding: 14px 8px 4px;
     }
 
-    .ai-mini-card {
-      padding: 15px;
-      border: 1px solid rgba(200,255,61,.12);
-      border-radius: 16px;
-      background:
-        radial-gradient(
-          circle at 90% 10%,
-          rgba(200,255,61,.09),
-          transparent 40%
-        ),
-        rgba(255,255,255,.02);
-    }
-
-    .ai-mini-head {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      margin-bottom: 10px;
-    }
-
-    .ai-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 12px var(--accent);
-    }
-
-    .ai-mini-head strong {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 12px;
-    }
-
-    .ai-mini-card p {
-      color: var(--muted-2);
-      font-size: 10px;
-      line-height: 1.55;
-      margin-bottom: 11px;
-    }
-
-    .ai-mini-card a {
-      display: block;
-      padding: 9px;
-      border-radius: 9px;
-      background: var(--accent);
-      color: #070900;
-      text-align: center;
-      font-size: 10px;
-      font-weight: 800;
-    }
-
-    .logout {
-      width: 100%;
-      height: 40px;
-      margin-top: 10px;
+    .mini-profile {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 0 11px;
-      border: 1px solid transparent;
-      border-radius: 11px;
-      background: transparent;
-      color: var(--muted-2);
-      text-align: left;
-      font-size: 11px;
-      font-weight: 600;
+
+      padding: 12px;
+
+      border-radius: 16px;
+
+      background: var(--panel-2);
+      border: 1px solid var(--border);
     }
 
-    .logout:hover {
-      color: var(--danger);
-      background: rgba(255,99,123,.05);
-      border-color: rgba(255,99,123,.10);
+    .avatar {
+      width: 38px;
+      height: 38px;
+
+      border-radius: 50%;
+
+      display: grid;
+      place-items: center;
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--accent-2),
+          var(--accent)
+        );
+
+      color: #16120a;
+
+      font-weight: 800;
+      font-size: 13px;
     }
 
-    /* =========================================
+    .profile-copy {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .profile-copy strong {
+      display: block;
+
+      font-size: 12px;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .profile-copy span {
+      display: block;
+
+      margin-top: 2px;
+
+      color: var(--text-muted);
+
+      font-size: 10px;
+
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+
+    /* =========================================================
        MAIN
-    ========================================= */
+    ========================================================= */
 
     .main {
+      min-width: 0;
+      flex: 1;
+
+      margin-left: var(--sidebar-width);
+
       min-height: 100vh;
-      margin-left: var(--sidebar);
     }
 
     .topbar {
       position: sticky;
       top: 0;
-      z-index: 50;
-      height: var(--topbar);
+
+      height: var(--topbar-height);
+
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
-      padding: 0 30px;
-      background: rgba(7,9,12,.78);
+
+      padding: 0 28px;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--bg) 82%,
+          transparent
+        );
+
+      backdrop-filter:
+        blur(18px);
+
       border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(20px);
+
+      z-index: 80;
     }
 
     .topbar-left {
       display: flex;
       align-items: center;
-      gap: 13px;
+      gap: 14px;
     }
 
     .mobile-menu {
       display: none;
-      width: 38px;
-      height: 38px;
+
+      width: 42px;
+      height: 42px;
+
       border: 1px solid var(--border);
-      border-radius: 10px;
-      background: rgba(255,255,255,.025);
+
+      border-radius: 12px;
+
+      background: var(--panel);
+
       color: var(--text);
     }
 
-    .page-label {
-      color: var(--muted-2);
+    .page-title h1 {
+      font-family:
+        "Manrope",
+        sans-serif;
+
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .page-title p {
+      margin-top: 2px;
+
+      color: var(--text-muted);
+
       font-size: 11px;
-    }
-
-    .page-label strong {
-      color: var(--text);
     }
 
     .topbar-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .status {
-      height: 36px;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 0 11px;
-      border: 1px solid rgba(200,255,61,.12);
-      border-radius: 999px;
-      background: rgba(200,255,61,.045);
-      color: var(--accent);
-      font-size: 9px;
-      font-weight: 800;
-    }
+    .icon-btn {
+      width: 42px;
+      height: 42px;
 
-    .status span {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 9px var(--accent);
-    }
+      border-radius: 12px;
 
-    .icon-button {
-      width: 36px;
-      height: 36px;
-      display: grid;
-      place-items: center;
       border: 1px solid var(--border);
-      border-radius: 10px;
-      background: rgba(255,255,255,.025);
-      color: var(--muted);
-    }
 
-    .icon-button:hover {
-      color: var(--accent);
-      border-color: var(--border-hover);
-    }
+      background: var(--panel);
 
-    .profile {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      padding-left: 5px;
-    }
+      color: var(--text-soft);
 
-    .avatar {
-      width: 36px;
-      height: 36px;
       display: grid;
       place-items: center;
-      border-radius: 11px;
-      background: linear-gradient(
-        135deg,
-        var(--accent),
-        #7ea91e
-      );
-      color: #080b03;
-      font-size: 11px;
-      font-weight: 900;
+
+      transition:
+        border-color .2s ease,
+        color .2s ease,
+        transform .2s ease;
     }
 
-    .profile-info strong {
-      display: block;
-      font-size: 10px;
+    .icon-btn:hover {
+      color: var(--text);
+      border-color: var(--border-strong);
+      transform: translateY(-1px);
     }
 
-    .profile-info span {
-      display: block;
-      margin-top: 2px;
-      color: var(--accent);
-      font-size: 8px;
+    .logout-btn {
+      height: 42px;
+
+      padding: 0 14px;
+
+      border-radius: 12px;
+
+      border: 1px solid
+        rgba(255,111,114,.18);
+
+      background:
+        var(--danger-soft);
+
+      color: var(--danger);
+
       font-weight: 700;
+      font-size: 12px;
     }
 
-    /* =========================================
+    /* =========================================================
        CONTENT
-    ========================================= */
+    ========================================================= */
 
     .content {
-      max-width: 1500px;
+      padding: 30px;
+      max-width: 1680px;
       margin: 0 auto;
-      padding: 32px 30px 50px;
     }
 
-    .welcome {
+    /* =========================================================
+       HERO
+    ========================================================= */
+
+    .dashboard-hero {
+      position: relative;
+
+      padding: 26px;
+
+      border-radius: var(--radius-lg);
+
+      background:
+        radial-gradient(
+          circle at 85% 20%,
+          rgba(217,169,74,.15),
+          transparent 28%
+        ),
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.025),
+          transparent
+        ),
+        var(--panel);
+
+      border: 1px solid var(--border);
+
+      box-shadow: var(--shadow);
+
+      overflow: hidden;
+
+      margin-bottom: 22px;
+    }
+
+    .dashboard-hero::after {
+      content: "";
+
+      position: absolute;
+
+      width: 250px;
+      height: 250px;
+
+      right: -90px;
+      bottom: -120px;
+
+      border-radius: 50%;
+
+      border: 1px solid
+        rgba(217,169,74,.14);
+    }
+
+    .hero-main {
+      position: relative;
+      z-index: 2;
+
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
-      gap: 25px;
-      margin-bottom: 27px;
+
+      gap: 24px;
+    }
+
+    .hero-copy {
+      max-width: 760px;
     }
 
     .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 7px;
+
       margin-bottom: 10px;
-      color: var(--accent);
-      font-size: 9px;
+
+      color: var(--accent-2);
+
+      font-size: 10px;
       font-weight: 800;
-      letter-spacing: 1.5px;
+
+      letter-spacing: .15em;
       text-transform: uppercase;
     }
 
     .eyebrow::before {
       content: "";
-      width: 16px;
-      height: 1px;
-      background: var(--accent);
+
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background: var(--success);
+
+      box-shadow:
+        0 0 0 5px
+        var(--success-soft);
     }
 
-    .welcome h1 {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: clamp(30px, 4vw, 48px);
-      line-height: 1;
-      letter-spacing: -2px;
+    .hero-copy h2 {
+      font-family:
+        "Manrope",
+        sans-serif;
+
+      font-size:
+        clamp(28px, 3vw, 48px);
+
+      line-height: 1.02;
+      letter-spacing: -.04em;
     }
 
-    .welcome h1 span {
-      color: var(--accent);
-    }
-
-    .welcome p {
-      max-width: 580px;
+    .hero-copy p {
       margin-top: 12px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.7;
+
+      max-width: 650px;
+
+      color: var(--text-soft);
+
+      font-size: 13px;
+      line-height: 1.75;
     }
 
-    .date-box {
-      flex: 0 0 auto;
-      min-width: 155px;
-      padding: 13px 15px;
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .btn {
+      min-height: 42px;
+
+      padding: 0 15px;
+
+      border-radius: 12px;
+
       border: 1px solid var(--border);
-      border-radius: 13px;
-      background: rgba(255,255,255,.02);
-    }
 
-    .date-box span {
-      display: block;
-      color: var(--muted-2);
-      font-size: 9px;
-      margin-bottom: 5px;
-    }
+      background: var(--panel-2);
 
-    .date-box strong {
+      color: var(--text);
+
       font-size: 12px;
+      font-weight: 700;
+
+      transition:
+        transform .2s ease,
+        border-color .2s ease,
+        background .2s ease;
     }
 
-    /* =========================================
-       STATISTICS
-    ========================================= */
+    .btn:hover {
+      transform: translateY(-1px);
 
-    .stats-grid {
+      border-color:
+        var(--border-strong);
+    }
+
+    .btn.primary {
+      color: #18130a;
+
+      border-color:
+        transparent;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--accent-2),
+          var(--accent)
+        );
+
+      box-shadow:
+        0 10px 24px
+        rgba(217,169,74,.14);
+    }
+
+    /* =========================================================
+       STAT GRID
+    ========================================================= */
+
+    .stat-grid {
       display: grid;
+
       grid-template-columns:
-        repeat(4, minmax(0,1fr));
-      gap: 13px;
-      margin-bottom: 24px;
+        repeat(4, minmax(0, 1fr));
+
+      gap: 14px;
+
+      margin-bottom: 22px;
     }
 
     .stat-card {
       position: relative;
-      overflow: hidden;
-      padding: 20px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: rgba(255,255,255,.025);
-      transition: .25s ease;
-    }
 
-    .stat-card::after {
-      content: "";
-      position: absolute;
-      width: 100px;
-      height: 100px;
-      right: -45px;
-      top: -45px;
-      border-radius: 50%;
-      background: var(--accent);
-      opacity: .035;
-      filter: blur(15px);
+      padding: 18px;
+
+      background: var(--panel);
+
+      border: 1px solid var(--border);
+
+      border-radius: 18px;
+
+      overflow: hidden;
+
+      transition:
+        transform .25s ease,
+        border-color .25s ease;
     }
 
     .stat-card:hover {
-      transform: translateY(-3px);
-      border-color: var(--border-hover);
+      transform: translateY(-2px);
+
+      border-color:
+        var(--border-strong);
     }
 
     .stat-top {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
-      margin-bottom: 18px;
+
+      gap: 12px;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+
+      font-size: 10px;
+      font-weight: 700;
+
+      letter-spacing: .1em;
+      text-transform: uppercase;
     }
 
     .stat-icon {
-      width: 37px;
-      height: 37px;
+      width: 36px;
+      height: 36px;
+
+      border-radius: 11px;
+
       display: grid;
       place-items: center;
-      border-radius: 11px;
-      background: rgba(200,255,61,.07);
-      color: var(--accent);
+
+      background: var(--accent-soft);
+
+      color: var(--accent-2);
+
+      font-size: 15px;
     }
 
-    .stat-icon.blue {
-      background: rgba(117,168,255,.08);
-      color: var(--blue);
+    .stat-value {
+      margin-top: 14px;
+
+      font-family:
+        "Manrope",
+        sans-serif;
+
+      font-size: 31px;
+      line-height: 1;
+
+      letter-spacing: -.04em;
     }
 
-    .stat-icon.orange {
-      background: rgba(255,180,94,.08);
-      color: var(--orange);
-    }
+    .stat-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
 
-    .stat-icon.red {
-      background: rgba(255,99,123,.08);
-      color: var(--danger);
-    }
+      margin-top: 10px;
 
-    .stat-change {
-      color: var(--accent);
-      font-size: 9px;
-      font-weight: 700;
-    }
+      color: var(--text-muted);
 
-    .stat-card h3 {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 28px;
-      letter-spacing: -1px;
-    }
-
-    .stat-card p {
-      margin-top: 5px;
-      color: var(--muted-2);
       font-size: 10px;
     }
 
-    /* =========================================
-       MAIN GRID
-    ========================================= */
+    .status-dot {
+      width: 6px;
+      height: 6px;
+
+      border-radius: 50%;
+
+      background: var(--success);
+    }
+
+    .status-dot.warning {
+      background: var(--warning);
+    }
+
+    .status-dot.danger {
+      background: var(--danger);
+    }
+
+    /* =========================================================
+       TWO COLUMN
+    ========================================================= */
 
     .dashboard-grid {
       display: grid;
-      grid-template-columns: 1.35fr .65fr;
-      gap: 15px;
-      margin-bottom: 15px;
+
+      grid-template-columns:
+        minmax(0, 1.35fr)
+        minmax(320px, .65fr);
+
+      gap: 18px;
     }
 
     .panel {
+      background: var(--panel);
+
       border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      background: rgba(255,255,255,.022);
-      overflow: hidden;
+
+      border-radius: var(--radius-md);
+
+      box-shadow:
+        0 10px 35px rgba(0,0,0,.08);
     }
 
     .panel-head {
-      min-height: 65px;
+      min-height: 62px;
+
+      padding: 0 18px;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 15px;
-      padding: 0 20px;
+
+      gap: 12px;
+
       border-bottom: 1px solid var(--border);
     }
 
     .panel-title {
-      font-family: "Space Grotesk", sans-serif;
+      font-family:
+        "Manrope",
+        sans-serif;
+
+      font-weight: 800;
       font-size: 14px;
-     
+    }
+
+    .panel-sub {
+      margin-top: 2px;
+
+      color: var(--text-muted);
+
+      font-size: 10px;
+    }
+
+    .panel-link {
+      color: var(--accent-2);
+
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .panel-body {
+      padding: 18px;
+    }
+
+    /* =========================================================
+       QUICK ACTIONS
+    ========================================================= */
+
+    .quick-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      gap: 10px;
+    }
+
+    .quick-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      padding: 13px;
+
+      border-radius: 14px;
+
+      background: var(--panel-2);
+
+      border: 1px solid var(--border);
+
+      transition:
+        border-color .2s ease,
+        transform .2s ease,
+        background .2s ease;
+    }
+
+    .quick-card:hover {
+      transform: translateY(-1px);
+
+      border-color:
+        rgba(217,169,74,.25);
+
+      background:
+        var(--accent-soft);
+    }
+
+    .quick-icon {
+      flex: 0 0 auto;
+
+      width: 38px;
+      height: 38px;
+
+      border-radius: 12px;
+
+      display: grid;
+      place-items: center;
+
+      background: var(--accent-soft);
+
+      color: var(--accent-2);
+
+      font-size: 15px;
+    }
+
+    .quick-card strong {
+      display: block;
+
+      font-size: 12px;
+    }
+
+    .quick-card span {
+      display: block;
+
+      margin-top: 3px;
+
+      color: var(--text-muted);
+
+      font-size: 10px;
+    }
+
+    /* =========================================================
+       ACTIVITY
+    ========================================================= */
+
+    .activity-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .activity-item {
+      display: grid;
+
+      grid-template-columns:
+        32px
+        minmax(0,1fr)
+        auto;
+
+      align-items: center;
+
+      gap: 10px;
+
+      padding: 9px;
+
+      border-radius: 12px;
+
+      background: var(--panel-2);
+
+      border: 1px solid transparent;
+    }
+
+    .activity-icon {
+      width: 32px;
+      height: 32px;
+
+      border-radius: 10px;
+
+      display: grid;
+      place-items: center;
+
+      color: var(--accent-2);
+
+      background: var(--accent-soft);
+
+      font-size: 12px;
+    }
+
+    .activity-copy {
+      min-width: 0;
+    }
+
+    .activity-copy strong {
+      display: block;
+
+      font-size: 11px;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .activity-copy span {
+      display: block;
+
+      margin-top: 2px;
+
+      color: var(--text-muted);
+
+      font-size: 9px;
+    }
+
+    .activity-time {
+      color: var(--text-muted);
+
+      font-size: 9px;
+
+      white-space: nowrap;
+    }
+
+    .empty {
+      padding: 28px 10px;
+
+      text-align: center;
+
+      color: var(--text-muted);
+
+      font-size: 11px;
+    }
+
+    /* =========================================================
+       SYSTEM STATUS
+    ========================================================= */
+
+    .status-list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 11px 12px;
+
+      border-radius: 12px;
+
+      background: var(--panel-2);
+
+      border: 1px solid var(--border);
+    }
+
+    .status-left {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .status-name {
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .status-value {
+      color: var(--text-muted);
+
+      font-size: 10px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+
+      min-height: 23px;
+
+      padding: 0 8px;
+
+      border-radius: 999px;
+
+      background: var(--success-soft);
+
+      color: var(--success);
+
+      font-size: 9px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .status-pill.warning {
+      color: var(--warning);
+      background: var(--warning-soft);
+    }
+
+    /* =========================================================
+       FOOTER PANEL
+    ========================================================= */
+
+    .footer-info {
+      margin-top: 18px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 16px;
+
+      padding: 16px 18px;
+
+      border-radius: 16px;
+
+      border: 1px solid var(--border);
+
+      background: var(--panel);
+    }
+
+    .footer-info strong {
+      font-size: 11px;
+    }
+
+    .footer-info span {
+      color: var(--text-muted);
+      font-size: 10px;
+    }
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    .toast {
+      position: fixed;
+
+      left: 50%;
+      bottom: 24px;
+
+      transform:
+        translate(-50%, 30px);
+
+      opacity: 0;
+      visibility: hidden;
+
+      z-index: 999;
+
+      min-width: 250px;
+      max-width: calc(100vw - 30px);
+
+      padding: 13px 15px;
+
+      border-radius: 14px;
+
+      background: var(--panel-2);
+
+      border: 1px solid var(--border-strong);
+
+      box-shadow: var(--shadow);
+
+      transition:
+        opacity .25s ease,
+        transform .25s ease,
+        visibility .25s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      visibility: visible;
+
+      transform:
+        translate(-50%, 0);
+    }
+
+    .toast strong {
+      display: block;
+
+      font-size: 11px;
+    }
+
+    .toast span {
+      display: block;
+
+      margin-top: 3px;
+
+      color: var(--text-muted);
+
+      font-size: 10px;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 1180px) {
+
+      .stat-grid {
+        grid-template-columns:
+          repeat(2, minmax(0,1fr));
+      }
+
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 860px) {
+
+      .sidebar {
+        transform:
+          translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform:
+          translateX(0);
+      }
+
+      .sidebar-overlay {
+        position: fixed;
+        inset: 0;
+
+        background:
+          rgba(0,0,0,.45);
+
+        backdrop-filter:
+          blur(3px);
+
+        z-index: 90;
+
+        opacity: 0;
+        visibility: hidden;
+
+        transition:
+          opacity .25s ease,
+          visibility .25s ease;
+      }
+
+      .sidebar-overlay.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .mobile-menu {
+        display: grid;
+        place-items: center;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .hero-main {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 640px) {
+
+      .topbar {
+        padding: 0 15px;
+      }
+
+      .topbar-actions {
+        gap: 5px;
+      }
+
+      .logout-btn {
+        padding: 0 10px;
+      }
+
+      .page-title p {
+        display: none;
+      }
+
+      .content {
+        padding: 15px;
+      }
+
+      .dashboard-hero {
+        padding: 20px;
+      }
+
+      .stat-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-info {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SIDEBAR OVERLAY -->
+  <div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+  ></div>
+
+  <div class="app">
+
+    <!-- =======================================================
+         SIDEBAR
+    ======================================================== -->
+
+    <aside
+      class="sidebar"
+      id="sidebar"
+    >
+
+      <div class="brand">
+
+        <div class="brand-mark">
+          AKI
+        </div>
+
+        <div class="brand-copy">
+          <strong>Akhi Engineering</strong>
+          <span>Workshop Admin</span>
+        </div>
+
+      </div>
+
+      <div class="side-label">
+        Main
+      </div>
+
+      <nav class="nav">
+
+        <a
+          href="./dashboard.html"
+          class="active"
+        >
+          <span class="nav-icon">⌂</span>
+          <span class="nav-text">Dashboard</span>
+        </a>
+
+        <a href="./homepage.html">
+          <span class="nav-icon">▣</span>
+          <span class="nav-text">Homepage</span>
+        </a>
+
+        <a href="./banner.html">
+          <span class="nav-icon">▰</span>
+          <span class="nav-text">Banners</span>
+        </a>
+
+        <a href="./projects.html">
+          <span class="nav-icon">◫</span>
+          <span class="nav-text">Projects</span>
+        </a>
+
+        <a href="./akhi-ai/index.html">
+          <span class="nav-icon">✦</span>
+          <span class="nav-text">AKHI AI</span>
+          <span class="nav-badge">AI</span>
+        </a>
+
+      </nav>
+
+      <div class="side-label">
+        Management
+      </div>
+
+      <nav class="nav">
+
+        <a href="./media.html">
+          <span class="nav-icon">▧</span>
+          <span class="nav-text">Media</span>
+        </a>
+
+        <a href="./settings.html">
+          <span class="nav-icon">⚙</span>
+          <span class="nav-text">Site Settings</span>
+        </a>
+
+        <a
+          href="./admins.html"
+          id="adminManagementNav"
+        >
+          <span class="nav-icon">♙</span>
+          <span class="nav-text">Admin Management</span>
+        </a>
+
+        <a href="./activity.html">
+          <span class="nav-icon">◷</span>
+          <span class="nav-text">Activity Log</span>
+        </a>
+
+      </nav>
+
+      <div class="side-label">
+        System
+      </div>
+
+      <nav class="nav">
+
+        <a href="./backup.html">
+          <span class="nav-icon">⇩</span>
+          <span class="nav-text">Backup & Restore</span>
+        </a>
+
+        <a
+          href="../index.html"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="nav-icon">↗</span>
+          <span class="nav-text">View Website</span>
+        </a>
+
+      </nav>
+
+      <div class="sidebar-footer">
+
+        <div class="mini-profile">
+
+          <div
+            class="avatar"
+            id="sidebarAvatar"
+          >
+            A
+          </div>
+
+          <div class="profile-copy">
+
+            <strong id="sidebarName">
+              Admin
+            </strong>
+
+            <span id="sidebarRole">
+              Admin
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </aside>
+
+    <!-- =======================================================
+         MAIN
+    ======================================================== -->
+
+    <main class="main">
+
+      <!-- TOPBAR -->
+
+      <header class="topbar">
+
+        <div class="topbar-left">
+
+          <button
+            class="mobile-menu"
+            id="mobileMenu"
+            type="button"
+            aria-label="Open navigation"
+          >
+            ☰
+          </button>
+
+          <div class="page-title">
+
+            <h1>
+              Dashboard
+            </h1>
+
+            <p id="currentDate">
+              Administration overview
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="topbar-actions">
+
+          <button
+            class="icon-btn"
+            id="themeToggle"
+            type="button"
+            aria-label="Toggle theme"
+            title="Toggle theme"
+          >
+            ◐
+          </button>
+
+          <button
+            class="icon-btn"
+            id="refreshBtn"
+            type="button"
+            aria-label="Refresh dashboard"
+            title="Refresh dashboard"
+          >
+            ↻
+          </button>
+
+          <button
+            class="logout-btn"
+            type="button"
+            data-admin-logout
+          >
+            Logout
+          </button>
+
+        </div>
+
+      </header>
+
+      <!-- CONTENT -->
+
+      <section class="content">
+
+        <!-- HERO -->
+
+        <section class="dashboard-hero">
+
+          <div class="hero-main">
+
+            <div class="hero-copy">
+
+              <div class="eyebrow">
+                Admin Control Center
+              </div>
+
+              <h2 id="welcomeTitle">
+                Welcome back.
+              </h2>
+
+              <p>
+                Manage Akhi Engineering Workshop's
+                homepage, banners, projects, media,
+                AI tools and site settings from one
+                centralized control panel.
+              </p>
+
+            </div>
+
+            <div class="hero-actions">
+
+              <a
+                class="btn primary"
+                href="./homepage.html"
+              >
+                Edit Homepage
+              </a>
+
+              <a
+                class="btn"
+                href="../index.html"
+                target="_blank"
+                rel="noopener"
+              >
+                View Live Site
+              </a>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- STATS -->
+
+        <section class="stat-grid">
+
+          <!-- Projects -->
+
+          <article class="stat-card">
+
+            <div class="stat-top">
+
+              <div>
+                <div class="stat-label">
+                  Projects
+                </div>
+
+                <div
+                  class="stat-value"
+                  id="projectCount"
+                >
+                  0
+                </div>
+
+                <div class="stat-meta">
+                  <span class="status-dot"></span>
+                  Managed projects
+                </div>
+              </div>
+
+              <div class="stat-icon">
+                ◫
+              </div>
+
+            </div>
+
+          </article>
+
+          <!-- Banners -->
+
+          <article class="stat-card">
+
+            <div class="stat-top">
+
+              <div>
+
+                <div class="stat-label">
+                  Banners
+                </div>
+
+                <div
+                  class="stat-value"
+                  id="bannerCount"
+                >
+                  0
+                </div>
+
+                <div class="stat-meta">
+                  <span class="status-dot"></span>
+                  Published / stored
+                </div>
+
+              </div>
+
+              <div class="stat-icon">
+                ▰
+              </div>
+
+            </div>
+
+          </article>
+
+          <!-- Media -->
+
+          <article class="stat-card">
+
+            <div class="stat-top">
+
+              <div>
+
+                <div class="stat-label">
+                  Media
+                </div>
+
+                <div
+                  class="stat-value"
+                  id="mediaCount"
+                >
+                  0
+                </div>
+
+                <div class="stat-meta">
+                  <span class="status-dot"></span>
+                  Local media records
+                </div>
+
+              </div>
+
+              <div class="stat-icon">
+                ▧
+              </div>
+
+            </div>
+
+          </article>
+
+          <!-- Activity -->
+
+          <article class="stat-card">
+
+            <div class="stat-top">
+
+              <div>
+
+                <div class="stat-label">
+                  Activity
+                </div>
+
+                <div
+                  class="stat-value"
+                  id="activityCount"
+                >
+                  0
+                </div>
+
+                <div class="stat-meta">
+                  <span class="status-dot"></span>
+                  Audit records
+                </div>
+
+              </div>
+
+              <div class="stat-icon">
+                ◷
+              </div>
+
+            </div>
+
+          </article>
+
+        </section>
+
+        <!-- DASHBOARD GRID -->
+
+        <section class="dashboard-grid">
+
+          <!-- LEFT -->
+
+          <div>
+
+            <!-- QUICK ACTIONS -->
+
+            <section class="panel">
+
+              <div class="panel-head">
+
+                <div>
+                  <div class="panel-title">
+                    Quick Actions
+                  </div>
+
+                  <div class="panel-sub">
+                    Frequently used controls
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="panel-body">
+
+                <div class="quick-grid">
+
+                  <a
+                    class="quick-card"
+                    href="./homepage.html"
+                  >
+                    <div class="quick-icon">
+                      ▣
+                    </div>
+
+                    <div>
+                      <strong>
+                        Homepage
+                      </strong>
+
+                      <span>
+                        Edit website content
+                      </span>
+                    </div>
+                  </a>
+
+                  <a
+                    class="quick-card"
+                    href="./banner.html"
+                  >
+                    <div class="quick-icon">
+                      ▰
+                    </div>
+
+                    <div>
+                      <strong>
+                        Banner Manager
+                      </strong>
+
+                      <span>
+                        Add or edit banners
+                      </span>
+                    </div>
+                  </a>
+
+                  <a
+                    class="quick-card"
+                    href="./projects.html"
+                  >
+                    <div class="quick-icon">
+                      ◫
+                    </div>
+
+                    <div>
+                      <strong>
+                        Projects
+                      </strong>
+
+                      <span>
+                        Manage workshop work
+                      </span>
+                    </div>
+                  </a>
+
+                  <a
+                    class="quick-card"
+                    href="./akhi-ai/index.html"
+                  >
+                    <div class="quick-icon">
+                      ✦
+                    </div>
+
+                    <div>
+                      <strong>
+                        AKHI AI
+                      </strong>
+
+                      <span>
+                        Generate content faster
+                      </span>
+                    </div>
+                  </a>
+
+                  <a
+                    class="quick-card"
+                    href="./media.html"
+                  >
+                    <div class="quick-icon">
+                      ▧
+                    </div>
+
+                    <div>
+                      <strong>
+                        Media
+                      </strong>
+
+                      <span>
+                        Manage images and files
+                      </span>
+                    </div>
+                  </a>
+
+                  <a
+                    class="quick-card"
+                    href="./settings.html"
+                  >
+                    <div class="quick-icon">
+                      ⚙
+                    </div>
+
+                    <div>
+                      <strong>
+                        Site Settings
+                      </strong>
+
+                      <span>
+                        Business and SEO settings
+                      </span>
+                    </div>
+                  </a>
+
+                </div>
+
+              </div>
+
+            </section>
+
+            <!-- ACTIVITY -->
+
+            <section
+              class="panel"
+              style="margin-top:18px;"
+            >
+
+              <div class="panel-head">
+
+                <div>
+                  <div class="panel-title">
+                    Recent Activity
+                  </div>
+
+                  <div class="panel-sub">
+                    Latest admin actions
+                  </div>
+                </div>
+
+                <a
+                  href="./activity.html"
+                  class="panel-link"
+                >
+                  View all
+                </a>
+
+              </div>
+
+              <div class="panel-body">
+
+                <div
+                  class="activity-list"
+                  id="activityList"
+                >
+                  <div class="empty">
+                    Loading activity…
+                  </div>
+                </div>
+
+              </div>
+
+            </section>
+
+          </div>
+
+          <!-- RIGHT -->
+
+          <div>
+
+            <!-- CURRENT ADMIN -->
+
+            <section class="panel">
+
+              <div class="panel-head">
+
+                <div>
+                  <div class="panel-title">
+                    Current Account
+                  </div>
+
+                  <div class="panel-sub">
+                    Active administrator
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="panel-body">
+
+                <div
+                  class="mini-profile"
+                  style="padding:15px;"
+                >
+
+                  <div
+                    class="avatar"
+                    id="accountAvatar"
+                    style="
+                      width:46px;
+                      height:46px;
+                    "
+                  >
+                    A
+                  </div>
+
+                  <div class="profile-copy">
+
+                    <strong
+                      id="accountName"
+                    >
+                      Admin
+                    </strong>
+
+                    <span
+                      id="accountEmail"
+                    >
+                      admin
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div
+                  class="status-row"
+                  style="
+                    margin-top:12px;
+                  "
+                >
+
+                  <div class="status-left">
+
+                    <span
+                      class="status-dot"
+                    ></span>
+
+                    <span
+                      class="status-name"
+                    >
+                      Access
+                    </span>
+
+                  </div>
+
+                  <span
+                    class="status-pill"
+                    id="accountStatus"
+                  >
+                    Active
+                  </span>
+
+                </div>
+
+                <div
+                  class="status-row"
+                  style="
+                    margin-top:8px;
+                  "
+                >
+
+                  <div class="status-left">
+
+                    <span
+                      class="status-dot"
+                    ></span>
+
+                    <span
+                      class="status-name"
+                    >
+                      Role
+                    </span>
+
+                  </div>
+
+                  <span
+                    class="status-value"
+                    id="accountRole"
+                  >
+                    Admin
+                  </span>
+
+                </div>
+
+              </div>
+
+            </section>
+
+            <!-- SYSTEM -->
+
+            <section
+              class="panel"
+              style="margin-top:18px;"
+            >
+
+              <div class="panel-head">
+
+                <div>
+                  <div class="panel-title">
+                    System Status
+                  </div>
+
+                  <div class="panel-sub">
+                    Local dashboard health
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="panel-body">
+
+                <div class="status-list">
+
+                  <div class="status-row">
+
+                    <div class="status-left">
+
+                      <span
+                        class="status-dot"
+                      ></span>
+
+                      <span
+                        class="status-name"
+                      >
+                        Admin Session
+                      </span>
+
+                    </div>
+
+                    <span
+                      class="status-pill"
+                      id="sessionStatus"
+                    >
+                      Online
+                    </span>
+
+                  </div>
+
+                  <div class="status-row">
+
+                    <div class="status-left">
+
+                      <span
+                        class="status-dot"
+                      ></span>
+
+                      <span
+                        class="status-name"
+                      >
+                        Local Storage
+                      </span>
+
+                    </div>
+
+                    <span
+                      class="status-pill"
+                      id="storageStatus"
+                    >
+                      Ready
+                    </span>
+
+                  </div>
+
+                  <div class="status-row">
+
+                    <div class="status-left">
+
+                      <span
+                        class="status-dot"
+                      ></span>
+
+                      <span
+                        class="status-name"
+                      >
+                        Website
+                      </span>
+
+                    </div>
+
+                    <span
+                      class="status-pill"
+                      id="websiteStatus"
+                    >
+                      Connected
+                    </span>
+
+                  </div>
+
+                  <div class="status-row">
+
+                    <div class="status-left">
+
+                      <span
+                        class="status-dot warning"
+                      ></span>
+
+                      <span
+                        class="status-name"
+                      >
+                        Backend
+                      </span>
+
+                    </div>
+
+                    <span
+                      class="status-pill warning"
+                    >
+                      Local
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </section>
+
+          </div>
+
+        </section>
+
+        <!-- FOOTER -->
+
+        <div class="footer-info">
+
+          <div>
+
+            <strong>
+              AKI Admin Control Center
+            </strong>
+
+            <span>
+              Version 1.2 · Dashboard
+            </span>
+
+          </div>
+
+          <span id="lastUpdated">
+            Last updated just now
+          </span>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- TOAST -->
+
+  <div
+    class="toast"
+    id="toast"
+  >
+    <strong id="toastTitle">
+      Done
+    </strong>
+
+    <span id="toastMessage">
+      Dashboard updated.
+    </span>
+  </div>
+
+
+  <script>
+    /* =========================================================
+       AKHI ENGINEERING WORKSHOP
+       ADMIN DASHBOARD JS — 1.2
+    ========================================================= */
+
+    (function () {
+
+      "use strict";
+
+
+      /* =======================================================
+         AUTH GUARD
+      ======================================================== */
+
+      if (
+        !window.AKIAdmin ||
+        typeof AKIAdmin.requireAuth !== "function"
+      ) {
+
+        window.location.href =
+          "./login/";
+
+        return;
+      }
+
+
+      const session =
+        AKIAdmin.getSession();
+
+      if (!session) {
+
+        AKIAdmin.requireAuth();
+
+        return;
+      }
+
+
+      /* =======================================================
+         DOM HELPERS
+      ======================================================== */
+
+      const $ =
+        function (selector) {
+          return document.querySelector(
+            selector
+          );
+        };
+
+
+      const $$ =
+        function (selector) {
+          return document.querySelectorAll(
+            selector
+          );
+        };
+
+
+      /* =======================================================
+         STORAGE COUNTER
+      ======================================================== */
+
+      function getArrayCount(
+        keys
+      ) {
+
+        for (
+          let i = 0;
+          i < keys.length;
+          i++
+        ) {
+
+          try {
+
+            const raw =
+              localStorage.getItem(
+                keys[i]
+              );
+
+            if (!raw) {
+              continue;
+            }
+
+            const parsed =
+              JSON.parse(raw);
+
+            if (
+              Array.isArray(parsed)
+            ) {
+
+              return parsed.length;
+            }
+
+            if (
+              parsed &&
+              Array.isArray(parsed.items)
+            ) {
+
+              return parsed.items.length;
+            }
+
+            if (
+              parsed &&
+              Array.isArray(parsed.data)
+            ) {
+
+              return parsed.data.length;
+            }
+
+          } catch (_) {}
+
+        }
+
+        return 0;
+      }
+
+
+      /* =======================================================
+         ACTIVITY
+      ======================================================== */
+
+      function getActivity() {
+
+        if (
+          typeof AKIAdmin.getActivity ===
+          "function"
+        ) {
+
+          return AKIAdmin.getActivity();
+        }
+
+        try {
+
+          return JSON.parse(
+            localStorage.getItem(
+              "aki_admin_activity_v1"
+            )
+          ) || [];
+
+        } catch (_) {
+
+          return [];
+        }
+      }
+
+
+      /* =======================================================
+         DATE
+      ======================================================== */
+
+      function formatDate(
+        date
+      ) {
+
+        try {
+
+          return new Intl.DateTimeFormat(
+            "en-US",
+            {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+              year: "numeric"
+            }
+          ).format(date);
+
+        } catch (_) {
+
+          return date.toDateString();
+        }
+      }
+
+
+      function formatActivityTime(
+        iso
+      ) {
+
+        if (!iso) {
+          return "";
+        }
+
+        try {
+
+          const date =
+            new Date(iso);
+
+          const diff =
+            Date.now() -
+            date.getTime();
+
+          if (diff < 60 * 1000) {
+            return "Just now";
+          }
+
+          if (
+            diff <
+            60 * 60 * 1000
+          ) {
+
+            return (
+              Math.floor(
+                diff /
+                (60 * 1000)
+              ) +
+              " min ago"
+            );
+          }
+
+          if (
+            diff <
+            24 * 60 * 60 * 1000
+          ) {
+
+            return (
+              Math.floor(
+                diff /
+                (60 * 60 * 1000)
+              ) +
+              " hr ago"
+            );
+          }
+
+          return date.toLocaleDateString(
+            "en-US",
+            {
+              day: "numeric",
+              month: "short",
+              year: "numeric"
+            }
+          );
+
+        } catch (_) {
+
+          return "";
+        }
+      }
+
+
+      /* =======================================================
+         ACTIVITY ICON
+      ======================================================== */
+
+      function activityIcon(
+        action
+      ) {
+
+        const key =
+          String(action || "")
+            .toLowerCase();
+
+        if (
+          key.includes("login")
+        ) {
+          return "→";
+        }
+
+        if (
+          key.includes("logout")
+        ) {
+          return "←";
+        }
+
+        if (
+          key.includes("delete")
+        ) {
+          return "×";
+        }
+
+        if (
+          key.includes("banner")
+        ) {
+          return "▰";
+        }
+
+        if (
+          key.includes("project")
+        ) {
+          return "◫";
+        }
+
+        if (
+          key.includes("homepage")
+        ) {
+          return "▣";
+        }
+
+        if (
+          key.includes("setting")
+        ) {
+          return "⚙";
+        }
+
+        return "•";
+      }
+
+
+      /* =======================================================
+         ACTIVITY TITLE
+      ======================================================== */
+
+      function activityTitle(
+        item
+      ) {
+
+        const action =
+          String(
+            item.action ||
+            "activity"
+          );
+
+        const label =
+          action
+            .replace(
+              /[_-]+/g,
+              " "
+            )
+            .replace(
+              /\b\w/g,
+              function (c) {
+                return c.toUpperCase();
+              }
+            );
+
+        return label;
+      }
+
+
+      /* =======================================================
+         ESCAPE HTML
+      ======================================================== */
+
+      function escapeHTML(
+        value
+      ) {
+
+        return String(
+          value ?? ""
+        )
+          .replace(
+            /&/g,
+            "&amp;"
+          )
+          .replace(
+            /</g,
+            "&lt;"
+          )
+          .replace(
+            />/g,
+            "&gt;"
+          )
+          .replace(
+            /"/g,
+            "&quot;"
+          )
+          .replace(
+            /'/g,
+            "&#039;"
+          );
+      }
+
+
+      /* =======================================================
+         INITIAL ACCOUNT UI
+      ======================================================== */
+
+      function renderAccount() {
+
+        const current =
+          AKIAdmin.getSession();
+
+        if (!current) {
+
+          AKIAdmin.requireAuth();
+
+          return;
+        }
+
+        const name =
+          current.name ||
+          (
+            current.role === "superadmin"
+              ? "Super Admin"
+              : "Admin"
+          );
+
+        const email =
+          current.email ||
+          "";
+
+        const role =
+          current.role ===
+          "superadmin"
+            ? "Super Admin"
+            : "Admin";
+
+        const initial =
+          name
+            .trim()
+            .charAt(0)
+            .toUpperCase() ||
+          "A";
+
+
+        $("#sidebarAvatar")
+          .textContent =
+          initial;
+
+        $("#accountAvatar")
+          .textContent =
+          initial;
+
+        $("#sidebarName")
+          .textContent =
+          name;
+
+        $("#sidebarRole")
+          .textContent =
+          role;
+
+        $("#accountName")
+          .textContent =
+          name;
+
+        $("#accountEmail")
+          .textContent =
+          email;
+
+        $("#accountRole")
+          .textContent =
+          role;
+
+        $("#welcomeTitle")
+          .textContent =
+          "Welcome back, " +
+          name.split(" ")[0] +
+          ".";
+
+        /*
+          Only Super Admin sees
+          Admin Management.
+        */
+
+        const managementLink =
+          $("#adminManagementNav");
+
+        if (
+          managementLink &&
+          current.role !== "superadmin"
+        ) {
+
+          managementLink.style.display =
+            "none";
+        }
+      }
+
+
+      /* =======================================================
+         COUNTERS
+      ======================================================== */
+
+      function updateStats() {
+
+        const projectCount =
+          getArrayCount([
+            "aki_projects",
+            "aki_projects_v1",
+            "projects",
+            "projectData"
+          ]);
+
+        const bannerCount =
+          getArrayCount([
+            "aki_banners",
+            "aki_banners_v1",
+            "banners",
+            "bannerData"
+          ]);
+
+        const mediaCount =
+          getArrayCount([
+            "aki_media",
+            "aki_media_v1",
+            "media",
+            "mediaLibrary"
+          ]);
+
+        const activities =
+          getActivity();
+
+
+        $("#projectCount")
+          .textContent =
+          projectCount;
+
+        $("#bannerCount")
+          .textContent =
+          bannerCount;
+
+        $("#mediaCount")
+          .textContent =
+          mediaCount;
+
+        $("#activityCount")
+          .textContent =
+          activities.length;
+      }
+
+
+      /* =======================================================
+         ACTIVITY RENDER
+      ======================================================== */
+
+      function renderActivity() {
+
+        const list =
+          $("#activityList");
+
+        if (!list) {
+          return;
+        }
+
+        const activities =
+          getActivity()
+            .slice(0, 7);
+
+        if (!activities.length) {
+
+          list.innerHTML = `
+            <div class="empty">
+              No admin activity recorded yet.
+            </div>
+          `;
+
+          return;
+        }
+
+
+        list.innerHTML =
+          activities
+            .map(
+              function (item) {
+
+                const actor =
+                  escapeHTML(
+                    item.actor ||
+                    "Admin"
+                  );
+
+                const title =
+                  escapeHTML(
+                    activityTitle(item)
+                  );
+
+                const time =
+                  escapeHTML(
+                    formatActivityTime(
+                      item.at
+                    )
+                  );
+
+                return `
+                  <div class="activity-item">
+
+                    <div class="activity-icon">
+                      ${escapeHTML(
+                        activityIcon(
+                          item.action
+                        )
+                      )}
+                    </div>
+
+                    <div class="activity-copy">
+
+                      <strong>
+                        ${title}
+                      </strong>
+
+                      <span>
+                        by ${actor}
+                      </span>
+
+                    </div>
+
+                    <div class="activity-time">
+                      ${time}
+                    </div>
+
+                  </div>
+                `;
+              }
+            )
+            .join("");
+      }
+
+
+      /* =======================================================
+         SYSTEM STATUS
+      ======================================================== */
+
+      function checkSystem() {
+
+        /*
+          Storage
+        */
+
+        let storageOK =
+          true;
+
+        try {
+
+          const key =
+            "__aki_storage_test__";
+
+          localStorage.setItem(
+            key,
+            "ok"
+          );
+
+          localStorage.removeItem(
+            key
+          );
+
+        } catch (_) {
+
+          storageOK =
+            false;
+        }
+
+
+        const storage =
+          $("#storageStatus");
+
+        if (storage) {
+
+          storage.textContent =
+            storageOK
+              ? "Ready"
+              : "Error";
+
+          storage.className =
+            "status-pill " +
+            (
+              storageOK
+                ? ""
+                : "warning"
+            );
+        }
+
+
+        /*
+          Session
+        */
+
+        const sessionStatus =
+          $("#sessionStatus");
+
+        if (sessionStatus) {
+
+          sessionStatus.textContent =
+            session
+              ? "Online"
+              : "Offline";
+        }
+
+
+        /*
+          Website
+        */
+
+        const websiteStatus =
+          $("#websiteStatus");
+
+        if (websiteStatus) {
+
+          websiteStatus.textContent =
+            "Connected";
+        }
+      }
+
+
+      /* =======================================================
+         THEME
+      ======================================================== */
+
+      function currentTheme() {
+
+        return (
+          localStorage.getItem(
+            "aki_admin_theme"
+          ) ||
+          "dark"
+        );
+      }
+
+
+      function applyTheme(
+        theme
+      ) {
+
+        document.documentElement
+          .setAttribute(
+            "data-theme",
+            theme
+          );
+
+        localStorage.setItem(
+          "aki_admin_theme",
+          theme
+        );
+      }
+
+
+      function toggleTheme() {
+
+        const current =
+          currentTheme();
+
+        applyTheme(
+          current === "dark"
+            ? "light"
+            : "dark"
+        );
+
+        showToast(
+          "Theme changed",
+          current === "dark"
+            ? "Light mode enabled."
+            : "Dark mode enabled."
+        );
+      }
+
+
+      /* =======================================================
+         TOAST
+      ======================================================== */
+
+      let toastTimer =
+        null;
+
+
+      function showToast(
+        title,
+        message
+      ) {
+
+        const toast =
+          $("#toast");
+
+        if (!toast) {
+          return;
+        }
+
+        $("#toastTitle")
+          .textContent =
+          title || "Done";
+
+        $("#toastMessage")
+          .textContent =
+          message || "";
+
+        toast.classList.add(
+          "show"
+        );
+
+        clearTimeout(
+          toastTimer
+        );
+
+        toastTimer =
+          setTimeout(
+            function () {
+
+              toast.classList.remove(
+                "show"
+              );
+
+            },
+            2600
+          );
+      }
+
+
+      /* =======================================================
+         REFRESH
+      ======================================================== */
+
+      function refreshDashboard() {
+
+        updateStats();
+        renderActivity();
+        checkSystem();
+
+        $("#lastUpdated")
+          .textContent =
+          "Last updated " +
+          new Date()
+            .toLocaleTimeString(
+              "en-US",
+              {
+                hour: "numeric",
+                minute: "2-digit"
+              }
+            );
+
+        showToast(
+          "Dashboard refreshed",
+          "Latest local data has been loaded."
+        );
+      }
+
+
+      /* =======================================================
+         MOBILE SIDEBAR
+      ======================================================== */
+
+      function openSidebar() {
+
+        $("#sidebar")
+          .classList.add("open");
+
+        $("#sidebarOverlay")
+          .classList.add("show");
+      }
+
+
+      function closeSidebar() {
+
+        $("#sidebar")
+          .classList.remove("open");
+
+        $("#sidebarOverlay")
+          .classList.remove("show");
+      }
+
+
+      /* =======================================================
+         CLOCK / DATE
+      ======================================================== */
+
+      function updateDate() {
+
+        const currentDate =
+          $("#currentDate");
+
+        if (!currentDate) {
+          return;
+        }
+
+        currentDate.textContent =
+          formatDate(
+            new Date()
+          );
+      }
+
+
+      /* =======================================================
+         INITIALIZE
+      ======================================================== */
+
+      document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+          /*
+            Apply saved theme
+          */
+
+          applyTheme(
+            currentTheme()
+          );
+
+
+          /*
+            Authentication
+          */
+
+          if (
+            !AKIAdmin.requireAuth()
+          ) {
+
+            return;
+          }
+
+
+          /*
+            Account
+          */
+
+          renderAccount();
+
+
+          /*
+            Data
+          */
+
+          updateStats();
+          renderActivity();
+          checkSystem();
+          updateDate();
+
+
+          /*
+            Theme
+          */
+
+          $("#themeToggle")
+            ?.addEventListener(
+              "click",
+              toggleTheme
+            );
+
+
+          /*
+            Refresh
+          */
+
+          $("#refreshBtn")
+            ?.addEventListener(
+              "click",
+              refreshDashboard
+            );
+
+
+          /*
+            Mobile sidebar
+          */
+
+          $("#mobileMenu")
+            ?.addEventListener(
+              "click",
+              openSidebar
+            );
+
+
+          $("#sidebarOverlay")
+            ?.addEventListener(
+              "click",
+              closeSidebar
+            );
+
+
+          /*
+            Close sidebar after
+            mobile navigation click.
+          */
+
+          $$(".sidebar a")
+            .forEach(
+              function (link) {
+
+                link.addEventListener(
+                  "click",
+                  function () {
+
+                    if (
+                      window.innerWidth <=
+                      860
+                    ) {
+
+                      closeSidebar();
+                    }
+
+                  }
+                );
+
+              }
+            );
+
+
+          /*
+            Logout listeners are
+            already registered by auth.js.
+          */
+
+          /*
+            Activity timestamp refresh
+          */
+
+          setInterval(
+            function () {
+              renderActivity();
+            },
+            60 * 1000
+          );
+
+
+          /*
+            Keep session alive while
+            the dashboard is open.
+          */
+
+          setInterval(
+            function () {
+
+              if (
+                AKIAdmin.getSession()
+              ) {
+
+                AKIAdmin.touch();
+              }
+
+            },
+            5 * 60 * 1000
+          );
+
+        }
+      );
+
+
+      /*
+        Browser tab visibility:
+        refresh when user comes back.
+      */
+
+      document.addEventListener(
+        "visibilitychange",
+        function () {
+
+          if (
+            !document.hidden
+          ) {
+
+            const current =
+              AKIAdmin.getSession();
+
+            if (!current) {
+
+              AKIAdmin.requireAuth();
+
+              return;
+            }
+
+            updateStats();
+            renderActivity();
+          }
+
+        }
+      );
+
+    })();
+  </script>
+
+</body>
+</html>
