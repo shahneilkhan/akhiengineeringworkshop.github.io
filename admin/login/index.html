@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <meta
-    name="description"
-    content="AKI Engineering Workshop — Secure Administration Portal"
+    content="width=device-width,initial-scale=1.0"
   >
 
   <meta
@@ -18,7 +15,14 @@
     content="#07090c"
   >
 
-  <title>Admin Login | AKI Engineering Workshop</title>
+  <meta
+    name="description"
+    content="AKHI Engineering Workshop secure administration portal"
+  >
+
+  <title>
+    Admin Login | AKHI Engineering Workshop
+  </title>
 
   <link
     rel="preconnect"
@@ -36,1773 +40,1299 @@
     rel="stylesheet"
   >
 
+  <script src="../auth.js"></script>
+
   <style>
-    :root {
-      --bg: #05070a;
-      --panel: #0b0f14;
-      --panel-2: #10151c;
-      --border: rgba(255, 255, 255, 0.09);
-      --border-hover: rgba(200, 255, 61, 0.35);
 
-      --text: #f5f7fa;
-      --muted: #8d98a6;
-      --muted-2: #65707e;
+    :root{
+      --bg:#05070a;
+      --panel:#0c1117;
+      --panel2:#111720;
 
-      --accent: #c8ff3d;
-      --accent-soft: rgba(200, 255, 61, 0.10);
-      --accent-glow: rgba(200, 255, 61, 0.25);
+      --border:rgba(255,255,255,.09);
 
-      --danger: #ff647c;
+      --text:#f5f7fa;
+      --muted:#8d98a6;
+      --muted2:#596574;
 
-      --radius-xl: 30px;
-      --radius-lg: 20px;
-      --radius-md: 14px;
+      --accent:#c8ff3d;
+      --danger:#ff6b80;
 
-      --shadow:
-        0 30px 100px rgba(0, 0, 0, 0.55);
+      --radius:26px;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
     }
 
-    html {
-      min-height: 100%;
-      background: var(--bg);
+    html,
+    body{
+      min-height:100%;
+      background:var(--bg);
     }
 
-    body {
-      min-height: 100vh;
-      font-family: "Inter", sans-serif;
-      color: var(--text);
+    body{
+      min-height:100vh;
+
+      padding:28px;
+
+      display:grid;
+      place-items:center;
+
+      color:var(--text);
+
+      font-family:Inter,sans-serif;
+
       background:
         radial-gradient(
-          circle at 10% 10%,
-          rgba(200, 255, 61, 0.08),
-          transparent 30%
-        ),
-        radial-gradient(
-          circle at 90% 90%,
-          rgba(200, 255, 61, 0.05),
+          circle at 12% 12%,
+          rgba(200,255,61,.09),
           transparent 28%
         ),
+        radial-gradient(
+          circle at 90% 88%,
+          rgba(117,168,255,.05),
+          transparent 24%
+        ),
         var(--bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 30px;
-      overflow-x: hidden;
     }
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.25;
+    body::before{
+      content:"";
+
+      position:fixed;
+      inset:0;
+
+      pointer-events:none;
+
+      opacity:.18;
+
       background-image:
         linear-gradient(
-          rgba(255, 255, 255, 0.025) 1px,
+          rgba(255,255,255,.025) 1px,
           transparent 1px
         ),
         linear-gradient(
           90deg,
-          rgba(255, 255, 255, 0.025) 1px,
+          rgba(255,255,255,.025) 1px,
           transparent 1px
         );
-      background-size: 42px 42px;
-      mask-image: linear-gradient(
-        to bottom,
-        black,
-        transparent
+
+      background-size:42px 42px;
+    }
+
+    button,
+    input{
+      font:inherit;
+    }
+
+    button{
+      cursor:pointer;
+    }
+
+    .shell{
+
+      width:min(
+        1080px,
+        100%
       );
+
+      min-height:680px;
+
+      display:grid;
+
+      grid-template-columns:
+        1.05fr
+        .95fr;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:
+        var(--radius);
+
+      overflow:hidden;
+
+      background:
+        rgba(12,17,23,.82);
+
+      box-shadow:
+        0 35px 100px
+        rgba(0,0,0,.55);
+
+      backdrop-filter:
+        blur(22px);
+
+      position:relative;
+
+      z-index:1;
     }
 
-    .login-shell {
-      width: min(1080px, 100%);
-      min-height: 680px;
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      background: rgba(11, 15, 20, 0.82);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      backdrop-filter: blur(25px);
-      position: relative;
-      z-index: 2;
-    }
+    /* =====================================================
+       LEFT
+    ====================================================== */
 
-    /* =========================================
-       LEFT BRAND PANEL
-    ========================================= */
+    .brand{
 
-    .brand-panel {
-      position: relative;
-      padding: 48px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      border-right: 1px solid var(--border);
-      overflow: hidden;
+      padding:46px;
+
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+
+      border-right:
+        1px solid
+        var(--border);
+
       background:
         radial-gradient(
-          circle at 50% 35%,
-          rgba(200, 255, 61, 0.12),
-          transparent 35%
+          circle at 50% 34%,
+          rgba(200,255,61,.11),
+          transparent 34%
         ),
         linear-gradient(
           145deg,
-          rgba(255, 255, 255, 0.025),
+          rgba(255,255,255,.025),
           transparent
         );
+
     }
 
-    .brand-panel::after {
-      content: "";
-      position: absolute;
-      width: 360px;
-      height: 360px;
-      border-radius: 50%;
-      border: 1px solid rgba(200, 255, 61, 0.10);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    .mark{
+      display:flex;
+
+      gap:13px;
+
+      align-items:center;
+    }
+
+    .logo{
+
+      width:50px;
+      height:50px;
+
+      display:grid;
+      place-items:center;
+
+      border-radius:15px;
+
+      background:
+        var(--accent);
+
+      color:#061000;
+
+      font-weight:900;
+
+      letter-spacing:-1px;
+
+      font-family:
+        "Space Grotesk";
+
       box-shadow:
-        0 0 0 35px rgba(200, 255, 61, 0.018),
-        0 0 0 70px rgba(200, 255, 61, 0.012),
-        0 0 0 105px rgba(200, 255, 61, 0.008);
-      pointer-events: none;
+        0 0 34px
+        rgba(200,255,61,.18);
     }
 
-    .brand-top {
-      position: relative;
-      z-index: 2;
+    .brand-name{
+
+      font-weight:800;
+
+      font-family:
+        "Space Grotesk";
+
+      font-size:20px;
     }
 
-    .brand-mark {
-      display: flex;
-      align-items: center;
-      gap: 14px;
+    .brand-name small{
+
+      display:block;
+
+      margin-top:3px;
+
+      color:var(--muted);
+
+      font:
+        500 10px Inter;
+
+      letter-spacing:1.4px;
+
+      text-transform:uppercase;
     }
 
-    .logo-box {
-      width: 52px;
-      height: 52px;
-      border-radius: 16px;
-      display: grid;
-      place-items: center;
-      background: var(--accent);
-      color: #05070a;
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 19px;
-      font-weight: 800;
-      letter-spacing: -1px;
-      box-shadow:
-        0 0 35px rgba(200, 255, 61, 0.18);
+    .center{
+
+      text-align:center;
     }
 
-    .brand-name {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
+    .orb{
 
-    .brand-name span {
-      display: block;
-      margin-top: 3px;
-      font-size: 11px;
-      font-family: "Inter", sans-serif;
-      font-weight: 500;
-      color: var(--muted);
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-    }
+      position:relative;
 
-    .brand-center {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      padding: 40px 10px;
-    }
+      width:150px;
+      height:150px;
 
-    .ai-orb {
-      width: 150px;
-      height: 150px;
-      margin: 0 auto 36px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      position: relative;
+      margin:
+        0 auto
+        34px;
+
+      border-radius:50%;
+
+      display:grid;
+      place-items:center;
+
       background:
         radial-gradient(
-          circle at 35% 30%,
+          circle at 34% 28%,
           #efffc2 0,
-          var(--accent) 22%,
+          #c8ff3d 22%,
           #7da815 48%,
-          #151b0a 72%,
+          #161b0b 72%,
           #07090c 100%
         );
+
       box-shadow:
-        0 0 45px rgba(200, 255, 61, 0.20),
-        0 0 110px rgba(200, 255, 61, 0.08);
-      animation: floatOrb 5s ease-in-out infinite;
+        0 0 48px
+        rgba(200,255,61,.20),
+        0 0 110px
+        rgba(200,255,61,.08);
+
+      animation:
+        float 5s
+        ease-in-out
+        infinite;
     }
 
-    .ai-orb::before,
-    .ai-orb::after {
-      content: "";
-      position: absolute;
-      inset: -18px;
-      border: 1px solid rgba(200, 255, 61, 0.14);
-      border-radius: 50%;
-      animation: rotateRing 12s linear infinite;
+    .orb::before,
+    .orb::after{
+
+      content:"";
+
+      position:absolute;
+
+      border-radius:50%;
+
+      border:
+        1px solid
+        rgba(200,255,61,.13);
+
+      animation:
+        spin
+        12s
+        linear
+        infinite;
     }
 
-    .ai-orb::after {
-      inset: -34px;
-      border-style: dashed;
-      opacity: 0.35;
-      animation-duration: 20s;
-      animation-direction: reverse;
+    .orb::before{
+
+      width:186px;
+      height:186px;
     }
 
-    .orb-text {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 30px;
-      font-weight: 800;
-      color: #071000;
-      letter-spacing: -2px;
-      z-index: 2;
+    .orb::after{
+
+      width:218px;
+      height:218px;
+
+      border-style:dashed;
+
+      opacity:.35;
+
+      animation-direction:
+        reverse;
+
+      animation-duration:
+        20s;
     }
 
-    .brand-center h1 {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: clamp(32px, 4vw, 50px);
-      line-height: 1;
-      letter-spacing: -2px;
-      margin-bottom: 18px;
+    .orb b{
+
+      font:
+        900 30px
+        "Space Grotesk";
+
+      color:#071000;
     }
 
-    .brand-center h1 span {
-      color: var(--accent);
+    .center h1{
+
+      font:
+        700
+        clamp(31px,4vw,48px)
+        /1
+        "Space Grotesk";
+
+      letter-spacing:-2px;
+
+      margin-bottom:16px;
     }
 
-    .brand-center p {
-      max-width: 440px;
-      margin: auto;
-      color: var(--muted);
-      line-height: 1.75;
-      font-size: 14px;
+    .center h1 span{
+      color:var(--accent);
     }
 
-    .brand-features {
-      position: relative;
-      z-index: 2;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+    .center p{
+
+      color:var(--muted);
+
+      font-size:13px;
+
+      line-height:1.75;
+
+      max-width:430px;
+
+      margin:auto;
     }
 
-    .feature {
-      padding: 14px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.025);
+    .features{
+
+      display:grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap:10px;
     }
 
-    .feature strong {
-      display: block;
-      font-size: 12px;
-      margin-bottom: 5px;
-    }
+    .feature{
 
-    .feature span {
-      color: var(--muted-2);
-      font-size: 10px;
-    }
+      padding:13px;
 
-    /* =========================================
-       LOGIN PANEL
-    ========================================= */
+      border:
+        1px solid
+        var(--border);
 
-    .login-panel {
-      padding: 58px 52px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      border-radius:13px;
+
       background:
-        linear-gradient(
-          180deg,
-          rgba(255, 255, 255, 0.025),
-          transparent 50%
-        );
+        rgba(255,255,255,.025);
     }
 
-    .security-badge {
-      width: fit-content;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(200, 255, 61, 0.18);
-      background: rgba(200, 255, 61, 0.055);
-      color: var(--accent);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      margin-bottom: 24px;
+    .feature strong{
+
+      display:block;
+
+      font-size:11px;
+
+      margin-bottom:4px;
     }
 
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 12px var(--accent);
+    .feature span{
+
+      font-size:9px;
+
+      color:var(--muted2);
     }
 
-    .login-header h2 {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 34px;
-      letter-spacing: -1.5px;
-      margin-bottom: 10px;
+    /* =====================================================
+       RIGHT
+    ====================================================== */
+
+    .form-panel{
+
+      padding:
+        54px 48px;
+
+      display:flex;
+      flex-direction:column;
+
+      justify-content:center;
     }
 
-    .login-header p {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.7;
-      margin-bottom: 32px;
+    .badge{
+
+      display:inline-flex;
+
+      width:max-content;
+
+      align-items:center;
+
+      gap:8px;
+
+      padding:
+        8px 11px;
+
+      border:
+        1px solid
+        rgba(200,255,61,.16);
+
+      border-radius:999px;
+
+      background:
+        rgba(200,255,61,.05);
+
+      color:var(--accent);
+
+      font-size:10px;
+      font-weight:800;
+
+      margin-bottom:20px;
     }
 
-    .field {
-      margin-bottom: 19px;
-    }
+    .dot{
 
-    .field label {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 9px;
-      color: #d9dee5;
-    }
+      width:7px;
+      height:7px;
 
-    .input-wrap {
-      position: relative;
-    }
+      border-radius:50%;
 
-    .input-icon {
-      position: absolute;
-      left: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 18px;
-      height: 18px;
-      color: var(--muted-2);
-      pointer-events: none;
-    }
+      background:var(--accent);
 
-    .input-wrap input {
-      width: 100%;
-      height: 54px;
-      padding: 0 48px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-      outline: none;
-      background: rgba(255, 255, 255, 0.035);
-      color: var(--text);
-      font-family: "Inter", sans-serif;
-      font-size: 13px;
-      transition: 0.25s ease;
-    }
-
-    .input-wrap input::placeholder {
-      color: #586270;
-    }
-
-    .input-wrap input:focus {
-      border-color: var(--border-hover);
-      background: rgba(200, 255, 61, 0.025);
       box-shadow:
-        0 0 0 4px rgba(200, 255, 61, 0.05);
+        0 0 12px
+        var(--accent);
     }
 
-    .input-wrap input:focus + .input-icon {
-      color: var(--accent);
+    h2{
+
+      font:
+        700 34px/1
+        "Space Grotesk";
+
+      letter-spacing:-1.5px;
+
+      margin-bottom:9px;
     }
 
-    .password-toggle {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      border: 0;
-      background: transparent;
-      color: var(--muted-2);
-      cursor: pointer;
-      width: 32px;
-      height: 32px;
-      border-radius: 9px;
-      display: grid;
-      place-items: center;
+    .intro{
+
+      color:var(--muted);
+
+      font-size:12px;
+
+      line-height:1.7;
+
+      margin-bottom:24px;
     }
 
-    .password-toggle:hover {
-      color: var(--accent);
-      background: rgba(255, 255, 255, 0.05);
+    .field{
+      margin-bottom:16px;
     }
 
-    .login-options {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      margin: 3px 0 24px;
+    .field label{
+
+      display:block;
+
+      font-size:11px;
+
+      font-weight:800;
+
+      margin:
+        0 0 8px;
+
+      color:#dce1e7;
     }
 
-    .remember {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--muted);
-      font-size: 11px;
-      cursor: pointer;
-      user-select: none;
+    .wrap{
+      position:relative;
     }
 
-    .remember input {
-      appearance: none;
-      width: 16px;
-      height: 16px;
-      border-radius: 5px;
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.04);
-      cursor: pointer;
-      position: relative;
+    .wrap input{
+
+      width:100%;
+      height:53px;
+
+      padding:
+        0 44px
+        0 14px;
+
+      border:
+        1px solid
+        var(--border);
+
+      outline:0;
+
+      background:
+        rgba(255,255,255,.03);
+
+      border-radius:13px;
+
+      color:var(--text);
+
+      font:
+        500 13px Inter;
     }
 
-    .remember input:checked {
-      background: var(--accent);
-      border-color: var(--accent);
-    }
+    .wrap input:focus{
 
-    .remember input:checked::after {
-      content: "✓";
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      color: #060900;
-      font-size: 11px;
-      font-weight: 900;
-    }
+      border-color:
+        rgba(200,255,61,.34);
 
-    .forgot {
-      border: 0;
-      background: transparent;
-      color: var(--accent);
-      font: inherit;
-      font-size: 11px;
-      cursor: pointer;
-    }
-
-    .login-button {
-      width: 100%;
-      height: 56px;
-      border: 0;
-      border-radius: 15px;
-      background: var(--accent);
-      color: #070900;
-      font-family: "Inter", sans-serif;
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
       box-shadow:
-        0 12px 30px rgba(200, 255, 61, 0.13);
+        0 0 0 4px
+        rgba(200,255,61,.045);
     }
 
-    .login-button:hover {
-      transform: translateY(-2px);
+    .toggle{
+
+      position:absolute;
+
+      right:8px;
+      top:50%;
+
+      transform:
+        translateY(-50%);
+
+      width:35px;
+      height:35px;
+
+      border:0;
+
+      border-radius:9px;
+
+      background:transparent;
+
+      color:var(--muted);
+    }
+
+    .toggle:hover{
+
+      background:
+        rgba(255,255,255,.05);
+
+      color:var(--accent);
+    }
+
+    .options{
+
+      display:flex;
+
+      justify-content:space-between;
+
+      align-items:center;
+
+      gap:12px;
+
+      margin:
+        2px 0 18px;
+    }
+
+    .remember{
+
+      display:flex;
+
+      align-items:center;
+
+      gap:8px;
+
+      color:var(--muted);
+
+      font-size:10px;
+    }
+
+    .remember input{
+      accent-color:var(--accent);
+    }
+
+    .forgot{
+
+      border:0;
+
+      background:none;
+
+      color:var(--accent);
+
+      font-size:10px;
+
+      font-weight:700;
+    }
+
+    .error{
+
+      display:none;
+
+      margin-bottom:15px;
+
+      padding:
+        11px 13px;
+
+      border-radius:12px;
+
+      border:
+        1px solid
+        rgba(255,107,128,.20);
+
+      background:
+        rgba(255,107,128,.06);
+
+      color:#ff9eaa;
+
+      font-size:10px;
+
+      line-height:1.5;
+    }
+
+    .error.show{
+      display:block;
+    }
+
+    .submit{
+
+      height:55px;
+      width:100%;
+
+      border:0;
+
+      border-radius:14px;
+
+      background:
+        var(--accent);
+
+      color:#071000;
+
+      font-weight:900;
+
       box-shadow:
-        0 18px 40px rgba(200, 255, 61, 0.20);
+        0 14px 32px
+        rgba(200,255,61,.14);
+
+      transition:.2s;
     }
 
-    .login-button:active {
-      transform: translateY(0);
+    .submit:hover{
+
+      transform:
+        translateY(-2px);
+
+      box-shadow:
+        0 18px 40px
+        rgba(200,255,61,.20);
     }
 
-    .login-button.loading {
-      opacity: 0.75;
-      pointer-events: none;
+    .submit:disabled{
+
+      opacity:.65;
+
+      pointer-events:none;
     }
 
-    .spinner {
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(0, 0, 0, 0.18);
-      border-top-color: #05070a;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
+    .passkey-note{
+
+      margin-top:15px;
+
+      padding:11px 12px;
+
+      border:
+        1px solid
+        rgba(200,255,61,.10);
+
+      border-radius:12px;
+
+      background:
+        rgba(200,255,61,.035);
+
+      color:var(--muted);
+
+      font-size:9px;
+
+      line-height:1.55;
     }
 
-    .error-message {
-      display: none;
-      margin-bottom: 18px;
-      padding: 12px 14px;
-      border: 1px solid rgba(255, 100, 124, 0.20);
-      border-radius: 12px;
-      background: rgba(255, 100, 124, 0.06);
-      color: #ff9aaa;
-      font-size: 11px;
-      line-height: 1.5;
+    .passkey-note strong{
+
+      color:var(--accent);
+
+      font-size:9px;
     }
 
-    .error-message.show {
-      display: block;
+    .footer{
+
+      margin-top:23px;
+
+      padding-top:18px;
+
+      border-top:
+        1px solid
+        var(--border);
+
+      display:flex;
+
+      justify-content:space-between;
+
+      gap:15px;
+
+      color:var(--muted2);
+
+      font-size:9px;
     }
 
-    .login-footer {
-      margin-top: 28px;
-      padding-top: 22px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      color: var(--muted-2);
-      font-size: 10px;
+    .spin{
+
+      width:15px;
+      height:15px;
+
+      display:inline-block;
+
+      border:
+        2px solid
+        rgba(0,0,0,.2);
+
+      border-top-color:
+        #071000;
+
+      border-radius:50%;
+
+      animation:
+        spin .7s
+        linear
+        infinite;
+
+      vertical-align:-3px;
+
+      margin-right:8px;
     }
 
-    .protected {
-      display: flex;
-      align-items: center;
-      gap: 7px;
+    @keyframes spin{
+
+      to{
+        transform:
+          rotate(360deg);
+      }
+
     }
 
-    .protected svg {
-      color: var(--accent);
+    @keyframes float{
+
+      50%{
+        transform:
+          translateY(-8px);
+      }
+
     }
 
-    .version {
-      color: #4e5864;
+    @media(max-width:850px){
+
+      .shell{
+        grid-template-columns:1fr;
+      }
+
+      .brand{
+        display:none;
+      }
+
+      .form-panel{
+        padding:
+          34px 25px;
+      }
+
+      .footer{
+        font-size:8px;
+      }
+
     }
 
-    /* =========================================
-       TOAST
-    ========================================= */
+    @media(max-width:460px){
 
-    .toast {
-      position: fixed;
-      right: 24px;
-      bottom: 24px;
-      z-index: 100;
-      min-width: 260px;
-      max-width: 360px;
-      padding: 15px 17px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: #10151b;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
-      color: var(--text);
-      font-size: 12px;
-      transform: translateY(25px);
-      opacity: 0;
-      pointer-events: none;
-      transition: 0.3s ease;
+      body{
+        padding:12px;
+      }
+
+      .form-panel{
+        padding:
+          28px 18px;
+      }
+
+      .footer{
+        flex-direction:column;
+      }
+
     }
 
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    .toast.success {
-      border-color: rgba(200, 255, 61, 0.25);
-    }
-
-    /* =========================================
-       ANIMATIONS
-    ========================================= */
-
-    @keyframes floatOrb {
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-12px);
-      }
-    }
-
-    @keyframes rotateRing {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    /* =========================================
-       RESPONSIVE
-    ========================================= */
-
-    @media (max-width: 900px) {
-      body {
-        padding: 18px;
-      }
-
-      .login-shell {
-        grid-template-columns: 1fr;
-        min-height: auto;
-      }
-
-      .brand-panel {
-        min-height: 460px;
-        border-right: 0;
-        border-bottom: 1px solid var(--border);
-        padding: 32px;
-      }
-
-      .brand-center {
-        padding: 20px 10px;
-      }
-
-      .ai-orb {
-        width: 120px;
-        height: 120px;
-        margin-bottom: 28px;
-      }
-
-      .orb-text {
-        font-size: 24px;
-      }
-
-      .login-panel {
-        padding: 44px 34px;
-      }
-    }
-
-    @media (max-width: 560px) {
-      body {
-        padding: 0;
-        align-items: stretch;
-      }
-
-      .login-shell {
-        width: 100%;
-        border-radius: 0;
-        border: 0;
-      }
-
-      .brand-panel {
-        min-height: 390px;
-        padding: 25px 20px;
-      }
-
-      .brand-features {
-        gap: 7px;
-      }
-
-      .feature {
-        padding: 11px 9px;
-      }
-
-      .feature strong {
-        font-size: 10px;
-      }
-
-      .feature span {
-        font-size: 8px;
-      }
-
-      .login-panel {
-        padding: 38px 22px 30px;
-      }
-
-      .login-header h2 {
-        font-size: 29px;
-      }
-
-      .login-footer {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .toast {
-        left: 16px;
-        right: 16px;
-        bottom: 16px;
-        min-width: 0;
-      }
-    }
-
-    @media (max-width: 380px) {
-      .brand-panel {
-        min-height: 360px;
-      }
-
-      .brand-center h1 {
-        font-size: 29px;
-      }
-
-      .brand-center p {
-        font-size: 12px;
-      }
-
-      .ai-orb {
-        width: 100px;
-        height: 100px;
-      }
-
-      .orb-text {
-        font-size: 20px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
-      }
-    }
   </style>
+
 </head>
 
 <body>
 
-  <main class="login-shell">
+<main class="shell">
 
-    <!-- =========================================
-         BRAND PANEL
-    ========================================== -->
+  <section class="brand">
 
-    <section class="brand-panel">
+    <div class="mark">
 
-      <div class="brand-top">
+      <div class="logo">
+        AKI
+      </div>
 
-        <div class="brand-mark">
+      <div class="brand-name">
 
-          <div class="logo-box">
-            AKI
-          </div>
+        AKHI Engineering Workshop
 
-          <div class="brand-name">
-            AKI Engineering
-            <span>Workshop Administration</span>
-          </div>
+        <small>
+          Administration Portal
+        </small>
+
+      </div>
+
+    </div>
+
+    <div class="center">
+
+      <div class="orb">
+        <b>AKI</b>
+      </div>
+
+      <h1>
+        Control the
+        <span>
+          Workshop.
+        </span>
+      </h1>
+
+      <p>
+        One administration layer for homepage content,
+        banners, projects, media, settings and the
+        AKHI AI workspace.
+      </p>
+
+    </div>
+
+    <div class="features">
+
+      <div class="feature">
+        <strong>
+          Content
+        </strong>
+        <span>
+          CMS control
+        </span>
+      </div>
+
+      <div class="feature">
+        <strong>
+          Projects
+        </strong>
+        <span>
+          Portfolio control
+        </span>
+      </div>
+
+      <div class="feature">
+        <strong>
+          Security
+        </strong>
+        <span>
+          Role-based access
+        </span>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="form-panel">
+
+    <span class="badge">
+
+      <i class="dot"></i>
+
+      SECURE ADMIN ACCESS
+
+    </span>
+
+    <h2>
+      Welcome back.
+    </h2>
+
+    <p class="intro">
+      Sign in with your assigned administrator account.
+    </p>
+
+    <div
+      id="error"
+      class="error"
+      role="alert"
+    ></div>
+
+    <form
+      id="form"
+      novalidate
+    >
+
+      <div class="field">
+
+        <label for="email">
+          EMAIL ADDRESS
+        </label>
+
+        <div class="wrap">
+
+          <input
+            id="email"
+            type="email"
+            autocomplete="username"
+            placeholder="Enter your email"
+            required
+          >
 
         </div>
 
       </div>
 
-      <div class="brand-center">
+      <div class="field">
 
-        <div class="ai-orb">
-          <div class="orb-text">AI</div>
-        </div>
+        <label for="password">
+          PASSWORD
+        </label>
 
-        <h1>
-          Welcome to
-          <span>AKHI.AI</span>
-        </h1>
+        <div class="wrap">
 
-        <p>
-          Intelligent workshop management, engineering operations,
-          customer experience and AI-powered administration —
-          all from one secure workspace.
-        </p>
-
-      </div>
-
-      <div class="brand-features">
-
-        <div class="feature">
-          <strong>Secure</strong>
-          <span>Protected Access</span>
-        </div>
-
-        <div class="feature">
-          <strong>Smart</strong>
-          <span>AI Powered</span>
-        </div>
-
-        <div class="feature">
-          <strong>Control</strong>
-          <span>Central Management</span>
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================================
-         LOGIN PANEL
-    ========================================== -->
-
-    <section class="login-panel">
-
-      <div class="security-badge">
-        <span class="status-dot"></span>
-        SECURE ADMIN PORTAL
-      </div>
-
-      <div class="login-header">
-
-        <h2>
-          Sign in
-        </h2>
-
-        <p>
-          Enter your authorized administrator credentials
-          to access the AKI management workspace.
-        </p>
-
-      </div>
-
-
-      <div
-        id="errorMessage"
-        class="error-message"
-        role="alert"
-      ></div>
-
-
-      <form id="loginForm" novalidate>
-
-        <!-- EMAIL -->
-
-        <div class="field">
-
-          <label for="email">
-            Email Address
-          </label>
-
-          <div class="input-wrap">
-
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="admin@akiworkshop.com"
-              autocomplete="username"
-              required
-            >
-
-            <svg
-              class="input-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              aria-hidden="true"
-            >
-              <rect
-                x="3"
-                y="5"
-                width="18"
-                height="14"
-                rx="2"
-              />
-              <path d="m3 7 9 6 9-6" />
-            </svg>
-
-          </div>
-
-        </div>
-
-
-        <!-- PASSWORD -->
-
-        <div class="field">
-
-          <label for="password">
-            Password
-          </label>
-
-          <div class="input-wrap">
-
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Enter your password"
-              autocomplete="current-password"
-              required
-            >
-
-            <svg
-              class="input-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              aria-hidden="true"
-            >
-              <rect
-                x="4"
-                y="10"
-                width="16"
-                height="10"
-                rx="2"
-              />
-              <path d="M8 10V7a4 4 0 0 1 8 0v3" />
-            </svg>
-
-            <button
-              type="button"
-              class="password-toggle"
-              id="passwordToggle"
-              aria-label="Show password"
-            >
-
-              <svg
-                id="eyeIcon"
-                width="17"
-                height="17"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-              >
-                <path
-                  d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"
-                />
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="3"
-                />
-              </svg>
-
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- OPTIONS -->
-
-        <div class="login-options">
-
-          <label class="remember">
-
-            <input
-              type="checkbox"
-              id="remember"
-            >
-
-            <span>
-              Remember this device
-            </span>
-
-          </label>
+          <input
+            id="password"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Enter password"
+            required
+          >
 
           <button
+            class="toggle"
+            id="toggle"
             type="button"
-            class="forgot"
-            id="forgotPassword"
+            aria-label="Show password"
           >
-            Need help?
+            ◉
           </button>
 
         </div>
 
+      </div>
 
-        <!-- LOGIN BUTTON -->
+      <div class="options">
+
+        <label class="remember">
+
+          <input
+            id="remember"
+            type="checkbox"
+          >
+
+          Remember this device
+
+        </label>
 
         <button
-          type="submit"
-          class="login-button"
-          id="loginButton"
+          class="forgot"
+          id="forgot"
+          type="button"
         >
-
-          <span id="buttonText">
-            Sign In to Admin
-          </span>
-
-          <svg
-            id="buttonArrow"
-            width="17"
-            height="17"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path d="M5 12h14" />
-            <path d="m13 6 6 6-6 6" />
-          </svg>
-
+          Forgot password?
         </button>
-
-      </form>
-
-
-      <!-- FOOTER -->
-
-      <div class="login-footer">
-
-        <div class="protected">
-
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <rect
-              x="4"
-              y="10"
-              width="16"
-              height="10"
-              rx="2"
-            />
-            <path
-              d="M8 10V7a4 4 0 0 1 8 0v3"
-            />
-          </svg>
-
-          Protected Administration Area
-
-        </div>
-
-        <div class="version">
-          AKI Admin v1.0
-        </div>
 
       </div>
 
-    </section>
+      <button
+        class="submit"
+        id="submit"
+        type="submit"
+      >
+        Sign In
+      </button>
 
-  </main>
+    </form>
 
+    <div class="passkey-note">
 
-  <!-- TOAST -->
+      <strong>
+        Enhanced security
+      </strong>
 
-  <div
-    id="toast"
-    class="toast"
-    role="status"
-    aria-live="polite"
-  ></div>
+      <br>
 
+      Passkey / biometric authentication is prepared
+      for the final Supabase security phase. On supported
+      devices this will use your device authenticator,
+      such as fingerprint, Face ID or Windows Hello.
 
-  <script>
-    /*
-      =====================================================
-      AKI ENGINEERING WORKSHOP
-      ADMIN LOGIN
-      =====================================================
+    </div>
 
-      IMPORTANT:
-      This is a DEMO authentication system.
+    <div class="footer">
 
-      Credentials are stored in client-side JavaScript,
-      therefore this system is NOT suitable for production.
+      <span>
+        Protected administration area
+      </span>
 
-      For production:
-      Replace this demo authentication with Firebase
-      Authentication + Firestore/Realtime Database and
-      proper Security Rules.
+      <span>
+        AKHI Admin v1.3
+      </span>
 
-      Current roles:
-        1. Admin
-        2. Super Admin
-    */
+    </div>
 
+  </section>
 
-    /* =========================================
-       DEMO ADMIN ACCOUNTS
-    ========================================== */
+</main>
 
-    const ADMIN_ACCOUNTS = [
-      {
-        email: "admin@akiworkshop.com",
-        password: "AKI@2026",
-        role: "Admin",
-        redirect: "../dashboard.html"
+<div
+  id="toast"
+  class="toast"
+  role="status"
+  aria-live="polite"
+></div>
+
+<script>
+
+(function(){
+
+  "use strict";
+
+  const form =
+    document.getElementById(
+      "form"
+    );
+
+  const email =
+    document.getElementById(
+      "email"
+    );
+
+  const password =
+    document.getElementById(
+      "password"
+    );
+
+  const remember =
+    document.getElementById(
+      "remember"
+    );
+
+  const submit =
+    document.getElementById(
+      "submit"
+    );
+
+  const error =
+    document.getElementById(
+      "error"
+    );
+
+  const toggle =
+    document.getElementById(
+      "toggle"
+    );
+
+  const forgot =
+    document.getElementById(
+      "forgot"
+    );
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+  function showError(message){
+
+    error.textContent =
+      message;
+
+    error.classList.add(
+      "show"
+    );
+
+  }
+
+  function clearError(){
+
+    error.textContent =
+      "";
+
+    error.classList.remove(
+      "show"
+    );
+
+  }
+
+  function notify(message){
+
+    toast.textContent =
+      message;
+
+    toast.style.display =
+      "block";
+
+    setTimeout(
+      function(){
+
+        toast.style.display =
+          "none";
+
       },
-
-      {
-        email: "master@nusratafsana.com",
-        password: "SNK@Master2026!",
-        role: "Super Admin",
-        redirect: "../dashboard.html"
-      }
-    ];
-
-
-    /* =========================================
-       DOM
-    ========================================== */
-
-    const loginForm =
-      document.getElementById("loginForm");
-
-    const emailInput =
-      document.getElementById("email");
-
-    const passwordInput =
-      document.getElementById("password");
-
-    const rememberInput =
-      document.getElementById("remember");
-
-    const passwordToggle =
-      document.getElementById("passwordToggle");
-
-    const eyeIcon =
-      document.getElementById("eyeIcon");
-
-    const loginButton =
-      document.getElementById("loginButton");
-
-    const buttonText =
-      document.getElementById("buttonText");
-
-    const buttonArrow =
-      document.getElementById("buttonArrow");
-
-    const errorMessage =
-      document.getElementById("errorMessage");
-
-    const forgotPassword =
-      document.getElementById("forgotPassword");
-
-    const toast =
-      document.getElementById("toast");
-
-
-    /* =========================================
-       SESSION KEY
-    ========================================== */
-
-    const SESSION_KEY =
-      "aki_admin_session";
-
-    const REMEMBER_KEY =
-      "aki_admin_remember";
-
-
-    /* =========================================
-       INITIALIZATION
-    ========================================== */
-
-    document.addEventListener(
-      "DOMContentLoaded",
-      () => {
-
-        loadRememberedEmail();
-
-        checkExistingSession();
-
-      }
+      2600
     );
 
+  }
 
-    /* =========================================
-       CHECK EXISTING SESSION
-    ========================================== */
+  /* Existing session */
 
-    function checkExistingSession() {
+  const existing =
+    AKIAdmin.getSession();
 
-      const session =
-        sessionStorage.getItem(SESSION_KEY);
+  if(existing){
 
-      const remembered =
-        localStorage.getItem(REMEMBER_KEY);
+    location.href =
+      AKIAdmin.dashboardUrl();
 
-      if (session || remembered) {
+    return;
 
-        /*
-          If the user is already logged in,
-          redirect to dashboard.
-        */
+  }
 
-        const savedSession =
-          session || remembered;
+  /* Remembered email */
 
-        try {
-
-          const user =
-            JSON.parse(savedSession);
-
-          if (
-            user &&
-            user.role &&
-            user.email
-          ) {
-
-            /*
-              Small delay prevents page flicker.
-            */
-
-            setTimeout(() => {
-
-              window.location.href =
-                "../dashboard.html";
-
-            }, 100);
-
-          }
-
-        } catch (error) {
-
-          sessionStorage.removeItem(
-            SESSION_KEY
-          );
-
-          localStorage.removeItem(
-            REMEMBER_KEY
-          );
-
-        }
-
-      }
-
-    }
-
-
-    /* =========================================
-       REMEMBERED EMAIL
-    ========================================== */
-
-    function loadRememberedEmail() {
-
-      const rememberedEmail =
-        localStorage.getItem(
-          "aki_admin_email"
-        );
-
-      if (rememberedEmail) {
-
-        emailInput.value =
-          rememberedEmail;
-
-        rememberInput.checked =
-          true;
-
-      }
-
-    }
-
-
-    /* =========================================
-       PASSWORD VISIBILITY
-    ========================================== */
-
-    passwordToggle.addEventListener(
-      "click",
-      () => {
-
-        const isPassword =
-          passwordInput.type === "password";
-
-        passwordInput.type =
-          isPassword
-            ? "text"
-            : "password";
-
-        passwordToggle.setAttribute(
-          "aria-label",
-          isPassword
-            ? "Hide password"
-            : "Show password"
-        );
-
-        if (isPassword) {
-
-          eyeIcon.innerHTML = `
-            <path
-              d="M3 3l18 18"
-            />
-            <path
-              d="M10.6 10.6a2 2 0 0 0 2.8 2.8"
-            />
-            <path
-              d="M9.9 4.2A10.9 10.9 0 0 1 12 4c6.5 0 10 8 10 8a17.8 17.8 0 0 1-3.1 4.2"
-            />
-            <path
-              d="M6.2 6.3C3.4 8.3 2 12 2 12s3.5 8 10 8a9.8 9.8 0 0 0 4.1-.9"
-            />
-          `;
-
-        } else {
-
-          eyeIcon.innerHTML = `
-            <path
-              d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"
-            />
-            <circle
-              cx="12"
-              cy="12"
-              r="3"
-            />
-          `;
-
-        }
-
-      }
+  const savedEmail =
+    localStorage.getItem(
+      "aki_admin_email"
     );
 
+  if(savedEmail){
 
-    /* =========================================
-       LOGIN
-    ========================================== */
+    email.value =
+      savedEmail;
 
-    loginForm.addEventListener(
-      "submit",
-      async (event) => {
+    remember.checked =
+      true;
 
-        event.preventDefault();
+  }
 
-        hideError();
+  /* Password visibility */
 
-        const email =
-          emailInput.value
-            .trim()
-            .toLowerCase();
+  toggle.addEventListener(
+    "click",
+    function(){
 
-        const password =
-          passwordInput.value;
+      const hidden =
+        password.type ===
+        "password";
 
-        if (!email) {
+      password.type =
+        hidden
+          ? "text"
+          : "password";
 
-          showError(
-            "Please enter your email address."
-          );
+      toggle.textContent =
+        hidden
+          ? "◌"
+          : "◉";
 
-          emailInput.focus();
+    }
+  );
 
-          return;
+  /* Login */
 
-        }
+  form.addEventListener(
+    "submit",
+    async function(event){
 
-        if (!isValidEmail(email)) {
+      event.preventDefault();
 
-          showError(
-            "Please enter a valid email address."
-          );
+      clearError();
 
-          emailInput.focus();
+      const em =
+        email.value
+          .trim()
+          .toLowerCase();
 
-          return;
+      const pw =
+        password.value;
 
-        }
+      if(!em || !pw){
 
-        if (!password) {
-
-          showError(
-            "Please enter your password."
-          );
-
-          passwordInput.focus();
-
-          return;
-
-        }
-
-
-        /* Loading state */
-
-        setLoading(true);
-
-
-        /*
-          Demo delay for premium UX.
-        */
-
-        await wait(750);
-
-
-        const account =
-          ADMIN_ACCOUNTS.find(
-            user =>
-              user.email.toLowerCase() === email &&
-              user.password === password
-          );
-
-
-        if (!account) {
-
-          setLoading(false);
-
-          showError(
-            "Invalid email or password. Please check your administrator credentials."
-          );
-
-          passwordInput.focus();
-
-          return;
-
-        }
-
-
-        /* =====================================
-           CREATE SESSION
-        ====================================== */
-
-        const session = {
-
-          email: account.email,
-
-          role: account.role,
-
-          loggedIn: true,
-
-          loginTime:
-            new Date().toISOString(),
-
-          version: "1.0"
-
-        };
-
-
-        const sessionString =
-          JSON.stringify(session);
-
-
-        /*
-          Remember device
-        */
-
-        if (rememberInput.checked) {
-
-          localStorage.setItem(
-            REMEMBER_KEY,
-            sessionString
-          );
-
-          localStorage.setItem(
-            "aki_admin_email",
-            account.email
-          );
-
-        } else {
-
-          sessionStorage.setItem(
-            SESSION_KEY,
-            sessionString
-          );
-
-          localStorage.removeItem(
-            REMEMBER_KEY
-          );
-
-          localStorage.removeItem(
-            "aki_admin_email"
-          );
-
-        }
-
-
-        /* =====================================
-           SUCCESS UI
-        ====================================== */
-
-        buttonText.textContent =
-          "Access Granted";
-
-        buttonArrow.innerHTML = `
-          <path
-            d="M5 12l4 4L19 6"
-          />
-        `;
-
-        loginButton.classList.remove(
-          "loading"
+        showError(
+          "Please enter your email address and password."
         );
 
-
-        showToast(
-          `Welcome back — ${account.role}`,
-          "success"
-        );
-
-
-        /*
-          Redirect to dashboard
-        */
-
-        setTimeout(() => {
-
-          window.location.href =
-            account.redirect;
-
-        }, 600);
-
-      }
-    );
-
-
-    /* =========================================
-       LOADING STATE
-    ========================================== */
-
-    function setLoading(isLoading) {
-
-      if (isLoading) {
-
-        loginButton.classList.add(
-          "loading"
-        );
-
-        buttonText.textContent =
-          "Authenticating...";
-
-        buttonArrow.innerHTML = `
-          <span class="spinner"></span>
-        `;
-
-      } else {
-
-        loginButton.classList.remove(
-          "loading"
-        );
-
-        buttonText.textContent =
-          "Sign In to Admin";
-
-        buttonArrow.innerHTML = `
-          <path d="M5 12h14" />
-          <path d="m13 6 6 6-6 6" />
-        `;
+        return;
 
       }
 
-    }
+      submit.disabled =
+        true;
 
+      submit.innerHTML =
+        '<span class="spin"></span>Authenticating...';
 
-    /* =========================================
-       ERROR
-    ========================================== */
-
-    function showError(message) {
-
-      errorMessage.textContent =
-        message;
-
-      errorMessage.classList.add(
-        "show"
-      );
-
-    }
-
-
-    function hideError() {
-
-      errorMessage.classList.remove(
-        "show"
-      );
-
-      errorMessage.textContent = "";
-
-    }
-
-
-    /* =========================================
-       FORGOT / HELP
-    ========================================== */
-
-    forgotPassword.addEventListener(
-      "click",
-      () => {
-
-        showToast(
-          "Please contact the Super Admin to reset administrator access."
-        );
-
-      }
-    );
-
-
-    /* =========================================
-       INPUT CLEANUP
-    ========================================== */
-
-    emailInput.addEventListener(
-      "input",
-      hideError
-    );
-
-    passwordInput.addEventListener(
-      "input",
-      hideError
-    );
-
-
-    /* =========================================
-       KEYBOARD
-    ========================================== */
-
-    document.addEventListener(
-      "keydown",
-      event => {
-
-        if (
-          event.key === "Enter" &&
-          document.activeElement === emailInput
-        ) {
-
-          passwordInput.focus();
-
-        }
-
-        if (
-          event.key === "Escape"
-        ) {
-
-          hideError();
-
-        }
-
-      }
-    );
-
-
-    /* =========================================
-       TOAST
-    ========================================== */
-
-    let toastTimer;
-
-    function showToast(
-      message,
-      type = ""
-    ) {
-
-      clearTimeout(toastTimer);
-
-      toast.textContent =
-        message;
-
-      toast.className =
-        `toast show ${type}`;
-
-      toastTimer =
-        setTimeout(() => {
-
-          toast.className =
-            "toast";
-
-        }, 3200);
-
-    }
-
-
-    /* =========================================
-       UTILITIES
-    ========================================== */
-
-    function isValidEmail(email) {
-
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        .test(email);
-
-    }
-
-
-    function wait(milliseconds) {
-
-      return new Promise(
+      await new Promise(
         resolve =>
           setTimeout(
             resolve,
-            milliseconds
+            450
           )
       );
 
-    }
-
-
-    /* =========================================
-       DEBUG API
-       Development only
-    ========================================== */
-
-    window.AKI_ADMIN_LOGIN = {
-
-      logout() {
-
-        sessionStorage.removeItem(
-          SESSION_KEY
+      const result =
+        AKIAdmin.authenticate(
+          em,
+          pw,
+          remember.checked
         );
 
-        localStorage.removeItem(
-          REMEMBER_KEY
+      if(!result.success){
+
+        submit.disabled =
+          false;
+
+        submit.textContent =
+          "Sign In";
+
+        showError(
+          result.error ||
+          "Invalid email or password."
         );
 
-        localStorage.removeItem(
-          "aki_admin_email"
-        );
+        password.focus();
 
-        window.location.href =
-          "./index.html";
-
-      },
-
-      getSession() {
-
-        const session =
-          sessionStorage.getItem(
-            SESSION_KEY
-          );
-
-        const remembered =
-          localStorage.getItem(
-            REMEMBER_KEY
-          );
-
-        const value =
-          session || remembered;
-
-        if (!value) {
-          return null;
-        }
-
-        try {
-
-          return JSON.parse(value);
-
-        } catch {
-
-          return null;
-
-        }
+        return;
 
       }
 
-    };
+      notify(
+        "Access granted. Redirecting..."
+      );
 
-  </script>
+      submit.textContent =
+        "Access Granted";
+
+      setTimeout(
+        function(){
+
+          location.href =
+            AKIAdmin.dashboardUrl();
+
+        },
+        350
+      );
+
+    }
+  );
+
+  forgot.addEventListener(
+    "click",
+    function(){
+
+      showError(
+        "Password recovery is managed by the Super Admin."
+      );
+
+    }
+  );
+
+  [email,password]
+    .forEach(
+      input => {
+
+        input.addEventListener(
+          "input",
+          clearError
+        );
+
+      }
+    );
+
+})();
+
+</script>
 
 </body>
+
 </html>
