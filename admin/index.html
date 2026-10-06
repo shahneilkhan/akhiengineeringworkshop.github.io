@@ -28,28 +28,43 @@ settings:{ref:'settings',f:[['name','Business name'],['email','Email'],['phone',
 const COLS={banners:{f:[['title','Title'],['description','Description','t'],['image','Image URL'],['order','Order','n']],pub:1},
 projects:{f:[['title','Project name'],['description','Description','t'],['category','Category'],['year','Year'],['image','Image URL'],['order','Order','n']],pub:1},
 media:{f:[['url','Media URL'],['alt','Alt text'],['category','Category']]}};
-const NAMES={home:'Homepage',banners:'Banners',projects:'Projects',media:'Media',settings:'Settings'};
-let cur='home';
+const NAMES={dash:'Dashboard',home:'Homepage',banners:'Banners',projects:'Projects',media:'Media',settings:'Settings',activity:'Activity',backup:'Backup',admins:'Admins'};
+let cur='dash',ROLE='admin';
+const log=a=>db.collection('activityLogs').add({a,email:auth.currentUser.email,at:firebase.firestore.FieldValue.serverTimestamp()}).catch(()=>{});
+const KEYS=['siteContent','banners','projects','media'];
 function login(e=''){R.innerHTML=`<div class="card" style="max-width:380px;margin:12vh auto"><h1>AKHI Admin</h1><form id="lf"><label>Email</label><input id="e" type="email" required><label>Password</label><input id="p" type="password" required><p id="msg">${esc(e)}</p><button class="pri" style="width:100%">Sign in</button></form></div>`;
 $('#lf').onsubmit=async ev=>{ev.preventDefault();try{await auth.signInWithEmailAndPassword($('#e').value.trim(),$('#p').value)}catch(x){msg('Email or password is wrong.')}}}
-function shell(){R.innerHTML=`<div class="bar"><h1>AKHI Admin</h1><div><a href="../" target="_blank"><button>View site</button></a> <button id="out">Sign out</button></div></div><nav>${Object.keys(NAMES).map(k=>`<button class="tab ${k==cur?'on':''}" data-k="${k}">${NAMES[k]}</button>`).join('')}</nav><div id="body"></div>`;
+function shell(){R.innerHTML=`<div class="bar"><h1>AKHI Admin</h1><div><a href="../" target="_blank"><button>View site</button></a> <button id="out">Sign out</button></div></div><nav>${Object.keys(NAMES).filter(k=>k!='admins'||ROLE=='superadmin').map(k=>`<button class="tab ${k==cur?'on':''}" data-k="${k}">${NAMES[k]}</button>`).join('')}</nav><div id="body"></div>`;
 $('#out').onclick=()=>auth.signOut();document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{cur=b.dataset.k;shell();view()})}
 const inp=(f,v)=>`<label>${f[1]}</label>${f[2]=='t'?`<textarea id="f_${f[0]}">${esc(v)}</textarea>`:`<input id="f_${f[0]}" ${f[2]=='n'?'type="number"':''} value="${esc(v)}">`}`;
 const read=fs=>{const o={};fs.forEach(f=>{const v=$('#f_'+f[0]).value.trim();o[f[0]]=f[2]=='n'?(Number(v)||0):v});return o};
 async function view(){const B=$('#body');
+ if(cur=='dash'){const n=await Promise.all(['banners','projects','media','activityLogs'].map(k=>db.collection(k).get().then(x=>x.size).catch(()=>'-')));
+  B.innerHTML=`<div class="card"><b>Welcome</b><p>Role: ${ROLE}</p>${['Banners','Projects','Media','Activity events'].map((t,i)=>`<div class="it"><span>${t}</span><b>${n[i]}</b></div>`).join('')}</div>`;return}
+ if(cur=='activity'){const s=await db.collection('activityLogs').orderBy('at','desc').limit(100).get();
+  B.innerHTML=`<div class="card"><b>Activity log</b>${s.docs.map(d=>{const x=d.data();return `<div class="it"><div>${esc(x.a)}<small>${esc(x.email)} · ${x.at?x.at.toDate().toLocaleString():''}</small></div></div>`}).join('')||'<div class="it"><small>No activity yet.</small></div>'}</div>`;return}
+ if(cur=='backup'){B.innerHTML=`<div class="card"><b>Backup &amp; restore</b><p><button class="pri" id="ex">Export JSON</button> <label class="tab" style="display:inline-block">Import JSON<input id="im" type="file" accept="application/json" hidden></label></p><p id="msg"></p></div>`;
+  $('#ex').onclick=async()=>{const o={version:1,at:new Date().toISOString(),data:{}};for(const k of KEYS)o.data[k]=(await db.collection(k).get()).docs.map(d=>({id:d.id,...d.data()}));
+   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(o)],{type:'application/json'}));a.download='akhi-backup-'+o.at.slice(0,10)+'.json';a.click();log('backup export')};
+  $('#im').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{const o=JSON.parse(r.result);if(!o.data)throw Error('Invalid backup file.');for(const k of KEYS)for(const {id,...x} of (o.data[k]||[]))await db.collection(k).doc(id).set(x,{merge:true});log('backup import');msg('Restored.')}catch(x){msg(x.message)}};r.readAsText(f)};return}
+ if(cur=='admins'){const col=db.collection('adminUsers'),s=await col.get();
+  B.innerHTML=`<div class="card"><b>Add admin</b><p style="color:var(--m)">First create the user in Firebase Authentication, then paste the UID here.</p><form id="f"><label>UID</label><input id="u" required><label>Name / email</label><input id="n"><label>Role (admin or superadmin)</label><input id="r" value="admin"><p id="msg"></p><button class="pri">Save admin</button></form></div><div class="card"><b>Admins</b>${s.docs.map(d=>{const x=d.data();return `<div class="it"><div>${esc(x.name||d.id)}<small>${esc(x.role)} · ${x.active===false?'disabled':'active'}</small></div><div><button data-t="${d.id}">${x.active===false?'Enable':'Disable'}</button> <button class="del" data-x="${d.id}">Remove</button></div></div>`}).join('')}</div>`;
+  $('#f').onsubmit=async e=>{e.preventDefault();const r=$('#r').value.trim()=='superadmin'?'superadmin':'admin';await col.doc($('#u').value.trim()).set({name:$('#n').value.trim(),role:r,active:true},{merge:true});log('admin saved');view()};
+  B.querySelectorAll('[data-t]').forEach(b=>b.onclick=async()=>{const x=s.docs.find(d=>d.id==b.dataset.t).data();if(b.dataset.t==auth.currentUser.uid)return alert('You cannot disable yourself.');await col.doc(b.dataset.t).update({active:x.active===false});log('admin toggled');view()});
+  B.querySelectorAll('[data-x]').forEach(b=>b.onclick=async()=>{if(b.dataset.x==auth.currentUser.uid)return alert('You cannot remove yourself.');if(confirm('Remove this admin?')){await col.doc(b.dataset.x).delete();log('admin removed');view()}});return}
  if(DOCS[cur]){const d=DOCS[cur],ref=db.collection('siteContent').doc(d.ref),s=await ref.get(),x=s.exists?s.data():{};
   B.innerHTML=`<div class="card"><form id="f">${d.f.map(f=>inp(f,x[f[0]])).join('')}<p id="msg"></p><button class="pri">Save</button></form></div>`;
-  $('#f').onsubmit=async e=>{e.preventDefault();try{await ref.set({...read(d.f),updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});msg('Saved.')}catch(x){msg(x.message)}};return}
+  $('#f').onsubmit=async e=>{e.preventDefault();try{await ref.set({...read(d.f),updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});log('save '+cur);msg('Saved.')}catch(x){msg(x.message)}};return}
  const c=COLS[cur],col=db.collection(cur);let edit=null;
  async function draw(){const s=await col.limit(200).get();const a=s.docs.map(d=>({id:d.id,...d.data()})).sort((p,q)=>(p.order??999)-(q.order??999));const x=edit||{};
   B.innerHTML=`<div class="card"><b>${edit?'Edit record':'Add record'}</b><form id="f">${c.f.map(f=>inp(f,x[f[0]])).join('')}${c.pub?`<label><input type="checkbox" id="pub" ${x.published===false?'':'checked'}> Published</label>`:''}<p id="msg"></p><button class="pri">Save</button> ${edit?'<button type="button" id="cn">Cancel</button>':''}</form></div>
   <div class="card"><b>Saved records</b>${a.map(r=>`<div class="it"><div>${esc(r.title||r.alt||r.url||'Untitled')}<small>${esc(r.category||r.description||'')}${c.pub&&r.published===false?' · draft':''}</small></div><div><button data-e="${r.id}">Edit</button> <button class="del" data-d="${r.id}">Delete</button></div></div>`).join('')||'<div class="it"><small>No records yet.</small></div>'}</div>`;
   $('#f').onsubmit=async e=>{e.preventDefault();try{const o={...read(c.f),updatedAt:firebase.firestore.FieldValue.serverTimestamp()};if(c.pub)o.published=$('#pub').checked;
-   if(edit)await col.doc(edit.id).set(o,{merge:true});else await col.add({...o,createdAt:firebase.firestore.FieldValue.serverTimestamp()});edit=null;await draw();msg('Saved.')}catch(x){msg(x.message)}};
+   if(edit)await col.doc(edit.id).set(o,{merge:true});else await col.add({...o,createdAt:firebase.firestore.FieldValue.serverTimestamp()});edit=null;await draw();log('save '+cur);msg('Saved.')}catch(x){msg(x.message)}};
   if($('#cn'))$('#cn').onclick=()=>{edit=null;draw()};
   B.querySelectorAll('[data-e]').forEach(b=>b.onclick=()=>{edit=a.find(r=>r.id==b.dataset.e);draw();scrollTo(0,0)});
-  B.querySelectorAll('[data-d]').forEach(b=>b.onclick=async()=>{if(confirm('Delete this record?')){await col.doc(b.dataset.d).delete();draw()}})}
+  B.querySelectorAll('[data-d]').forEach(b=>b.onclick=async()=>{if(confirm('Delete this record?')){await col.doc(b.dataset.d).delete();log('delete '+cur);draw()}})}
  draw()}
 auth.onAuthStateChanged(async u=>{if(!u)return login();
- try{const s=await db.collection('adminUsers').doc(u.uid).get();if(!s.exists){await auth.signOut();return login('This account is not an admin.')}shell();view()}catch(x){await auth.signOut();login('Cannot verify admin access.')}});
+ try{const s=await db.collection('adminUsers').doc(u.uid).get();if(!s.exists||s.data().active===false){await auth.signOut();return login('This account is not an active admin.')}ROLE=s.data().role||'admin';shell();view()}catch(x){await auth.signOut();login('Cannot verify admin access.')}});
 </script></body></html>
