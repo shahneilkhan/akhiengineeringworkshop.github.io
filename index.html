@@ -4,42 +4,49 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 
-<meta name="theme-color" content="#0a0a0a">
-<meta name="description" content="AKHI Furniture — thoughtfully selected furniture for refined homes, offices and modern workspaces.">
+<meta name="theme-color" content="#111111">
+<meta name="description" content="AKHI Furniture — premium furniture for refined homes and modern workspaces.">
 <meta name="robots" content="index,follow">
 
-<title>AKHI Furniture — Furniture, Thoughtfully Made.</title>
+<title>AKHI Furniture | Premium Furniture</title>
 
+<!-- =========================================================
+     PERFORMANCE FIRST
+========================================================= -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com">
 
-<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link
+  href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap"
+  rel="stylesheet"
+>
 
 <style>
+/* =========================================================
+   AKHI FURNITURE — PERFORMANCE PREMIUM UI
+========================================================= */
+
 :root{
   --red:#e2262d;
-  --red2:#ff3037;
-  --red-dark:#ad151b;
-
+  --red-dark:#b9161c;
   --black:#090909;
-  --black2:#101010;
-  --ink:#151515;
-
-  --paper:#f8f6f2;
-  --paper2:#efebe5;
+  --black-2:#111111;
+  --black-3:#181818;
+  --paper:#f4f1ea;
+  --paper-2:#ebe7de;
   --white:#fff;
+  --text:#171717;
+  --muted:#77736d;
+  --line:rgba(20,20,20,.12);
+  --white-line:rgba(255,255,255,.12);
 
-  --muted:#777;
-  --muted2:#a09d98;
+  --serif:"DM Serif Display",Georgia,serif;
+  --sans:"Barlow",Arial,sans-serif;
 
-  --line:rgba(0,0,0,.1);
-  --line-light:rgba(255,255,255,.12);
-
-  --max:1500px;
-  --ease:cubic-bezier(.22,1,.36,1);
-  --ease2:cubic-bezier(.16,1,.3,1);
-
-  --header:86px;
+  --max:1440px;
+  --header:82px;
+  --ease:cubic-bezier(.2,.8,.2,1);
 }
 
 *{
@@ -54,28 +61,21 @@ html{
 }
 
 body{
-  margin:0;
-  font-family:Barlow,system-ui,sans-serif;
-  color:var(--ink);
   background:var(--paper);
-  line-height:1.5;
+  color:var(--text);
+  font-family:var(--sans);
   overflow-x:hidden;
-  cursor:auto;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
 }
 
-body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:9998;
-  pointer-events:none;
-  opacity:.026;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+body.loading{
+  overflow:hidden;
 }
 
-a{
-  color:inherit;
-  text-decoration:none;
+img{
+  display:block;
+  max-width:100%;
 }
 
 button,
@@ -85,24 +85,17 @@ input{
 
 button{
   border:0;
+  cursor:pointer;
 }
 
-img{
-  display:block;
-  max-width:100%;
-}
-
-svg{
-  width:22px;
-  height:22px;
-  fill:none;
-  stroke:currentColor;
-  stroke-width:1.5;
+a{
+  color:inherit;
+  text-decoration:none;
 }
 
 ::selection{
-  color:#fff;
   background:var(--red);
+  color:#fff;
 }
 
 /* =========================================================
@@ -112,304 +105,279 @@ svg{
 .loader{
   position:fixed;
   inset:0;
-  z-index:10000;
-  display:grid;
-  place-items:center;
-  background:#090909;
+  z-index:99999;
+  background:var(--black);
   color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   transition:
-    opacity .9s var(--ease),
-    visibility .9s;
+    opacity .35s ease,
+    visibility .35s ease;
 }
 
-.loader.done{
+.loader.hide{
   opacity:0;
   visibility:hidden;
   pointer-events:none;
 }
 
 .loader-inner{
-  width:min(260px,70vw);
   text-align:center;
 }
 
 .loader-logo{
-  font-size:48px;
-  font-weight:700;
-  letter-spacing:.05em;
+  font-size:clamp(28px,5vw,58px);
+  font-weight:800;
+  letter-spacing:-.07em;
+}
+
+.loader-logo span{
+  color:var(--red);
 }
 
 .loader-line{
-  position:relative;
-  height:1px;
-  margin-top:25px;
-  background:rgba(255,255,255,.15);
+  width:100px;
+  height:2px;
+  margin:20px auto 0;
   overflow:hidden;
+  background:rgba(255,255,255,.15);
 }
 
-.loader-line i{
-  position:absolute;
-  inset:0;
-  transform:translateX(-100%);
+.loader-line span{
+  display:block;
+  width:45%;
+  height:100%;
   background:var(--red);
-  animation:loadLine 1.4s var(--ease) forwards;
+  animation:loaderMove .8s infinite ease-in-out;
 }
 
-.loader-count{
-  margin-top:12px;
-  color:#777;
-  font-size:10px;
-  letter-spacing:.25em;
-  text-transform:uppercase;
-}
-
-@keyframes loadLine{
-  to{
-    transform:translateX(0);
-  }
+@keyframes loaderMove{
+  0%{transform:translateX(-120%)}
+  100%{transform:translateX(340%)}
 }
 
 /* =========================================================
-   SCROLL PROGRESS
+   PROGRESS
 ========================================================= */
 
 .progress{
   position:fixed;
-  top:0;
   left:0;
-  z-index:10001;
+  top:0;
   width:0;
-  height:2px;
+  height:3px;
   background:var(--red);
-  box-shadow:0 0 15px rgba(226,38,45,.7);
+  z-index:10001;
 }
 
 /* =========================================================
    HEADER
 ========================================================= */
 
-.hd{
+.site-header{
   position:fixed;
   top:0;
   left:0;
-  right:0;
-  z-index:500;
+  width:100%;
   height:var(--header);
+  z-index:9000;
+
   display:flex;
   align-items:center;
-  padding:0 34px;
+
   color:#fff;
+  background:rgba(9,9,9,.12);
+  border-bottom:1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+
   transition:
-    height .55s var(--ease),
-    background .55s var(--ease),
-    color .55s var(--ease),
-    box-shadow .55s var(--ease);
+    background .3s ease,
+    height .3s ease,
+    border-color .3s ease;
 }
 
-.hd:after{
-  content:"";
-  position:absolute;
-  left:34px;
-  right:34px;
-  bottom:0;
-  height:1px;
-  background:rgba(255,255,255,.18);
-  transition:.4s;
+.site-header.scrolled{
+  height:70px;
+  background:rgba(9,9,9,.92);
+  border-color:rgba(255,255,255,.1);
 }
 
-.hd.solid{
-  height:72px;
-  color:var(--ink);
-  background:rgba(248,246,242,.91);
-  backdrop-filter:blur(24px) saturate(140%);
-  -webkit-backdrop-filter:blur(24px) saturate(140%);
-  box-shadow:0 15px 45px rgba(0,0,0,.07);
-}
+.header-inner{
+  width:min(calc(100% - 40px),var(--max));
+  margin:auto;
 
-.hd.solid:after{
-  background:var(--line);
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:20px;
 }
 
 .logo{
-  position:relative;
-  z-index:2;
-  width:104px;
-  height:48px;
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  width:max-content;
+
+  font-weight:800;
+  letter-spacing:-.05em;
+  font-size:24px;
+}
+
+.logo-mark{
+  width:29px;
+  height:29px;
   display:grid;
   place-items:center;
-  overflow:hidden;
   background:var(--red);
   color:#fff;
-  font-size:28px;
-  font-weight:700;
-  letter-spacing:.045em;
+  font-size:15px;
+  font-weight:800;
 }
 
-.logo:before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(
-    110deg,
-    transparent 20%,
-    rgba(255,255,255,.3) 50%,
-    transparent 80%
-  );
-  transform:translateX(-120%);
-  transition:transform .8s var(--ease);
+.logo span:last-child{
+  color:#fff;
 }
 
-.logo:hover:before{
-  transform:translateX(120%);
-}
-
-.logo:after{
-  content:"";
-  position:absolute;
-  inset:5px;
-  border:1px solid rgba(255,255,255,.25);
-}
-
-.nv{
+.nav{
   display:flex;
   align-items:center;
-  gap:34px;
-  margin-left:auto;
-  margin-right:42px;
-  font-size:12px;
-  font-weight:500;
-  letter-spacing:.1em;
-  text-transform:uppercase;
+  justify-content:center;
+  gap:30px;
 }
 
-.nv a,
-.nv button{
+.nav a{
   position:relative;
-  padding:8px 0;
-  color:inherit;
-  background:none;
-  cursor:pointer;
-  opacity:.82;
+  color:rgba(255,255,255,.78);
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  transition:color .2s ease;
 }
 
-.nv a:after,
-.nv button:after{
+.nav a::after{
   content:"";
   position:absolute;
   left:0;
-  bottom:1px;
+  bottom:-7px;
   width:0;
   height:1px;
-  background:currentColor;
-  transition:width .4s var(--ease);
+  background:var(--red);
+  transition:width .25s var(--ease);
 }
 
-.nv a:hover,
-.nv button:hover{
-  opacity:1;
+.nav a:hover{
+  color:#fff;
 }
 
-.nv a:hover:after,
-.nv button:hover:after{
+.nav a:hover::after{
   width:100%;
 }
 
-.ic{
+.header-actions{
   display:flex;
+  justify-content:flex-end;
   align-items:center;
-  gap:21px;
+  gap:8px;
 }
 
-.ic button,
-.ic a{
+.icon-btn{
+  width:40px;
+  height:40px;
+  border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.04);
+  color:#fff;
   display:grid;
   place-items:center;
-  color:inherit;
-  background:none;
-  cursor:pointer;
+  border-radius:50%;
+  transition:.25s ease;
 }
 
-.ic svg{
-  transition:transform .4s var(--ease);
+.icon-btn:hover{
+  background:var(--red);
+  border-color:var(--red);
+  transform:translateY(-2px);
 }
 
-.ic button:hover svg,
-.ic a:hover svg{
-  transform:translateY(-2px) scale(1.08);
-}
-
-.mm{
-  display:none!important;
+.menu-btn{
+  display:none;
 }
 
 /* =========================================================
    SEARCH
 ========================================================= */
 
-.sp{
+.search-panel{
   position:fixed;
-  top:var(--header);
-  left:0;
-  right:0;
-  z-index:450;
-  padding:30px 34px 38px;
-  background:rgba(248,246,242,.96);
-  border-bottom:1px solid var(--line);
-  backdrop-filter:blur(25px);
-  -webkit-backdrop-filter:blur(25px);
+  inset:0;
+  z-index:9500;
+
+  background:rgba(5,5,5,.97);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
   opacity:0;
-  transform:translateY(-18px);
+  visibility:hidden;
   pointer-events:none;
-  transition:.5s var(--ease);
+
+  transition:.3s ease;
 }
 
-.sp.on{
+.search-panel.open{
   opacity:1;
-  transform:none;
+  visibility:visible;
   pointer-events:auto;
 }
 
 .search-inner{
-  width:min(1100px,100%);
-  margin:auto;
-}
-
-.search-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:12px;
-}
-
-.search-top span{
-  color:var(--red);
-  font-size:10px;
-  letter-spacing:.2em;
-  text-transform:uppercase;
+  width:min(900px,calc(100% - 40px));
 }
 
 .search-close{
+  position:absolute;
+  right:30px;
+  top:30px;
+
+  width:48px;
+  height:48px;
+
+  border:1px solid rgba(255,255,255,.15);
   background:none;
-  cursor:pointer;
-  color:#777;
+  color:#fff;
+
+  border-radius:50%;
+  font-size:22px;
+}
+
+.search-label{
+  color:var(--red);
+  text-transform:uppercase;
+  letter-spacing:.15em;
   font-size:12px;
+  font-weight:700;
+  margin-bottom:15px;
 }
 
-.sp input{
+.search-input{
   width:100%;
-  padding:13px 0 18px;
-  border:0;
-  border-bottom:1px solid #999;
-  outline:none;
   background:none;
-  color:var(--ink);
-  font-size:clamp(28px,4vw,52px);
-  font-weight:300;
-  letter-spacing:-.035em;
+  border:0;
+  border-bottom:1px solid rgba(255,255,255,.25);
+  padding:18px 0;
+
+  color:#fff;
+  font-size:clamp(30px,6vw,72px);
+  font-weight:400;
+  outline:0;
 }
 
-.sp input::placeholder{
-  color:#bbb;
+.search-input::placeholder{
+  color:rgba(255,255,255,.2);
 }
 
 /* =========================================================
@@ -418,253 +386,212 @@ svg{
 
 .hero{
   position:relative;
-  height:100svh;
-  min-height:700px;
-  overflow:hidden;
-  background:#0b0b0b;
+  min-height:100svh;
+  background:var(--black);
   color:#fff;
+  overflow:hidden;
+  contain:layout paint;
 }
 
-.hero-bg{
+.hero-slides{
   position:absolute;
   inset:0;
 }
 
-.sl{
+.hero-slide{
   position:absolute;
   inset:0;
-  display:flex;
-  align-items:center;
   opacity:0;
   visibility:hidden;
-  transition:
-    opacity 1s ease,
-    visibility 1s;
+  transition:opacity .7s ease;
 }
 
-.sl.on{
+.hero-slide.active{
   opacity:1;
   visibility:visible;
-  z-index:3;
 }
 
-.sl>img{
+.hero-slide img{
   position:absolute;
-  inset:-4%;
-  width:108%;
-  height:108%;
+  inset:0;
+
+  width:100%;
+  height:100%;
   object-fit:cover;
-  filter:saturate(.72) contrast(1.04);
-  transform:scale(1.09);
-  transition:transform 8s cubic-bezier(.2,.7,.2,1);
+
+  filter:saturate(.8);
+  transform:scale(1.01);
+
+  transition:transform 7s ease;
 }
 
-.sl.on>img{
-  transform:scale(1);
+.hero-slide.active img{
+  transform:scale(1.045);
 }
 
-.sl:before{
-  content:"";
+.hero-overlay{
   position:absolute;
   inset:0;
-  z-index:1;
   background:
-    linear-gradient(
-      90deg,
-      rgba(0,0,0,.83) 0%,
-      rgba(0,0,0,.5) 38%,
-      rgba(0,0,0,.12) 75%,
-      rgba(0,0,0,.28) 100%
-    );
-}
-
-.sl:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:2;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(0,0,0,.45),
-      transparent 30%,
-      transparent 65%,
-      rgba(0,0,0,.5)
-    );
+    linear-gradient(90deg,
+      rgba(0,0,0,.82) 0%,
+      rgba(0,0,0,.55) 42%,
+      rgba(0,0,0,.15) 100%),
+    linear-gradient(0deg,
+      rgba(0,0,0,.6),
+      transparent 45%);
 }
 
 .hero-content{
   position:relative;
-  z-index:8;
-  width:min(var(--max),100%);
+  z-index:2;
+
+  min-height:100svh;
+  width:min(calc(100% - 40px),var(--max));
   margin:auto;
-  padding:100px 7vw 90px;
+
+  display:flex;
+  align-items:flex-end;
+  padding:0 0 110px;
 }
 
-.hero-kicker{
+.hero-copy{
+  max-width:780px;
+}
+
+.eyebrow{
   display:flex;
   align-items:center;
-  gap:15px;
-  margin-bottom:26px;
-  font-size:10px;
-  font-weight:600;
-  letter-spacing:.32em;
+  gap:12px;
+
+  color:#fff;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.2em;
   text-transform:uppercase;
+  margin-bottom:20px;
 }
 
-.hero-kicker:before{
+.eyebrow::before{
   content:"";
-  width:50px;
+  width:38px;
   height:1px;
   background:var(--red);
 }
 
 .hero-title{
-  max-width:1050px;
-  font-size:clamp(55px,8vw,125px);
-  line-height:.87;
+  font-family:var(--serif);
   font-weight:400;
+  font-size:clamp(58px,9vw,145px);
+  line-height:.86;
   letter-spacing:-.055em;
+  max-width:950px;
 }
 
 .hero-title em{
-  font-family:"DM Serif Display",serif;
-  font-weight:400;
-  letter-spacing:-.035em;
+  color:var(--red);
+  font-style:italic;
 }
 
 .hero-description{
-  max-width:540px;
-  margin:35px 0 0 8vw;
-  color:rgba(255,255,255,.78);
-  font-size:clamp(17px,1.7vw,23px);
-  line-height:1.3;
-  font-weight:300;
-}
+  max-width:520px;
+  margin-top:30px;
 
-.hero-description:before{
-  content:"";
-  position:absolute;
-  margin-left:-8vw;
-  margin-top:11px;
-  width:5vw;
-  height:1px;
-  background:rgba(255,255,255,.5);
+  color:rgba(255,255,255,.7);
+  font-size:16px;
+  line-height:1.7;
 }
 
 .hero-actions{
   display:flex;
-  align-items:center;
   gap:12px;
-  margin:38px 0 0 8vw;
+  margin-top:30px;
+  flex-wrap:wrap;
 }
 
-.b{
-  min-width:175px;
-  height:54px;
-  padding:0 26px;
+.btn{
+  min-height:50px;
+  padding:0 24px;
+
   display:inline-flex;
   align-items:center;
   justify-content:center;
   gap:10px;
+
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+
+  transition:.25s var(--ease);
+}
+
+.btn-red{
   background:var(--red);
   color:#fff;
-  font-size:11px;
-  font-weight:600;
-  letter-spacing:.13em;
-  text-transform:uppercase;
-  transition:
-    transform .45s var(--ease),
-    background .35s,
-    box-shadow .45s var(--ease);
 }
 
-.b:hover{
-  background:var(--red2);
-  transform:translateY(-5px);
-  box-shadow:0 18px 40px rgba(226,38,45,.3);
-}
-
-.b.ghost{
-  background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.45);
-  backdrop-filter:blur(10px);
-}
-
-.b.ghost:hover{
+.btn-red:hover{
   background:#fff;
   color:#111;
-  box-shadow:none;
+  transform:translateY(-3px);
 }
 
-.hero-bottom{
-  position:absolute;
-  left:7vw;
-  right:7vw;
-  bottom:35px;
-  z-index:10;
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
+.btn-outline{
+  color:#fff;
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.03);
 }
 
-.hero-place{
-  color:rgba(255,255,255,.62);
-  font-size:9px;
-  letter-spacing:.23em;
-  text-transform:uppercase;
-}
-
-.hero-counter{
-  display:flex;
-  align-items:center;
-  gap:18px;
-}
-
-.hero-counter strong{
-  font-size:12px;
-  font-weight:400;
-  letter-spacing:.15em;
-}
-
-.hero-line{
-  width:110px;
-  height:1px;
-  background:rgba(255,255,255,.25);
-  position:relative;
-}
-
-.hero-line i{
-  position:absolute;
-  top:0;
-  left:0;
-  width:33%;
-  height:100%;
+.btn-outline:hover{
+  border-color:#fff;
   background:#fff;
-  transition:width .5s var(--ease);
+  color:#111;
 }
 
-.hero-scroll{
+.hero-controls{
   position:absolute;
-  right:28px;
-  top:50%;
-  z-index:10;
+  right:35px;
+  bottom:40px;
+  z-index:4;
+
   display:flex;
   align-items:center;
   gap:12px;
-  color:rgba(255,255,255,.65);
-  font-size:9px;
-  letter-spacing:.2em;
-  text-transform:uppercase;
-  transform:rotate(90deg) translateX(50%);
-  transform-origin:right center;
 }
 
-.hero-scroll i{
-  display:block;
-  width:40px;
+.slide-number{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#fff;
+  font-size:12px;
+}
+
+.slide-number .current{
+  font-size:18px;
+  font-weight:700;
+}
+
+.slide-line{
+  width:65px;
   height:1px;
-  background:rgba(255,255,255,.4);
+  background:rgba(255,255,255,.3);
+}
+
+.hero-arrow{
+  width:44px;
+  height:44px;
+  border:1px solid rgba(255,255,255,.25);
+  color:#fff;
+  background:rgba(0,0,0,.15);
+  border-radius:50%;
+  transition:.25s;
+}
+
+.hero-arrow:hover{
+  background:var(--red);
+  border-color:var(--red);
 }
 
 /* =========================================================
@@ -681,24 +608,26 @@ svg{
 .marquee-track{
   width:max-content;
   display:flex;
-  align-items:center;
-  gap:45px;
-  padding:15px 0;
-  animation:marquee 28s linear infinite;
+  animation:marquee 24s linear infinite;
 }
 
-.marquee span{
-  font-size:11px;
-  font-weight:600;
-  letter-spacing:.2em;
+.marquee-item{
+  display:flex;
+  align-items:center;
+  gap:35px;
+  padding:17px 20px;
+
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.13em;
   text-transform:uppercase;
 }
 
-.marquee b{
-  width:5px;
-  height:5px;
-  border-radius:50%;
+.marquee-dot{
+  width:6px;
+  height:6px;
   background:#fff;
+  border-radius:50%;
 }
 
 @keyframes marquee{
@@ -708,403 +637,231 @@ svg{
 }
 
 /* =========================================================
+   SECTIONS
+========================================================= */
+
+.section{
+  width:min(calc(100% - 40px),var(--max));
+  margin:auto;
+}
+
+.section-pad{
+  padding:130px 0;
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:40px;
+  margin-bottom:55px;
+}
+
+.section-kicker{
+  color:var(--red);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+
+.section-title{
+  font-family:var(--serif);
+  font-size:clamp(44px,6vw,82px);
+  line-height:.95;
+  font-weight:400;
+  letter-spacing:-.045em;
+}
+
+.section-description{
+  max-width:390px;
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.75;
+}
+
+/* =========================================================
    INTRO
 ========================================================= */
 
 .intro{
-  padding:150px 30px 145px;
   background:var(--paper);
 }
 
-.intro-inner{
-  width:min(1150px,100%);
-  margin:auto;
-}
-
-.intro-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:30px;
-  margin-bottom:45px;
-}
-
-.intro-label{
-  color:var(--red);
-  font-size:10px;
-  font-weight:600;
-  letter-spacing:.25em;
-  text-transform:uppercase;
-}
-
-.intro-index{
-  color:#aaa;
-  font-size:10px;
-  letter-spacing:.15em;
-}
-
-.intro h2{
-  max-width:1100px;
-  font-size:clamp(42px,6vw,82px);
-  line-height:.95;
-  font-weight:300;
-  letter-spacing:-.055em;
-}
-
-.intro h2 em{
-  font-family:"DM Serif Display",serif;
-  color:#777;
-}
-
-.intro-bottom{
+.intro-grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:80px;
-  margin-top:50px;
-  padding-left:18%;
-}
-
-.intro-bottom p{
-  max-width:560px;
-  color:#777;
-  font-size:16px;
-  line-height:1.7;
-}
-
-.intro-sign{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  color:#999;
-  font-size:10px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-}
-
-.intro-sign i{
-  width:45px;
-  height:1px;
-  background:var(--red);
-}
-
-/* =========================================================
-   SECTION HEAD
-========================================================= */
-
-.shop{
-  padding:40px 32px 140px;
-  background:var(--paper);
-}
-
-.wrap{
-  width:min(var(--max),100%);
-  margin:auto;
-}
-
-.section-head{
-  display:grid;
-  grid-template-columns:1.3fr .7fr;
-  gap:60px;
+  grid-template-columns:1.1fr .9fr;
+  gap:90px;
   align-items:end;
-  padding-bottom:42px;
-  border-bottom:1px solid var(--line);
 }
 
-.section-kicker{
-  margin-bottom:13px;
+.intro-big{
+  font-family:var(--serif);
+  font-size:clamp(45px,6vw,82px);
+  line-height:1;
+  font-weight:400;
+  letter-spacing:-.05em;
+}
+
+.intro-big em{
   color:var(--red);
-  font-size:10px;
-  font-weight:600;
-  letter-spacing:.25em;
-  text-transform:uppercase;
 }
 
-.section-title{
-  font-size:clamp(43px,5.7vw,78px);
-  line-height:.91;
-  font-weight:300;
-  letter-spacing:-.055em;
-}
-
-.section-title em{
-  font-family:"DM Serif Display",serif;
-  color:#777;
-}
-
-.section-description{
-  max-width:340px;
-  color:#777;
-  font-size:14px;
-  line-height:1.7;
+.intro-text{
+  color:var(--muted);
+  line-height:1.8;
+  font-size:16px;
 }
 
 /* =========================================================
-   CATEGORY EDITORIAL
+   CATEGORIES
 ========================================================= */
 
 .categories{
-  display:grid;
-  grid-template-columns:1.5fr 1fr 1fr;
-  grid-template-rows:280px 280px;
-  gap:3px;
-  margin-top:3px;
+  background:var(--black);
+  color:#fff;
 }
 
-.category{
+.category-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1px;
+  background:rgba(255,255,255,.12);
+}
+
+.category-card{
+  min-height:390px;
   position:relative;
   overflow:hidden;
-  background:#ddd;
-  color:#fff;
-  cursor:pointer;
-  text-align:left;
+  background:var(--black-2);
 }
 
-.category:first-child{
-  grid-row:span 2;
-}
-
-.category-media{
+.category-card img{
   position:absolute;
   inset:0;
-}
-
-.category-media:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(
-      0deg,
-      rgba(0,0,0,.78),
-      rgba(0,0,0,.05) 70%
-    );
-}
-
-.category img{
   width:100%;
   height:100%;
   object-fit:cover;
-  transition:transform 1.2s var(--ease);
+  opacity:.7;
+  transition:transform .7s var(--ease),opacity .4s;
 }
 
-.category:hover img{
-  transform:scale(1.08);
+.category-card:hover img{
+  transform:scale(1.06);
+  opacity:.9;
+}
+
+.category-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(0deg,rgba(0,0,0,.9),transparent 65%);
 }
 
 .category-content{
   position:absolute;
-  z-index:2;
-  left:25px;
-  right:25px;
-  bottom:24px;
+  left:28px;
+  right:28px;
+  bottom:27px;
 }
 
 .category-number{
-  display:block;
-  margin-bottom:9px;
-  color:rgba(255,255,255,.62);
-  font-size:9px;
-  letter-spacing:.2em;
+  color:var(--red);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.15em;
 }
 
-.category h3{
-  font-size:27px;
-  line-height:1;
-  font-weight:400;
-}
-
-.category:first-child h3{
-  font-size:42px;
-}
-
-.category-arrow{
-  position:absolute;
-  right:23px;
-  bottom:23px;
-  width:38px;
-  height:38px;
-  z-index:3;
-  display:grid;
-  place-items:center;
-  border:1px solid rgba(255,255,255,.55);
-  border-radius:50%;
-  transition:.5s var(--ease);
-}
-
-.category:hover .category-arrow{
-  background:#fff;
-  color:#111;
-  transform:rotate(-45deg);
-}
-
-/* =========================================================
-   PRODUCT TOOLBAR
-========================================================= */
-
-.toolbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:25px 0 19px;
-  border-bottom:1px solid var(--line);
-}
-
-.toolbar-left{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.toolbar-left span{
-  color:#777;
-  font-size:10px;
-  letter-spacing:.17em;
-  text-transform:uppercase;
-}
-
-.toolbar-left strong{
-  color:#111;
-  font-weight:500;
-}
-
-.toolbar-right{
-  color:#aaa;
-  font-size:10px;
-  letter-spacing:.12em;
-  text-transform:uppercase;
+.category-name{
+  margin-top:7px;
+  font-family:var(--serif);
+  font-size:32px;
 }
 
 /* =========================================================
    PRODUCTS
 ========================================================= */
 
-.products{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:58px 20px;
-  padding-top:42px;
+.shop{
+  background:var(--paper);
 }
 
-.product{
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:38px 20px;
+}
+
+.product-card{
   min-width:0;
 }
 
-.product-media{
+.product-image{
   position:relative;
-  aspect-ratio:1/1.13;
+  aspect-ratio:1 / 1.08;
   overflow:hidden;
-  background:#e8e4df;
+  background:#ded9cf;
 }
 
-.product-media:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border:1px solid rgba(0,0,0,.05);
-  pointer-events:none;
-}
-
-.product-media img{
+.product-image img{
   width:100%;
   height:100%;
   object-fit:cover;
-  transition:
-    transform 1s var(--ease),
-    filter .7s;
+  transition:transform .65s var(--ease);
 }
 
-.product:hover .product-media img{
-  transform:scale(1.055);
-  filter:saturate(1.03);
+.product-card:hover .product-image img{
+  transform:scale(1.045);
 }
 
 .product-tag{
   position:absolute;
-  top:13px;
-  left:13px;
-  z-index:4;
-  padding:6px 10px;
+  left:15px;
+  top:15px;
   background:var(--red);
   color:#fff;
-  font-size:8px;
-  font-weight:600;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-}
+  padding:7px 10px;
 
-.product-number{
-  position:absolute;
-  right:15px;
-  top:15px;
-  z-index:3;
-  color:#fff;
   font-size:9px;
-  letter-spacing:.15em;
-  text-shadow:0 2px 10px rgba(0,0,0,.5);
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
 }
 
 .product-info{
-  padding-top:17px;
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:10px;
+  padding:17px 2px 0;
+}
+
+.product-name{
+  font-size:17px;
+  font-weight:600;
 }
 
 .product-category{
-  color:#999;
-  font-size:9px;
-  letter-spacing:.17em;
-  text-transform:uppercase;
-}
-
-.product h3{
-  margin-top:7px;
-  font-size:19px;
-  line-height:1.15;
-  font-weight:500;
+  color:var(--muted);
+  font-size:12px;
+  margin-top:5px;
 }
 
 .product-price{
-  margin-top:8px;
-  color:#555;
-  font-size:15px;
+  font-size:16px;
+  font-weight:700;
 }
 
-.product-bottom{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-top:14px;
-}
-
-.enquire{
+.product-link{
+  margin-top:13px;
   display:inline-flex;
   align-items:center;
-  gap:8px;
-  color:#111;
-  font-size:10px;
-  font-weight:600;
-  letter-spacing:.13em;
-  text-transform:uppercase;
-  transition:.3s;
-}
+  gap:7px;
 
-.enquire svg{
-  width:16px;
-  height:16px;
-  transition:.4s var(--ease);
-}
-
-.enquire:hover{
   color:var(--red);
-}
-
-.enquire:hover svg{
-  transform:translateX(5px);
-}
-
-.empty{
-  grid-column:1/-1;
-  padding:90px 20px;
-  text-align:center;
-  color:#999;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
 }
 
 /* =========================================================
@@ -1112,106 +869,100 @@ svg{
 ========================================================= */
 
 .statement{
-  position:relative;
-  overflow:hidden;
-  padding:155px 30px;
-  background:var(--black);
+  background:var(--red);
   color:#fff;
-}
-
-.statement:before{
-  content:"AKHI";
-  position:absolute;
-  right:-5vw;
-  bottom:-7vw;
-  color:rgba(255,255,255,.025);
-  font-size:29vw;
-  font-weight:700;
-  line-height:.7;
-  pointer-events:none;
+  overflow:hidden;
 }
 
 .statement-inner{
-  position:relative;
-  z-index:2;
-  width:min(1200px,100%);
-  margin:auto;
-  display:grid;
-  grid-template-columns:.5fr 1.5fr;
-  gap:80px;
+  padding:150px 0;
+  text-align:center;
 }
 
-.statement-label{
-  color:var(--red);
-  font-size:10px;
-  letter-spacing:.27em;
-  text-transform:uppercase;
+.statement-title{
+  font-family:var(--serif);
+  font-size:clamp(55px,10vw,145px);
+  line-height:.82;
+  letter-spacing:-.06em;
+  font-weight:400;
 }
 
-.statement h2{
-  max-width:950px;
-  font-size:clamp(45px,6.2vw,86px);
-  line-height:.91;
-  font-weight:300;
-  letter-spacing:-.055em;
-}
-
-.statement h2 em{
-  font-family:"DM Serif Display",serif;
-  color:#888;
-}
-
-.statement-copy{
-  max-width:580px;
-  margin-top:35px;
-  color:#888;
-  font-size:16px;
-  line-height:1.7;
+.statement-title em{
+  font-style:italic;
 }
 
 /* =========================================================
-   EXPERIENCE / NUMBERS
+   EXPERIENCE
 ========================================================= */
 
 .experience{
-  padding:110px 30px;
-  background:var(--paper2);
+  background:#171717;
+  color:#fff;
 }
 
 .experience-grid{
-  width:min(1100px,100%);
-  margin:auto;
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:1px;
-  background:var(--line);
+  grid-template-columns:1fr 1fr;
+  gap:90px;
+  align-items:center;
+}
+
+.experience-image{
+  aspect-ratio:1/1.08;
+  overflow:hidden;
+}
+
+.experience-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.experience-copy .section-kicker{
+  color:#fff;
+}
+
+.experience-title{
+  font-family:var(--serif);
+  font-size:clamp(46px,6vw,80px);
+  line-height:.92;
+  font-weight:400;
+  letter-spacing:-.05em;
+}
+
+.experience-title span{
+  color:var(--red);
+}
+
+.experience-text{
+  margin-top:28px;
+  max-width:500px;
+  color:rgba(255,255,255,.6);
+  line-height:1.8;
+}
+
+.experience-list{
+  margin-top:40px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:25px;
 }
 
 .experience-item{
-  min-height:240px;
-  padding:38px;
-  background:var(--paper2);
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
+  border-top:1px solid rgba(255,255,255,.15);
+  padding-top:15px;
 }
 
-.experience-number{
-  color:var(--red);
-  font-family:"DM Serif Display",serif;
-  font-size:60px;
-  line-height:1;
+.experience-item strong{
+  display:block;
+  font-size:30px;
 }
 
-.experience-item h3{
-  font-size:16px;
-  font-weight:500;
-}
-
-.experience-item p{
-  margin-top:8px;
-  color:#777;
-  font-size:13px;
+.experience-item span{
+  color:rgba(255,255,255,.45);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
 }
 
 /* =========================================================
@@ -1219,215 +970,158 @@ svg{
 ========================================================= */
 
 .cta{
+  background:var(--paper-2);
+}
+
+.cta-box{
+  min-height:500px;
+  padding:70px;
   position:relative;
   overflow:hidden;
-  padding:155px 30px;
-  background:#e9e4dd;
+
+  display:flex;
+  align-items:flex-end;
+
+  background:
+    linear-gradient(90deg,rgba(0,0,0,.88),rgba(0,0,0,.2)),
+    url("https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1800&q=78")
+    center/cover no-repeat;
+
+  color:#fff;
 }
 
-.cta:before{
-  content:"";
-  position:absolute;
-  width:600px;
-  height:600px;
-  left:-250px;
-  top:-300px;
-  border-radius:50%;
-  background:rgba(226,38,45,.08);
-  filter:blur(40px);
-}
-
-.cta:after{
-  content:"AKHI";
-  position:absolute;
-  right:-4vw;
-  bottom:-8vw;
-  color:rgba(0,0,0,.035);
-  font-size:25vw;
-  line-height:.7;
-  font-weight:700;
-  pointer-events:none;
-}
-
-.cta-inner{
+.cta-content{
   position:relative;
   z-index:2;
-  width:min(1000px,100%);
-  margin:auto;
-  text-align:center;
+  max-width:760px;
 }
 
-.cta-label{
-  color:var(--red);
-  font-size:10px;
-  font-weight:600;
-  letter-spacing:.28em;
-  text-transform:uppercase;
-}
-
-.cta h2{
-  max-width:900px;
-  margin:25px auto;
-  font-size:clamp(48px,6.8vw,92px);
+.cta-title{
+  font-family:var(--serif);
+  font-size:clamp(48px,7vw,95px);
   line-height:.9;
-  font-weight:300;
-  letter-spacing:-.055em;
+  letter-spacing:-.05em;
 }
 
-.cta p{
-  max-width:560px;
-  margin:0 auto 32px;
-  color:#777;
-  font-size:15px;
+.cta-text{
+  max-width:480px;
+  margin-top:25px;
+  color:rgba(255,255,255,.7);
   line-height:1.7;
-}
-
-.cta .b{
-  margin:auto;
-}
-
-/* =========================================================
-   FLOATING WHATSAPP
-========================================================= */
-
-.chat{
-  position:fixed;
-  right:26px;
-  bottom:26px;
-  z-index:700;
-  width:60px;
-  height:60px;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  background:var(--red);
-  color:#fff;
-  box-shadow:
-    0 15px 40px rgba(226,38,45,.3),
-    0 0 0 0 rgba(226,38,45,.25);
-  transition:.45s var(--ease);
-  animation:pulse 3s infinite;
-}
-
-.chat:hover{
-  transform:translateY(-5px) scale(1.06);
-}
-
-.chat svg{
-  width:26px;
-  height:26px;
-  fill:#fff;
-  stroke:none;
-}
-
-@keyframes pulse{
-  0%,72%,100%{
-    box-shadow:
-      0 15px 40px rgba(226,38,45,.3),
-      0 0 0 0 rgba(226,38,45,.25);
-  }
-  85%{
-    box-shadow:
-      0 15px 40px rgba(226,38,45,.3),
-      0 0 0 14px rgba(226,38,45,0);
-  }
-}
-
-.call{
-  position:fixed;
-  left:25px;
-  bottom:25px;
-  z-index:700;
-  display:none;
-  align-items:center;
-  gap:9px;
-  padding:11px 15px;
-  background:rgba(0,0,0,.88);
-  color:#fff;
-  backdrop-filter:blur(12px);
-  font-size:11px;
-  letter-spacing:.05em;
-  box-shadow:0 15px 35px rgba(0,0,0,.2);
-}
-
-.call svg{
-  width:15px;
-  height:15px;
 }
 
 /* =========================================================
    FOOTER
 ========================================================= */
 
-footer{
-  padding:95px 30px 25px;
-  background:#090909;
-  color:#888;
+.footer{
+  background:var(--black);
+  color:#fff;
+  padding:80px 0 30px;
 }
 
-.footer-grid{
-  width:min(var(--max),100%);
+.footer-top{
+  width:min(calc(100% - 40px),var(--max));
   margin:auto;
+
   display:grid;
-  grid-template-columns:1.7fr .7fr .8fr;
-  gap:80px;
+  grid-template-columns:1.3fr 1fr 1fr 1fr;
+  gap:50px;
+  padding-bottom:70px;
 }
 
 .footer-logo{
-  display:inline-block;
-  margin-bottom:23px;
-  color:#fff;
-  font-size:53px;
-  line-height:1;
-  font-weight:700;
-  letter-spacing:.04em;
+  font-size:30px;
+  font-weight:800;
+  letter-spacing:-.06em;
 }
 
-.footer-brand p{
-  max-width:380px;
-  color:#666;
-  font-size:14px;
+.footer-logo span{
+  color:var(--red);
+}
+
+.footer-about{
+  max-width:300px;
+  margin-top:18px;
+  color:rgba(255,255,255,.45);
   line-height:1.7;
+  font-size:14px;
 }
 
-footer h4{
-  margin-bottom:18px;
+.footer-title{
   color:#fff;
-  font-size:10px;
-  font-weight:500;
-  letter-spacing:.2em;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.15em;
   text-transform:uppercase;
+  margin-bottom:20px;
 }
 
-footer ul{
-  list-style:none;
+.footer-links{
+  display:grid;
+  gap:11px;
 }
 
-footer li{
-  padding:4px 0;
-  font-size:13px;
+.footer-links a{
+  color:rgba(255,255,255,.48);
+  font-size:14px;
+  transition:.2s;
 }
 
-footer a{
-  transition:.3s;
-}
-
-footer a:hover{
+.footer-links a:hover{
   color:#fff;
 }
 
 .footer-bottom{
-  width:min(var(--max),100%);
-  margin:70px auto 0;
-  padding-top:19px;
+  width:min(calc(100% - 40px),var(--max));
+  margin:auto;
+
   border-top:1px solid rgba(255,255,255,.1);
+  padding-top:22px;
+
   display:flex;
   justify-content:space-between;
-  align-items:center;
   gap:20px;
-  flex-wrap:wrap;
-  font-size:10px;
-  letter-spacing:.04em;
+
+  color:rgba(255,255,255,.35);
+  font-size:11px;
+}
+
+/* =========================================================
+   FLOATING ACTIONS
+========================================================= */
+
+.floating-actions{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:7000;
+
+  display:grid;
+  gap:8px;
+}
+
+.float-btn{
+  width:48px;
+  height:48px;
+
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+
+  background:#111;
+  color:#fff;
+
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 12px 35px rgba(0,0,0,.2);
+
+  transition:.25s;
+}
+
+.float-btn:hover{
+  transform:translateY(-4px);
+  background:var(--red);
+  border-color:var(--red);
 }
 
 /* =========================================================
@@ -1436,10 +1130,10 @@ footer a:hover{
 
 .reveal{
   opacity:0;
-  transform:translateY(35px);
+  transform:translateY(25px);
   transition:
-    opacity 1s var(--ease),
-    transform 1s var(--ease);
+    opacity .7s ease,
+    transform .7s var(--ease);
 }
 
 .reveal.visible{
@@ -1447,481 +1141,268 @@ footer a:hover{
   transform:none;
 }
 
-.reveal-delay-1{
-  transition-delay:.08s;
-}
-
-.reveal-delay-2{
-  transition-delay:.16s;
-}
-
-.reveal-delay-3{
-  transition-delay:.24s;
-}
-
 /* =========================================================
-   CURSOR
+   CUSTOM CURSOR
 ========================================================= */
 
 .cursor-dot,
 .cursor-ring{
   position:fixed;
-  left:0;
-  top:0;
-  z-index:10002;
   pointer-events:none;
-  opacity:0;
+  z-index:99998;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  display:none;
 }
 
 .cursor-dot{
-  width:5px;
-  height:5px;
-  border-radius:50%;
+  width:6px;
+  height:6px;
   background:var(--red);
-  transform:translate(-50%,-50%);
 }
 
 .cursor-ring{
   width:30px;
   height:30px;
-  border:1px solid rgba(226,38,45,.65);
-  border-radius:50%;
-  transform:translate(-50%,-50%);
+  border:1px solid rgba(226,38,45,.7);
   transition:
-    width .3s var(--ease),
-    height .3s var(--ease),
-    background .3s,
-    border-color .3s;
+    width .2s,
+    height .2s,
+    border-color .2s;
 }
 
-.cursor-ring.big{
-  width:58px;
-  height:58px;
-  background:rgba(226,38,45,.06);
-  border-color:var(--red);
+.cursor-ring.hover{
+  width:50px;
+  height:50px;
+  border-color:#fff;
 }
 
-/* =========================================================
-   FOCUS
-========================================================= */
+@media (pointer:fine){
+  .cursor-dot,
+  .cursor-ring{
+    display:block;
+  }
 
-a:focus-visible,
-button:focus-visible,
-input:focus-visible{
-  outline:2px solid var(--red);
-  outline-offset:4px;
+  body{
+    cursor:none;
+  }
+
+  a,
+  button,
+  input{
+    cursor:none;
+  }
 }
 
 /* =========================================================
    RESPONSIVE
 ========================================================= */
 
-@media(max-width:1100px){
+@media(max-width:1050px){
 
-  .nv{
-    gap:21px;
-    margin-right:25px;
+  .nav{
+    gap:18px;
   }
 
-  .categories{
-    grid-template-columns:1fr 1fr;
-    grid-template-rows:320px 260px;
-  }
-
-  .category:first-child{
-    grid-row:span 1;
-    grid-column:span 2;
-  }
-
-  .products{
+  .category-grid{
     grid-template-columns:repeat(2,1fr);
   }
 
-  .footer-grid{
-    grid-template-columns:1.3fr 1fr 1fr;
+  .footer-top{
+    grid-template-columns:1fr 1fr;
   }
 }
 
-@media(max-width:850px){
+@media(max-width:820px){
 
   :root{
-    --header:74px;
+    --header:70px;
   }
 
-  .hd{
-    padding:0 18px;
+  .header-inner{
+    grid-template-columns:1fr auto;
   }
 
-  .hd:after{
-    left:18px;
-    right:18px;
+  .nav{
+    position:fixed;
+    left:15px;
+    right:15px;
+    top:78px;
+
+    padding:25px;
+
+    background:rgba(10,10,10,.97);
+    border:1px solid rgba(255,255,255,.1);
+
+    display:grid;
+    gap:20px;
+
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(-10px);
+
+    transition:.25s ease;
+  }
+
+  .nav.open{
+    opacity:1;
+    visibility:visible;
+    transform:none;
+  }
+
+  .header-actions{
+    gap:6px;
+  }
+
+  .menu-btn{
+    display:grid;
+  }
+
+  .intro-grid,
+  .experience-grid{
+    grid-template-columns:1fr;
+    gap:50px;
+  }
+
+  .product-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .section-pad{
+    padding:95px 0;
+  }
+
+  .cta-box{
+    padding:45px 30px;
+    min-height:480px;
+  }
+
+  .experience-list{
+    gap:18px;
+  }
+}
+
+@media(max-width:560px){
+
+  .header-inner,
+  .section,
+  .footer-top,
+  .footer-bottom,
+  .hero-content{
+    width:min(calc(100% - 28px),var(--max));
   }
 
   .logo{
-    width:88px;
-    height:42px;
-    font-size:24px;
-  }
-
-  .nv{
-    position:fixed;
-    top:74px;
-    left:0;
-    right:0;
-    margin:0;
-    padding:10px 24px 25px;
-    display:none;
-    flex-direction:column;
-    align-items:stretch;
-    gap:0;
-    color:#111;
-    background:rgba(248,246,242,.97);
-    backdrop-filter:blur(25px);
-    box-shadow:0 25px 50px rgba(0,0,0,.12);
-  }
-
-  .nv.on{
-    display:flex;
-  }
-
-  .nv a,
-  .nv button{
-    padding:15px 0;
-    border-bottom:1px solid var(--line);
-    text-align:left;
-  }
-
-  .mm{
-    display:grid!important;
-  }
-
-  .sp{
-    padding-left:20px;
-    padding-right:20px;
-  }
-
-  .hero{
-    min-height:650px;
-  }
-
-  .hero-content{
-    padding:100px 24px 80px;
-  }
-
-  .hero-title{
-    font-size:clamp(50px,12vw,80px);
-  }
-
-  .hero-description{
-    margin-left:0;
-    font-size:18px;
-  }
-
-  .hero-description:before{
-    display:none;
-  }
-
-  .hero-actions{
-    margin-left:0;
-    flex-wrap:wrap;
-  }
-
-  .hero-bottom{
-    left:24px;
-    right:24px;
-  }
-
-  .hero-scroll{
-    display:none;
-  }
-
-  .intro{
-    padding:95px 24px;
-  }
-
-  .intro-bottom{
-    grid-template-columns:1fr;
-    gap:25px;
-    padding-left:0;
-  }
-
-  .shop{
-    padding-left:20px;
-    padding-right:20px;
-  }
-
-  .section-head{
-    grid-template-columns:1fr;
-    gap:25px;
-  }
-
-  .categories{
-    grid-template-columns:1fr 1fr;
-    grid-template-rows:270px 210px;
-  }
-
-  .category:first-child{
-    grid-column:span 2;
-  }
-
-  .category h3{
     font-size:21px;
   }
 
-  .category:first-child h3{
-    font-size:31px;
+  .logo-mark{
+    width:25px;
+    height:25px;
   }
 
-  .statement{
-    padding:100px 24px;
-  }
-
-  .statement-inner{
-    grid-template-columns:1fr;
-    gap:30px;
-  }
-
-  .experience{
-    padding:80px 20px;
-  }
-
-  .experience-grid{
-    grid-template-columns:1fr;
-  }
-
-  .experience-item{
-    min-height:180px;
-  }
-
-  .cta{
-    padding:100px 24px;
-  }
-
-  .footer-grid{
-    grid-template-columns:1fr;
-    gap:45px;
-  }
-
-  footer{
-    padding-left:20px;
-    padding-right:20px;
-  }
-}
-
-@media(max-width:550px){
-
-  .ic{
-    gap:14px;
-  }
-
-  #bag{
+  .header-actions .search-btn{
     display:none;
-  }
-
-  .hero{
-    min-height:600px;
   }
 
   .hero-content{
-    padding:90px 20px 75px;
+    padding-bottom:95px;
   }
 
   .hero-title{
-    font-size:clamp(45px,14vw,68px);
+    font-size:clamp(55px,17vw,88px);
   }
 
   .hero-description{
-    font-size:16px;
-    margin-top:25px;
-  }
-
-  .hero-actions{
-    margin-top:27px;
-  }
-
-  .b{
-    min-width:145px;
-    height:48px;
-    padding:0 18px;
-    font-size:9px;
-  }
-
-  .hero-place{
-    display:none;
-  }
-
-  .hero-counter{
-    margin-left:auto;
-  }
-
-  .hero-line{
-    width:75px;
-  }
-
-  .marquee-track{
-    gap:28px;
-  }
-
-  .intro{
-    padding:80px 20px;
-  }
-
-  .intro h2{
-    font-size:43px;
-  }
-
-  .intro-bottom{
-    margin-top:32px;
-  }
-
-  .categories{
-    grid-template-columns:1fr 1fr;
-    grid-template-rows:230px 180px;
-    gap:2px;
-  }
-
-  .category:first-child{
-    grid-column:span 2;
-  }
-
-  .category-content{
-    left:15px;
-    right:12px;
-    bottom:15px;
-  }
-
-  .category h3,
-  .category:first-child h3{
-    font-size:19px;
-  }
-
-  .category-arrow{
-    width:31px;
-    height:31px;
-    right:11px;
-    bottom:12px;
-  }
-
-  .products{
-    grid-template-columns:1fr 1fr;
-    gap:38px 10px;
-    padding-top:30px;
-  }
-
-  .product h3{
-    font-size:15px;
-  }
-
-  .product-price{
-    font-size:13px;
-  }
-
-  .product-bottom{
-    display:block;
-  }
-
-  .product-number{
-    display:none;
-  }
-
-  .enquire{
-    margin-top:2px;
-    font-size:9px;
-  }
-
-  .toolbar-right{
-    display:none;
-  }
-
-  .statement{
-    padding:85px 20px;
-  }
-
-  .statement h2{
-    font-size:43px;
-  }
-
-  .statement-copy{
     font-size:14px;
   }
 
-  .experience-item{
-    padding:30px;
-  }
-
-  .experience-number{
-    font-size:50px;
-  }
-
-  .cta{
-    padding:90px 20px;
-  }
-
-  .cta h2{
-    font-size:45px;
-  }
-
-  .chat{
-    width:56px;
-    height:56px;
+  .hero-controls{
     right:15px;
-    bottom:15px;
+    bottom:22px;
   }
 
-  .call{
-    left:12px;
-    bottom:12px;
+  .hero-arrow{
+    width:38px;
+    height:38px;
   }
 
-  .footer-logo{
-    font-size:45px;
+  .category-grid{
+    grid-template-columns:1fr;
+  }
+
+  .category-card{
+    min-height:300px;
+  }
+
+  .product-grid{
+    grid-template-columns:1fr;
+  }
+
+  .section-head{
+    display:block;
+  }
+
+  .section-description{
+    margin-top:25px;
+  }
+
+  .statement-inner{
+    padding:105px 0;
+  }
+
+  .experience-list{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .footer-top{
+    grid-template-columns:1fr 1fr;
+    gap:35px 20px;
+  }
+
+  .footer-about{
+    max-width:260px;
   }
 
   .footer-bottom{
-    margin-top:50px;
+    flex-direction:column;
   }
 }
 
-@media(pointer:coarse){
-
-  .cursor-dot,
-  .cursor-ring{
-    display:none;
-  }
-}
+/* =========================================================
+   REDUCE MOTION
+========================================================= */
 
 @media(prefers-reduced-motion:reduce){
 
-  html{
-    scroll-behavior:auto;
-  }
-
   *,
-  *:before,
-  *:after{
+  *::before,
+  *::after{
     animation-duration:.01ms!important;
     animation-iteration-count:1!important;
+    scroll-behavior:auto!important;
     transition-duration:.01ms!important;
   }
 
-  .loader{
-    transition:none;
+  .reveal{
+    opacity:1;
+    transform:none;
   }
 }
 </style>
 </head>
 
-<body>
+<body class="loading">
 
 <!-- =========================================================
-     LOADER
+     FAST LOADER
 ========================================================= -->
-
 <div class="loader" id="loader">
   <div class="loader-inner">
-    <div class="loader-logo">AKHI</div>
-    <div class="loader-line"><i></i></div>
-    <div class="loader-count">Furniture · Thoughtfully Made</div>
+    <div class="loader-logo">AKHI<span>.</span></div>
+    <div class="loader-line">
+      <span></span>
+    </div>
   </div>
 </div>
 
@@ -1930,1828 +1411,2088 @@ input:focus-visible{
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
-
 <!-- =========================================================
      HEADER
 ========================================================= -->
+<header class="site-header" id="header">
+  <div class="header-inner">
 
-<header class="hd" id="hd">
-
-  <a class="logo" href="#top" aria-label="AKHI Furniture">
-    AKHI
-  </a>
-
-  <nav class="nv" id="nv" aria-label="Main navigation"></nav>
-
-  <div class="ic">
-
-    <button id="sb" aria-label="Search">
-      <svg viewBox="0 0 24 24">
-        <circle cx="11" cy="11" r="7"/>
-        <path d="M20 20l-4-4"/>
-      </svg>
-    </button>
-
-    <a id="bag"
-       href="#contact"
-       target="_blank"
-       rel="noopener"
-       aria-label="Enquire on WhatsApp">
-
-      <svg viewBox="0 0 24 24">
-        <path d="M3 4h2l2.4 11h10.2L20 7H6.2"/>
-        <circle cx="9" cy="19" r="1.4"/>
-        <circle cx="17" cy="19" r="1.4"/>
-      </svg>
-
+    <a href="#home" class="logo" aria-label="AKHI Furniture">
+      <span class="logo-mark">A</span>
+      <span>AKHI.</span>
     </a>
 
-    <button class="mm" id="mm" aria-label="Open menu">
+    <nav class="nav" id="nav">
+      <a href="#home">Home</a>
+      <a href="#shop">Collection</a>
+      <a href="#categories">Categories</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </nav>
 
-      <svg viewBox="0 0 24 24">
-        <path d="M4 7h16M4 12h16M4 17h16"/>
-      </svg>
+    <div class="header-actions">
 
-    </button>
+      <button
+        class="icon-btn search-btn"
+        id="searchBtn"
+        aria-label="Search"
+        type="button"
+      >
+        ⌕
+      </button>
 
+      <button
+        class="icon-btn menu-btn"
+        id="menuBtn"
+        aria-label="Menu"
+        type="button"
+      >
+        ☰
+      </button>
+
+    </div>
   </div>
-
 </header>
-
 
 <!-- =========================================================
      SEARCH
 ========================================================= -->
-
-<div class="sp" id="sp">
+<div class="search-panel" id="searchPanel">
+  <button class="search-close" id="searchClose" type="button">×</button>
 
   <div class="search-inner">
-
-    <div class="search-top">
-
-      <span>Find your piece</span>
-
-      <button class="search-close" id="searchClose">
-        Close ×
-      </button>
-
-    </div>
+    <div class="search-label">Search AKHI Collection</div>
 
     <input
-      id="q"
+      id="searchInput"
+      class="search-input"
       type="search"
+      placeholder="What are you looking for?"
       autocomplete="off"
-      placeholder="Search furniture…"
-      aria-label="Search furniture"
     >
-
   </div>
-
 </div>
-
-
-<!-- =========================================================
-     MAIN
-========================================================= -->
-
-<main id="top">
-
 
 <!-- =========================================================
      HERO
 ========================================================= -->
+<main>
 
-<section class="hero">
+<section class="hero" id="home">
 
-  <div class="hero-bg" id="slides"></div>
+  <div class="hero-slides" id="heroSlides">
 
-  <div class="hero-bottom">
+    <!-- STATIC FIRST PAINT HERO -->
+    <article class="hero-slide active">
+      <img
+        src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=2000&q=82"
+        alt="Premium modern furniture interior"
+        fetchpriority="high"
+        decoding="async"
+      >
 
-    <div class="hero-place">
-      Moulvibazar · Bangladesh
-    </div>
+      <div class="hero-overlay"></div>
 
-    <div class="hero-counter">
+      <div class="hero-content">
+        <div class="hero-copy">
 
-      <strong id="slideCurrent">01</strong>
+          <div class="eyebrow">
+            AKHI Furniture
+          </div>
 
-      <div class="hero-line">
-        <i id="slideProgress"></i>
+          <h1 class="hero-title">
+            Furniture<br>
+            with <em>character.</em>
+          </h1>
+
+          <p class="hero-description">
+            Premium furniture designed for refined homes,
+            sophisticated interiors and modern workspaces.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#shop" class="btn btn-red">
+              Explore Collection →
+            </a>
+
+            <a href="#contact" class="btn btn-outline">
+              Talk to AKHI
+            </a>
+          </div>
+
+        </div>
       </div>
-
-      <strong id="slideTotal">01</strong>
-
-    </div>
+    </article>
 
   </div>
 
-  <div class="hero-scroll">
-    <i></i>
-    Scroll to explore
+  <div class="hero-controls">
+
+    <div class="slide-number">
+      <span class="current" id="slideCurrent">01</span>
+      <span class="slide-line"></span>
+      <span id="slideTotal">01</span>
+    </div>
+
+    <button class="hero-arrow" id="prevSlide" type="button">←</button>
+    <button class="hero-arrow" id="nextSlide" type="button">→</button>
+
   </div>
 
 </section>
-
 
 <!-- =========================================================
      MARQUEE
 ========================================================= -->
-
 <div class="marquee">
-
   <div class="marquee-track">
 
-    <span>Furniture for real life</span>
-    <b></b>
-    <span>Thoughtfully selected</span>
-    <b></b>
-    <span>Homes · Offices · Workspaces</span>
-    <b></b>
-    <span>Furniture for real life</span>
-    <b></b>
-    <span>Thoughtfully selected</span>
-    <b></b>
-    <span>Homes · Offices · Workspaces</span>
-    <b></b>
+    <div class="marquee-item">
+      Premium Furniture
+      <span class="marquee-dot"></span>
+      Refined Living
+      <span class="marquee-dot"></span>
+      Modern Craft
+      <span class="marquee-dot"></span>
+      AKHI Furniture
+      <span class="marquee-dot"></span>
+    </div>
+
+    <div class="marquee-item">
+      Premium Furniture
+      <span class="marquee-dot"></span>
+      Refined Living
+      <span class="marquee-dot"></span>
+      Modern Craft
+      <span class="marquee-dot"></span>
+      AKHI Furniture
+      <span class="marquee-dot"></span>
+    </div>
 
   </div>
-
 </div>
-
 
 <!-- =========================================================
      INTRO
 ========================================================= -->
+<section class="intro section-pad">
+  <div class="section intro-grid">
 
-<section class="intro reveal">
+    <div class="reveal">
+      <div class="section-kicker">01 / The AKHI Approach</div>
 
-  <div class="intro-inner">
-
-    <div class="intro-top">
-
-      <div class="intro-label">
-        The AKHI Philosophy
-      </div>
-
-      <div class="intro-index">
-        EST. · BANGLADESH
-      </div>
-
+      <h2 class="intro-big">
+        Good furniture fills a room.
+        <em>Great furniture defines it.</em>
+      </h2>
     </div>
 
-    <h2>
-      Furniture that makes
-      <em>space feel complete.</em>
-    </h2>
-
-    <div class="intro-bottom">
-
-      <p>
-        We believe good furniture should do more than fill a room.
-        It should support the way you live, work, rest and connect —
-        with comfort, character and considered design.
+    <div class="reveal">
+      <p class="intro-text">
+        AKHI creates furniture for people who care about
+        proportion, material, comfort and the details that
+        quietly change how a space feels.
       </p>
 
-      <div class="intro-sign">
-        <i></i>
-        Comfort · Function · Character
-      </div>
+      <br>
 
+      <p class="intro-text">
+        From statement pieces to everyday essentials,
+        every collection is selected with a simple idea:
+        beautiful things should also belong in real life.
+      </p>
     </div>
 
   </div>
-
 </section>
 
-
 <!-- =========================================================
-     SHOP
+     CATEGORIES
 ========================================================= -->
+<section class="categories section-pad" id="categories">
 
-<section class="shop" id="shop">
-
-  <div class="wrap">
+  <div class="section">
 
     <div class="section-head reveal">
 
       <div>
-
-        <div class="section-kicker">
-          Discover AKHI
-        </div>
+        <div class="section-kicker">02 / Explore</div>
 
         <h2 class="section-title">
-          Pieces for
-          <em>every space.</em>
+          Spaces,<br>
+          thoughtfully.
         </h2>
-
       </div>
 
-      <div class="section-description">
-        Explore furniture selected around the way you live,
-        work and experience your space.
-      </div>
+      <p class="section-description">
+        Discover furniture collections curated around
+        how modern spaces are actually lived in.
+      </p>
 
     </div>
 
+    <div class="category-grid" id="categoryGrid">
 
-    <!-- CATEGORIES -->
+      <a href="#shop" class="category-card reveal" data-category="Living">
 
-    <div class="categories reveal" id="cats"></div>
+        <img
+          src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=75"
+          alt="Living room furniture"
+          loading="lazy"
+          decoding="async"
+        >
 
+        <div class="category-overlay"></div>
 
-    <!-- TOOLBAR -->
+        <div class="category-content">
+          <div class="category-number">01</div>
+          <div class="category-name">Living</div>
+        </div>
 
-    <div class="toolbar">
+      </a>
 
-      <div class="toolbar-left">
+      <a href="#shop" class="category-card reveal" data-category="Dining">
 
-        <span>Collection /</span>
+        <img
+          src="https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=900&q=75"
+          alt="Dining furniture"
+          loading="lazy"
+          decoding="async"
+        >
 
-        <strong id="pt">
-          All products
-        </strong>
+        <div class="category-overlay"></div>
 
-      </div>
+        <div class="category-content">
+          <div class="category-number">02</div>
+          <div class="category-name">Dining</div>
+        </div>
 
-      <div class="toolbar-right" id="rc">
-        Showing collection
-      </div>
+      </a>
+
+      <a href="#shop" class="category-card reveal" data-category="Bedroom">
+
+        <img
+          src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=75"
+          alt="Bedroom furniture"
+          loading="lazy"
+          decoding="async"
+        >
+
+        <div class="category-overlay"></div>
+
+        <div class="category-content">
+          <div class="category-number">03</div>
+          <div class="category-name">Bedroom</div>
+        </div>
+
+      </a>
+
+      <a href="#shop" class="category-card reveal" data-category="Office">
+
+        <img
+          src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=75"
+          alt="Office furniture"
+          loading="lazy"
+          decoding="async"
+        >
+
+        <div class="category-overlay"></div>
+
+        <div class="category-content">
+          <div class="category-number">04</div>
+          <div class="category-name">Workspace</div>
+        </div>
+
+      </a>
 
     </div>
-
-
-    <!-- PRODUCTS -->
-
-    <div class="products" id="grid"></div>
 
   </div>
-
 </section>
 
+<!-- =========================================================
+     SHOP
+========================================================= -->
+<section class="shop section-pad" id="shop">
+
+  <div class="section">
+
+    <div class="section-head reveal">
+
+      <div>
+        <div class="section-kicker">03 / Selected Collection</div>
+
+        <h2 class="section-title">
+          Designed<br>
+          to stay.
+        </h2>
+      </div>
+
+      <p class="section-description">
+        A selection of pieces chosen for timeless
+        proportion, everyday comfort and visual impact.
+      </p>
+
+    </div>
+
+    <div class="product-grid" id="productGrid">
+
+      <!--
+        Static first products are rendered immediately.
+        Firebase will silently replace these later.
+      -->
+
+      <article class="product-card reveal">
+        <div class="product-image">
+          <img
+            src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=78"
+            alt="Modern Sofa"
+            loading="lazy"
+            decoding="async"
+          >
+          <span class="product-tag">Featured</span>
+        </div>
+
+        <div class="product-info">
+          <div>
+            <div class="product-name">Modern Lounge Sofa</div>
+            <div class="product-category">Living / Seating</div>
+          </div>
+
+          <div class="product-price">৳ 48,500</div>
+        </div>
+
+        <a href="#contact" class="product-link">
+          Enquire →
+        </a>
+      </article>
+
+      <article class="product-card reveal">
+        <div class="product-image">
+          <img
+            src="https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=1000&q=78"
+            alt="Dining Table"
+            loading="lazy"
+            decoding="async"
+          >
+        </div>
+
+        <div class="product-info">
+          <div>
+            <div class="product-name">Oak Dining Table</div>
+            <div class="product-category">Dining / Table</div>
+          </div>
+
+          <div class="product-price">৳ 42,000</div>
+        </div>
+
+        <a href="#contact" class="product-link">
+          Enquire →
+        </a>
+      </article>
+
+      <article class="product-card reveal">
+        <div class="product-image">
+          <img
+            src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=78"
+            alt="Premium Bed"
+            loading="lazy"
+            decoding="async"
+          >
+        </div>
+
+        <div class="product-info">
+          <div>
+            <div class="product-name">Signature Bed</div>
+            <div class="product-category">Bedroom / Bed</div>
+          </div>
+
+          <div class="product-price">৳ 55,000</div>
+        </div>
+
+        <a href="#contact" class="product-link">
+          Enquire →
+        </a>
+      </article>
+
+    </div>
+
+  </div>
+</section>
 
 <!-- =========================================================
      STATEMENT
 ========================================================= -->
+<section class="statement">
+  <div class="section statement-inner reveal">
 
-<section class="statement reveal">
-
-  <div class="statement-inner">
-
-    <div>
-
-      <div class="statement-label">
-        Why AKHI
-      </div>
-
+    <div class="section-kicker" style="color:#fff">
+      The AKHI Standard
     </div>
 
-    <div>
-
-      <h2>
-        Designed for
-        <em>real life.</em>
-        Made to feel right.
-      </h2>
-
-      <p class="statement-copy">
-        From productive workdays to slow mornings and quiet evenings,
-        AKHI brings comfort and considered design into the spaces
-        that matter most.
-      </p>
-
-    </div>
+    <h2 class="statement-title">
+      Less noise.<br>
+      <em>More character.</em>
+    </h2>
 
   </div>
-
 </section>
-
 
 <!-- =========================================================
      EXPERIENCE
 ========================================================= -->
+<section class="experience section-pad" id="experience">
 
-<section class="experience reveal">
+  <div class="section experience-grid">
 
-  <div class="experience-grid">
+    <div class="experience-image reveal">
 
-    <div class="experience-item">
-
-      <div class="experience-number">01</div>
-
-      <div>
-
-        <h3>Thoughtful Selection</h3>
-
-        <p>
-          Furniture chosen with everyday comfort and function in mind.
-        </p>
-
-      </div>
+      <img
+        src="https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=1200&q=80"
+        alt="AKHI premium interior"
+        loading="lazy"
+        decoding="async"
+      >
 
     </div>
 
+    <div class="experience-copy reveal">
 
-    <div class="experience-item">
-
-      <div class="experience-number">02</div>
-
-      <div>
-
-        <h3>Modern Spaces</h3>
-
-        <p>
-          Pieces that work naturally across homes, offices and workspaces.
-        </p>
-
+      <div class="section-kicker">
+        04 / The Experience
       </div>
 
-    </div>
+      <h2 class="experience-title">
+        Furniture should feel
+        <span>personal.</span>
+      </h2>
 
+      <p class="experience-text">
+        We believe the best interiors are not built around
+        trends. They are built around people. AKHI combines
+        considered design with practical comfort to create
+        pieces that feel right from day one.
+      </p>
 
-    <div class="experience-item">
+      <div class="experience-list">
 
-      <div class="experience-number">03</div>
+        <div class="experience-item">
+          <strong>01</strong>
+          <span>Curated Design</span>
+        </div>
 
-      <div>
+        <div class="experience-item">
+          <strong>02</strong>
+          <span>Premium Materials</span>
+        </div>
 
-        <h3>Personal Enquiry</h3>
+        <div class="experience-item">
+          <strong>03</strong>
+          <span>Thoughtful Detail</span>
+        </div>
 
-        <p>
-          Tell us what you need and we'll help you find the right piece.
-        </p>
+        <div class="experience-item">
+          <strong>04</strong>
+          <span>Human Comfort</span>
+        </div>
 
       </div>
 
     </div>
 
   </div>
-
 </section>
-
 
 <!-- =========================================================
      CTA
 ========================================================= -->
+<section class="cta section-pad" id="contact">
 
-<section class="cta reveal" id="contact">
+  <div class="section">
 
-  <div class="cta-inner">
+    <div class="cta-box reveal">
 
-    <div class="cta-label">
-      Let's create your space
+      <div class="cta-content">
+
+        <div class="section-kicker" style="color:#fff">
+          Start a conversation
+        </div>
+
+        <h2 class="cta-title">
+          Your space<br>
+          deserves better.
+        </h2>
+
+        <p class="cta-text">
+          Tell us what you are looking for and our team
+          will help you find the right piece for your space.
+        </p>
+
+        <div class="hero-actions">
+
+          <a
+            href="#"
+            id="whatsappLink"
+            class="btn btn-red"
+            target="_blank"
+            rel="noopener"
+          >
+            WhatsApp AKHI →
+          </a>
+
+          <a
+            href="tel:+8801700000000"
+            id="callLink"
+            class="btn btn-outline"
+          >
+            Call Us
+          </a>
+
+        </div>
+
+      </div>
+
     </div>
 
-    <h2>
-      Looking for the
-      <br>
-      right furniture?
-    </h2>
-
-    <p>
-      Tell us what you need for your home or workspace.
-      Our team will help you find a piece that feels right.
-    </p>
-
-    <a
-      class="b"
-      id="ctaWa"
-      href="#contact"
-      target="_blank"
-      rel="noopener"
-    >
-      Talk to AKHI
-      <span>↗</span>
-    </a>
-
   </div>
-
 </section>
 
 </main>
 
-
-<!-- =========================================================
-     FLOATING CALL
-========================================================= -->
-
-<a class="call" id="call" href="#contact">
-
-  <svg viewBox="0 0 24 24">
-    <path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/>
-  </svg>
-
-  <span id="callN"></span>
-
-</a>
-
-
-<!-- =========================================================
-     WHATSAPP
-========================================================= -->
-
-<a
-  class="chat"
-  id="chat"
-  href="#contact"
-  target="_blank"
-  rel="noopener"
-  aria-label="Chat with AKHI on WhatsApp"
->
-
-  <svg viewBox="0 0 24 24">
-    <path d="M4 4h16a1 1 0 011 1v11a1 1 0 01-1 1H9l-5 4V5a1 1 0 011-1z"/>
-  </svg>
-
-</a>
-
-
 <!-- =========================================================
      FOOTER
 ========================================================= -->
+<footer class="footer">
 
-<footer>
+  <div class="footer-top">
 
-  <div class="footer-grid">
-
-    <div class="footer-brand">
+    <div>
 
       <div class="footer-logo">
-        AKHI
+        AKHI<span>.</span>
       </div>
 
-      <p>
-        Office chairs, desks and furniture for beautiful homes,
-        comfortable offices and productive workspaces.
+      <p class="footer-about">
+        Premium furniture for refined homes,
+        modern workspaces and people who care
+        about the details.
       </p>
 
     </div>
 
-
     <div>
 
-      <h4>Explore</h4>
+      <div class="footer-title">Explore</div>
 
-      <ul id="fCats"></ul>
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#shop">Collection</a>
+        <a href="#categories">Categories</a>
+        <a href="#experience">Experience</a>
+      </div>
 
     </div>
 
+    <div>
+
+      <div class="footer-title">Collection</div>
+
+      <div class="footer-links">
+        <a href="#shop">Living</a>
+        <a href="#shop">Dining</a>
+        <a href="#shop">Bedroom</a>
+        <a href="#shop">Workspace</a>
+      </div>
+
+    </div>
 
     <div>
 
-      <h4>Contact</h4>
+      <div class="footer-title">Contact</div>
 
-      <ul id="fList"></ul>
+      <div class="footer-links">
+        <a href="#" id="footerWhatsapp">WhatsApp</a>
+        <a href="tel:+8801700000000" id="footerCall">Call AKHI</a>
+        <a href="mailto:hello@akhifurniture.com" id="footerEmail">
+          Email
+        </a>
+      </div>
 
     </div>
 
   </div>
 
-
   <div class="footer-bottom">
 
-    <span id="foot">
-      © AKHI Furniture
+    <span>
+      © <span id="year"></span> AKHI Furniture. All rights reserved.
     </span>
 
     <span>
-
-      <a
-        href="https://shahneilkhan.github.io/"
-        target="_blank"
-        rel="noopener"
-      >
-        Developer · SNK
-      </a>
-
-      &nbsp;·&nbsp;
-
-      <a href="./admin/login/">
-        Admin
-      </a>
-
+      Crafted for better spaces.
     </span>
 
   </div>
 
 </footer>
 
-
 <!-- =========================================================
-     FIREBASE
+     FLOATING ACTIONS
 ========================================================= -->
-
-<script src="./firebase-config.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
-
-<script>
-(async()=>{
-
-"use strict";
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-const $=s=>document.querySelector(s);
-
-const $$=s=>[
-  ...document.querySelectorAll(s)
-];
-
-const esc=v=>String(v??'').replace(
-  /[&<>"']/g,
-  c=>({
-    '&':'&amp;',
-    '<':'&lt;',
-    '>':'&gt;',
-    '"':'&quot;',
-    "'":'&#39;'
-  }[c])
-);
-
-const price=v=>{
-
-  if(v===undefined||v===null||v===''){
-    return '';
-  }
-
-  const n=Number(
-    String(v)
-      .replace(/[^\d.-]/g,'')
-  );
-
-  if(Number.isNaN(n)){
-    return String(v);
-  }
-
-  return '৳ '+n.toLocaleString('en-BD');
-
-};
-
-
-/* =========================================================
-   DEMO IMAGE SYSTEM
-========================================================= */
-
-const U=id=>
-  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=1600&q=88`;
-
-const I={
-
-  sofa:'1618221195710-dd6b41faaea6',
-
-  living:'1555041469-a586c61ea9bc',
-
-  interior:'1616486338812-3dadae4b4ace',
-
-  bedroom:'1505693416388-ac5ce068fe85',
-
-  office:'1519710164239-da123dc03ef4',
-
-  chair:'1540574163026-643ea20ade25',
-
-  dining:'1598300042247-d088f8ab3a91'
-
-};
-
-
-/* =========================================================
-   DEMO PRODUCTS
-========================================================= */
-
-const DEMO=[
-
-  [
-    'Modern Sofa Set',
-    'Living Room',
-    45000,
-    'living'
-  ],
-
-  [
-    'Lounge Chair',
-    'Living Room',
-    12500,
-    'chair'
-  ],
-
-  [
-    'Living Room Set',
-    'Living Room',
-    68000,
-    'sofa'
-  ],
-
-  [
-    'Cozy Armchair',
-    'Living Room',
-    9800,
-    'interior'
-  ],
-
-  [
-    'Wooden Bed',
-    'Bedroom',
-    38000,
-    'bedroom'
-  ],
-
-  [
-    'Bedroom Set',
-    'Bedroom',
-    72000,
-    'bedroom'
-  ],
-
-  [
-    'Bedside Table',
-    'Bedroom',
-    6500,
-    'dining'
-  ],
-
-  [
-    'Dining Table Set',
-    'Dining',
-    52000,
-    'dining'
-  ],
-
-  [
-    'Dining Chair',
-    'Dining',
-    4800,
-    'chair'
-  ],
-
-  [
-    'Ergonomic Mesh Office Chair',
-    'Office',
-    6800,
-    'office'
-  ],
-
-  [
-    'Executive Office Desk',
-    'Office',
-    18500,
-    'office'
-  ],
-
-  [
-    'Visitor Chair',
-    'Office',
-    4300,
-    'chair'
-  ]
-
-].map((x,i)=>({
-
-  title:x[0],
-  category:x[1],
-  price:x[2],
-  image:x[3]?U(I[x[3]]):'',
-  order:i,
-  demo:1
-
-}));
-
-
-/* =========================================================
-   DEMO BANNERS
-========================================================= */
-
-const DEMOB=[
-
-  {
-    title:'Furniture for beautiful living.',
-    description:
-      'Comfort, character and a clean point of view for every room.',
-    image:U(I.living)
-  },
-
-  {
-    title:'Make your workspace feel right.',
-    description:
-      'Chairs and desks selected for productive, comfortable days.',
-    image:U(I.office)
-  },
-
-  {
-    title:'Rest in good design.',
-    description:
-      'Bedroom and dining furniture made for everyday moments.',
-    image:U(I.bedroom)
-  }
-
-];
-
-
-let S={};
-let H={};
-let P=[];
-let B=[];
-
-
-/* =========================================================
-   FIREBASE
-========================================================= */
-
-try{
-
-  const c=window.AKI_FIREBASE_CONFIG;
-
-  if(
-    !c ||
-    !c.apiKey ||
-    String(c.apiKey).startsWith('YOUR')
-  ){
-
-    throw new Error('Firebase config unavailable');
-
-  }
-
-  if(!firebase.apps.length){
-
-    firebase.initializeApp(c);
-
-  }
-
-  const db=firebase.firestore();
-
-
-  const ls=s=>
-
-    s.docs
-
-      .map(d=>({
-
-        id:d.id,
-        ...d.data()
-
-      }))
-
-      .filter(x=>x.published!==false)
-
-      .sort(
-        (a,b)=>
-          (a.order??999)-
-          (b.order??999)
-      );
-
-
-  const [
-
-    h,
-    s,
-    p,
-    b
-
-  ]=await Promise.all([
-
-    db
-      .collection('siteContent')
-      .doc('home')
-      .get(),
-
-    db
-      .collection('siteContent')
-      .doc('settings')
-      .get(),
-
-    db
-      .collection('projects')
-      .get(),
-
-    db
-      .collection('banners')
-      .get()
-
-  ]);
-
-
-  H=h.data()||{};
-  S=s.data()||{};
-  P=ls(p);
-  B=ls(b);
-
-
-}catch(e){
-
-  console.warn(
-    'AKHI demo mode:',
-    e
-  );
-
-}
-
-
-/* =========================================================
-   FALLBACK
-========================================================= */
-
-const demoMode=!P.length;
-
-if(demoMode){
-
-  P=DEMO;
-
-}
-
-
-/* =========================================================
-   CONTACT
-========================================================= */
-
-let n=String(
-
-  S.whatsapp||
-  S.phone||
-  ''
-
-).replace(/\D/g,'');
-
-
-if(n.startsWith('0')){
-
-  n='880'+n.slice(1);
-
-}
-
-
-const wa=t=>
-
-  n
-
-    ?`https://wa.me/${n}?text=${encodeURIComponent(t)}`
-
-    :(S.email
-
-      ?`mailto:${S.email}?subject=${encodeURIComponent(t)}`
-
-      :'#contact'
-
-    );
-
-
-const hello=wa(
-  'Hello AKHI, I want to enquire about your furniture.'
-);
-
-
-$('#bag').href=hello;
-$('#chat').href=hello;
-$('#ctaWa').href=hello;
-
-
-if(S.phone){
-
-  $('#call').style.display='flex';
-
-  $('#callN').textContent=S.phone;
-
-  $('#call').href=
-    'tel:'+
-    S.phone.replace(/[^\d+]/g,'');
-
-}
-
-
-/* =========================================================
-   FOOTER DATA
-========================================================= */
-
-if(S.footer){
-
-  $('#foot').textContent=S.footer;
-
-}
-
-
-$('#fList').innerHTML=[
-
-  S.address,
-  S.phone,
-  S.email,
-  S.facebook
-
-]
-.filter(Boolean)
-.map(x=>`<li>${esc(x)}</li>`)
-.join('')
-
-||
-
-'<li>Moulvibazar, Bangladesh</li>';
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-const hd=$('#hd');
-
-function headerScroll(){
-
-  hd.classList.toggle(
-    'solid',
-    window.scrollY>60 ||
-    $('#nv').classList.contains('on')
-  );
-
-}
-
-addEventListener(
-  'scroll',
-  headerScroll,
-  {passive:true}
-);
-
-headerScroll();
-
-
-/* =========================================================
-   SCROLL PROGRESS
-========================================================= */
-
-function progress(){
-
-  const h=
-    document.documentElement.scrollHeight-
-    window.innerHeight;
-
-  const p=
-    h>0
-      ?window.scrollY/h*100
-      :0;
-
-  $('#progress').style.width=
-    `${p}%`;
-
-}
-
-addEventListener(
-  'scroll',
-  progress,
-  {passive:true}
-);
-
-progress();
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-const searchPanel=$('#sp');
-
-$('#sb').onclick=()=>{
-
-  searchPanel.classList.toggle('on');
-
-  if(searchPanel.classList.contains('on')){
-
-    setTimeout(
-      ()=>$('#q').focus(),
-      100
-    );
-
-  }
-
-};
-
-
-$('#searchClose').onclick=()=>{
-
-  searchPanel.classList.remove('on');
-
-};
-
-
-$('#mm').onclick=()=>{
-
-  $('#nv').classList.toggle('on');
-
-  headerScroll();
-
-};
-
-
-/* =========================================================
-   HERO
-========================================================= */
-
-const slides=
-
-  B.length
-
-    ?B
-
-    :demoMode
-
-      ?DEMOB
-
-      :[
-        {
-          title:
-            H.heroTitle||
-            'Furniture for comfortable living.',
-
-          description:
-            H.heroDescription||
-            'Furniture thoughtfully selected for modern homes and workspaces.',
-
-          image:
-            H.heroImage||
-            U(I.living)
-        }
-      ];
-
-
-$('#slides').innerHTML=
-
-slides.map((x,i)=>`
-
-  <article class="sl">
-
-    ${
-      x.image
-
-        ?`
-
-          <img
-            src="${esc(x.image)}"
-            alt="${esc(x.title||'AKHI Furniture')}"
-            ${i?'loading="lazy"':''}
-            onerror="this.style.display='none'"
-          >
-
-        `
-
-        :''
-    }
-
-
-    <div class="hero-content">
-
-      <div class="hero-kicker">
-        AKHI Furniture
-      </div>
-
-
-      <h1 class="hero-title">
-
-        ${esc(x.title||'Furniture, thoughtfully made.')}
-
-      </h1>
-
-
-      ${
-        x.description
-
-          ?`
-
-            <p class="hero-description">
-              ${esc(x.description)}
-            </p>
-
-          `
-
-          :''
-      }
-
-
-      <div class="hero-actions">
-
-        <a
-          class="b"
-          href="#shop"
-        >
-          Explore collection
-        </a>
-
-
-        <a
-          class="b ghost"
-          href="${esc(
-            wa(
-              'Hello AKHI, I want to know about your furniture collection.'
-            )
-          )}"
-          target="_blank"
-          rel="noopener"
-        >
-          Enquire now
-        </a>
-
-      </div>
-
-    </div>
-
-  </article>
-
-`).join('');
-
-
-const dotCount=slides.length;
-
-$('#slideTotal').textContent=
-  String(dotCount).padStart(2,'0');
-
-
-let current=0;
-
-
-function go(i){
-
-  current=
-    (i+dotCount)%dotCount;
-
-
-  $$('.sl').forEach(
-    (el,j)=>
-      el.classList.toggle(
-        'on',
-        j===current
-      )
-  );
-
-
-  $('#slideCurrent').textContent=
-    String(current+1).padStart(2,'0');
-
-
-  $('#slideProgress').style.width=
-    `${((current+1)/dotCount)*100}%`;
-
-}
-
-
-go(0);
-
-
-if(
-
-  dotCount>1 &&
-
-  !matchMedia(
-    '(prefers-reduced-motion:reduce)'
-  ).matches
-
-){
-
-  setInterval(
-    ()=>go(current+1),
-    6500
-  );
-
-}
-
-
-/* =========================================================
-   CATEGORIES
-========================================================= */
-
-const cats=[
-
-  ...new Set(
-
-    P
-      .map(x=>x.category)
-      .filter(Boolean)
-
-  )
-
-];
-
-
-let cat='All';
-let q='';
-
-
-/* NAV */
-
-$('#nv').innerHTML=`
-
-  <button data-c="All">
-    All products
-  </button>
-
-  ${
-    cats
-      .slice(0,7)
-      .map(
-        c=>
-          `<button data-c="${esc(c)}">${esc(c)}</button>`
-      )
-      .join('')
-  }
-
-  <a href="#contact">
-    Contact
+<div class="floating-actions">
+
+  <a
+    href="#"
+    id="floatingWhatsApp"
+    class="float-btn"
+    target="_blank"
+    rel="noopener"
+    aria-label="WhatsApp"
+  >
+    WA
   </a>
 
-`;
+  <a
+    href="tel:+8801700000000"
+    id="floatingCall"
+    class="float-btn"
+    aria-label="Call"
+  >
+    ☎
+  </a>
 
+</div>
 
-/* CATEGORY CARDS */
+<!-- =========================================================
+     PERFORMANCE-FIRST APP
+========================================================= -->
+<script>
+(() => {
+  "use strict";
 
-const categoryImages={
+  /* =======================================================
+     HELPERS
+  ======================================================= */
 
-  'Living Room':I.living,
-  'Bedroom':I.bedroom,
-  'Office':I.office,
-  'Dining':I.dining
+  const $ = (s, root=document) => root.querySelector(s);
+  const $$ = (s, root=document) => [...root.querySelectorAll(s)];
 
-};
+  const esc = value =>
+    String(value ?? "")
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
 
+  const price = value => {
+    if(value === undefined || value === null || value === "") return "";
+    const n = Number(String(value).replace(/[^\d.]/g,""));
+    if(!Number.isFinite(n)) return esc(value);
 
-$('#cats').innerHTML=
+    return "৳ " + n.toLocaleString("en-BD");
+  };
 
-cats.map((c,i)=>{
+  const idle = fn => {
+    if("requestIdleCallback" in window){
+      requestIdleCallback(fn,{timeout:1800});
+    }else{
+      setTimeout(fn,250);
+    }
+  };
 
-  const f=
-    P.find(
-      x=>
-        x.category===c &&
-        x.image
-    );
+  /* =======================================================
+     DEFAULT SETTINGS
+  ======================================================= */
 
+  const DEFAULT_SETTINGS = {
+    whatsapp:"8801700000000",
+    phone:"+8801700000000",
+    email:"hello@akhifurniture.com"
+  };
 
-  const image=
-    f?.image ||
-    (
-      categoryImages[c]
-        ?U(categoryImages[c])
-        :''
-    );
+  let SETTINGS = {...DEFAULT_SETTINGS};
 
+  /* =======================================================
+     DEMO DATA
+     Firebase updates this later.
+  ======================================================= */
 
-  return `
+  const DEMO_PRODUCTS = [
+    {
+      name:"Modern Lounge Sofa",
+      category:"Living / Seating",
+      price:48500,
+      image:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=78",
+      featured:true
+    },
+    {
+      name:"Oak Dining Table",
+      category:"Dining / Table",
+      price:42000,
+      image:"https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=1000&q=78"
+    },
+    {
+      name:"Signature Bed",
+      category:"Bedroom / Bed",
+      price:55000,
+      image:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=78"
+    },
+    {
+      name:"Minimal Lounge Chair",
+      category:"Living / Chair",
+      price:18500,
+      image:"https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=1000&q=78"
+    },
+    {
+      name:"Executive Work Desk",
+      category:"Workspace / Desk",
+      price:36000,
+      image:"https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1000&q=78"
+    },
+    {
+      name:"Soft Accent Chair",
+      category:"Living / Seating",
+      price:22500,
+      image:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1000&q=78"
+    },
+    {
+      name:"Contemporary Side Table",
+      category:"Living / Table",
+      price:12500,
+      image:"https://images.unsplash.com/photo-1532372320572-cda25653a26d?auto=format&fit=crop&w=1000&q=78"
+    },
+    {
+      name:"Premium Bedroom Set",
+      category:"Bedroom / Collection",
+      price:78000,
+      image:"https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1000&q=78"
+    },
+    {
+      name:"Modern Office Chair",
+      category:"Workspace / Seating",
+      price:19500,
+      image:"https://images.unsplash.com/photo-1580480055273-228ff5388ef8?auto=format&fit=crop&w=1000&q=78"
+    },
+    {
+      name:"Classic Console",
+      category:"Living / Console",
+      price:28500,
+      image:"https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=1000&q=78"
+    },
+    {
+      name:"Round Dining Set",
+      category:"Dining / Set",
+      price:46500,
+      image:"https://images.unsplash.com/photo-1549497538-303791108f95?auto=format&fit=crop&w=1000&q=78"
+    },
+    {
+      name:"Statement Armchair",
+      category:"Living / Chair",
+      price:24500,
+      image:"https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=1000&q=78"
+    }
+  ];
 
-    <button
-      class="category"
-      data-c="${esc(c)}"
-      type="button"
-      aria-label="View ${esc(c)}"
-    >
+  const DEMO_BANNERS = [
+    {
+      title:"Furniture with character.",
+      subtitle:"Premium furniture designed for refined spaces.",
+      image:"https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=2000&q=82"
+    },
+    {
+      title:"Designed to stay.",
+      subtitle:"Timeless forms for modern living.",
+      image:"https://images.unsplash.com/photo-1615529162924-f8605388461d?auto=format&fit=crop&w=2000&q=82"
+    },
+    {
+      title:"Make room for better.",
+      subtitle:"Furniture that changes the feeling of a space.",
+      image:"https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2000&q=82"
+    }
+  ];
 
-      <div class="category-media">
+  let PRODUCTS = [...DEMO_PRODUCTS];
+  let BANNERS = [...DEMO_BANNERS];
 
-        ${
-          image
+  let activeSlide = 0;
+  let slideTimer = null;
 
-            ?`
+  /* =======================================================
+     INITIAL YEAR
+  ======================================================= */
 
-              <img
-                src="${esc(image)}"
-                alt="${esc(c)} furniture"
-                loading="lazy"
-                onerror="this.style.display='none'"
-              >
+  $("#year").textContent = new Date().getFullYear();
 
-            `
+  /* =======================================================
+     LOADER
+     
+     IMPORTANT:
+     Loader does NOT wait for Firebase.
+  ======================================================= */
 
-            :''
-        }
+  const hideLoader = () => {
 
-      </div>
+    const loader = $("#loader");
 
+    if(!loader) return;
 
-      <div class="category-content">
+    requestAnimationFrame(() => {
 
-        <span class="category-number">
-          ${String(i+1).padStart(2,'0')}
-        </span>
+      setTimeout(() => {
 
-        <h3>
-          ${esc(c)}
-        </h3>
+        loader.classList.add("hide");
+        document.body.classList.remove("loading");
 
-      </div>
-
-
-      <span class="category-arrow">
-        ↗
-      </span>
-
-    </button>
-
-  `;
-
-}).join('');
-
-
-/* =========================================================
-   FOOTER CATEGORIES
-========================================================= */
-
-$('#fCats').innerHTML=
-
-cats.map(c=>`
-
-  <li>
-
-    <a
-      href="#shop"
-      data-c="${esc(c)}"
-    >
-      ${esc(c)}
-    </a>
-
-  </li>
-
-`).join('');
-
-
-/* =========================================================
-   PRODUCT ICON
-========================================================= */
-
-const arrow=`
-
-<svg viewBox="0 0 24 24">
-
-  <path d="M5 12h13"/>
-  <path d="M13 6l6 6-6 6"/>
-
-</svg>
-
-`;
-
-
-/* =========================================================
-   DRAW PRODUCTS
-========================================================= */
-
-function draw(){
-
-  const list=
-
-    P.filter(x=>{
-
-      const matchesCategory=
-
-        cat==='All' ||
-        x.category===cat;
-
-
-      const text=
-
-        (
-
-          (x.title||'')+
-          ' '+
-          (x.description||'')+
-          ' '+
-          (x.category||'')
-
-        ).toLowerCase();
-
-
-      return(
-        matchesCategory &&
-        text.includes(q)
-      );
+      },120);
 
     });
 
-
-  $('#pt').textContent=
-
-    cat==='All'
-      ?'All products'
-      :cat;
-
-
-  $('#rc').textContent=
-
-    `Showing ${list.length} of ${P.length} results`;
-
-
-  $('#grid').innerHTML=
-
-    list.map((x,i)=>`
-
-      <article class="product reveal">
-
-        <div class="product-media">
-
-          ${
-            x.demo
-
-              ?`
-
-                <span class="product-tag">
-                  Sample
-                </span>
-
-              `
-
-              :''
-          }
-
-
-          <span class="product-number">
-            ${String(i+1).padStart(2,'0')}
-          </span>
-
-
-          ${
-            x.image
-
-              ?`
-
-                <img
-                  src="${esc(x.image)}"
-                  alt="${esc(x.title)}"
-                  loading="lazy"
-                  onerror="this.style.display='none'"
-                >
-
-              `
-
-              :''
-          }
-
-        </div>
-
-
-        <div class="product-info">
-
-          ${
-            x.category
-
-              ?`
-
-                <div class="product-category">
-                  ${esc(x.category)}
-                </div>
-
-              `
-
-              :''
-          }
-
-
-          <h3>
-            ${esc(x.title)}
-          </h3>
-
-
-          ${
-            x.price
-
-              ?`
-
-                <div class="product-price">
-                  ${esc(price(x.price))}
-                </div>
-
-              `
-
-              :''
-          }
-
-
-          <div class="product-bottom">
-
-            <a
-              class="enquire"
-              href="${esc(
-                wa(
-                  'Hello AKHI, I want to know about: '+
-                  x.title
-                )
-              )}"
-              target="_blank"
-              rel="noopener"
-            >
-
-              Enquire
-
-              ${arrow}
-
-            </a>
-
-          </div>
-
-        </div>
-
-      </article>
-
-    `).join('')
-
-    ||
-
-    `
-
-      <div class="empty">
-
-        No products match your search.
-
-      </div>
-
-    `;
-
-
-  requestAnimationFrame(
-    observeReveals
-  );
-
-}
-
-
-/* =========================================================
-   CATEGORY CLICK
-========================================================= */
-
-document.addEventListener(
-  'click',
-  e=>{
-
-    const target=
-      e.target.closest('[data-c]');
-
-    if(!target)return;
-
-
-    cat=
-      target.dataset.c;
-
-
-    $('#nv')
-      .classList
-      .remove('on');
-
-
-    draw();
-
-    headerScroll();
-
-
-    $('#shop').scrollIntoView({
-
-      behavior:
-        matchMedia(
-          '(prefers-reduced-motion:reduce)'
-        ).matches
-          ?'auto'
-          :'smooth'
-
-    });
-
+  };
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded",hideLoader,{once:true});
+  }else{
+    hideLoader();
   }
-);
 
+  /* =======================================================
+     HEADER
+  ======================================================= */
 
-/* =========================================================
-   SEARCH
-========================================================= */
+  const header = $("#header");
 
-$('#q').oninput=e=>{
+  const updateHeader = () => {
+    header.classList.toggle("scrolled",window.scrollY > 30);
+  };
 
-  q=
-    e.target.value
+  window.addEventListener("scroll",updateHeader,{
+    passive:true
+  });
+
+  updateHeader();
+
+  /* =======================================================
+     SCROLL PROGRESS
+  ======================================================= */
+
+  const progress = $("#progress");
+
+  window.addEventListener("scroll",() => {
+
+    const max =
+      document.documentElement.scrollHeight -
+      window.innerHeight;
+
+    const value = max > 0
+      ? (window.scrollY / max) * 100
+      : 0;
+
+    progress.style.width = value + "%";
+
+  },{
+    passive:true
+  });
+
+  /* =======================================================
+     MOBILE MENU
+  ======================================================= */
+
+  const nav = $("#nav");
+  const menuBtn = $("#menuBtn");
+
+  menuBtn?.addEventListener("click",() => {
+    nav.classList.toggle("open");
+  });
+
+  $$(".nav a").forEach(link => {
+
+    link.addEventListener("click",() => {
+      nav.classList.remove("open");
+    });
+
+  });
+
+  /* =======================================================
+     SEARCH
+  ======================================================= */
+
+  const searchPanel = $("#searchPanel");
+  const searchInput = $("#searchInput");
+
+  $("#searchBtn")?.addEventListener("click",() => {
+
+    searchPanel.classList.add("open");
+
+    setTimeout(() => {
+      searchInput?.focus();
+    },80);
+
+  });
+
+  $("#searchClose")?.addEventListener("click",() => {
+    searchPanel.classList.remove("open");
+  });
+
+  document.addEventListener("keydown",event => {
+
+    if(event.key === "Escape"){
+      searchPanel.classList.remove("open");
+      nav.classList.remove("open");
+    }
+
+    if(
+      event.key === "/" &&
+      document.activeElement !== searchInput
+    ){
+      event.preventDefault();
+
+      searchPanel.classList.add("open");
+
+      setTimeout(() => {
+        searchInput?.focus();
+      },50);
+    }
+
+  });
+
+  /* =======================================================
+     SEARCH FILTER
+  ======================================================= */
+
+  searchInput?.addEventListener("input",event => {
+
+    const query = event.target.value
       .trim()
       .toLowerCase();
 
+    renderProducts(query);
 
-  draw();
+  });
 
+  /* =======================================================
+     PRODUCTS
+  ======================================================= */
 
-  if(q){
+  function renderProducts(query=""){
 
-    $('#shop').scrollIntoView({
+    const grid = $("#productGrid");
 
-      behavior:
-        matchMedia(
-          '(prefers-reduced-motion:reduce)'
-        ).matches
-          ?'auto'
-          :'smooth'
+    if(!grid) return;
+
+    let list = PRODUCTS;
+
+    if(query){
+
+      list = PRODUCTS.filter(item => {
+
+        const haystack = [
+          item.name,
+          item.category,
+          item.description
+        ]
+        .join(" ")
+        .toLowerCase();
+
+        return haystack.includes(query);
+
+      });
+
+    }
+
+    if(!list.length){
+
+      grid.innerHTML = `
+        <div style="
+          grid-column:1/-1;
+          padding:70px 0;
+          color:#777;
+          font-size:16px;
+        ">
+          No furniture found.
+        </div>
+      `;
+
+      return;
+    }
+
+    grid.innerHTML = list.map((item,index) => {
+
+      const image =
+        item.image ||
+        "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=78";
+
+      return `
+        <article class="product-card reveal">
+
+          <div class="product-image">
+
+            <img
+              src="${esc(image)}"
+              alt="${esc(item.name || "AKHI Furniture")}"
+              loading="lazy"
+              decoding="async"
+              ${index < 2 ? 'fetchpriority="high"' : ""}
+            >
+
+            ${
+              item.featured
+              ? `<span class="product-tag">Featured</span>`
+              : ""
+            }
+
+          </div>
+
+          <div class="product-info">
+
+            <div>
+
+              <div class="product-name">
+                ${esc(item.name || "AKHI Furniture")}
+              </div>
+
+              <div class="product-category">
+                ${esc(item.category || "Furniture")}
+              </div>
+
+            </div>
+
+            <div class="product-price">
+              ${price(item.price)}
+            </div>
+
+          </div>
+
+          <a
+            href="#contact"
+            class="product-link"
+            data-product="${esc(item.name || "")}"
+          >
+            Enquire →
+          </a>
+
+        </article>
+      `;
+
+    }).join("");
+
+    observeReveals();
+
+  }
+
+  /* =======================================================
+     PRODUCT CATEGORY CLICK
+  ======================================================= */
+
+  $$(".category-card").forEach(card => {
+
+    card.addEventListener("click",event => {
+
+      event.preventDefault();
+
+      const category = (
+        card.dataset.category || ""
+      ).toLowerCase();
+
+      const grid = $("#productGrid");
+
+      if(category){
+
+        const list = PRODUCTS.filter(item =>
+          String(item.category || "")
+            .toLowerCase()
+            .includes(category)
+        );
+
+        if(list.length){
+
+          grid.innerHTML = list.map((item,index) => {
+
+            return `
+              <article class="product-card reveal">
+
+                <div class="product-image">
+
+                  <img
+                    src="${esc(item.image || "")}"
+                    alt="${esc(item.name || "Furniture")}"
+                    loading="lazy"
+                    decoding="async"
+                  >
+
+                  ${
+                    item.featured
+                    ? `<span class="product-tag">Featured</span>`
+                    : ""
+                  }
+
+                </div>
+
+                <div class="product-info">
+
+                  <div>
+                    <div class="product-name">
+                      ${esc(item.name || "Furniture")}
+                    </div>
+
+                    <div class="product-category">
+                      ${esc(item.category || category)}
+                    </div>
+                  </div>
+
+                  <div class="product-price">
+                    ${price(item.price)}
+                  </div>
+
+                </div>
+
+                <a href="#contact" class="product-link">
+                  Enquire →
+                </a>
+
+              </article>
+            `;
+
+          }).join("");
+
+          observeReveals();
+
+        }
+
+      }
+
+      document
+        .querySelector("#shop")
+        ?.scrollIntoView({
+          behavior:"smooth"
+        });
+
+    });
+
+  });
+
+  /* =======================================================
+     PRODUCT ENQUIRY
+  ======================================================= */
+
+  document.addEventListener("click",event => {
+
+    const link = event.target.closest("[data-product]");
+
+    if(!link) return;
+
+    const product = link.dataset.product || "Furniture";
+
+    if(SETTINGS.whatsapp){
+
+      const message =
+        `Hello AKHI Furniture, I am interested in ${product}.`;
+
+      link.href =
+        `https://wa.me/${SETTINGS.whatsapp}?text=${encodeURIComponent(message)}`;
+
+      link.target = "_blank";
+      link.rel = "noopener";
+
+    }
+
+  });
+
+  /* =======================================================
+     HERO
+  ======================================================= */
+
+  function renderHero(){
+
+    const container = $("#heroSlides");
+
+    if(!container || !BANNERS.length) return;
+
+    container.innerHTML = BANNERS.map((item,index) => {
+
+      return `
+        <article class="hero-slide ${index === 0 ? "active" : ""}">
+
+          <img
+            src="${esc(item.image || "")}"
+            alt="${esc(item.title || "AKHI Furniture")}"
+            ${index === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}
+            decoding="async"
+          >
+
+          <div class="hero-overlay"></div>
+
+          <div class="hero-content">
+
+            <div class="hero-copy">
+
+              <div class="eyebrow">
+                AKHI Furniture
+              </div>
+
+              <h1 class="hero-title">
+                ${formatHeroTitle(item.title || "Furniture with character.")}
+              </h1>
+
+              <p class="hero-description">
+                ${esc(item.subtitle || "Premium furniture for refined spaces.")}
+              </p>
+
+              <div class="hero-actions">
+
+                <a href="#shop" class="btn btn-red">
+                  Explore Collection →
+                </a>
+
+                <a href="#contact" class="btn btn-outline">
+                  Talk to AKHI
+                </a>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </article>
+      `;
+
+    }).join("");
+
+    activeSlide = 0;
+
+    updateSlideUI();
+
+    startSlider();
+
+    preloadHeroImages();
+
+  }
+
+  function formatHeroTitle(title){
+
+    const safe = esc(title);
+
+    const words = safe.trim().split(/\s+/);
+
+    if(words.length < 2){
+      return safe;
+    }
+
+    const last = words.pop();
+
+    return `
+      ${words.join(" ")}<br>
+      <em>${last}</em>
+    `;
+
+  }
+
+  function updateSlideUI(){
+
+    const slides = $$(".hero-slide");
+
+    if(!slides.length) return;
+
+    slides.forEach((slide,index) => {
+      slide.classList.toggle(
+        "active",
+        index === activeSlide
+      );
+    });
+
+    const current = $("#slideCurrent");
+    const total = $("#slideTotal");
+
+    if(current){
+      current.textContent =
+        String(activeSlide + 1).padStart(2,"0");
+    }
+
+    if(total){
+      total.textContent =
+        String(slides.length).padStart(2,"0");
+    }
+
+  }
+
+  function goToSlide(index){
+
+    const slides = $$(".hero-slide");
+
+    if(!slides.length) return;
+
+    activeSlide =
+      (index + slides.length) % slides.length;
+
+    updateSlideUI();
+
+  }
+
+  function nextSlide(){
+    goToSlide(activeSlide + 1);
+  }
+
+  function prevSlide(){
+    goToSlide(activeSlide - 1);
+  }
+
+  $("#nextSlide")?.addEventListener("click",() => {
+    nextSlide();
+    startSlider();
+  });
+
+  $("#prevSlide")?.addEventListener("click",() => {
+    prevSlide();
+    startSlider();
+  });
+
+  function startSlider(){
+
+    clearInterval(slideTimer);
+
+    if(BANNERS.length < 2) return;
+
+    slideTimer = setInterval(nextSlide,6500);
+
+  }
+
+  function preloadHeroImages(){
+
+    idle(() => {
+
+      BANNERS
+        .slice(1)
+        .forEach(item => {
+
+          if(!item.image) return;
+
+          const image = new Image();
+
+          image.decoding = "async";
+          image.src = item.image;
+
+        });
 
     });
 
   }
 
-};
+  /* =======================================================
+     REVEAL OBSERVER
+  ======================================================= */
 
+  let revealObserver = null;
 
-/* =========================================================
-   REVEAL ENGINE
-========================================================= */
+  function observeReveals(){
 
-let revealObserver;
+    const elements = $$(".reveal:not(.visible)");
 
+    if(!elements.length) return;
 
-function observeReveals(){
+    if(
+      !("IntersectionObserver" in window)
+    ){
 
-  const items=
-    document.querySelectorAll(
-      '.reveal:not(.visible)'
-    );
+      elements.forEach(el =>
+        el.classList.add("visible")
+      );
 
+      return;
 
-  if(
-    !('IntersectionObserver' in window)
-  ){
+    }
 
-    items.forEach(
-      x=>
-        x.classList.add('visible')
-    );
+    if(!revealObserver){
 
-    return;
+      revealObserver =
+        new IntersectionObserver(entries => {
 
-  }
-
-
-  if(!revealObserver){
-
-    revealObserver=
-      new IntersectionObserver(
-
-        entries=>{
-
-          entries.forEach(entry=>{
+          entries.forEach(entry => {
 
             if(entry.isIntersecting){
 
-              entry.target
-                .classList
-                .add('visible');
+              entry.target.classList.add("visible");
 
-
-              revealObserver
-                .unobserve(
-                  entry.target
-                );
+              revealObserver.unobserve(
+                entry.target
+              );
 
             }
 
           });
 
-        },
-
-        {
+        },{
           threshold:.08,
-          rootMargin:'0px 0px -50px'
-        }
+          rootMargin:"0px 0px -50px 0px"
+        });
 
-      );
+    }
 
-  }
-
-
-  items.forEach(
-    x=>
-      revealObserver.observe(x)
-  );
-
-}
-
-
-draw();
-observeReveals();
-
-
-/* =========================================================
-   CURSOR
-========================================================= */
-
-const dot=$('#cursorDot');
-const ring=$('#cursorRing');
-
-let mx=0;
-let my=0;
-let rx=0;
-let ry=0;
-
-
-if(
-  matchMedia('(pointer:fine)').matches
-){
-
-  addEventListener(
-    'mousemove',
-    e=>{
-
-      mx=e.clientX;
-      my=e.clientY;
-
-      dot.style.opacity='1';
-      ring.style.opacity='1';
-
-      dot.style.left=mx+'px';
-      dot.style.top=my+'px';
-
-    },
-    {passive:true}
-  );
-
-
-  function cursorLoop(){
-
-    rx+=(mx-rx)*.16;
-    ry+=(my-ry)*.16;
-
-    ring.style.left=rx+'px';
-    ring.style.top=ry+'px';
-
-    requestAnimationFrame(
-      cursorLoop
+    elements.forEach(el =>
+      revealObserver.observe(el)
     );
 
   }
 
-  cursorLoop();
+  observeReveals();
 
+  /* =======================================================
+     CUSTOM CURSOR
+  ======================================================= */
 
-  document.addEventListener(
-    'mouseover',
-    e=>{
+  const dot = $("#cursorDot");
+  const ring = $("#cursorRing");
+
+  if(
+    dot &&
+    ring &&
+    window.matchMedia("(pointer:fine)").matches
+  ){
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+
+    let ringX = mouseX;
+    let ringY = mouseY;
+
+    window.addEventListener("mousemove",event => {
+
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+
+      dot.style.left = mouseX + "px";
+      dot.style.top = mouseY + "px";
+
+    },{
+      passive:true
+    });
+
+    const animateCursor = () => {
+
+      ringX += (mouseX - ringX) * .14;
+      ringY += (mouseY - ringY) * .14;
+
+      ring.style.left = ringX + "px";
+      ring.style.top = ringY + "px";
+
+      requestAnimationFrame(animateCursor);
+
+    };
+
+    animateCursor();
+
+    document.addEventListener("mouseover",event => {
 
       if(
-        e.target.closest(
-          'a,button,.product,.category'
-        )
+        event.target.closest("a,button,input")
       ){
-
-        ring.classList.add('big');
-
+        ring.classList.add("hover");
       }else{
+        ring.classList.remove("hover");
+      }
 
-        ring.classList.remove('big');
+    });
+
+  }
+
+  /* =======================================================
+     CONTACT LINKS
+  ======================================================= */
+
+  function applyContactSettings(){
+
+    const whatsapp =
+      String(SETTINGS.whatsapp || "")
+        .replace(/\D/g,"");
+
+    const phone =
+      SETTINGS.phone ||
+      DEFAULT_SETTINGS.phone;
+
+    const email =
+      SETTINGS.email ||
+      DEFAULT_SETTINGS.email;
+
+    const waURL =
+      whatsapp
+      ? `https://wa.me/${whatsapp}`
+      : "#";
+
+    const waLinks = [
+      $("#whatsappLink"),
+      $("#footerWhatsapp"),
+      $("#floatingWhatsApp")
+    ];
+
+    waLinks.forEach(link => {
+
+      if(!link) return;
+
+      link.href = waURL;
+
+      if(waURL !== "#"){
+        link.target = "_blank";
+        link.rel = "noopener";
+      }
+
+    });
+
+    const callLinks = [
+      $("#callLink"),
+      $("#footerCall"),
+      $("#floatingCall")
+    ];
+
+    callLinks.forEach(link => {
+
+      if(link){
+        link.href = `tel:${phone}`;
+      }
+
+    });
+
+    const emailLink = $("#footerEmail");
+
+    if(emailLink){
+      emailLink.href = `mailto:${email}`;
+    }
+
+  }
+
+  applyContactSettings();
+
+  /* =======================================================
+     FIREBASE — DYNAMIC BACKGROUND LOADER
+     
+     THIS IS THE MAIN PERFORMANCE FIX.
+     
+     Firebase scripts are NOT in the critical path.
+  ======================================================= */
+
+  let firebasePromise = null;
+
+  function loadScript(src){
+
+    return new Promise((resolve,reject) => {
+
+      const existing =
+        document.querySelector(
+          `script[data-dynamic-src="${src}"]`
+        );
+
+      if(existing){
+
+        existing.addEventListener(
+          "load",
+          resolve,
+          {once:true}
+        );
+
+        existing.addEventListener(
+          "error",
+          reject,
+          {once:true}
+        );
+
+        return;
 
       }
 
-    }
-  );
+      const script =
+        document.createElement("script");
 
-}
+      script.src = src;
+      script.async = true;
+      script.dataset.dynamicSrc = src;
 
+      script.onload = resolve;
+      script.onerror = reject;
 
-/* =========================================================
-   KEYBOARD
-========================================================= */
+      document.body.appendChild(script);
 
-document.addEventListener(
-  'keydown',
-  e=>{
+    });
 
-    if(e.key==='Escape'){
+  }
 
-      searchPanel.classList.remove('on');
+  async function loadFirebase(){
 
-      $('#nv')
-        .classList
-        .remove('on');
-
-      headerScroll();
-
+    if(window.firebase?.firestore){
+      return window.firebase;
     }
 
+    if(firebasePromise){
+      return firebasePromise;
+    }
 
-    if(
-      e.key==='/' &&
-      document.activeElement.tagName!=='INPUT'
-    ){
+    firebasePromise = (async () => {
 
-      e.preventDefault();
+      /*
+       * firebase-config.js is also loaded in the
+       * background, so it cannot delay first paint.
+       */
 
-      searchPanel.classList.add('on');
+      await loadScript("./firebase-config.js");
 
-      setTimeout(
-        ()=>$('#q').focus(),
-        80
+      if(!window.firebase){
+
+        await loadScript(
+          "https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"
+        );
+
+        await loadScript(
+          "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"
+        );
+
+      }
+
+      return window.firebase;
+
+    })();
+
+    return firebasePromise;
+
+  }
+
+  /* =======================================================
+     FIREBASE DATA NORMALIZATION
+  ======================================================= */
+
+  function normalizeDocs(snapshot){
+
+    if(!snapshot || typeof snapshot.forEach !== "function"){
+      return [];
+    }
+
+    const result = [];
+
+    snapshot.forEach(doc => {
+
+      result.push({
+        id:doc.id,
+        ...doc.data()
+      });
+
+    });
+
+    return result;
+
+  }
+
+  /* =======================================================
+     FIREBASE BACKGROUND HYDRATION
+  ======================================================= */
+
+  async function hydrateFromFirebase(){
+
+    try{
+
+      const firebase =
+        await loadFirebase();
+
+      if(!firebase){
+        return;
+      }
+
+      /*
+       * Support both:
+       *
+       * window.AKI_FIREBASE_CONFIG
+       * window.AKHI_FIREBASE_CONFIG
+       */
+
+      const config =
+        window.AKI_FIREBASE_CONFIG ||
+        window.AKHI_FIREBASE_CONFIG ||
+        window.FIREBASE_CONFIG;
+
+      if(
+        !config ||
+        !config.projectId
+      ){
+
+        console.warn(
+          "AKHI Firebase config not found."
+        );
+
+        return;
+      }
+
+      if(!firebase.apps?.length){
+
+        firebase.initializeApp(config);
+
+      }
+
+      const db = firebase.firestore();
+
+      /*
+       * IMPORTANT:
+       * These requests happen AFTER homepage is visible.
+       */
+
+      const requests = {
+
+        home:
+          db
+            .collection("siteContent")
+            .doc("home")
+            .get()
+            .catch(() => null),
+
+        settings:
+          db
+            .collection("siteContent")
+            .doc("settings")
+            .get()
+            .catch(() => null),
+
+        projects:
+          db
+            .collection("projects")
+            .get()
+            .catch(() => null),
+
+        banners:
+          db
+            .collection("banners")
+            .get()
+            .catch(() => null)
+
+      };
+
+      /*
+       * Do not block UI.
+       */
+
+      const [
+        homeSnap,
+        settingsSnap,
+        projectsSnap,
+        bannersSnap
+      ] = await Promise.all([
+        requests.home,
+        requests.settings,
+        requests.projects,
+        requests.banners
+      ]);
+
+      /* ---------------------------------------------------
+         SETTINGS
+      --------------------------------------------------- */
+
+      if(
+        settingsSnap &&
+        settingsSnap.exists
+      ){
+
+        SETTINGS = {
+          ...SETTINGS,
+          ...settingsSnap.data()
+        };
+
+        applyContactSettings();
+
+      }
+
+      /* ---------------------------------------------------
+         PRODUCTS
+      --------------------------------------------------- */
+
+      if(projectsSnap){
+
+        const remoteProducts =
+          normalizeDocs(projectsSnap)
+            .filter(item => {
+
+              const status =
+                String(item.status || "active")
+                  .toLowerCase();
+
+              return ![
+                "inactive",
+                "disabled",
+                "deleted",
+                "draft"
+              ].includes(status);
+
+            });
+
+        if(remoteProducts.length){
+
+          PRODUCTS = remoteProducts;
+
+          /*
+           * Render remote data only after it exists.
+           */
+
+          if(!searchInput?.value){
+
+            renderProducts("");
+
+          }else{
+
+            renderProducts(
+              searchInput.value
+            );
+
+          }
+
+        }
+
+      }
+
+      /* ---------------------------------------------------
+         BANNERS
+      --------------------------------------------------- */
+
+      if(bannersSnap){
+
+        const remoteBanners =
+          normalizeDocs(bannersSnap)
+            .filter(item => {
+
+              const status =
+                String(item.status || "active")
+                  .toLowerCase();
+
+              return ![
+                "inactive",
+                "disabled",
+                "deleted",
+                "draft"
+              ].includes(status);
+
+            })
+            .filter(item =>
+              item.image ||
+              item.imageUrl ||
+              item.bannerImage
+            )
+            .map(item => ({
+              ...item,
+              image:
+                item.image ||
+                item.imageUrl ||
+                item.bannerImage
+            }));
+
+        if(remoteBanners.length){
+
+          BANNERS = remoteBanners;
+
+          renderHero();
+
+        }
+
+      }
+
+      /* ---------------------------------------------------
+         HOME CONTENT
+      --------------------------------------------------- */
+
+      if(
+        homeSnap &&
+        homeSnap.exists
+      ){
+
+        applyHomeContent(
+          homeSnap.data()
+        );
+
+      }
+
+    }catch(error){
+
+      /*
+       * Firebase failure must NEVER break
+       * the public homepage.
+       */
+
+      console.warn(
+        "AKHI background Firebase load skipped:",
+        error
       );
 
     }
 
   }
-);
 
+  /* =======================================================
+     HOME CONTENT
+  ======================================================= */
 
-/* =========================================================
-   LOADER
-========================================================= */
+  function applyHomeContent(data){
 
-const loader=$('#loader');
+    if(!data || typeof data !== "object"){
+      return;
+    }
 
+    const mappings = [
 
-setTimeout(
-  ()=>{
-    loader.classList.add('done');
-  },
-  900
-);
+      {
+        keys:["heroTitle","title"],
+        selector:".hero-title"
+      },
 
+      {
+        keys:["heroDescription","description"],
+        selector:".hero-description"
+      }
+
+    ];
+
+    mappings.forEach(map => {
+
+      const value =
+        map.keys
+          .map(key => data[key])
+          .find(value =>
+            value !== undefined &&
+            value !== null &&
+            value !== ""
+          );
+
+      if(value === undefined) return;
+
+      const el = $(map.selector);
+
+      if(el){
+
+        if(
+          map.selector === ".hero-title"
+        ){
+
+          el.innerHTML =
+            formatHeroTitle(value);
+
+        }else{
+
+          el.textContent = value;
+
+        }
+
+      }
+
+    });
+
+  }
+
+  /* =======================================================
+     START FIREBASE ONLY AFTER FIRST RESPONSE
+  ======================================================= */
+
+  const startBackgroundFirebase = () => {
+
+    idle(() => {
+
+      /*
+       * Small extra breathing room lets the browser
+       * paint the first screen before Firebase starts.
+       */
+
+      setTimeout(
+        hydrateFromFirebase,
+        60
+      );
+
+    });
+
+  };
+
+  if(
+    document.readyState === "complete"
+  ){
+
+    startBackgroundFirebase();
+
+  }else{
+
+    window.addEventListener(
+      "load",
+      startBackgroundFirebase,
+      {once:true}
+    );
+
+  }
+
+  /* =======================================================
+     INITIAL HERO PRELOAD
+     
+     Next slides wait until browser is idle.
+  ======================================================= */
+
+  idle(() => {
+
+    if(BANNERS.length > 1){
+      preloadHeroImages();
+    }
+
+  });
+
+  /* =======================================================
+     TOUCH SWIPE HERO
+  ======================================================= */
+
+  let touchStartX = 0;
+
+  const hero = $(".hero");
+
+  hero?.addEventListener("touchstart",event => {
+
+    touchStartX =
+      event.changedTouches[0].clientX;
+
+  },{
+    passive:true
+  });
+
+  hero?.addEventListener("touchend",event => {
+
+    const touchEndX =
+      event.changedTouches[0].clientX;
+
+    const difference =
+      touchEndX - touchStartX;
+
+    if(Math.abs(difference) < 45){
+      return;
+    }
+
+    if(difference < 0){
+      nextSlide();
+    }else{
+      prevSlide();
+    }
+
+    startSlider();
+
+  },{
+    passive:true
+  });
+
+  /* =======================================================
+     HERO KEYBOARD
+  ======================================================= */
+
+  document.addEventListener("keydown",event => {
+
+    if(
+      event.target.matches("input,textarea")
+    ){
+      return;
+    }
+
+    if(event.key === "ArrowRight"){
+      nextSlide();
+      startSlider();
+    }
+
+    if(event.key === "ArrowLeft"){
+      prevSlide();
+      startSlider();
+    }
+
+  });
 
 })();
 </script>
