@@ -1,46 +1,6 @@
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    function signedIn() { return request.auth != null; }
-    function self() { return signedIn() && exists(/databases/$(database)/documents/adminUsers/$(request.auth.uid)); }
-    function activeAdmin() { return self() && get(/databases/$(database)/documents/adminUsers/$(request.auth.uid)).data.active == true; }
-    function superAdmin() { return activeAdmin() && get(/databases/$(database)/documents/adminUsers/$(request.auth.uid)).data.role == 'superadmin'; }
-
-    match /adminUsers/{uid} {
-      allow read: if activeAdmin();
-      allow write: if false;
-    }
-
-    match /activityLogs/{id} {
-      allow read: if activeAdmin();
-      allow create: if activeAdmin() && request.resource.data.uid == request.auth.uid;
-      allow update, delete: if superAdmin();
-    }
-
-    match /siteContent/{doc} {
-      allow read: if true;
-      allow create, update, delete: if activeAdmin();
-    }
-
-    match /banners/{id} {
-      allow read: if resource.data.published == true || activeAdmin();
-      allow create, update, delete: if activeAdmin();
-    }
-
-    match /projects/{id} {
-      allow read: if resource.data.published == true || activeAdmin();
-      allow create, update, delete: if activeAdmin();
-    }
-
-    match /media/{id} {
-      allow read: if true;
-      allow create, update, delete: if activeAdmin();
-    }
-
-    match /aiConfig/{doc} {
-      allow read, write: if superAdmin();
-    }
-
-    match /{document=**} { allow read, write: if false; }
-  }
-}
+rules_version='2';
+service cloud.firestore{match /databases/{db}/documents{
+ function isAdmin(){return request.auth!=null&&exists(/databases/$(db)/documents/adminUsers/$(request.auth.uid));}
+ match /adminUsers/{u}{allow read:if request.auth!=null&&request.auth.uid==u;allow write:if false;}
+ match /{col}/{id}{allow read:if col in ['siteContent','banners','projects','media'];allow write:if isAdmin()&&col in ['siteContent','banners','projects','media'];}
+}}

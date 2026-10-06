@@ -1,33 +1,12 @@
-# AKHI Engineering Workshop — Firebase 1.19
+# AKHI Admin (ছোট ভার্সন)
+ফাইল: admin/index.html (login + সব পেজ), firebase-config.js, firestore.rules
 
-Production-backend release of the AKHI Engineering Workshop website/admin system.
+## Setup (৫ ধাপ)
+1. Firebase Console > Authentication > Email/Password চালু করুন, তারপর নিজের admin user বানান।
+2. Firestore Database বানান। Rules ট্যাবে firestore.rules এর লেখা paste করে Publish করুন।
+3. Firestore এ collection `adminUsers` > document ID = ওই user এর UID (Authentication ট্যাব থেকে কপি) > যেকোনো একটা field (যেমন role: admin)।
+4. firebase-config.js এ Web app এর config বসান।
+5. সব ফাইল GitHub Pages এ আপলোড করুন, /admin/ খুলুন।
 
-### Public
-- `index.html`
-- `style.css`
-- `script.js`
-- `assets/developer-credit.js`
-
-### Firebase client
-- `firebase-config.js` — fill with the real Firebase Web App config
-- `firebase-init.js` — Firebase bootstrap + App Check
-
-### Admin
-- `/admin/login/` — Firebase Authentication login
-- `/admin/dashboard.html` — production dashboard
-- `/admin/admins.html` — Super Admin account management
-- `/admin/security.html` — security status
-- `/admin/backup.html` — content backup/recovery
-- `/admin/qa.html` — production QA
-- `/admin/site-qa.html` — public website QA
-- `/admin/responsive.html` — responsive lab
-
-### Backend
-- `functions/index.js` — secure admin management callable functions
-- `firestore.rules`
-- `storage.rules`
-- `firebase.json`
-- `.firebaserc`
-- `scripts/bootstrap-superadmin.cjs`
-
-See `README-FIREBASE-1.19.md` for complete setup and deployment steps.
+## Public site এর জন্য Firestore ডেটা
+siteContent/home (heroTitle, heroDescription), siteContent/settings, collection: banners, projects, media (published=true ফিল্টার করুন)।
