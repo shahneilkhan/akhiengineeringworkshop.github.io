@@ -5,5 +5,5 @@ service cloud.firestore{match /databases/{db}/documents{
  function isSuper(){return isAdmin()&&me().role=='superadmin';}
  match /adminUsers/{u}{allow read:if request.auth!=null&&(request.auth.uid==u||isSuper());allow write:if isSuper();}
  match /activityLogs/{id}{allow read:if isAdmin();allow create:if isAdmin();}
- match /{col}/{id}{allow read:if col in ['siteContent','banners','projects','media'];allow write:if isAdmin()&&col in ['siteContent','banners','projects','media'];}
+ match /{col}/{id}{allow read:if col in ['siteContent','banners','projects','media','websites'];allow write:if isAdmin()&&col in ['siteContent','banners','projects','media','websites'];}
 }}

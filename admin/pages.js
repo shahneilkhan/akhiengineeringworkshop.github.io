@@ -1,0 +1,59 @@
+/* AKHI Admin pages: one script, every .html page sets data-page */
+(async function(){'use strict';
+const A=AKIAdmin,db=A.db,$=s=>document.querySelector(s),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const P=document.body.dataset.page,Q=new URLSearchParams(location.search);
+if(!(await A.requireAuth()))return;
+if(['admins','security','site-qa'].includes(P)&&!(await A.requireSuper()))return;
+const me=A.profile(),sup=me.role==='superadmin';
+const NAV=[['dashboard.html','Dashboard','dashboard'],['homepage.html','Homepage','homepage'],['banners.html','Banners','banners'],['projects.html','Projects','projects'],['website.html','Websites','website'],['media.html','Media','media'],['settings.html','Settings','settings'],['activity.html','Activity','activity'],['backup.html','Backup','backup']];
+const SUP=[['admins.html','Admins','admins'],['security.html','Security','security'],['site-qa.html','Site QA','site-qa']];
+const G={'banner-edit':'banners','project-edit':'projects','website-edit':'website','media-edit':'media'},cur=G[P]||P;
+const link=n=>`<a href="${n[0]}" class="${n[2]==cur?'on':''}">${n[1]}</a>`;
+const nav=NAV.map(link).join('')+(sup?'<div class="sep">Private</div>'+SUP.map(link).join(''):'')+'<a href="../" target="_blank">View website</a>';
+function layout(t,s,h){$('#app').innerHTML=`<aside class="side"><div class="brand">AKHI Admin</div>${nav}<div class="who">${esc(me.name)}<small>${me.role}</small><button id="out">Sign out</button></div></aside><main class="main"><header><h1>${t}</h1><p>${s||''}</p></header>${h}</main>`;$('#out').onclick=A.logout}
+const msg=(t,e)=>{const m=$('#msg');if(m){m.textContent=t;m.className=e?'err':''}};
+const inp=(f,v)=>`<label>${f[1]}</label>${f[2]=='t'?`<textarea id="f_${f[0]}">${esc(v)}</textarea>`:`<input id="f_${f[0]}" ${f[2]=='n'?'type="number"':''} value="${esc(v)}">`}`;
+const read=fs=>{const o={};fs.forEach(f=>{const v=$('#f_'+f[0]).value.trim();o[f[0]]=f[2]=='n'?(Number(v)||0):v});return o};
+const SV=firebase.firestore.FieldValue.serverTimestamp;
+const DOCS={homepage:{ref:'home',t:'Homepage',f:[['heroTitle','Hero title'],['heroDescription','Hero description','t']]},
+settings:{ref:'settings',t:'Site settings',f:[['name','Business name'],['email','Email'],['phone','Phone'],['whatsapp','WhatsApp'],['address','Address','t'],['facebook','Facebook URL'],['footer','Footer text']]}};
+const C={banners:{col:'banners',t:'Banners',s:'banner',list:'banners.html',edit:'banner-edit.html',pub:1,f:[['title','Title'],['description','Description','t'],['image','Image URL'],['order','Order','n']]},
+projects:{col:'projects',t:'Projects',s:'project',list:'projects.html',edit:'project-edit.html',pub:1,f:[['title','Project name'],['description','Description','t'],['category','Category'],['year','Year'],['image','Image URL'],['order','Order','n']]},
+website:{col:'websites',t:'Websites',s:'website',list:'website.html',edit:'website-edit.html',pub:1,f:[['title','Website name'],['url','Website URL'],['description','Description','t'],['image','Image URL'],['order','Order','n']]},
+media:{col:'media',t:'Media',s:'media item',list:'media.html',edit:'media-edit.html',f:[['url','Media URL'],['alt','Alt text'],['category','Category'],['source','Credit / source']]}};
+const KEYS=['siteContent','banners','projects','websites','media'];
+
+async function docPage(){const d=DOCS[P],ref=db.collection('siteContent').doc(d.ref),s=await ref.get(),x=s.exists?s.data():{};
+ layout(d.t,'Saved to Firestore and shown on the public site.',`<section class="card"><form id="f">${d.f.map(f=>inp(f,x[f[0]])).join('')}<p id="msg"></p><button class="btn pri">Save</button></form></section>`);
+ $('#f').onsubmit=async e=>{e.preventDefault();try{await ref.set({...read(d.f),updatedAt:SV(),updatedBy:me.uid},{merge:true});A.log('save '+P);msg('Saved.')}catch(x){msg(x.message,1)}}}
+async function listPage(k){const c=C[k],s=await db.collection(c.col).limit(200).get();const a=s.docs.map(d=>({id:d.id,...d.data()})).sort((p,q)=>(p.order??999)-(q.order??999));
+ layout(c.t,'',`<section class="card"><div class="head"><b>${a.length} records</b><a class="btn pri" href="${c.edit}">+ New</a></div>${a.map(r=>`<div class="it"><div><b>${esc(r.title||r.alt||r.url||'Untitled')}</b><small>${esc(r.category||r.description||'')}${c.pub&&r.published===false?' · draft':''}</small></div><div><a class="btn" href="${c.edit}?id=${r.id}">Edit</a> <button class="btn del" data-d="${r.id}">Delete</button></div></div>`).join('')||'<div class="it"><small>No records yet.</small></div>'}</section>`);
+ document.querySelectorAll('[data-d]').forEach(b=>b.onclick=async()=>{if(confirm('Delete this record?')){await db.collection(c.col).doc(b.dataset.d).delete();A.log('delete '+k);listPage(k)}})}
+async function editPage(k){const c=C[k],id=Q.get('id'),ref=id?db.collection(c.col).doc(id):null,x=ref?((await ref.get()).data()||{}):{};
+ layout((id?'Edit ':'New ')+c.s,'',`<section class="card"><form id="f">${c.f.map(f=>inp(f,x[f[0]])).join('')}${c.pub?`<label class="chk"><input type="checkbox" id="pub" ${x.published===false?'':'checked'}> Published</label>`:''}<p id="msg"></p><button class="btn pri">Save</button> <a class="btn" href="${c.list}">Cancel</a></form></section>`);
+ $('#f').onsubmit=async e=>{e.preventDefault();try{const o={...read(c.f),updatedAt:SV()};if(c.pub)o.published=$('#pub').checked;
+  if(id)await ref.set(o,{merge:true});else await db.collection(c.col).add({...o,createdAt:SV(),createdBy:me.uid});A.log((id?'update ':'create ')+k);location.href=c.list}catch(x){msg(x.message,1)}}}
+async function dashboard(){const n=await Promise.all(['banners','projects','websites','activityLogs'].map(k=>db.collection(k).get().then(x=>x.size).catch(()=>'-')));
+ layout('Dashboard','Welcome back, '+esc(me.name)+'.',`<div class="stats">${['Banners','Projects','Websites','Activity'].map((t,i)=>`<div class="card"><b>${n[i]}</b><span>${t}</span></div>`).join('')}</div>`)}
+async function activity(){const s=await db.collection('activityLogs').orderBy('at','desc').limit(100).get();
+ layout('Activity log','Last 100 events.',`<section class="card">${s.docs.map(d=>{const x=d.data();return `<div class="it"><div>${esc(x.a)}<small>${esc(x.email)} · ${x.at?x.at.toDate().toLocaleString():''}</small></div></div>`}).join('')||'<small>No activity yet.</small>'}</section>`)}
+function backup(){layout('Backup & restore','Export or restore public content. Passwords are never included.',`<section class="card"><button class="btn pri" id="ex">Export JSON</button> <label class="btn" style="margin:0">Import JSON<input id="im" type="file" accept="application/json" hidden></label><p id="msg"></p></section>`);
+ $('#ex').onclick=async()=>{const o={version:1,at:new Date().toISOString(),data:{}};for(const k of KEYS)o.data[k]=(await db.collection(k).get()).docs.map(d=>({id:d.id,...d.data()}));
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(o)],{type:'application/json'}));a.download='akhi-backup-'+o.at.slice(0,10)+'.json';a.click();A.log('backup export')};
+ $('#im').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{const o=JSON.parse(r.result);if(!o.data)throw Error('Invalid backup file.');for(const k of KEYS)for(const {id,...x} of (o.data[k]||[]))await db.collection(k).doc(id).set(x,{merge:true});A.log('backup import');msg('Restored.')}catch(x){msg(x.message,1)}};r.readAsText(f)}}
+async function admins(){const col=db.collection('adminUsers'),s=await col.get();
+ layout('Admins','Create the user in Firebase Authentication first, then add the UID here.',`<section class="card"><form id="f"><label>UID</label><input id="u" required><label>Name</label><input id="n"><label>Role</label><select id="r"><option>admin</option><option>superadmin</option></select><p id="msg"></p><button class="btn pri">Save admin</button></form></section><section class="card">${s.docs.map(d=>{const x=d.data();return `<div class="it"><div>${esc(x.name||d.id)}<small>${esc(x.role)} · ${x.active===false?'disabled':'active'}</small></div><div><button class="btn" data-t="${d.id}">${x.active===false?'Enable':'Disable'}</button> <button class="btn del" data-x="${d.id}">Remove</button></div></div>`}).join('')}</section>`);
+ $('#f').onsubmit=async e=>{e.preventDefault();await col.doc($('#u').value.trim()).set({name:$('#n').value.trim(),role:$('#r').value,active:true},{merge:true});A.log('admin saved');admins()};
+ document.querySelectorAll('[data-t]').forEach(b=>b.onclick=async()=>{if(b.dataset.t==me.uid)return alert('You cannot disable yourself.');const x=s.docs.find(d=>d.id==b.dataset.t).data();await col.doc(b.dataset.t).update({active:x.active===false});A.log('admin toggled');admins()});
+ document.querySelectorAll('[data-x]').forEach(b=>b.onclick=async()=>{if(b.dataset.x==me.uid)return alert('You cannot remove yourself.');if(confirm('Remove this admin?')){await col.doc(b.dataset.x).delete();A.log('admin removed');admins()}})}
+const rows=a=>`<section class="card">${a.map(x=>`<div class="it"><div>${esc(x[0])}<small>${esc(x[2]||'')}</small></div><b class="${x[1]?'ok':'bad'}">${x[1]?'OK':'CHECK'}</b></div>`).join('')}</section>`;
+function security(){const c=AKI_FIREBASE_CONFIG;layout('Security','Session and configuration status.',rows([['Signed in as '+me.email,1,'Role: '+me.role],['Firebase config filled in',!String(c.apiKey).startsWith('YOUR'),c.projectId],['Admin check',1,'Access is enforced by Firestore rules (adminUsers collection)'],['Public site served over HTTPS',location.protocol==='https:',location.origin]]))}
+async function siteqa(){layout('Site QA','Running checks…','<div id="r"></div>');const o=[];
+ o.push(['Firebase config',!String(AKI_FIREBASE_CONFIG.apiKey).startsWith('YOUR')]);
+ for(const k of ['siteContent','banners','projects','websites','media']){try{const s=await db.collection(k).get();o.push(['Firestore: '+k,1,s.size+' records'])}catch(e){o.push(['Firestore: '+k,0,e.message])}}
+ for(const f of [...NAV,...SUP].map(n=>n[0]).concat(['banner-edit.html','project-edit.html','website-edit.html','media-edit.html','login/','../index.html'])){try{const r=await fetch(f,{cache:'no-store'});o.push(['Page: '+f,r.ok,'HTTP '+r.status])}catch(e){o.push(['Page: '+f,0,'unreachable'])}}
+ $('#r').innerHTML=rows(o)}
+const R={dashboard,homepage:docPage,settings:docPage,banners:()=>listPage('banners'),projects:()=>listPage('projects'),website:()=>listPage('website'),media:()=>listPage('media'),
+'banner-edit':()=>editPage('banners'),'project-edit':()=>editPage('projects'),'website-edit':()=>editPage('website'),'media-edit':()=>editPage('media'),activity,backup,admins,security,'site-qa':siteqa};
+try{await R[P]()}catch(e){$('#app').innerHTML='<main class="main"><div class="card">'+esc(e.message)+'</div></main>'}
+})();
