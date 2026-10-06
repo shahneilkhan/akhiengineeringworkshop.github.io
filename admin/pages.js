@@ -5,7 +5,7 @@ const P=document.body.dataset.page,Q=new URLSearchParams(location.search);
 if(!(await A.requireAuth()))return;
 if(['admins','security','site-qa'].includes(P)&&!(await A.requireSuper()))return;
 const me=A.profile(),sup=me.role==='superadmin';
-const NAV=[['dashboard.html','Dashboard','dashboard'],['homepage.html','Homepage','homepage'],['banners.html','Banners','banners'],['projects.html','Projects','projects'],['website.html','Websites','website'],['media.html','Media','media'],['settings.html','Settings','settings'],['activity.html','Activity','activity'],['backup.html','Backup','backup']];
+const NAV=[['dashboard.html','Dashboard','dashboard'],['homepage.html','Homepage','homepage'],['banners.html','Banners','banners'],['projects.html','Products','projects'],['website.html','Websites','website'],['media.html','Media','media'],['settings.html','Settings','settings'],['activity.html','Activity','activity'],['backup.html','Backup','backup']];
 const SUP=[['admins.html','Admins','admins'],['security.html','Security','security'],['site-qa.html','Site QA','site-qa']];
 const G={'banner-edit':'banners','project-edit':'projects','website-edit':'website','media-edit':'media'},cur=G[P]||P;
 const link=n=>`<a href="${n[0]}" class="${n[2]==cur?'on':''}">${n[1]}</a>`;
@@ -18,7 +18,7 @@ const SV=firebase.firestore.FieldValue.serverTimestamp;
 const DOCS={homepage:{ref:'home',t:'Homepage',f:[['heroTitle','Hero title'],['heroDescription','Hero description','t']]},
 settings:{ref:'settings',t:'Site settings',f:[['name','Business name'],['email','Email'],['phone','Phone'],['whatsapp','WhatsApp'],['address','Address','t'],['facebook','Facebook URL'],['footer','Footer text']]}};
 const C={banners:{col:'banners',t:'Banners',s:'banner',list:'banners.html',edit:'banner-edit.html',pub:1,f:[['title','Title'],['description','Description','t'],['image','Image URL'],['order','Order','n']]},
-projects:{col:'projects',t:'Projects',s:'project',list:'projects.html',edit:'project-edit.html',pub:1,f:[['title','Project name'],['description','Description','t'],['category','Category'],['year','Year'],['image','Image URL'],['order','Order','n']]},
+projects:{col:'projects',t:'Products',s:'product',list:'projects.html',edit:'project-edit.html',pub:1,f:[['title','Product name'],['category','Category (e.g. Office chairs)'],['price','Price (number, e.g. 8500)'],['description','Description','t'],['image','Image URL (white background works best)'],['order','Order','n']]},
 website:{col:'websites',t:'Websites',s:'website',list:'website.html',edit:'website-edit.html',pub:1,f:[['title','Website name'],['url','Website URL'],['description','Description','t'],['image','Image URL'],['order','Order','n']]},
 media:{col:'media',t:'Media',s:'media item',list:'media.html',edit:'media-edit.html',f:[['url','Media URL'],['alt','Alt text'],['category','Category'],['source','Credit / source']]}};
 const KEYS=['siteContent','banners','projects','websites','media'];
@@ -34,7 +34,7 @@ async function editPage(k){const c=C[k],id=Q.get('id'),ref=id?db.collection(c.co
  $('#f').onsubmit=async e=>{e.preventDefault();try{const o={...read(c.f),updatedAt:SV()};if(c.pub)o.published=$('#pub').checked;
   if(id)await ref.set(o,{merge:true});else await db.collection(c.col).add({...o,createdAt:SV(),createdBy:me.uid});A.log((id?'update ':'create ')+k);location.href=c.list}catch(x){msg(x.message,1)}}}
 async function dashboard(){const n=await Promise.all(['banners','projects','websites','activityLogs'].map(k=>db.collection(k).get().then(x=>x.size).catch(()=>'-')));
- layout('Dashboard','Welcome back, '+esc(me.name)+'.',`<div class="stats">${['Banners','Projects','Websites','Activity'].map((t,i)=>`<div class="card"><b>${n[i]}</b><span>${t}</span></div>`).join('')}</div>`)}
+ layout('Dashboard','Welcome back, '+esc(me.name)+'.',`<div class="stats">${['Banners','Products','Websites','Activity'].map((t,i)=>`<div class="card"><b>${n[i]}</b><span>${t}</span></div>`).join('')}</div>`)}
 async function activity(){const s=await db.collection('activityLogs').orderBy('at','desc').limit(100).get();
  layout('Activity log','Last 100 events.',`<section class="card">${s.docs.map(d=>{const x=d.data();return `<div class="it"><div>${esc(x.a)}<small>${esc(x.email)} · ${x.at?x.at.toDate().toLocaleString():''}</small></div></div>`}).join('')||'<small>No activity yet.</small>'}</section>`)}
 function backup(){layout('Backup & restore','Export or restore public content. Passwords are never included.',`<section class="card"><button class="btn pri" id="ex">Export JSON</button> <label class="btn" style="margin:0">Import JSON<input id="im" type="file" accept="application/json" hidden></label><p id="msg"></p></section>`);
