@@ -2,38 +2,77 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,viewport-fit=cover"
+  >
 
   <meta name="theme-color" content="#090c0d">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="Akhi Engineering Workshop, Moulvibazar — premium furniture, office chairs, desks and workspace solutions for modern homes and businesses.">
+
+  <meta
+    name="description"
+    content="Akhi Engineering Workshop, Moulvibazar — premium furniture, office chairs, desks and workspace solutions."
+  >
+
   <meta name="robots" content="index,follow">
 
   <link rel="icon" href="./logo.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <title>Akhi Engineering Workshop | Premium Furniture & Office Solutions</title>
+  <!-- Faster connection -->
+  <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <!-- Critical logo -->
+  <link
+    rel="preload"
+    as="image"
+    href="./logo.png"
+    fetchpriority="high"
+  >
+
+  <!-- Non-blocking font -->
+  <link
+    rel="preload"
+    href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&display=swap"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
+  >
+
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&display=swap"
+    >
+  </noscript>
 
   <link rel="stylesheet" href="./style.css">
+
+  <title>Akhi Engineering Workshop | Furniture & Office Solutions</title>
 </head>
 
 <body>
 
-  <!-- =========================================
+  <!-- ======================================
        HEADER
-  ========================================== -->
+  ======================================= -->
+
   <header class="hd" id="hd">
 
-    <a class="logo" href="#top" aria-label="Akhi Engineering Workshop home">
+    <a
+      class="logo"
+      href="#top"
+      aria-label="Akhi Engineering Workshop"
+    >
+
       <img
         src="./logo.png"
-        alt="Akhi Engineering Workshop"
-        width="68"
-        height="68"
-        decoding="async"
+        alt="AKHI Engineering Workshop"
+        width="58"
+        height="58"
         fetchpriority="high"
+        decoding="async"
         onerror="this.style.display='none';this.parentElement.classList.add('logo-fallback')"
       >
 
@@ -41,9 +80,16 @@
         <strong>AKHI</strong>
         <small>ENGINEERING WORKSHOP</small>
       </span>
+
     </a>
 
-    <nav class="nv" id="nv" aria-label="Primary navigation"></nav>
+
+    <nav
+      class="nv"
+      id="nv"
+      aria-label="Primary navigation"
+    ></nav>
+
 
     <div class="ic">
 
@@ -51,28 +97,30 @@
         class="icon-btn"
         id="sb"
         type="button"
-        aria-label="Search products"
+        aria-label="Search"
         aria-expanded="false"
       >
         <span></span>
         <span></span>
       </button>
 
+
       <a
         class="bag"
         id="bag"
         href="#contact"
-        aria-label="Make an inquiry"
+        aria-label="Make inquiry"
       >
         <span class="bag-icon">↗</span>
         <span class="bag-text">Inquiry</span>
       </a>
 
+
       <button
         class="mm"
         id="mm"
         type="button"
-        aria-label="Open menu"
+        aria-label="Menu"
         aria-expanded="false"
       >
         <i></i>
@@ -81,13 +129,19 @@
       </button>
 
     </div>
+
   </header>
 
 
-  <!-- =========================================
-       SEARCH
-  ========================================== -->
-  <div class="sp" id="sp" aria-hidden="true">
+  <!-- ======================================
+       SEARCH PANEL
+  ======================================= -->
+
+  <div
+    class="sp"
+    id="sp"
+    aria-hidden="true"
+  >
 
     <div class="search-inner">
 
@@ -96,7 +150,9 @@
         <small>Find furniture & workspace products</small>
       </div>
 
+
       <div class="search-box">
+
         <span class="search-symbol">⌕</span>
 
         <input
@@ -108,30 +164,41 @@
         >
 
         <button
-          type="button"
           id="searchClose"
+          type="button"
           aria-label="Close search"
         >
           ×
         </button>
+
       </div>
 
     </div>
+
   </div>
 
 
-  <!-- =========================================
+  <!-- ======================================
        MAIN
-  ========================================== -->
+  ======================================= -->
+
   <main id="top">
 
     <!-- HERO -->
-    <section class="hero" aria-label="Featured products">
+
+    <section
+      class="hero"
+      aria-label="Featured products"
+    >
 
       <div class="hero-glow hero-glow-a"></div>
       <div class="hero-glow hero-glow-b"></div>
 
-      <div id="slides" class="slides" aria-live="polite"></div>
+      <div
+        class="slides"
+        id="slides"
+        aria-live="polite"
+      ></div>
 
       <div
         class="dots"
@@ -147,29 +214,52 @@
     </section>
 
 
-    <!-- SHOP -->
-    <section class="sh" id="shop">
+    <!-- ======================================
+         SHOP
+    ======================================= -->
+
+    <section
+      class="sh"
+      id="shop"
+    >
 
       <div class="shop-top">
 
-        <div class="bc" id="bc">
+        <div
+          class="bc"
+          id="bc"
+        >
           Home <span>/</span> Collection
         </div>
+
 
         <div class="shop-heading">
 
           <div>
-            <span class="section-kicker">THE COLLECTION</span>
 
-            <h2 class="tt" id="pt">
+            <span class="section-kicker">
+              THE COLLECTION
+            </span>
+
+            <h2
+              class="tt"
+              id="pt"
+            >
               Furniture & Workspace
             </h2>
+
           </div>
 
+
           <div class="shop-meta">
-            <span class="res" id="rc">
-              0 products
+
+            <span
+              class="res"
+              id="rc"
+            >
+              Loading...
             </span>
+
           </div>
 
         </div>
@@ -177,7 +267,8 @@
       </div>
 
 
-      <!-- CATEGORY NAV -->
+      <!-- CATEGORIES -->
+
       <div
         class="cats"
         id="cats"
@@ -185,7 +276,8 @@
       ></div>
 
 
-      <!-- PRODUCT GRID -->
+      <!-- PRODUCTS -->
+
       <div
         class="grid"
         id="grid"
@@ -195,30 +287,41 @@
     </section>
 
 
-    <!-- =========================================
-         CONTACT STRIP
-    ========================================== -->
-    <section class="contact-strip" id="contact">
+    <!-- ======================================
+         CONTACT
+    ======================================= -->
+
+    <section
+      class="contact-strip"
+      id="contact"
+    >
 
       <div class="contact-decoration">
         <span>AKHI</span>
       </div>
 
+
       <div class="contact-content">
 
         <div>
-          <span class="section-kicker">LET'S BUILD SOMETHING</span>
+
+          <span class="section-kicker">
+            LET'S BUILD SOMETHING
+          </span>
 
           <h2>
-            Your space deserves<br>
+            Your space deserves
+            <br>
             <em>better design.</em>
           </h2>
 
           <p>
-            Tell us what you need. Our team will help you
-            choose the right furniture or workspace solution.
+            Tell us what you need. Our team will help
+            you choose the right furniture or workspace solution.
           </p>
+
         </div>
+
 
         <div class="contact-actions">
 
@@ -244,9 +347,9 @@
   </main>
 
 
-  <!-- =========================================
-       FLOATING ACTIONS
-  ========================================== -->
+  <!-- ======================================
+       FLOATING PHONE
+  ======================================= -->
 
   <a
     class="call"
@@ -255,14 +358,22 @@
     aria-label="Call Akhi Engineering Workshop"
     hidden
   >
-    <span class="call-icon">☎</span>
+
+    <span class="call-icon">
+      ☎
+    </span>
 
     <span>
       <small>CALL US</small>
       <strong id="callN"></strong>
     </span>
+
   </a>
 
+
+  <!-- ======================================
+       FLOATING WHATSAPP
+  ======================================= -->
 
   <a
     class="chat"
@@ -272,57 +383,81 @@
     rel="noopener"
     aria-label="Chat on WhatsApp"
   >
+
     <span class="chat-ring"></span>
-    <span class="chat-icon">⌁</span>
+
+    <span class="chat-icon">
+      ⌁
+    </span>
 
     <span class="chat-copy">
       <small>CHAT WITH US</small>
       <strong>WhatsApp</strong>
     </span>
+
   </a>
 
 
-  <!-- =========================================
+  <!-- ======================================
        FOOTER
-  ========================================== -->
+  ======================================= -->
+
   <footer>
 
     <div class="footer-main">
 
+
       <div class="footer-brand">
 
-        <a class="footer-logo" href="#top">
+        <a
+          class="footer-logo"
+          href="#top"
+        >
 
           <img
             src="./logo.png"
             alt="AKHI"
-            width="64"
-            height="64"
+            width="56"
+            height="56"
             loading="lazy"
+            decoding="async"
           >
 
           <span>
-            <strong id="fN">AKHI</strong>
-            <small>ENGINEERING WORKSHOP</small>
+
+            <strong id="fN">
+              AKHI
+            </strong>
+
+            <small>
+              ENGINEERING WORKSHOP
+            </small>
+
           </span>
 
         </a>
+
 
         <p>
           Premium furniture and practical workspace
           solutions crafted for modern living.
         </p>
 
+
         <div class="footer-social">
-          <a href="#contact" aria-label="Contact">CONTACT ↗</a>
+
+          <a href="#contact">
+            CONTACT ↗
+          </a>
+
           <a
             href="https://websitesdeal.com"
             target="_blank"
             rel="noopener"
-            aria-label="Developer Connect"
           >
             DEVELOPER CONNECT ↗
           </a>
+
         </div>
 
       </div>
@@ -330,7 +465,9 @@
 
       <div class="footer-column">
 
-        <span class="footer-title">COLLECTION</span>
+        <span class="footer-title">
+          COLLECTION
+        </span>
 
         <div
           id="fCats"
@@ -342,7 +479,9 @@
 
       <div class="footer-column">
 
-        <span class="footer-title">CONTACT</span>
+        <span class="footer-title">
+          CONTACT
+        </span>
 
         <div
           id="fList"
@@ -357,12 +496,21 @@
     <div class="footer-bottom">
 
       <span id="foot">
-        © 2026 Akhi Engineering Workshop. All rights reserved.
+        © 2026 Akhi Engineering Workshop.
+        All rights reserved.
       </span>
 
+
       <div class="footer-bottom-right">
-        <span>MOULVIBAZAR, BANGLADESH</span>
-        <a href="#top">BACK TO TOP ↑</a>
+
+        <span>
+          MOULVIBAZAR, BANGLADESH
+        </span>
+
+        <a href="#top">
+          BACK TO TOP ↑
+        </a>
+
       </div>
 
     </div>
@@ -370,11 +518,15 @@
   </footer>
 
 
-  <!-- =========================================
+  <!-- ======================================
        FIREBASE
-  ========================================== -->
+       Loaded after HTML parsing
+  ======================================= -->
 
-  <script src="./firebase-config.js"></script>
+  <script
+    src="./firebase-config.js"
+    defer
+  ></script>
 
   <script
     src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"
@@ -386,7 +538,10 @@
     defer
   ></script>
 
-  <script src="./script.js" defer></script>
+  <script
+    src="./script.js"
+    defer
+  ></script>
 
 </body>
 </html>
