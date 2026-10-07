@@ -64,6 +64,7 @@ footer{margin-top:0!important}
 .mbtn{margin-top:auto;display:inline-block;text-align:center;background:var(--acc);color:#111;font-weight:700;padding:13px 22px;border-radius:4px}
 .mx{position:absolute;top:10px;right:12px;z-index:2;width:38px;height:38px;border:0;border-radius:50%;background:#fff;font-size:26px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)}
 @media(max-width:820px){.abw,.mp{grid-template-columns:1fr}.mi{min-height:220px}}
+.pr s{color:#999;font-weight:400;margin-left:4px}.pr .of{color:#d62828;font-weight:700;font-size:19px}.pr em{font-style:normal;background:#d62828;color:#fff;font-size:12px;padding:2px 7px;border-radius:3px;margin-left:4px;font-weight:600}.mpr .pr{display:block}.mpr .of{font-size:28px}
 </style></head><body>
 <header class="hd" id="hd"><a class="logo" href="#top" aria-label="Akhi Engineering Workshop"><img src="./logo.png" alt="Akhi Engineering Workshop" onerror="this.parentNode.classList.add('txt');this.parentNode.innerHTML='AKHI<small>ENGINEERING WORKSHOP</small>'"><span class="bn" id="bn">Akhi Engineering Workshop</span></a><nav class="nv" id="nv"></nav><div class="ic"><button id="sb" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button><a id="bag" href="#contact" aria-label="Order on WhatsApp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 11h10.2L20 7H6.2"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg></a><button class="mm" id="mm" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></header>
 <div class="sp" id="sp"><input id="q" type="search" placeholder="Search chairs, desks, tables…" aria-label="Search products"></div>
@@ -88,10 +89,12 @@ try{const c=AKI_FIREBASE_CONFIG;if(String(c.apiKey).startsWith('YOUR'))throw 0;f
  const [h,s,p,b]=await Promise.all([db.collection('siteContent').doc('home').get(),db.collection('siteContent').doc('settings').get(),db.collection('projects').get(),db.collection('banners').get()]);
  H=h.data()||{};S=s.data()||{};P=ls(p);B=ls(b)}catch(e){}
 const NAME=(S.name||'Akhi Engineering Workshop').trim();document.title=NAME+' | Furniture & Office Chairs';$('#fN').textContent=NAME;const bn=$('#bn');if(bn)bn.textContent=NAME;if(S.logo){const li=document.querySelector('.logo img');if(li){li.src=S.logo;li.alt=NAME}document.querySelector('link[rel=icon]').href=S.logo}
-const demoMode=!P.length;if(demoMode)P=DEMO;
+const demoMode=!P.length;if(demoMode){P=DEMO;[1,4,7].forEach(i=>DEMO[i].offerPrice=Math.round(DEMO[i].price*.85/100)*100)}P.sort((a,b)=>(!!b.offerPrice)-(!!a.offerPrice)||(a.order??999)-(b.order??999));
 let n=String(S.whatsapp||S.phone||'').replace(/\D/g,'');if(n.startsWith('0'))n='880'+n.slice(1);
 const wa=t=>n?`https://wa.me/${n}?text=${encodeURIComponent(t)}`:(S.email?`mailto:${S.email}?subject=${encodeURIComponent(t)}`:'#contact');
 const price=v=>/^\d+$/.test(String(v||'').trim())?'৳'+Number(v).toLocaleString('en-US'):String(v||'');
+const num=v=>/^\d+$/.test(String(v||'').trim())?Number(v):null;
+const priceHtml=x=>{const o=x.offerPrice,r=x.price;if(o){const a=num(o),b=num(r),pct=a&&b&&b>a?Math.round((1-a/b)*100):0;return `<div class="pr"><b class="of">${esc(price(o))}</b>${r?` <s>${esc(price(r))}</s>`:''}${pct?` <em>-${pct}%</em>`:''}</div>`}return r?`<div class="pr">${esc(price(r))}</div>`:''};
 const hello=wa('Hello '+NAME+', I want to enquire about your furniture.');$('#bag').href=hello;$('#chat').href=hello;
 if(S.phone){$('#call').style.display='flex';$('#callN').textContent=S.phone;$('#call').href='tel:'+S.phone.replace(/[^\d+]/g,'')}
 $('#foot').textContent=S.footer||('© '+NAME);
@@ -108,13 +111,13 @@ $('#dots').onclick=e=>{if(e.target.dataset.i)go(+e.target.dataset.i)};
 if(sl.length<2)$('#dots').style.display='none';else if(!matchMedia('(prefers-reduced-motion:reduce)').matches)setInterval(()=>go(k+1),6000);go(0);
 /* categories + products */
 const cats=[...new Set(P.map(x=>x.category).filter(Boolean))];let cat='All',q='';
-$('#nv').innerHTML=`<button data-c="All">All products</button>`+cats.slice(0,8).map(c=>`<button data-c="${esc(c)}">${esc(c)}</button>`).join('')+`<a href="#contact">Contact</a>`;
+$('#nv').innerHTML=`<button data-c="All">All products</button>`+(P.some(x=>x.offerPrice)?'<button data-c="__offers">Offers</button>':'')+cats.slice(0,8).map(c=>`<button data-c="${esc(c)}">${esc(c)}</button>`).join('')+`<a href="#contact">Contact</a>`;
 $('#cats').innerHTML=cats.map(c=>{const f=P.find(x=>x.category==c&&x.image);return `<button class="ct" data-c="${esc(c)}" style="font:inherit"><div class="i">${f?`<img loading="lazy" src="${esc(f.image)}" alt="${esc(c)}" onerror="this.remove()">`:''}</div><b>${esc(c)}</b></button>`}).join('');
 $('#fCats').innerHTML=cats.map(c=>`<li><a href="#shop" data-c="${esc(c)}">${esc(c)}</a></li>`).join('');
 const cart='<svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 11h10.2L20 7H6.2"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg>';
-function draw(){const a=P.filter(x=>(cat=='All'||x.category==cat)&&(x.title+' '+(x.description||'')+' '+(x.category||'')).toLowerCase().includes(q));
- $('#pt').textContent=$('#bc').textContent=cat=='All'?'All products':cat;$('#rc').textContent=`Showing ${a.length} of ${P.length} results`;
- $('#grid').innerHTML=a.map(x=>`<article class="card" data-i="${P.indexOf(x)}"><div class="ph">${x.demo?'<i class="sm">Sample</i>':x.badge?`<i class="sm bdg">${esc(x.badge)}</i>`:''}${x.image?`<img loading="lazy" src="${esc(x.image)}" alt="${esc(x.title)}" onerror="this.remove()">`:''}</div><h3>${esc(x.title)}</h3>${x.price?`<div class="pr">${esc(price(x.price))}</div>`:''}<a class="ad" href="${esc(wa('Hello '+NAME+', I want to know about: '+x.title))}" target="_blank" rel="noopener">${cart} Enquire</a></article>`).join('')||'<div class="empty">No products match your search.</div>'}
+function draw(){const a=P.filter(x=>(cat=='All'||(cat=='__offers'?x.offerPrice:x.category==cat))&&(x.title+' '+(x.description||'')+' '+(x.category||'')).toLowerCase().includes(q));
+ $('#pt').textContent=$('#bc').textContent=cat=='All'?'All products':cat=='__offers'?'Offers':cat;$('#rc').textContent=`Showing ${a.length} of ${P.length} results`;
+ $('#grid').innerHTML=a.map(x=>`<article class="card" data-i="${P.indexOf(x)}"><div class="ph">${x.demo?'<i class="sm">Sample</i>':(x.badge||x.offerPrice)?`<i class="sm bdg">${esc(x.badge||'Sale')}</i>`:''}${x.image?`<img loading="lazy" src="${esc(x.image)}" alt="${esc(x.title)}" onerror="this.remove()">`:''}</div><h3>${esc(x.title)}</h3>${priceHtml(x)}<a class="ad" href="${esc(wa('Hello '+NAME+', I want to know about: '+x.title))}" target="_blank" rel="noopener">${cart} Enquire</a></article>`).join('')||'<div class="empty">No products match your search.</div>'}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b)return;cat=b.dataset.c;$('#nv').classList.remove('on');draw();$('#shop').scrollIntoView({behavior:'smooth'})});
 $('#q').oninput=e=>{q=e.target.value.trim().toLowerCase();draw();if(q)$('#shop').scrollIntoView({behavior:'smooth'})};draw();
 
@@ -122,7 +125,7 @@ $('#q').oninput=e=>{q=e.target.value.trim().toLowerCase();draw();if(q)$('#shop')
 const svl=String(H.services||'').split('\n').map(t=>t.trim()).filter(Boolean);
 if(H.aboutText||svl.length){$('#about').hidden=false;$('#abT').textContent=H.aboutTitle||('About '+NAME);$('#abP').textContent=H.aboutText||'';$('#svc').innerHTML=svl.map(t=>`<div>${esc(t)}</div>`).join('');$('#nv').insertAdjacentHTML('beforeend','');const c=document.querySelector('#nv a[href="#contact"]');if(c)c.insertAdjacentHTML('beforebegin','<a href="#about">About</a>')}
 /* product detail */
-function openP(i){const x=P[i];if(!x)return;const im=$('#mImg');im.src=x.image||'';im.style.display=x.image?'':'none';$('#mCat').textContent=x.category||'';$('#mT').textContent=x.title;$('#mPr').textContent=x.price?price(x.price):'';$('#mD').textContent=x.description||'';$('#mL').innerHTML=String(x.details||'').split('\n').map(t=>t.trim()).filter(Boolean).map(t=>`<li>${esc(t)}</li>`).join('');$('#mWa').href=wa('Hello '+NAME+', I want to know about: '+x.title);$('#md').hidden=false;document.body.style.overflow='hidden'}
+function openP(i){const x=P[i];if(!x)return;const im=$('#mImg');im.src=x.image||'';im.style.display=x.image?'':'none';$('#mCat').textContent=x.category||'';$('#mT').textContent=x.title;$('#mPr').innerHTML=priceHtml(x);$('#mD').textContent=x.description||'';$('#mL').innerHTML=String(x.details||'').split('\n').map(t=>t.trim()).filter(Boolean).map(t=>`<li>${esc(t)}</li>`).join('');$('#mWa').href=wa('Hello '+NAME+', I want to know about: '+x.title);$('#md').hidden=false;document.body.style.overflow='hidden'}
 const closeP=()=>{$('#md').hidden=true;document.body.style.overflow=''};
 $('#mx').onclick=closeP;$('#md').onclick=e=>{if(e.target.id=='md')closeP()};addEventListener('keydown',e=>{if(e.key=='Escape')closeP()});
 $('#grid').onclick=e=>{if(e.target.closest('a'))return;const c=e.target.closest('.card');if(c)openP(+c.dataset.i)};
