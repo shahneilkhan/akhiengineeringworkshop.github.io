@@ -4,34 +4,60 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 
-<meta name="theme-color" content="#e2262d">
-<meta name="description" content="AKHI Furniture — premium furniture for refined homes and modern workspaces.">
+<title>AKHI Engineering Workshop | Engineering & Fabrication</title>
+
+<meta name="description" content="AKHI Engineering Workshop — precision engineering, fabrication, workshop solutions and custom industrial work.">
+<meta name="keywords" content="AKHI Engineering Workshop, engineering workshop, fabrication, welding, industrial engineering, Bangladesh">
+<meta name="author" content="AKHI Engineering Workshop">
 <meta name="robots" content="index,follow">
 
-<title>AKHI Furniture | Premium Furniture</title>
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+
+<meta property="og:title" content="AKHI Engineering Workshop">
+<meta property="og:description" content="Precision. Strength. Engineering.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://raw.githubusercontent.com/shahneilkhan/akhiengineeringworkshop.github.io/main/logo.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+>
+
 <link rel="preload"
       as="image"
-      href="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1600&q=82"
-      fetchpriority="high">
-
-<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+      href="https://raw.githubusercontent.com/shahneilkhan/akhiengineeringworkshop.github.io/main/logo.jpg">
 
 <style>
+/* =========================================================
+   AKHI ENGINEERING WORKSHOP
+   Ultra Premium / Performance First
+========================================================= */
+
 :root{
-  --red:#e2262d;
-  --red2:#ff343b;
-  --black:#0a0a0a;
-  --dark:#111;
-  --paper:#f4f1eb;
+  --bg:#080909;
+  --bg2:#0d0f0f;
+  --panel:#111414;
+  --panel2:#151818;
+  --text:#f5f5f2;
+  --muted:#969c99;
+  --soft:#c9ceca;
+  --line:rgba(255,255,255,.09);
+  --line2:rgba(255,255,255,.15);
+
+  --accent:#d9ff45;
+  --accent-dark:#a8c927;
+
   --white:#fff;
-  --muted:#888;
-  --line:rgba(255,255,255,.1);
-  --dark-line:rgba(0,0,0,.1);
-  --max:1440px;
-  --ease:cubic-bezier(.2,.75,.2,1);
+  --black:#000;
+
+  --max:1240px;
+  --radius:22px;
+
+  --ease:cubic-bezier(.2,.8,.2,1);
 }
 
 *{
@@ -42,29 +68,23 @@
 
 html{
   scroll-behavior:smooth;
+  background:var(--bg);
 }
 
 body{
-  font-family:"Barlow",sans-serif;
-  background:var(--paper);
-  color:var(--black);
+  min-height:100vh;
   overflow-x:hidden;
-}
-
-button,
-input,
-textarea,
-select{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-a{
-  color:inherit;
-  text-decoration:none;
+  background:
+    radial-gradient(
+      circle at 85% 5%,
+      rgba(217,255,69,.045),
+      transparent 28%
+    ),
+    var(--bg);
+  color:var(--text);
+  font-family:"DM Sans",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
 }
 
 img{
@@ -72,1318 +92,1088 @@ img{
   max-width:100%;
 }
 
+button,
+a{
+  -webkit-tap-highlight-color:transparent;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button{
+  border:0;
+  font:inherit;
+}
+
 ::selection{
-  background:var(--red);
-  color:#fff;
+  background:var(--accent);
+  color:#000;
 }
 
-/* =========================
-   LOADER
-========================= */
+/* =========================================================
+   PROGRESS
+========================================================= */
 
-.loader{
+.progress{
   position:fixed;
-  inset:0;
-  z-index:99999;
-  background:#0a0a0a;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition:.45s var(--ease);
-}
-
-.loader.hide{
-  opacity:0;
-  visibility:hidden;
+  z-index:9999;
+  top:0;
+  left:0;
+  width:100%;
+  height:2px;
   pointer-events:none;
 }
 
-.loader-inner{
-  text-align:center;
-}
-
-.loader-logo{
-  font-size:28px;
-  font-weight:800;
-  letter-spacing:.18em;
-}
-
-.loader-line{
-  width:120px;
-  height:1px;
-  background:rgba(255,255,255,.18);
-  margin:18px auto 10px;
-  overflow:hidden;
-}
-
-.loader-line span{
+.progress span{
   display:block;
+  width:0;
   height:100%;
-  width:45%;
-  background:var(--red);
-  animation:loaderMove .8s infinite ease-in-out;
+  background:var(--accent);
+  box-shadow:0 0 12px rgba(217,255,69,.65);
 }
 
-@keyframes loaderMove{
-  from{transform:translateX(-120%)}
-  to{transform:translateX(300%)}
-}
-
-.loader-small{
-  color:#777;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.22em;
-}
-
-/* =========================
+/* =========================================================
    HEADER
-========================= */
+========================================================= */
 
-.site-header{
+.header{
   position:fixed;
+  z-index:900;
   top:0;
   left:0;
-  right:0;
-  z-index:1000;
-  height:78px;
-  display:flex;
-  align-items:center;
+  width:100%;
   border-bottom:1px solid transparent;
-  transition:.35s var(--ease);
+  transition:
+    background .3s var(--ease),
+    border-color .3s var(--ease),
+    backdrop-filter .3s var(--ease);
 }
 
-.site-header.scrolled{
-  height:66px;
-  background:rgba(10,10,10,.92);
-  backdrop-filter:blur(18px);
-  border-color:rgba(255,255,255,.08);
+.header.scrolled{
+  background:rgba(8,9,9,.82);
+  border-color:var(--line);
+  backdrop-filter:blur(16px);
 }
 
 .header-inner{
-  width:min(calc(100% - 42px),var(--max));
+  width:min(var(--max),calc(100% - 40px));
+  height:78px;
   margin:auto;
+
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:25px;
+  gap:30px;
 }
+
+/* LOGO */
 
 .logo{
   display:flex;
   align-items:center;
-  gap:11px;
-  color:#fff;
-  font-weight:800;
-  letter-spacing:.12em;
-  font-size:17px;
-  white-space:nowrap;
+  gap:12px;
+  min-width:max-content;
 }
 
-.logo-mark{
-  width:34px;
-  height:34px;
-  display:grid;
-  place-items:center;
-  border:1px solid rgba(255,255,255,.35);
-  font-size:11px;
-  letter-spacing:.05em;
+.logo-image{
+  width:42px;
+  height:42px;
+  border-radius:10px;
+  object-fit:cover;
+  background:#fff;
 }
 
-.logo small{
-  color:#888;
-  font-weight:500;
+.logo-copy{
+  display:flex;
+  flex-direction:column;
+  line-height:1;
+}
+
+.logo-name{
+  font-family:"Space Grotesk",sans-serif;
+  font-size:15px;
+  font-weight:700;
+  letter-spacing:.06em;
+}
+
+.logo-sub{
+  margin-top:5px;
+  color:#888f8b;
   font-size:8px;
+  font-weight:700;
   letter-spacing:.2em;
-  margin-left:-5px;
 }
+
+/* NAV */
 
 .nav{
   display:flex;
   align-items:center;
-  gap:30px;
+  gap:32px;
 }
 
 .nav a{
-  color:rgba(255,255,255,.7);
-  font-size:12px;
-  text-transform:uppercase;
-  letter-spacing:.12em;
-  transition:.25s;
+  position:relative;
+  color:#b5bab7;
+  font-size:13px;
+  font-weight:600;
+  transition:color .2s ease;
+}
+
+.nav a::after{
+  content:"";
+  position:absolute;
+  right:0;
+  bottom:-8px;
+  left:0;
+  height:1px;
+  background:var(--accent);
+  transform:scaleX(0);
+  transform-origin:right;
+  transition:transform .3s var(--ease);
 }
 
 .nav a:hover{
   color:#fff;
 }
 
-.header-actions{
-  display:flex;
+.nav a:hover::after{
+  transform:scaleX(1);
+  transform-origin:left;
+}
+
+/* HEADER CTA */
+
+.header-cta{
+  display:inline-flex;
   align-items:center;
-  gap:8px;
+  justify-content:center;
+
+  min-height:42px;
+  padding:0 17px;
+
+  border:1px solid rgba(217,255,69,.35);
+  border-radius:999px;
+
+  background:rgba(217,255,69,.07);
+  color:var(--accent);
+
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.04em;
+
+  transition:
+    background .25s ease,
+    color .25s ease,
+    transform .25s ease;
 }
 
-.icon-btn{
-  position:relative;
-  width:40px;
-  height:40px;
-  border:1px solid rgba(255,255,255,.14);
-  background:rgba(255,255,255,.04);
-  color:#fff;
-  display:grid;
-  place-items:center;
-  transition:.25s;
+.header-cta:hover{
+  background:var(--accent);
+  color:#000;
+  transform:translateY(-2px);
 }
 
-.icon-btn:hover{
-  border-color:rgba(255,255,255,.4);
-  background:rgba(255,255,255,.1);
-}
-
-.icon-svg{
-  width:17px;
-  height:17px;
-  fill:none;
-  stroke:currentColor;
-  stroke-width:1.6;
-}
-
-.cart-count{
-  position:absolute;
-  top:-5px;
-  right:-5px;
-  min-width:17px;
-  height:17px;
-  padding:0 4px;
-  display:grid;
-  place-items:center;
-  border-radius:20px;
-  background:var(--red);
-  color:#fff;
-  font-size:9px;
-  font-weight:800;
-}
-
-.menu-btn{
+.menu{
   display:none;
+  width:42px;
+  height:42px;
+  border:1px solid var(--line);
+  border-radius:50%;
+  background:transparent;
+  color:#fff;
+  cursor:pointer;
 }
 
-/* =========================
+.menu span,
+.menu::before,
+.menu::after{
+  content:"";
+  display:block;
+  width:16px;
+  height:1px;
+  margin:4px auto;
+  background:currentColor;
+}
+
+/* =========================================================
    HERO
-========================= */
+========================================================= */
 
 .hero{
-  min-height:100svh;
-  background:#0a0a0a;
-  color:#fff;
   position:relative;
+  min-height:100svh;
+  display:flex;
+  align-items:center;
   overflow:hidden;
+  isolation:isolate;
 }
 
-.hero-media{
+.hero::before{
+  content:"";
   position:absolute;
+  z-index:-2;
   inset:0;
-}
 
-.hero-media img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  opacity:.72;
-}
-
-.hero-overlay{
-  position:absolute;
-  inset:0;
   background:
-    linear-gradient(90deg,rgba(0,0,0,.78),rgba(0,0,0,.2) 65%,rgba(0,0,0,.45)),
-    linear-gradient(0deg,rgba(0,0,0,.7),transparent 45%);
+    linear-gradient(
+      90deg,
+      rgba(8,9,9,1) 0%,
+      rgba(8,9,9,.96) 35%,
+      rgba(8,9,9,.6) 68%,
+      rgba(8,9,9,.92) 100%
+    );
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  right:-12%;
+  bottom:-25%;
+  width:65vw;
+  height:65vw;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(217,255,69,.08),
+      transparent 65%
+    );
+}
+
+.hero-grid{
+  position:absolute;
+  z-index:-1;
+  inset:0;
+
+  opacity:.22;
+
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+
+  background-size:80px 80px;
+
+  mask-image:
+    linear-gradient(
+      90deg,
+      #000,
+      transparent 85%
+    );
 }
 
 .hero-content{
-  position:relative;
-  z-index:2;
-  width:min(calc(100% - 42px),var(--max));
+  width:min(var(--max),calc(100% - 40px));
   margin:auto;
-  min-height:100svh;
-  display:flex;
-  align-items:flex-end;
-  padding:150px 0 95px;
+  padding-top:100px;
 }
 
-.hero-copy{
-  max-width:780px;
+.hero-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(320px,.65fr);
+  align-items:end;
+  gap:80px;
 }
 
 .eyebrow{
   display:flex;
   align-items:center;
-  gap:12px;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.24em;
-  color:#bbb;
+  gap:10px;
+
   margin-bottom:25px;
+
+  color:var(--accent);
+
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.2em;
+  text-transform:uppercase;
 }
 
-.eyebrow span{
-  width:32px;
+.eyebrow i{
+  width:28px;
   height:1px;
-  background:var(--red);
+  background:var(--accent);
 }
 
 .hero h1{
-  font-family:"DM Serif Display",serif;
-  font-weight:400;
-  font-size:clamp(62px,9vw,150px);
-  line-height:.82;
-  letter-spacing:-.045em;
-  max-width:900px;
+  max-width:850px;
+
+  font-family:"Space Grotesk",sans-serif;
+  font-size:clamp(58px,9vw,128px);
+  font-weight:600;
+  letter-spacing:-.065em;
+  line-height:.87;
 }
 
-.hero h1 em{
-  color:#ddd;
+.hero h1 span{
+  color:var(--accent);
 }
 
 .hero-description{
-  max-width:470px;
-  margin-top:32px;
-  color:#bcbcbc;
-  font-size:15px;
-  line-height:1.7;
+  max-width:510px;
+  margin-top:34px;
+
+  color:#aeb4b1;
+  font-size:16px;
+  line-height:1.8;
 }
 
-.hero-buttons{
+.hero-actions{
   display:flex;
   flex-wrap:wrap;
-  gap:10px;
-  margin-top:32px;
+  gap:12px;
+  margin-top:36px;
 }
 
 .btn{
-  min-height:48px;
   display:inline-flex;
   align-items:center;
   justify-content:center;
   gap:10px;
+
+  min-height:52px;
   padding:0 22px;
-  border:1px solid transparent;
-  text-transform:uppercase;
-  letter-spacing:.1em;
-  font-size:10px;
+
+  border-radius:999px;
+
+  font-size:13px;
   font-weight:700;
-  transition:.3s var(--ease);
+
+  transition:
+    transform .25s var(--ease),
+    background .25s ease,
+    color .25s ease,
+    border-color .25s ease;
 }
 
 .btn-primary{
-  background:var(--red);
-  color:#fff;
+  background:var(--accent);
+  color:#050505;
 }
 
 .btn-primary:hover{
-  background:#fff;
-  color:#000;
-  transform:translateY(-2px);
+  transform:translateY(-3px);
+  background:#e5ff78;
 }
 
-.btn-outline{
-  border-color:rgba(255,255,255,.25);
+.btn-secondary{
+  border:1px solid var(--line2);
   color:#fff;
-  background:rgba(255,255,255,.03);
+  background:rgba(255,255,255,.025);
 }
 
-.btn-outline:hover{
-  border-color:#fff;
-  background:#fff;
-  color:#000;
+.btn-secondary:hover{
+  border-color:rgba(217,255,69,.45);
+  background:rgba(217,255,69,.06);
+  transform:translateY(-3px);
 }
 
-.hero-meta{
-  position:absolute;
-  right:0;
-  bottom:95px;
+.hero-side{
+  padding-bottom:12px;
+}
+
+.hero-card{
+  padding:24px;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.055),
+      rgba(255,255,255,.015)
+    );
+
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.35);
+}
+
+.hero-card-top{
   display:flex;
   align-items:center;
-  gap:20px;
-  color:#aaa;
-  font-size:9px;
+  justify-content:space-between;
+  padding-bottom:20px;
+  border-bottom:1px solid var(--line);
+}
+
+.hero-card-label{
+  color:#858c88;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.16em;
   text-transform:uppercase;
-  letter-spacing:.15em;
 }
 
-.scroll-line{
-  width:75px;
-  height:1px;
-  background:rgba(255,255,255,.25);
-}
-
-/* =========================
-   MARQUEE
-========================= */
-
-.marquee{
-  background:var(--red);
-  color:#fff;
-  overflow:hidden;
-  white-space:nowrap;
-}
-
-.marquee-track{
-  width:max-content;
+.status{
   display:flex;
-  animation:marquee 24s linear infinite;
-}
+  align-items:center;
+  gap:7px;
 
-.marquee-item{
-  padding:14px 25px;
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.2em;
+  color:var(--accent);
+  font-size:10px;
   font-weight:700;
 }
 
-@keyframes marquee{
-  to{transform:translateX(-50%)}
+.status i{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 12px var(--accent);
 }
 
-/* =========================
-   GENERAL
-========================= */
+.hero-card-title{
+  margin-top:25px;
 
-.section{
-  width:min(calc(100% - 42px),var(--max));
-  margin:auto;
-  padding:120px 0;
-}
-
-.section-head{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:30px;
-  margin-bottom:55px;
-}
-
-.section-kicker{
-  color:var(--red);
-  font-size:10px;
-  font-weight:800;
-  text-transform:uppercase;
-  letter-spacing:.2em;
-  margin-bottom:13px;
-}
-
-.section-title{
-  font-family:"DM Serif Display",serif;
-  font-size:clamp(42px,6vw,78px);
-  line-height:.95;
-  font-weight:400;
+  font-family:"Space Grotesk",sans-serif;
+  font-size:29px;
+  line-height:1.05;
   letter-spacing:-.035em;
 }
 
-.section-note{
-  max-width:390px;
-  color:#777;
+.hero-card-copy{
+  margin-top:15px;
+
+  color:#8f9692;
+  font-size:13px;
   line-height:1.7;
-  font-size:14px;
 }
 
-/* =========================
-   INTRO
-========================= */
-
-.intro{
+.hero-metrics{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:80px;
-  align-items:end;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:28px;
 }
 
-.intro-big{
-  font-family:"DM Serif Display",serif;
-  font-size:clamp(35px,4.5vw,67px);
-  line-height:1.02;
-  letter-spacing:-.035em;
+.metric{
+  padding:14px 12px;
+
+  border:1px solid var(--line);
+  border-radius:13px;
+
+  background:rgba(0,0,0,.18);
 }
 
-.intro-big span{
-  color:var(--red);
+.metric strong{
+  display:block;
+
+  font-family:"Space Grotesk",sans-serif;
+  color:#fff;
+  font-size:20px;
 }
 
-.intro-copy{
-  color:#666;
-  line-height:1.8;
-  font-size:15px;
+.metric span{
+  display:block;
+  margin-top:4px;
+
+  color:#777f7b;
+  font-size:9px;
+  line-height:1.3;
 }
 
-/* =========================
-   CATEGORY
-========================= */
+/* =========================================================
+   TRUST STRIP
+========================================================= */
 
-.categories{
+.trust{
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  background:#0b0d0d;
+}
+
+.trust-inner{
+  width:min(var(--max),calc(100% - 40px));
+  min-height:100px;
+  margin:auto;
+
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  border-top:1px solid var(--dark-line);
-  border-bottom:1px solid var(--dark-line);
 }
 
-.category{
-  position:relative;
-  min-height:170px;
-  padding:30px;
-  border-right:1px solid var(--dark-line);
+.trust-item{
   display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  cursor:pointer;
-  transition:.35s var(--ease);
+  align-items:center;
+  gap:14px;
+
+  padding:20px 25px;
+
+  border-right:1px solid var(--line);
 }
 
-.category:last-child{
+.trust-item:first-child{
+  padding-left:0;
+}
+
+.trust-item:last-child{
   border-right:0;
 }
 
-.category:hover,
-.category.active{
-  background:#111;
-  color:#fff;
+.trust-number{
+  color:var(--accent);
+
+  font-family:"Space Grotesk",sans-serif;
+  font-size:23px;
+  font-weight:600;
 }
 
-.category-number{
+.trust-copy strong{
+  display:block;
+  color:#e7e9e7;
+  font-size:12px;
+}
+
+.trust-copy span{
+  display:block;
+  margin-top:3px;
+  color:#707773;
   font-size:10px;
-  opacity:.5;
 }
 
-.category-name{
-  font-family:"DM Serif Display",serif;
-  font-size:29px;
+/* =========================================================
+   SECTION
+========================================================= */
+
+.section{
+  width:min(var(--max),calc(100% - 40px));
+  margin:auto;
+  padding:125px 0;
 }
 
-.category-arrow{
+.section-header{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:40px;
+  margin-bottom:55px;
+}
+
+.kicker{
+  margin-bottom:14px;
+
+  color:var(--accent);
+
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
+
+.section-title{
+  max-width:750px;
+
+  font-family:"Space Grotesk",sans-serif;
+  font-size:clamp(42px,6vw,76px);
+  font-weight:500;
+  letter-spacing:-.055em;
+  line-height:.95;
+}
+
+.section-description{
+  max-width:400px;
+
+  color:#858c88;
+  font-size:14px;
+  line-height:1.75;
+}
+
+/* =========================================================
+   SERVICES
+========================================================= */
+
+.services{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.service{
+  position:relative;
+  min-height:330px;
+  padding:30px;
+
+  overflow:hidden;
+
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.045),
+      rgba(255,255,255,.012)
+    );
+
+  transition:
+    transform .35s var(--ease),
+    border-color .35s ease,
+    background .35s ease;
+}
+
+.service:hover{
+  transform:translateY(-7px);
+  border-color:rgba(217,255,69,.28);
+  background:rgba(217,255,69,.035);
+}
+
+.service-number{
+  color:#626965;
+
+  font-family:"Space Grotesk",sans-serif;
+  font-size:12px;
+}
+
+.service-icon{
   position:absolute;
   top:28px;
   right:28px;
-  font-size:20px;
-  transition:.3s;
-}
 
-.category:hover .category-arrow{
-  transform:translate(4px,-4px);
-  color:var(--red);
-}
+  width:48px;
+  height:48px;
 
-/* =========================
-   PRODUCTS
-========================= */
-
-.products-section{
-  background:#fff;
-}
-
-.product-grid{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:1px;
-  background:#ddd;
-  border:1px solid #ddd;
+  place-items:center;
+
+  border:1px solid var(--line);
+  border-radius:50%;
+
+  color:var(--accent);
 }
 
-.product-card{
-  background:#fff;
-  min-width:0;
+.service-icon svg{
+  width:21px;
+  height:21px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.5;
+}
+
+.service h3{
+  margin-top:105px;
+
+  font-family:"Space Grotesk",sans-serif;
+  font-size:25px;
+  font-weight:500;
+  letter-spacing:-.035em;
+}
+
+.service p{
+  max-width:320px;
+  margin-top:13px;
+
+  color:#858c88;
+  font-size:13px;
+  line-height:1.7;
+}
+
+/* =========================================================
+   PROJECTS
+========================================================= */
+
+.projects{
+  display:grid;
+  grid-template-columns:1.35fr .65fr;
+  gap:12px;
+}
+
+.project{
   position:relative;
+  min-height:420px;
+  padding:32px;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+
   overflow:hidden;
+
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(217,255,69,.1),
+      transparent 35%
+    ),
+    #101313;
+
+  transition:transform .35s var(--ease);
 }
 
-.product-image{
-  aspect-ratio:1/1.08;
-  background:#eee;
-  overflow:hidden;
-  position:relative;
+.project:hover{
+  transform:translateY(-6px);
 }
 
-.product-image img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:transform .7s var(--ease);
+.project.small{
+  min-height:204px;
 }
 
-.product-card:hover .product-image img{
-  transform:scale(1.045);
-}
-
-.product-tag{
+.project::before{
+  content:"";
   position:absolute;
-  top:14px;
-  left:14px;
+  inset:0;
+
+  background:
+    linear-gradient(
+      180deg,
+      transparent 35%,
+      rgba(0,0,0,.82)
+    );
+}
+
+.project-content{
+  position:relative;
+  z-index:1;
+}
+
+.project-tag{
+  display:inline-flex;
+  width:max-content;
+
   padding:7px 10px;
-  background:#fff;
-  color:#111;
-  font-size:8px;
-  font-weight:800;
+
+  border:1px solid rgba(217,255,69,.25);
+  border-radius:999px;
+
+  color:var(--accent);
+
+  font-size:9px;
+  font-weight:700;
   letter-spacing:.12em;
   text-transform:uppercase;
 }
 
-.product-info{
-  padding:21px 20px 22px;
+.project h3{
+  margin-top:16px;
+
+  font-family:"Space Grotesk",sans-serif;
+  font-size:32px;
+  font-weight:500;
+  letter-spacing:-.04em;
 }
 
-.product-category{
-  color:#999;
-  font-size:9px;
-  text-transform:uppercase;
-  letter-spacing:.16em;
-  margin-bottom:8px;
+.project p{
+  max-width:450px;
+  margin-top:8px;
+
+  color:#a0a6a2;
+  font-size:13px;
+  line-height:1.6;
 }
 
-.product-name{
-  font-size:19px;
-  font-weight:600;
-  margin-bottom:9px;
-}
+.project-arrow{
+  position:absolute;
+  z-index:2;
+  top:25px;
+  right:25px;
 
-.product-bottom{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-}
+  width:42px;
+  height:42px;
 
-.product-price{
-  font-weight:700;
-  font-size:15px;
-}
-
-.product-actions{
-  display:flex;
-  gap:6px;
-}
-
-.card-btn{
-  border:1px solid #ddd;
-  background:#fff;
-  min-height:34px;
-  padding:0 10px;
-  font-size:8px;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-  font-weight:800;
-  transition:.25s;
-}
-
-.card-btn:hover{
-  border-color:#111;
-}
-
-.card-btn.add{
-  background:#111;
-  border-color:#111;
-  color:#fff;
-}
-
-.card-btn.add:hover{
-  background:var(--red);
-  border-color:var(--red);
-}
-
-.card-btn.order{
-  color:var(--red);
-  border-color:rgba(226,38,45,.3);
-}
-
-/* =========================
-   STATEMENT
-========================= */
-
-.statement{
-  background:#0b0b0b;
-  color:#fff;
-  overflow:hidden;
-}
-
-.statement-inner{
-  width:min(calc(100% - 42px),var(--max));
-  margin:auto;
-  padding:150px 0;
-}
-
-.statement-text{
-  max-width:1100px;
-  font-family:"DM Serif Display",serif;
-  font-size:clamp(48px,7.5vw,120px);
-  line-height:.9;
-  letter-spacing:-.045em;
-}
-
-.statement-text span{
-  color:var(--red);
-}
-
-/* =========================
-   EXPERIENCE
-========================= */
-
-.experience-grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:1px;
-  background:#ddd;
+  place-items:center;
+
+  border:1px solid var(--line);
+  border-radius:50%;
+
+  color:#fff;
+
+  transition:
+    background .25s ease,
+    color .25s ease,
+    transform .25s ease;
 }
 
-.experience-card{
-  background:#f4f1eb;
-  padding:45px;
-  min-height:290px;
+.project:hover .project-arrow{
+  background:var(--accent);
+  color:#000;
+  transform:rotate(45deg);
 }
 
-.experience-number{
-  color:var(--red);
-  font-size:11px;
-  margin-bottom:55px;
-  letter-spacing:.15em;
+/* =========================================================
+   PROCESS
+========================================================= */
+
+.process{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--line);
+  border-left:1px solid var(--line);
 }
 
-.experience-card h3{
-  font-family:"DM Serif Display",serif;
-  font-size:38px;
-  font-weight:400;
-  margin-bottom:15px;
+.process-step{
+  min-height:220px;
+  padding:28px;
+
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
 }
 
-.experience-card p{
-  color:#666;
-  max-width:440px;
+.process-number{
+  color:var(--accent);
+  font-family:"Space Grotesk",sans-serif;
+  font-size:12px;
+}
+
+.process h3{
+  margin-top:60px;
+
+  font-family:"Space Grotesk",sans-serif;
+  font-size:20px;
+  font-weight:500;
+}
+
+.process p{
+  margin-top:10px;
+
+  color:#7e8581;
+  font-size:12px;
   line-height:1.7;
 }
 
-/* =========================
-   CTA
-========================= */
+/* =========================================================
+   ABOUT
+========================================================= */
 
-.cta{
-  background:var(--red);
-  color:#fff;
+.about{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:center;
 }
 
-.cta-inner{
-  width:min(calc(100% - 42px),var(--max));
-  margin:auto;
-  padding:105px 0;
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  gap:40px;
+.about-title{
+  font-family:"Space Grotesk",sans-serif;
+  font-size:clamp(40px,5vw,65px);
+  font-weight:500;
+  letter-spacing:-.055em;
+  line-height:.98;
+}
+
+.about-title span{
+  color:var(--accent);
+}
+
+.about-copy{
+  color:#939a96;
+  font-size:15px;
+  line-height:1.9;
+}
+
+.about-copy p+p{
+  margin-top:18px;
+}
+
+.about-points{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-top:30px;
+}
+
+.about-point{
+  padding:17px;
+
+  border:1px solid var(--line);
+  border-radius:15px;
+
+  background:rgba(255,255,255,.018);
+}
+
+.about-point strong{
+  display:block;
+  color:#fff;
+  font-size:12px;
+}
+
+.about-point span{
+  display:block;
+  margin-top:5px;
+  color:#707773;
+  font-size:10px;
+}
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.cta{
+  width:min(var(--max),calc(100% - 40px));
+  margin:0 auto 125px;
+
+  position:relative;
+  overflow:hidden;
+
+  padding:70px;
+
+  border:1px solid rgba(217,255,69,.2);
+  border-radius:30px;
+
+  background:
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(217,255,69,.12),
+      transparent 35%
+    ),
+    #101313;
+}
+
+.cta::before{
+  content:"AKHI";
+
+  position:absolute;
+  right:-20px;
+  bottom:-65px;
+
+  font-family:"Space Grotesk",sans-serif;
+  font-size:190px;
+  font-weight:700;
+  line-height:1;
+
+  color:rgba(255,255,255,.025);
+  pointer-events:none;
+}
+
+.cta-content{
+  position:relative;
+  z-index:1;
 }
 
 .cta h2{
-  font-family:"DM Serif Display",serif;
-  font-size:clamp(48px,7vw,105px);
-  line-height:.88;
-  font-weight:400;
-  max-width:850px;
+  max-width:800px;
+
+  font-family:"Space Grotesk",sans-serif;
+  font-size:clamp(42px,6vw,78px);
+  font-weight:500;
+  letter-spacing:-.06em;
+  line-height:.95;
+}
+
+.cta h2 span{
+  color:var(--accent);
+}
+
+.cta p{
+  max-width:500px;
+  margin-top:22px;
+
+  color:#858c88;
+  font-size:14px;
+  line-height:1.7;
 }
 
 .cta .btn{
-  background:#fff;
-  color:#111;
-  flex:none;
+  margin-top:30px;
 }
 
-.cta .btn:hover{
-  background:#111;
-  color:#fff;
-}
-
-/* =========================
+/* =========================================================
    FOOTER
-========================= */
+========================================================= */
 
-footer{
-  background:#080808;
-  color:#fff;
+.footer{
+  border-top:1px solid var(--line);
+  background:#060707;
 }
 
 .footer-inner{
-  width:min(calc(100% - 42px),var(--max));
+  width:min(var(--max),calc(100% - 40px));
   margin:auto;
-  padding:75px 0 30px;
+  padding:70px 0 25px;
 }
 
 .footer-top{
   display:grid;
-  grid-template-columns:1.5fr 1fr 1fr 1fr;
-  gap:40px;
-  padding-bottom:70px;
+  grid-template-columns:1.5fr 1fr 1fr;
+  gap:60px;
 }
 
 .footer-brand{
-  font-size:25px;
-  font-weight:800;
-  letter-spacing:.12em;
+  max-width:420px;
 }
 
-.footer-description{
-  max-width:320px;
-  color:#777;
-  line-height:1.7;
-  font-size:13px;
+.footer-logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.footer-logo img{
+  width:44px;
+  height:44px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.footer-logo strong{
+  font-family:"Space Grotesk",sans-serif;
+  font-size:16px;
+}
+
+.footer-brand p{
   margin-top:20px;
+
+  color:#737a76;
+  font-size:13px;
+  line-height:1.8;
 }
 
 .footer-column h4{
-  color:#fff;
-  font-size:9px;
-  text-transform:uppercase;
-  letter-spacing:.18em;
   margin-bottom:18px;
+
+  color:#fff;
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
 }
 
 .footer-column a{
   display:block;
-  color:#777;
-  font-size:13px;
-  margin:10px 0;
-  transition:.2s;
+
+  width:max-content;
+  margin-bottom:11px;
+
+  color:#737a76;
+  font-size:12px;
+
+  transition:color .2s ease;
 }
 
 .footer-column a:hover{
-  color:#fff;
+  color:var(--accent);
 }
 
 .footer-bottom{
-  border-top:1px solid rgba(255,255,255,.08);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+
+  margin-top:60px;
   padding-top:22px;
-  display:flex;
-  justify-content:space-between;
-  color:#555;
+
+  border-top:1px solid var(--line);
+
+  color:#575e5a;
   font-size:10px;
 }
 
-/* =========================
-   FLOATING
-========================= */
-
-.floating-contact{
-  position:fixed;
-  right:18px;
-  bottom:18px;
-  z-index:800;
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-}
-
-.float-btn{
-  width:44px;
-  height:44px;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  background:#111;
-  border:1px solid rgba(255,255,255,.1);
-  color:#fff;
-  box-shadow:0 10px 35px rgba(0,0,0,.18);
-}
-
-.float-btn:hover{
-  background:var(--red);
-}
-
-/* =========================
-   SEARCH
-========================= */
-
-.search-panel{
-  position:fixed;
-  inset:0;
-  z-index:3000;
-  background:rgba(5,5,5,.96);
-  color:#fff;
-  opacity:0;
-  visibility:hidden;
-  transition:.35s;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:30px;
-}
-
-.search-panel.open{
-  opacity:1;
-  visibility:visible;
-}
-
-.search-inner{
-  width:min(800px,100%);
-}
-
-.search-close{
-  position:fixed;
-  top:28px;
-  right:28px;
-  width:42px;
-  height:42px;
-  border:1px solid rgba(255,255,255,.2);
-  background:transparent;
-  color:#fff;
-  font-size:24px;
-}
-
-.search-label{
-  color:#777;
-  text-transform:uppercase;
-  letter-spacing:.2em;
-  font-size:9px;
-  margin-bottom:16px;
-}
-
-.search-input{
-  width:100%;
-  background:transparent;
-  color:#fff;
-  border:0;
-  border-bottom:1px solid rgba(255,255,255,.2);
-  outline:0;
-  padding:15px 0;
-  font-size:clamp(35px,6vw,70px);
-  font-family:"DM Serif Display",serif;
-}
-
-.search-results{
-  margin-top:25px;
-  max-height:300px;
-  overflow:auto;
-}
-
-.search-result{
-  display:flex;
-  justify-content:space-between;
-  padding:15px 0;
-  border-bottom:1px solid rgba(255,255,255,.08);
-  color:#aaa;
-}
-
-.search-result:hover{
-  color:#fff;
-}
-
-/* =========================
-   CART
-========================= */
-
-.cart-overlay{
-  position:fixed;
-  inset:0;
-  z-index:4000;
-  background:rgba(0,0,0,.6);
-  opacity:0;
-  visibility:hidden;
-  transition:.3s;
-}
-
-.cart-overlay.open{
-  opacity:1;
-  visibility:visible;
-}
-
-.cart-drawer{
-  position:absolute;
-  top:0;
-  right:0;
-  height:100%;
-  width:min(490px,100%);
-  background:#fff;
-  color:#111;
-  transform:translateX(100%);
-  transition:.45s var(--ease);
-  display:flex;
-  flex-direction:column;
-}
-
-.cart-overlay.open .cart-drawer{
-  transform:translateX(0);
-}
-
-.cart-header{
-  min-height:80px;
-  padding:20px 24px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border-bottom:1px solid #ddd;
-}
-
-.cart-title{
-  font-family:"DM Serif Display",serif;
-  font-size:29px;
-}
-
-.cart-close{
-  width:38px;
-  height:38px;
-  border:1px solid #ddd;
-  background:#fff;
-  font-size:20px;
-}
-
-.cart-body{
-  flex:1;
-  overflow:auto;
-  padding:20px 24px;
-}
-
-.cart-empty{
-  height:100%;
-  display:grid;
-  place-items:center;
-  text-align:center;
-  color:#888;
-}
-
-.cart-empty strong{
-  display:block;
-  color:#111;
-  font-family:"DM Serif Display",serif;
-  font-size:32px;
-  font-weight:400;
-  margin-bottom:8px;
-}
-
-.cart-item{
-  display:grid;
-  grid-template-columns:82px 1fr;
-  gap:14px;
-  padding:16px 0;
-  border-bottom:1px solid #eee;
-}
-
-.cart-item-img{
-  width:82px;
-  height:88px;
-  object-fit:cover;
-}
-
-.cart-item-name{
-  font-weight:700;
-  font-size:14px;
-  margin-bottom:5px;
-}
-
-.cart-item-price{
-  color:#777;
-  font-size:12px;
-}
-
-.cart-item-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-top:12px;
-}
-
-.qty-control{
-  display:flex;
-  align-items:center;
-  border:1px solid #ddd;
-}
-
-.qty-control button{
-  width:28px;
-  height:28px;
-  border:0;
-  background:#fff;
-}
-
-.qty-control span{
-  min-width:27px;
-  text-align:center;
-  font-size:11px;
-}
-
-.remove-item{
-  color:#999;
-  background:none;
-  border:0;
-  font-size:9px;
-  text-transform:uppercase;
-  letter-spacing:.1em;
-}
-
-.cart-footer{
-  border-top:1px solid #ddd;
-  padding:20px 24px 25px;
-}
-
-.cart-total{
-  display:flex;
-  justify-content:space-between;
-  font-weight:800;
-  margin-bottom:14px;
-}
-
-.cart-checkout-btn{
-  width:100%;
-  min-height:52px;
-  border:0;
-  background:#111;
-  color:#fff;
-  text-transform:uppercase;
-  letter-spacing:.13em;
-  font-size:10px;
-  font-weight:800;
-}
-
-.cart-checkout-btn:hover{
-  background:var(--red);
-}
-
-.cart-note{
-  text-align:center;
-  font-size:9px;
-  color:#999;
-  margin-top:10px;
-}
-
-/* =========================
-   CHECKOUT
-========================= */
-
-.checkout-overlay{
-  position:fixed;
-  inset:0;
-  z-index:5000;
-  background:rgba(0,0,0,.72);
-  backdrop-filter:blur(10px);
-  opacity:0;
-  visibility:hidden;
-  transition:.3s;
-  overflow:auto;
-  padding:30px 15px;
-}
-
-.checkout-overlay.open{
-  opacity:1;
-  visibility:visible;
-}
-
-.checkout-box{
-  width:min(950px,100%);
-  margin:40px auto;
-  background:#fff;
-  min-height:500px;
-  transform:translateY(25px);
-  transition:.4s var(--ease);
-}
-
-.checkout-overlay.open .checkout-box{
-  transform:none;
-}
-
-.checkout-head{
-  padding:25px 30px;
-  border-bottom:1px solid #ddd;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.checkout-head h2{
-  font-family:"DM Serif Display",serif;
-  font-size:35px;
-  font-weight:400;
-}
-
-.checkout-close{
-  width:38px;
-  height:38px;
-  background:#fff;
-  border:1px solid #ddd;
-  font-size:20px;
-}
-
-.checkout-content{
-  display:grid;
-  grid-template-columns:1.15fr .85fr;
-}
-
-.checkout-form{
-  padding:30px;
-}
-
-.form-group{
-  margin-bottom:17px;
-}
-
-.form-group label{
-  display:block;
-  color:#666;
-  text-transform:uppercase;
-  letter-spacing:.12em;
-  font-size:8px;
-  font-weight:800;
-  margin-bottom:7px;
-}
-
-.form-input{
-  width:100%;
-  min-height:47px;
-  border:1px solid #ddd;
-  outline:0;
-  padding:0 13px;
-  background:#fafafa;
-}
-
-textarea.form-input{
-  min-height:90px;
-  padding-top:12px;
-  resize:vertical;
-}
-
-.form-input:focus{
-  border-color:#111;
-  background:#fff;
-}
-
-.checkout-summary{
-  background:#f5f2ec;
-  padding:30px;
-}
-
-.checkout-summary h3{
-  font-family:"DM Serif Display",serif;
-  font-size:28px;
-  font-weight:400;
-  margin-bottom:20px;
-}
-
-.summary-item{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  padding:11px 0;
-  border-bottom:1px solid #ddd;
-  font-size:12px;
-}
-
-.summary-total{
-  display:flex;
-  justify-content:space-between;
-  margin-top:22px;
-  font-size:17px;
-  font-weight:800;
-}
-
-.place-order{
-  width:100%;
-  min-height:52px;
-  margin-top:22px;
-  border:0;
-  background:var(--red);
-  color:#fff;
-  text-transform:uppercase;
-  letter-spacing:.13em;
-  font-size:10px;
-  font-weight:800;
-}
-
-.place-order:hover{
-  background:#111;
-}
-
-.whatsapp-direct{
-  width:100%;
-  min-height:45px;
-  margin-top:8px;
-  border:1px solid #ddd;
-  background:#fff;
-  color:#111;
-  text-transform:uppercase;
-  letter-spacing:.1em;
-  font-size:9px;
-  font-weight:800;
-}
-
-/* =========================
-   SUCCESS
-========================= */
-
-.success-overlay{
-  position:fixed;
-  inset:0;
-  z-index:6000;
-  background:rgba(0,0,0,.85);
-  backdrop-filter:blur(14px);
-  display:none;
-  place-items:center;
-  padding:20px;
-}
-
-.success-overlay.open{
-  display:grid;
-}
-
-.success-box{
-  width:min(510px,100%);
-  background:#fff;
-  text-align:center;
-  padding:55px 35px;
-}
-
-.success-icon{
-  width:65px;
-  height:65px;
-  margin:0 auto 22px;
-  border-radius:50%;
-  background:var(--red);
-  color:#fff;
-  display:grid;
-  place-items:center;
-  font-size:25px;
-}
-
-.success-box h2{
-  font-family:"DM Serif Display",serif;
-  font-size:42px;
-  font-weight:400;
-}
-
-.success-box p{
-  color:#777;
-  line-height:1.7;
-  margin:13px auto 22px;
-  max-width:360px;
-}
-
-.order-id{
-  background:#f5f2ec;
-  padding:13px;
-  font-size:12px;
-  font-weight:800;
-  letter-spacing:.1em;
-  margin-bottom:18px;
-}
-
-.success-actions{
-  display:flex;
-  gap:7px;
-}
-
-.success-actions button,
-.success-actions a{
-  flex:1;
-  min-height:46px;
-}
-
-/* =========================
+/* =========================================================
    REVEAL
-========================= */
+========================================================= */
 
 .reveal{
   opacity:0;
-  transform:translateY(25px);
-  transition:opacity .7s var(--ease),transform .7s var(--ease);
+  transform:translateY(22px);
+  transition:
+    opacity .65s var(--ease),
+    transform .65s var(--ease);
 }
 
 .reveal.visible{
@@ -1391,203 +1181,121 @@ textarea.form-input{
   transform:none;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* =========================================================
+   MOBILE
+========================================================= */
 
-@media(max-width:1050px){
+@media(max-width:900px){
+
   .nav{
     display:none;
   }
 
-  .menu-btn{
-    display:grid;
-  }
-
-  .product-grid{
-    grid-template-columns:repeat(3,1fr);
-  }
-
-  .categories{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .category:nth-child(2){
-    border-right:0;
-  }
-
-  .category:nth-child(-n+2){
-    border-bottom:1px solid var(--dark-line);
-  }
-
-  .footer-top{
-    grid-template-columns:repeat(2,1fr);
-  }
-}
-
-@media(max-width:760px){
-  .site-header{
-    height:66px;
-  }
-
-  .header-inner,
-  .section,
-  .hero-content,
-  .statement-inner,
-  .cta-inner,
-  .footer-inner{
-    width:min(calc(100% - 28px),var(--max));
-  }
-
-  .hero-content{
-    padding-bottom:65px;
-  }
-
-  .hero h1{
-    font-size:clamp(56px,17vw,100px);
-  }
-
-  .hero-meta{
+  .header-cta{
     display:none;
   }
 
-  .section{
-    padding:80px 0;
-  }
-
-  .section-head{
+  .menu{
     display:block;
-    margin-bottom:35px;
   }
 
-  .section-note{
-    margin-top:20px;
-  }
-
-  .intro{
+  .hero-layout{
     grid-template-columns:1fr;
-    gap:30px;
+    gap:45px;
   }
 
-  .categories{
-    grid-template-columns:1fr;
+  .hero{
+    min-height:auto;
+    padding-bottom:80px;
   }
 
-  .category{
-    border-right:0;
-    border-bottom:1px solid var(--dark-line);
+  .hero-content{
+    padding-top:140px;
   }
 
-  .category:last-child{
-    border-bottom:0;
+  .hero-side{
+    max-width:560px;
   }
 
-  .product-grid{
+  .trust-inner{
     grid-template-columns:repeat(2,1fr);
   }
 
-  .product-info{
-    padding:16px 13px;
+  .trust-item:nth-child(2){
+    border-right:0;
   }
 
-  .product-name{
-    font-size:15px;
+  .trust-item:nth-child(3),
+  .trust-item:nth-child(4){
+    border-top:1px solid var(--line);
   }
 
-  .product-bottom{
-    display:block;
+  .services{
+    grid-template-columns:1fr 1fr;
   }
 
-  .product-actions{
-    margin-top:12px;
-  }
-
-  .card-btn{
-    flex:1;
-    padding:0 6px;
-  }
-
-  .experience-grid{
+  .projects{
     grid-template-columns:1fr;
   }
 
-  .experience-card{
-    min-height:230px;
-    padding:30px;
+  .process{
+    grid-template-columns:1fr 1fr;
   }
 
-  .cta-inner{
-    display:block;
-    padding:80px 0;
-  }
-
-  .cta .btn{
-    margin-top:30px;
+  .about{
+    grid-template-columns:1fr;
+    gap:40px;
   }
 
   .footer-top{
     grid-template-columns:1fr 1fr;
-    gap:35px 20px;
   }
 
-  .footer-brand-block{
+  .footer-brand{
     grid-column:1/-1;
-  }
-
-  .footer-bottom{
-    display:block;
-    line-height:1.7;
-  }
-
-  .checkout-content{
-    grid-template-columns:1fr;
-  }
-
-  .checkout-summary{
-    order:-1;
-  }
-
-  .checkout-head{
-    padding:20px;
-  }
-
-  .checkout-form,
-  .checkout-summary{
-    padding:22px;
   }
 }
 
-@media(max-width:480px){
-  .logo{
+@media(max-width:600px){
+
+  .header-inner{
+    width:min(var(--max),calc(100% - 28px));
+    height:68px;
+  }
+
+  .logo-image{
+    width:36px;
+    height:36px;
+  }
+
+  .logo-name{
+    font-size:13px;
+  }
+
+  .logo-sub{
+    font-size:7px;
+  }
+
+  .hero-content,
+  .section,
+  .trust-inner,
+  .footer-inner{
+    width:min(var(--max),calc(100% - 28px));
+  }
+
+  .hero-content{
+    padding-top:125px;
+  }
+
+  .hero h1{
+    font-size:clamp(53px,17vw,82px);
+  }
+
+  .hero-description{
     font-size:14px;
   }
 
-  .logo-mark{
-    width:30px;
-    height:30px;
-  }
-
-  .header-actions .search-btn{
-    display:none;
-  }
-
-  .product-grid{
-    grid-template-columns:1fr;
-  }
-
-  .product-image{
-    aspect-ratio:1/1;
-  }
-
-  .product-bottom{
-    display:flex;
-  }
-
-  .product-actions{
-    margin-top:0;
-  }
-
-  .hero-buttons{
+  .hero-actions{
     flex-direction:column;
     align-items:stretch;
   }
@@ -1596,27 +1304,115 @@ textarea.form-input{
     width:100%;
   }
 
-  .footer-top{
+  .trust-inner{
     grid-template-columns:1fr;
   }
 
-  .footer-brand-block{
+  .trust-item,
+  .trust-item:first-child{
+    min-height:75px;
+    padding:18px 0;
+    border-right:0;
+    border-bottom:1px solid var(--line);
+  }
+
+  .trust-item:last-child{
+    border-bottom:0;
+  }
+
+  .section{
+    padding:90px 0;
+  }
+
+  .section-header{
+    display:block;
+    margin-bottom:38px;
+  }
+
+  .section-description{
+    margin-top:20px;
+  }
+
+  .services{
+    grid-template-columns:1fr;
+  }
+
+  .service{
+    min-height:290px;
+  }
+
+  .projects{
+    grid-template-columns:1fr;
+  }
+
+  .project,
+  .project.small{
+    min-height:340px;
+  }
+
+  .process{
+    grid-template-columns:1fr;
+  }
+
+  .process-step{
+    min-height:185px;
+  }
+
+  .process h3{
+    margin-top:40px;
+  }
+
+  .about-points{
+    grid-template-columns:1fr;
+  }
+
+  .cta{
+    width:min(var(--max),calc(100% - 28px));
+    margin-bottom:90px;
+    padding:40px 25px;
+    border-radius:24px;
+  }
+
+  .cta::before{
+    font-size:110px;
+    bottom:-30px;
+  }
+
+  .footer-top{
+    grid-template-columns:1fr;
+    gap:35px;
+  }
+
+  .footer-brand{
     grid-column:auto;
   }
 
-  .success-actions{
+  .footer-bottom{
     flex-direction:column;
+    align-items:flex-start;
   }
 }
 
-/* reduce motion */
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
 @media(prefers-reduced-motion:reduce){
+
+  html{
+    scroll-behavior:auto;
+  }
+
   *,
   *::before,
   *::after{
-    scroll-behavior:auto!important;
-    animation-duration:.01ms!important;
-    transition-duration:.01ms!important;
+    animation:none!important;
+    transition:none!important;
+  }
+
+  .reveal{
+    opacity:1;
+    transform:none;
   }
 }
 </style>
@@ -1624,2448 +1420,891 @@ textarea.form-input{
 
 <body>
 
-<!-- FAST LOADER -->
-<div class="loader" id="loader">
-  <div class="loader-inner">
-    <div class="loader-logo">AKHI</div>
-    <div class="loader-line"><span></span></div>
-    <div class="loader-small">Furniture</div>
-  </div>
+<div class="progress" aria-hidden="true">
+  <span id="progress"></span>
 </div>
 
-<!-- HEADER -->
-<header class="site-header" id="siteHeader">
+<!-- ======================================================
+     HEADER
+====================================================== -->
+
+<header class="header" id="header">
+
   <div class="header-inner">
 
-    <a href="#" class="logo" aria-label="AKHI Furniture">
-      <span class="logo-mark">AK</span>
-      AKHI
-      <small>FURNITURE</small>
+    <a href="#home" class="logo" aria-label="AKHI Engineering Workshop">
+
+      <img
+        class="logo-image"
+        src="https://raw.githubusercontent.com/shahneilkhan/akhiengineeringworkshop.github.io/main/logo.jpg"
+        alt="AKHI Engineering Workshop logo"
+        width="42"
+        height="42"
+        decoding="async"
+      >
+
+      <span class="logo-copy">
+        <span class="logo-name">AKHI</span>
+        <span class="logo-sub">ENGINEERING WORKSHOP</span>
+      </span>
+
     </a>
 
-    <nav class="nav">
-      <a href="#collection">Collection</a>
-      <a href="#categories">Categories</a>
-      <a href="#experience">Experience</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#services">Services</a>
+      <a href="#projects">Projects</a>
+      <a href="#process">Process</a>
+      <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </nav>
 
-    <div class="header-actions">
+    <a class="header-cta" href="#contact">
+      Start a Project
+    </a>
 
-      <button class="icon-btn search-btn" id="searchBtn" aria-label="Search">
-        <svg class="icon-svg" viewBox="0 0 24 24">
-          <circle cx="11" cy="11" r="6.5"></circle>
-          <path d="m16 16 5 5"></path>
-        </svg>
-      </button>
+    <button
+      class="menu"
+      id="menu"
+      aria-label="Open navigation"
+      aria-expanded="false"
+    ></button>
 
-      <button class="icon-btn cart-btn" id="cartBtn" aria-label="Shopping cart">
-        <svg class="icon-svg" viewBox="0 0 24 24">
-          <path d="M5 8h14l-1 12H6L5 8Z"></path>
-          <path d="M9 8a3 3 0 0 1 6 0"></path>
-        </svg>
-        <span class="cart-count" id="cartCount">0</span>
-      </button>
-
-      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Menu">
-        <svg class="icon-svg" viewBox="0 0 24 24">
-          <path d="M4 7h16M4 12h16M4 17h16"></path>
-        </svg>
-      </button>
-
-    </div>
   </div>
+
 </header>
 
-<!-- HERO -->
+
+<!-- ======================================================
+     HERO
+====================================================== -->
+
+<main>
+
 <section class="hero" id="home">
 
-  <div class="hero-media">
-    <img
-      id="heroImage"
-      src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1800&q=84"
-      alt="Premium AKHI Furniture interior"
-      fetchpriority="high"
-      decoding="async">
-  </div>
-
-  <div class="hero-overlay"></div>
+  <div class="hero-grid"></div>
 
   <div class="hero-content">
-    <div class="hero-copy">
 
-      <div class="eyebrow">
-        <span></span>
-        AKHI Furniture / Since 2026
-      </div>
-
-      <h1>
-        Furniture<br>
-        with <em>character.</em>
-      </h1>
-
-      <p class="hero-description">
-        Refined furniture designed for modern living.
-        Thoughtful materials, timeless forms and details
-        made to stay with you.
-      </p>
-
-      <div class="hero-buttons">
-        <a href="#collection" class="btn btn-primary">
-          Explore Collection
-        </a>
-
-        <button class="btn btn-outline" id="heroOrderBtn">
-          Start Your Order
-        </button>
-      </div>
-
-    </div>
-
-    <div class="hero-meta">
-      <span>Scroll to discover</span>
-      <span class="scroll-line"></span>
-    </div>
-  </div>
-
-</section>
-
-<!-- MARQUEE -->
-<div class="marquee">
-  <div class="marquee-track">
-    <div class="marquee-item">Premium Furniture</div>
-    <div class="marquee-item">Modern Living</div>
-    <div class="marquee-item">Made with Character</div>
-    <div class="marquee-item">AKHI Furniture</div>
-    <div class="marquee-item">Premium Furniture</div>
-    <div class="marquee-item">Modern Living</div>
-    <div class="marquee-item">Made with Character</div>
-    <div class="marquee-item">AKHI Furniture</div>
-  </div>
-</div>
-
-<!-- INTRO -->
-<section class="section reveal">
-  <div class="intro">
-
-    <div class="intro-big">
-      Your space deserves
-      <span>better.</span>
-    </div>
-
-    <div class="intro-copy">
-      AKHI Furniture creates pieces that balance
-      comfort, proportion and personality. From the
-      living room to the workspace, every collection
-      is designed to make everyday spaces feel more
-      considered.
-    </div>
-
-  </div>
-</section>
-
-<!-- CATEGORIES -->
-<section class="section" id="categories">
-
-  <div class="section-head reveal">
-    <div>
-      <div class="section-kicker">Explore</div>
-      <h2 class="section-title">Find your space.</h2>
-    </div>
-
-    <p class="section-note">
-      Browse furniture by the way you live,
-      work and gather.
-    </p>
-  </div>
-
-  <div class="categories reveal">
-
-    <div class="category active" data-category="all">
-      <span class="category-number">01</span>
-      <span class="category-name">All</span>
-      <span class="category-arrow">↗</span>
-    </div>
-
-    <div class="category" data-category="Living">
-      <span class="category-number">02</span>
-      <span class="category-name">Living</span>
-      <span class="category-arrow">↗</span>
-    </div>
-
-    <div class="category" data-category="Dining">
-      <span class="category-number">03</span>
-      <span class="category-name">Dining</span>
-      <span class="category-arrow">↗</span>
-    </div>
-
-    <div class="category" data-category="Bedroom">
-      <span class="category-number">04</span>
-      <span class="category-name">Bedroom</span>
-      <span class="category-arrow">↗</span>
-    </div>
-
-  </div>
-</section>
-
-<!-- COLLECTION -->
-<section class="products-section" id="collection">
-
-  <div class="section">
-
-    <div class="section-head reveal">
+    <div class="hero-layout">
 
       <div>
-        <div class="section-kicker">The Collection</div>
-        <h2 class="section-title">Selected pieces.</h2>
+
+        <div class="eyebrow">
+          <i></i>
+          Engineering • Fabrication • Workshop
+        </div>
+
+        <h1>
+          Built for<br>
+          <span>real work.</span>
+        </h1>
+
+        <p class="hero-description">
+          AKHI Engineering Workshop delivers practical,
+          precision-focused engineering and fabrication
+          solutions built around strength, reliability
+          and professional workmanship.
+        </p>
+
+        <div class="hero-actions">
+
+          <a href="#services" class="btn btn-primary">
+            Explore Services
+            <span>↗</span>
+          </a>
+
+          <a href="#contact" class="btn btn-secondary">
+            Talk to AKHI
+          </a>
+
+        </div>
+
       </div>
 
-      <p class="section-note">
-        Add your favourites to your selection and
-        place an order directly from the website.
-      </p>
 
-    </div>
+      <div class="hero-side">
 
-    <div class="product-grid" id="productGrid">
-      <!-- Products rendered immediately -->
+        <div class="hero-card">
+
+          <div class="hero-card-top">
+
+            <span class="hero-card-label">
+              Workshop Status
+            </span>
+
+            <span class="status">
+              <i></i>
+              Ready
+            </span>
+
+          </div>
+
+          <div class="hero-card-title">
+            Engineering with purpose.
+          </div>
+
+          <p class="hero-card-copy">
+            From custom fabrication to practical
+            engineering work, every project starts
+            with the same principle — build it right.
+          </p>
+
+          <div class="hero-metrics">
+
+            <div class="metric">
+              <strong>01</strong>
+              <span>Precision</span>
+            </div>
+
+            <div class="metric">
+              <strong>02</strong>
+              <span>Strength</span>
+            </div>
+
+            <div class="metric">
+              <strong>03</strong>
+              <span>Reliability</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
 
   </div>
 
 </section>
 
-<!-- STATEMENT -->
-<section class="statement">
-  <div class="statement-inner reveal">
-    <div class="statement-text">
-      Not just furniture.<br>
-      <span>A feeling.</span>
+
+<!-- ======================================================
+     TRUST
+====================================================== -->
+
+<section class="trust">
+
+  <div class="trust-inner">
+
+    <div class="trust-item">
+      <div class="trust-number">01</div>
+      <div class="trust-copy">
+        <strong>Precision Work</strong>
+        <span>Attention to detail</span>
+      </div>
     </div>
+
+    <div class="trust-item">
+      <div class="trust-number">02</div>
+      <div class="trust-copy">
+        <strong>Custom Solutions</strong>
+        <span>Built around your needs</span>
+      </div>
+    </div>
+
+    <div class="trust-item">
+      <div class="trust-number">03</div>
+      <div class="trust-copy">
+        <strong>Reliable Output</strong>
+        <span>Made for real-world use</span>
+      </div>
+    </div>
+
+    <div class="trust-item">
+      <div class="trust-number">04</div>
+      <div class="trust-copy">
+        <strong>Professional Service</strong>
+        <span>Clear communication</span>
+      </div>
+    </div>
+
   </div>
+
 </section>
 
-<!-- EXPERIENCE -->
-<section class="section" id="experience">
 
-  <div class="section-head reveal">
+<!-- ======================================================
+     SERVICES
+====================================================== -->
+
+<section class="section" id="services">
+
+  <div class="section-header reveal">
+
     <div>
-      <div class="section-kicker">The AKHI Standard</div>
-      <h2 class="section-title">Designed to last.</h2>
+      <div class="kicker">What We Do</div>
+      <h2 class="section-title">
+        Engineering solutions<br>
+        that work.
+      </h2>
     </div>
 
-    <p class="section-note">
-      Premium doesn't need to shout.
-      It shows in the details.
+    <p class="section-description">
+      Practical workshop capabilities for custom
+      engineering, fabrication and project-based
+      requirements.
     </p>
+
   </div>
 
-  <div class="experience-grid reveal">
 
-    <div class="experience-card">
-      <div class="experience-number">01 / MATERIALS</div>
-      <h3>Honest materials.</h3>
+  <div class="services">
+
+    <article class="service reveal">
+
+      <span class="service-number">01</span>
+
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M14 6l4-4 4 4-4 4"/>
+          <path d="M18 10 9 19l-4 1 1-4 9-9"/>
+          <path d="m3 21 2-2"/>
+        </svg>
+      </div>
+
+      <h3>Custom Fabrication</h3>
+
       <p>
-        Carefully selected woods, fabrics and finishes
-        that age beautifully and feel right from day one.
+        Custom-built engineering and fabrication
+        work designed around specific dimensions,
+        requirements and applications.
       </p>
+
+    </article>
+
+
+    <article class="service reveal">
+
+      <span class="service-number">02</span>
+
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 3v18"/>
+          <path d="M3 12h18"/>
+          <circle cx="12" cy="12" r="8"/>
+        </svg>
+      </div>
+
+      <h3>Workshop Solutions</h3>
+
+      <p>
+        Practical workshop support for projects
+        requiring dependable construction,
+        modification and engineering execution.
+      </p>
+
+    </article>
+
+
+    <article class="service reveal">
+
+      <span class="service-number">03</span>
+
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M4 20h16"/>
+          <path d="M6 20V8l6-4 6 4v12"/>
+          <path d="M9 20v-5h6v5"/>
+        </svg>
+      </div>
+
+      <h3>Industrial Work</h3>
+
+      <p>
+        Strong, functional engineering work focused
+        on durability, usability and long-term
+        performance.
+      </p>
+
+    </article>
+
+  </div>
+
+</section>
+
+
+<!-- ======================================================
+     PROJECTS
+====================================================== -->
+
+<section class="section" id="projects">
+
+  <div class="section-header reveal">
+
+    <div>
+      <div class="kicker">Selected Work</div>
+
+      <h2 class="section-title">
+        Made to perform.
+      </h2>
     </div>
 
-    <div class="experience-card">
-      <div class="experience-number">02 / CRAFT</div>
-      <h3>Thoughtful craft.</h3>
-      <p>
-        Every proportion, edge and surface is considered
-        to create furniture that feels effortless.
-      </p>
-    </div>
+    <p class="section-description">
+      A premium presentation space for selected
+      AKHI Engineering Workshop projects.
+    </p>
 
-    <div class="experience-card">
-      <div class="experience-number">03 / COMFORT</div>
-      <h3>Made for living.</h3>
-      <p>
-        Beautiful enough for the room, comfortable enough
-        to become part of your everyday life.
-      </p>
-    </div>
+  </div>
 
-    <div class="experience-card">
-      <div class="experience-number">04 / SERVICE</div>
-      <h3>Personal service.</h3>
-      <p>
-        From choosing a piece to placing your order,
-        our team is here to make the process simple.
-      </p>
+
+  <div class="projects">
+
+    <article class="project reveal">
+
+      <a href="#contact" class="project-arrow" aria-label="Project details">
+        ↗
+      </a>
+
+      <div class="project-content">
+
+        <span class="project-tag">
+          Engineering
+        </span>
+
+        <h3>
+          Custom Engineering Work
+        </h3>
+
+        <p>
+          Project-based engineering work built
+          around real requirements and practical
+          performance.
+        </p>
+
+      </div>
+
+    </article>
+
+
+    <div style="display:grid;gap:12px">
+
+      <article class="project small reveal">
+
+        <a href="#contact" class="project-arrow" aria-label="Project details">
+          ↗
+        </a>
+
+        <div class="project-content">
+
+          <span class="project-tag">
+            Fabrication
+          </span>
+
+          <h3>
+            Precision Fabrication
+          </h3>
+
+        </div>
+
+      </article>
+
+
+      <article class="project small reveal">
+
+        <a href="#contact" class="project-arrow" aria-label="Project details">
+          ↗
+        </a>
+
+        <div class="project-content">
+
+          <span class="project-tag">
+            Workshop
+          </span>
+
+          <h3>
+            Workshop Solutions
+          </h3>
+
+        </div>
+
+      </article>
+
     </div>
 
   </div>
 
 </section>
 
-<!-- CTA -->
+
+<!-- ======================================================
+     PROCESS
+====================================================== -->
+
+<section class="section" id="process">
+
+  <div class="section-header reveal">
+
+    <div>
+      <div class="kicker">How We Work</div>
+
+      <h2 class="section-title">
+        Simple process.<br>
+        Serious results.
+      </h2>
+    </div>
+
+    <p class="section-description">
+      From the first conversation to final delivery,
+      we keep the workflow clear and practical.
+    </p>
+
+  </div>
+
+
+  <div class="process">
+
+    <div class="process-step reveal">
+
+      <span class="process-number">01</span>
+
+      <h3>Understand</h3>
+
+      <p>
+        We understand your requirement,
+        dimensions and intended use.
+      </p>
+
+    </div>
+
+
+    <div class="process-step reveal">
+
+      <span class="process-number">02</span>
+
+      <h3>Plan</h3>
+
+      <p>
+        We determine a practical approach
+        for the engineering or fabrication work.
+      </p>
+
+    </div>
+
+
+    <div class="process-step reveal">
+
+      <span class="process-number">03</span>
+
+      <h3>Build</h3>
+
+      <p>
+        The work is executed with attention
+        to quality, strength and detail.
+      </p>
+
+    </div>
+
+
+    <div class="process-step reveal">
+
+      <span class="process-number">04</span>
+
+      <h3>Deliver</h3>
+
+      <p>
+        The completed work is reviewed and
+        prepared for real-world use.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ======================================================
+     ABOUT
+====================================================== -->
+
+<section class="section" id="about">
+
+  <div class="about">
+
+    <div class="reveal">
+
+      <div class="kicker">
+        About AKHI
+      </div>
+
+      <h2 class="about-title">
+        Strong ideas deserve
+        <span>strong execution.</span>
+      </h2>
+
+    </div>
+
+
+    <div class="reveal">
+
+      <div class="about-copy">
+
+        <p>
+          AKHI Engineering Workshop is focused on
+          practical engineering and fabrication work
+          where reliability, precision and usability
+          matter.
+        </p>
+
+        <p>
+          Our approach is straightforward:
+          understand the requirement, solve the
+          engineering challenge and build with care.
+        </p>
+
+      </div>
+
+
+      <div class="about-points">
+
+        <div class="about-point">
+          <strong>Practical</strong>
+          <span>Solutions built for actual use</span>
+        </div>
+
+        <div class="about-point">
+          <strong>Precise</strong>
+          <span>Detail-focused execution</span>
+        </div>
+
+        <div class="about-point">
+          <strong>Durable</strong>
+          <span>Designed with strength in mind</span>
+        </div>
+
+        <div class="about-point">
+          <strong>Professional</strong>
+          <span>Clear and dependable service</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ======================================================
+     CTA
+====================================================== -->
+
 <section class="cta" id="contact">
-  <div class="cta-inner">
+
+  <div class="cta-content">
+
+    <div class="kicker">
+      Start a Project
+    </div>
+
     <h2>
-      Ready to make<br>
-      your space <em>better?</em>
+      Have an engineering requirement?
+      <span>Let's build it.</span>
     </h2>
 
-    <button class="btn" id="ctaOrderBtn">
-      Start an Order →
-    </button>
+    <p>
+      Tell us what you need. AKHI Engineering
+      Workshop can help turn your requirement
+      into a practical engineering solution.
+    </p>
+
+    <div class="hero-actions">
+
+      <a
+        href="mailto:akhiengineeringworkshop@gmail.com"
+        class="btn btn-primary"
+      >
+        Send an Enquiry
+        <span>↗</span>
+      </a>
+
+      <a href="#home" class="btn btn-secondary">
+        Back to Top
+      </a>
+
+    </div>
+
   </div>
+
 </section>
 
-<!-- FOOTER -->
-<footer>
+</main>
+
+
+<!-- ======================================================
+     FOOTER
+====================================================== -->
+
+<footer class="footer">
 
   <div class="footer-inner">
 
     <div class="footer-top">
 
-      <div class="footer-brand-block">
-        <div class="footer-brand">AKHI</div>
-        <p class="footer-description">
-          Premium furniture for refined homes,
-          modern workspaces and everyday living.
+      <div class="footer-brand">
+
+        <div class="footer-logo">
+
+          <img
+            src="https://raw.githubusercontent.com/shahneilkhan/akhiengineeringworkshop.github.io/main/logo.jpg"
+            alt="AKHI Engineering Workshop"
+            width="44"
+            height="44"
+            loading="lazy"
+          >
+
+          <strong>
+            AKHI Engineering Workshop
+          </strong>
+
+        </div>
+
+        <p>
+          Precision engineering, fabrication and
+          workshop solutions built for real work.
         </p>
+
       </div>
 
+
       <div class="footer-column">
+
         <h4>Explore</h4>
-        <a href="#collection">Collection</a>
-        <a href="#categories">Categories</a>
-        <a href="#experience">Our Standard</a>
+
+        <a href="#services">Services</a>
+        <a href="#projects">Projects</a>
+        <a href="#process">Process</a>
+        <a href="#about">About</a>
+
       </div>
 
-      <div class="footer-column">
-        <h4>Order</h4>
-        <a href="#" id="footerCart">Shopping Cart</a>
-        <a href="#" id="footerWhatsApp">WhatsApp</a>
-        <a href="#" id="footerCall">Call Us</a>
-      </div>
 
       <div class="footer-column">
-        <h4>Company</h4>
-        <a href="#home">AKHI Furniture</a>
-        <a href="#contact">Contact</a>
+
+        <h4>Contact</h4>
+
+        <a href="#contact">Start a Project</a>
+
+        <a href="mailto:akhiengineeringworkshop@gmail.com">
+          Email Us
+        </a>
+
       </div>
 
     </div>
 
+
     <div class="footer-bottom">
-      <span>© <span id="year"></span> AKHI Furniture. All rights reserved.</span>
-      <span>Designed for better spaces.</span>
+
+      <span>
+        © <span id="year"></span> AKHI Engineering Workshop.
+        All rights reserved.
+      </span>
+
+      <span>
+        Built with precision.
+      </span>
+
     </div>
 
   </div>
 
 </footer>
 
-<!-- FLOATING CONTACT -->
-<div class="floating-contact">
-
-  <a class="float-btn" id="floatWhatsApp" href="#" aria-label="WhatsApp">
-    <svg class="icon-svg" viewBox="0 0 24 24">
-      <path d="M20 11.5a8.3 8.3 0 0 1-12.3 7.3L4 20l1.2-3.5A8.3 8.3 0 1 1 20 11.5Z"></path>
-      <path d="M8.7 8.5c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.6 1.5c.1.2.1.4-.1.6l-.5.5c.5 1 1.3 1.8 2.3 2.3l.5-.5c.2-.2.4-.2.6-.1l1.5.6c.3.1.4.3.4.5v.5c0 .3-.1.5-.4.7-.4.3-1 .4-1.5.3-2.8-.6-5.4-3.2-6-6-.1-.5 0-1.1.3-1.5Z"></path>
-    </svg>
-  </a>
-
-  <a class="float-btn" id="floatCall" href="#" aria-label="Call">
-    <svg class="icon-svg" viewBox="0 0 24 24">
-      <path d="M6.5 3.5 9 3l2 5-2 1.5a13 13 0 0 0 5.5 5.5L16 13l5 2-.5 2.5c-.3 1.5-1.7 2.5-3.2 2.2C10.7 18.4 5.6 13.3 4.3 6.7 4 5.2 5 3.8 6.5 3.5Z"></path>
-    </svg>
-  </a>
-
-</div>
-
-<!-- SEARCH -->
-<div class="search-panel" id="searchPanel">
-
-  <button class="search-close" id="searchClose">×</button>
-
-  <div class="search-inner">
-
-    <div class="search-label">Search collection</div>
-
-    <input
-      id="searchInput"
-      class="search-input"
-      type="search"
-      placeholder="Search furniture..."
-      autocomplete="off">
-
-    <div class="search-results" id="searchResults"></div>
-
-  </div>
-</div>
-
-<!-- CART -->
-<div class="cart-overlay" id="cartOverlay">
-
-  <aside class="cart-drawer">
-
-    <div class="cart-header">
-      <div class="cart-title">
-        Your Selection
-      </div>
-
-      <button class="cart-close" id="cartClose">
-        ×
-      </button>
-    </div>
-
-    <div class="cart-body" id="cartBody">
-      <!-- cart -->
-    </div>
-
-    <div class="cart-footer">
-
-      <div class="cart-total">
-        <span>Total</span>
-        <span id="cartTotal">৳0</span>
-      </div>
-
-      <button class="cart-checkout-btn" id="checkoutBtn">
-        Proceed to Order
-      </button>
-
-      <div class="cart-note">
-        No payment is taken online. We confirm your order personally.
-      </div>
-
-    </div>
-
-  </aside>
-
-</div>
-
-<!-- CHECKOUT -->
-<div class="checkout-overlay" id="checkoutOverlay">
-
-  <div class="checkout-box">
-
-    <div class="checkout-head">
-      <h2>Place your order</h2>
-      <button class="checkout-close" id="checkoutClose">×</button>
-    </div>
-
-    <div class="checkout-content">
-
-      <form class="checkout-form" id="checkoutForm">
-
-        <div class="form-group">
-          <label for="customerName">Full Name *</label>
-          <input
-            class="form-input"
-            id="customerName"
-            name="name"
-            type="text"
-            placeholder="Your full name"
-            required>
-        </div>
-
-        <div class="form-group">
-          <label for="customerPhone">Mobile Number *</label>
-          <input
-            class="form-input"
-            id="customerPhone"
-            name="phone"
-            type="tel"
-            placeholder="01XXXXXXXXX"
-            required>
-        </div>
-
-        <div class="form-group">
-          <label for="customerAddress">Delivery Address *</label>
-          <textarea
-            class="form-input"
-            id="customerAddress"
-            name="address"
-            placeholder="House, road, area, city..."
-            required></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="customerNote">Order Note</label>
-          <textarea
-            class="form-input"
-            id="customerNote"
-            name="note"
-            placeholder="Any special instruction?"></textarea>
-        </div>
-
-        <button
-          class="place-order"
-          id="placeOrderBtn"
-          type="submit">
-          Place Order
-        </button>
-
-        <button
-          type="button"
-          class="whatsapp-direct"
-          id="checkoutWhatsApp">
-          Order via WhatsApp instead
-        </button>
-
-      </form>
-
-      <aside class="checkout-summary">
-
-        <h3>Order Summary</h3>
-
-        <div id="checkoutSummaryItems"></div>
-
-        <div class="summary-total">
-          <span>Total</span>
-          <span id="checkoutTotal">৳0</span>
-        </div>
-
-      </aside>
-
-    </div>
-
-  </div>
-
-</div>
-
-<!-- SUCCESS -->
-<div class="success-overlay" id="successOverlay">
-
-  <div class="success-box">
-
-    <div class="success-icon">✓</div>
-
-    <h2>Order received.</h2>
-
-    <p>
-      Thank you for choosing AKHI Furniture.
-      Your order request has been received.
-      Our team will contact you shortly.
-    </p>
-
-    <div class="order-id" id="successOrderId">
-      AKHI-000000
-    </div>
-
-    <div class="success-actions">
-
-      <a
-        href="#"
-        target="_blank"
-        rel="noopener"
-        class="btn btn-primary"
-        id="successWhatsApp">
-        WhatsApp
-      </a>
-
-      <button
-        class="btn"
-        style="background:#111;color:#fff"
-        id="successClose">
-        Continue Shopping
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
 
 <script>
 /* =========================================================
-   AKHI FURNITURE
-   PERFORMANCE-FIRST + CART + ORDER SYSTEM
+   AKHI ENGINEERING WORKSHOP
+   Lightweight performance JS
 ========================================================= */
 
-"use strict";
+(function(){
 
-/* =========================
-   HELPERS
-========================= */
+  "use strict";
 
-const $ = (selector, root = document) =>
-  root.querySelector(selector);
+  const header = document.getElementById("header");
+  const progress = document.getElementById("progress");
+  const year = document.getElementById("year");
+  const menu = document.getElementById("menu");
+  const nav = document.querySelector(".nav");
 
-const $$ = (selector, root = document) =>
-  [...root.querySelectorAll(selector)];
+  /* YEAR */
 
-const esc = value =>
-  String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-const money = value =>
-  "৳" + Number(value || 0).toLocaleString("en-BD");
-
-const img = id =>
-  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=900&q=78`;
-
-
-/* =========================
-   DEMO PRODUCTS
-========================= */
-
-const DEMO_PRODUCTS = [
-
-  {
-    id:"modern-lounge-sofa",
-    name:"Modern Lounge Sofa",
-    category:"Living",
-    type:"Seating",
-    price:48500,
-    image:"photo-1555041469-a586c61ea9bc"
-  },
-
-  {
-    id:"oak-dining-table",
-    name:"Oak Dining Table",
-    category:"Dining",
-    type:"Table",
-    price:42000,
-    image:"photo-1617806118233-18e1de247200"
-  },
-
-  {
-    id:"signature-bed",
-    name:"Signature Bed",
-    category:"Bedroom",
-    type:"Bed",
-    price:55000,
-    image:"photo-1505693416388-ac5ce068fe85"
-  },
-
-  {
-    id:"minimal-lounge-chair",
-    name:"Minimal Lounge Chair",
-    category:"Living",
-    type:"Chair",
-    price:18500,
-    image:"photo-1567538096630-e0c55bd6374c"
-  },
-
-  {
-    id:"executive-work-desk",
-    name:"Executive Work Desk",
-    category:"Workspace",
-    type:"Desk",
-    price:36000,
-    image:"photo-1497366811353-6870744d04b2"
-  },
-
-  {
-    id:"soft-accent-chair",
-    name:"Soft Accent Chair",
-    category:"Living",
-    type:"Seating",
-    price:22500,
-    image:"photo-1586023492125-27b2c045efd7"
-  },
-
-  {
-    id:"contemporary-side-table",
-    name:"Contemporary Side Table",
-    category:"Living",
-    type:"Table",
-    price:12500,
-    image:"photo-1532372320572-cda25653a26d"
-  },
-
-  {
-    id:"premium-bedroom-set",
-    name:"Premium Bedroom Set",
-    category:"Bedroom",
-    type:"Collection",
-    price:78000,
-    image:"photo-1616486338812-3dadae4b4ace"
-  },
-
-  {
-    id:"modern-office-chair",
-    name:"Modern Office Chair",
-    category:"Workspace",
-    type:"Seating",
-    price:19500,
-    image:"photo-1580480055273-228ff5388ef8"
-  },
-
-  {
-    id:"classic-console",
-    name:"Classic Console",
-    category:"Living",
-    type:"Console",
-    price:28500,
-    image:"photo-1598300042247-d088f8ab3a91"
-  },
-
-  {
-    id:"round-dining-set",
-    name:"Round Dining Set",
-    category:"Dining",
-    type:"Set",
-    price:46500,
-    image:"photo-1549497538-303791108f95"
-  },
-
-  {
-    id:"statement-armchair",
-    name:"Statement Armchair",
-    category:"Living",
-    type:"Chair",
-    price:24500,
-    image:"photo-1598300042247-d088f8ab3a91"
+  if(year){
+    year.textContent = new Date().getFullYear();
   }
 
-];
 
+  /* HEADER + SCROLL PROGRESS */
 
-/* =========================
-   STATE
-========================= */
+  let ticking = false;
 
-let PRODUCTS = [...DEMO_PRODUCTS];
+  function updateScroll(){
 
-let currentCategory = "all";
+    const scrollTop =
+      window.scrollY || document.documentElement.scrollTop;
 
-let settings = {
-  whatsapp:"8801700000000",
-  phone:"+8801700000000",
-  email:"hello@akhifurniture.com"
-};
+    if(header){
+      header.classList.toggle(
+        "scrolled",
+        scrollTop > 20
+      );
+    }
 
-let firebaseReady = false;
-let firebaseDB = null;
-let firebaseLoading = null;
+    if(progress){
 
-let cart = [];
+      const max =
+        document.documentElement.scrollHeight -
+        window.innerHeight;
 
-try{
-  cart = JSON.parse(
-    localStorage.getItem("akhi_cart_v1") || "[]"
+      const value =
+        max > 0
+          ? (scrollTop / max) * 100
+          : 0;
+
+      progress.style.width = value + "%";
+    }
+
+    ticking = false;
+  }
+
+  window.addEventListener(
+    "scroll",
+    function(){
+
+      if(!ticking){
+        window.requestAnimationFrame(updateScroll);
+        ticking = true;
+      }
+
+    },
+    {passive:true}
   );
-  if(!Array.isArray(cart)) cart=[];
-}catch{
-  cart=[];
-}
+
+  updateScroll();
 
 
-/* =========================
-   FIREBASE LOADER
-   NON-BLOCKING
-========================= */
+  /* MOBILE MENU */
 
-function loadScript(src){
+  if(menu && nav){
 
-  return new Promise((resolve,reject)=>{
+    menu.addEventListener("click",function(){
 
-    const existing =
-      document.querySelector(`script[src="${src}"]`);
+      const open =
+        menu.getAttribute("aria-expanded") === "true";
 
-    if(existing){
-
-      if(existing.dataset.loaded === "1"){
-        resolve();
-        return;
-      }
-
-      existing.addEventListener("load",resolve,{once:true});
-      existing.addEventListener("error",reject,{once:true});
-      return;
-    }
-
-    const script = document.createElement("script");
-
-    script.src = src;
-    script.async = true;
-
-    script.onload = ()=>{
-      script.dataset.loaded="1";
-      resolve();
-    };
-
-    script.onerror = reject;
-
-    document.head.appendChild(script);
-
-  });
-
-}
-
-
-async function ensureFirebase(){
-
-  if(firebaseReady && firebaseDB){
-    return firebaseDB;
-  }
-
-  if(firebaseLoading){
-    return firebaseLoading;
-  }
-
-  firebaseLoading = (async()=>{
-
-    try{
-
-      await loadScript("./firebase-config.js");
-
-      await loadScript(
-        "https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"
+      menu.setAttribute(
+        "aria-expanded",
+        String(!open)
       );
 
-      await loadScript(
-        "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"
-      );
+      if(!open){
 
-      const config =
-        window.AKI_FIREBASE_CONFIG ||
-        window.AKHI_FIREBASE_CONFIG ||
-        window.FIREBASE_CONFIG;
+        nav.style.display = "flex";
 
-      if(!config){
-        throw new Error("Firebase config not found");
-      }
+        nav.style.position = "fixed";
+        nav.style.top = "68px";
+        nav.style.left = "14px";
+        nav.style.right = "14px";
 
-      if(!window.firebase.apps.length){
-        window.firebase.initializeApp(config);
-      }
+        nav.style.padding = "18px";
 
-      firebaseDB =
-        window.firebase.firestore();
+        nav.style.flexDirection = "column";
+        nav.style.alignItems = "stretch";
 
-      firebaseReady=true;
+        nav.style.gap = "0";
 
-      return firebaseDB;
+        nav.style.border = "1px solid rgba(255,255,255,.09)";
+        nav.style.borderRadius = "18px";
 
-    }catch(error){
+        nav.style.background = "rgba(8,9,9,.96)";
+        nav.style.backdropFilter = "blur(18px)";
 
-      console.warn(
-        "AKHI Firebase unavailable:",
-        error
-      );
+        nav.style.boxShadow =
+          "0 30px 80px rgba(0,0,0,.45)";
 
-      firebaseReady=false;
-      firebaseDB=null;
-
-      return null;
-
-    }
-
-  })();
-
-  return firebaseLoading;
-}
-
-
-/* =========================
-   FIREBASE BACKGROUND SYNC
-========================= */
-
-async function hydrateFromFirebase(){
-
-  const db = await ensureFirebase();
-
-  if(!db) return;
-
-  try{
-
-    const results = await Promise.allSettled([
-
-      db.collection("siteContent")
-        .doc("settings")
-        .get(),
-
-      db.collection("projects")
-        .get(),
-
-      db.collection("banners")
-        .get()
-
-    ]);
-
-    /* SETTINGS */
-
-    if(results[0].status==="fulfilled"){
-
-      const snap = results[0].value;
-
-      if(snap.exists){
-
-        settings = {
-          ...settings,
-          ...(snap.data() || {})
-        };
-
-        applyContactLinks();
-
-      }
-
-    }
-
-    /* PRODUCTS */
-
-    if(results[1].status==="fulfilled"){
-
-      const snap = results[1].value;
-
-      const remote = [];
-
-      snap.forEach(doc=>{
-
-        const data = doc.data() || {};
-
-        remote.push({
-
-          id:data.id || doc.id,
-
-          name:
-            data.name ||
-            data.title ||
-            "AKHI Furniture",
-
-          category:
-            data.category ||
-            data.room ||
-            "Living",
-
-          type:
-            data.type ||
-            data.subcategory ||
-            "Furniture",
-
-          price:
-            Number(
-              data.price ||
-              data.amount ||
-              0
-            ),
-
-          image:
-            data.image ||
-            data.imageUrl ||
-            data.photo ||
-            data.thumbnail ||
-            "photo-1618221195710-dd6b41faaea6"
-
+        nav.querySelectorAll("a").forEach(function(link){
+          link.style.padding = "14px 8px";
+          link.addEventListener(
+            "click",
+            closeMenu,
+            {once:true}
+          );
         });
 
-      });
-
-      if(remote.length){
-
-        PRODUCTS=remote;
-
-        renderProducts();
-
+      }else{
+        closeMenu();
       }
-
-    }
-
-    /* BANNERS */
-
-    if(results[2].status==="fulfilled"){
-
-      const snap=results[2].value;
-
-      const banners=[];
-
-      snap.forEach(doc=>{
-
-        const data=doc.data() || {};
-
-        if(data.image || data.imageUrl){
-
-          banners.push(
-            data.image || data.imageUrl
-          );
-
-        }
-
-      });
-
-      if(banners.length){
-
-        const first=banners[0];
-
-        if(
-          typeof first==="string" &&
-          first.startsWith("http")
-        ){
-
-          const hero=$("#heroImage");
-
-          if(hero){
-            hero.src=first;
-          }
-
-        }
-
-      }
-
-    }
-
-  }catch(error){
-
-    console.warn(
-      "AKHI background sync failed:",
-      error
-    );
-
-  }
-
-}
-
-
-/* =========================
-   CONTACT LINKS
-========================= */
-
-function whatsappNumber(){
-
-  return String(
-    settings.whatsapp ||
-    settings.phone ||
-    "8801700000000"
-  )
-  .replace(/\D/g,"");
-
-}
-
-
-function applyContactLinks(){
-
-  const wa =
-    "https://wa.me/" +
-    whatsappNumber();
-
-  const phone =
-    "tel:" +
-    String(settings.phone || "")
-      .replace(/\s/g,"");
-
-  const waLinks=[
-    $("#floatWhatsApp"),
-    $("#footerWhatsApp")
-  ];
-
-  waLinks.forEach(link=>{
-    if(link) link.href=wa;
-  });
-
-  const callLinks=[
-    $("#floatCall"),
-    $("#footerCall")
-  ];
-
-  callLinks.forEach(link=>{
-    if(link) link.href=phone;
-  });
-
-}
-
-
-/* =========================
-   PRODUCT HELPERS
-========================= */
-
-function productById(id){
-
-  return PRODUCTS.find(
-    p=>String(p.id)===String(id)
-  );
-
-}
-
-
-function productImage(product){
-
-  if(!product || !product.image){
-
-    return img(
-      "photo-1618221195710-dd6b41faaea6"
-    );
-
-  }
-
-  if(
-    String(product.image).startsWith("http") ||
-    String(product.image).startsWith("/") ||
-    String(product.image).startsWith("./")
-  ){
-
-    return product.image;
-
-  }
-
-  return img(product.image);
-
-}
-
-
-/* =========================
-   PRODUCT RENDER
-========================= */
-
-function filteredProducts(){
-
-  if(currentCategory==="all"){
-    return PRODUCTS;
-  }
-
-  return PRODUCTS.filter(
-    product =>
-      String(product.category || "")
-        .toLowerCase() ===
-      String(currentCategory).toLowerCase()
-  );
-
-}
-
-
-function renderProducts(){
-
-  const grid=$("#productGrid");
-
-  if(!grid) return;
-
-  const products=filteredProducts();
-
-  if(!products.length){
-
-    grid.innerHTML=`
-      <div style="
-        grid-column:1/-1;
-        padding:80px 20px;
-        text-align:center;
-        background:#fff;
-        color:#777;
-      ">
-        No furniture found in this category.
-      </div>
-    `;
-
-    return;
-
-  }
-
-  grid.innerHTML=products.map(
-    (product,index)=>`
-
-      <article
-        class="product-card"
-        data-product-id="${esc(product.id)}">
-
-        <div class="product-image">
-
-          <img
-            src="${esc(productImage(product))}"
-            alt="${esc(product.name)}"
-            loading="${index < 4 ? "eager" : "lazy"}"
-            decoding="async">
-
-          <span class="product-tag">
-            ${esc(product.category || "Furniture")}
-          </span>
-
-        </div>
-
-        <div class="product-info">
-
-          <div class="product-category">
-            ${esc(product.type || "Furniture")}
-          </div>
-
-          <h3 class="product-name">
-            ${esc(product.name)}
-          </h3>
-
-          <div class="product-bottom">
-
-            <div class="product-price">
-              ${
-                Number(product.price)
-                  ? money(product.price)
-                  : "Price on request"
-              }
-            </div>
-
-            <div class="product-actions">
-
-              <button
-                class="card-btn add"
-                data-add-cart="${esc(product.id)}">
-                Add to Cart
-              </button>
-
-              <button
-                class="card-btn order"
-                data-order-now="${esc(product.id)}">
-                Order Now
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </article>
-
-    `
-  ).join("");
-
-}
-
-
-/* =========================
-   CART STORAGE
-========================= */
-
-function saveCart(){
-
-  try{
-
-    localStorage.setItem(
-      "akhi_cart_v1",
-      JSON.stringify(cart)
-    );
-
-  }catch{}
-
-}
-
-
-function cartQuantity(){
-
-  return cart.reduce(
-    (total,item)=>
-      total + Number(item.quantity || 0),
-    0
-  );
-
-}
-
-
-function cartSubtotal(){
-
-  return cart.reduce(
-    (total,item)=>
-      total +
-      Number(item.price || 0) *
-      Number(item.quantity || 0),
-    0
-  );
-
-}
-
-
-/* =========================
-   ADD TO CART
-========================= */
-
-function addToCart(product,quantity=1){
-
-  if(!product) return;
-
-  const existing =
-    cart.find(
-      item =>
-        String(item.id) ===
-        String(product.id)
-    );
-
-  if(existing){
-
-    existing.quantity =
-      Number(existing.quantity || 0) +
-      Number(quantity);
-
-  }else{
-
-    cart.push({
-
-      id:String(product.id),
-
-      name:product.name,
-
-      price:Number(product.price || 0),
-
-      image:productImage(product),
-
-      category:product.category || "",
-
-      quantity:Number(quantity)
 
     });
 
-  }
 
-  saveCart();
-  renderCart();
+    function closeMenu(){
 
-  openCart();
-
-}
-
-
-function orderNow(product){
-
-  if(!product) return;
-
-  const existing =
-    cart.find(
-      item =>
-        String(item.id) ===
-        String(product.id)
-    );
-
-  if(existing){
-
-    existing.quantity =
-      Number(existing.quantity || 0) + 1;
-
-  }else{
-
-    cart.push({
-
-      id:String(product.id),
-
-      name:product.name,
-
-      price:Number(product.price || 0),
-
-      image:productImage(product),
-
-      category:product.category || "",
-
-      quantity:1
-
-    });
-
-  }
-
-  saveCart();
-  renderCart();
-
-  openCheckout();
-
-}
-
-
-/* =========================
-   CART RENDER
-========================= */
-
-function renderCart(){
-
-  const count=$("#cartCount");
-
-  if(count){
-    count.textContent=cartQuantity();
-  }
-
-  const body=$("#cartBody");
-
-  const total=$("#cartTotal");
-
-  if(total){
-    total.textContent=money(cartSubtotal());
-  }
-
-  if(!body) return;
-
-  if(!cart.length){
-
-    body.innerHTML=`
-      <div class="cart-empty">
-        <div>
-          <strong>Your cart is empty.</strong>
-          <div>
-            Add a few pieces you love.
-          </div>
-        </div>
-      </div>
-    `;
-
-    return;
-
-  }
-
-  body.innerHTML=cart.map(item=>`
-
-    <div class="cart-item">
-
-      <img
-        class="cart-item-img"
-        src="${esc(item.image)}"
-        alt="${esc(item.name)}"
-        loading="lazy">
-
-      <div>
-
-        <div class="cart-item-name">
-          ${esc(item.name)}
-        </div>
-
-        <div class="cart-item-price">
-          ${money(item.price)}
-        </div>
-
-        <div class="cart-item-row">
-
-          <div class="qty-control">
-
-            <button
-              data-qty-minus="${esc(item.id)}">
-              −
-            </button>
-
-            <span>
-              ${Number(item.quantity)}
-            </span>
-
-            <button
-              data-qty-plus="${esc(item.id)}">
-              +
-            </button>
-
-          </div>
-
-          <button
-            class="remove-item"
-            data-remove-cart="${esc(item.id)}">
-            Remove
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  `).join("");
-
-  renderCheckoutSummary();
-
-}
-
-
-/* =========================
-   CART QUANTITY
-========================= */
-
-function changeQuantity(id,direction){
-
-  const item =
-    cart.find(
-      x=>String(x.id)===String(id)
-    );
-
-  if(!item) return;
-
-  item.quantity =
-    Number(item.quantity || 0) +
-    Number(direction);
-
-  if(item.quantity<=0){
-
-    cart =
-      cart.filter(
-        x=>String(x.id)!==String(id)
+      menu.setAttribute(
+        "aria-expanded",
+        "false"
       );
 
-  }
+      if(window.innerWidth <= 900){
 
-  saveCart();
-  renderCart();
+        nav.style.display = "none";
 
-}
+      }else{
 
+        nav.removeAttribute("style");
 
-function removeCartItem(id){
+      }
 
-  cart =
-    cart.filter(
-      item =>
-        String(item.id)!==
-        String(id)
-    );
-
-  saveCart();
-  renderCart();
-
-}
+    }
 
 
-/* =========================
-   CART OPEN/CLOSE
-========================= */
+    window.addEventListener("resize",function(){
 
-function openCart(){
+      if(window.innerWidth > 900){
 
-  $("#cartOverlay")?.classList.add("open");
+        nav.removeAttribute("style");
 
-  document.body.style.overflow="hidden";
+        menu.setAttribute(
+          "aria-expanded",
+          "false"
+        );
 
-}
+      }
 
-
-function closeCart(){
-
-  $("#cartOverlay")?.classList.remove("open");
-
-  if(
-    !$("#checkoutOverlay")?.classList.contains("open")
-  ){
-
-    document.body.style.overflow="";
+    });
 
   }
 
-}
 
-
-/* =========================
-   CHECKOUT
-========================= */
-
-function renderCheckoutSummary(){
-
-  const target=
-    $("#checkoutSummaryItems");
-
-  const total=
-    $("#checkoutTotal");
-
-  if(!target) return;
-
-  if(!cart.length){
-
-    target.innerHTML=
-      `<p style="color:#888;font-size:12px">
-        Your cart is empty.
-      </p>`;
-
-  }else{
-
-    target.innerHTML=
-      cart.map(item=>`
-
-        <div class="summary-item">
-
-          <span>
-            ${esc(item.name)}
-            × ${Number(item.quantity)}
-          </span>
-
-          <strong>
-            ${money(
-              Number(item.price || 0) *
-              Number(item.quantity || 0)
-            )}
-          </strong>
-
-        </div>
-
-      `).join("");
-
-  }
-
-  if(total){
-    total.textContent=
-      money(cartSubtotal());
-  }
-
-}
-
-
-function openCheckout(){
-
-  if(!cart.length){
-
-    openCart();
-    return;
-
-  }
-
-  closeCart();
-
-  renderCheckoutSummary();
-
-  $("#checkoutOverlay")
-    ?.classList.add("open");
-
-  document.body.style.overflow="hidden";
-
-}
-
-
-function closeCheckout(){
-
-  $("#checkoutOverlay")
-    ?.classList.remove("open");
-
-  document.body.style.overflow="";
-
-}
-
-
-/* =========================
-   ORDER ID
-========================= */
-
-function generateOrderId(){
-
-  const time =
-    Date.now()
-      .toString(36)
-      .toUpperCase();
-
-  const random =
-    Math.random()
-      .toString(36)
-      .slice(2,6)
-      .toUpperCase();
-
-  return `AKHI-${time}-${random}`;
-
-}
-
-
-/* =========================
-   ORDER WHATSAPP MESSAGE
-========================= */
-
-function buildWhatsAppMessage(
-  orderId,
-  customer
-){
+  /* REVEAL ANIMATION */
 
   const items =
-    cart.map(item=>
-      `• ${item.name} × ${item.quantity} — ${money(
-        Number(item.price || 0) *
-        Number(item.quantity || 0)
-      )}`
-    ).join("\n");
-
-  return [
-    "Hello AKHI Furniture,",
-    "",
-    "I want to place an order.",
-    "",
-    `Order ID: ${orderId}`,
-    `Customer: ${customer.name}`,
-    `Phone: ${customer.phone}`,
-    `Address: ${customer.address}`,
-    customer.note
-      ? `Note: ${customer.note}`
-      : "",
-    "",
-    "Items:",
-    items,
-    "",
-    `Total: ${money(cartSubtotal())}`
-  ]
-  .filter(Boolean)
-  .join("\n");
-
-}
-
-
-function whatsappUrl(message){
-
-  return (
-    "https://wa.me/" +
-    whatsappNumber() +
-    "?text=" +
-    encodeURIComponent(message)
-  );
-
-}
-
-
-/* =========================
-   SAVE ORDER FIREBASE
-========================= */
-
-async function saveOrderToFirebase(payload){
-
-  const db =
-    await ensureFirebase();
-
-  if(!db){
-    return {
-      saved:false,
-      reason:"firebase_unavailable"
-    };
-  }
-
-  try{
-
-    const firestoreData={
-      ...payload,
-      createdAt:
-        window.firebase.firestore
-          .FieldValue
-          .serverTimestamp()
-    };
-
-    const ref =
-      await db
-        .collection("orders")
-        .add(firestoreData);
-
-    return {
-      saved:true,
-      id:ref.id
-    };
-
-  }catch(error){
-
-    console.error(
-      "Order save failed:",
-      error
-    );
-
-    return {
-      saved:false,
-      reason:"save_failed"
-    };
-
-  }
-
-}
-
-
-/* =========================
-   SUCCESS
-========================= */
-
-function showSuccess(
-  orderId,
-  message
-){
-
-  $("#successOrderId")
-    .textContent=orderId;
-
-  const wa=
-    $("#successWhatsApp");
-
-  if(wa){
-
-    wa.href=
-      whatsappUrl(message);
-
-  }
-
-  $("#successOverlay")
-    ?.classList.add("open");
-
-  document.body.style.overflow="hidden";
-
-}
-
-
-function closeSuccess(){
-
-  $("#successOverlay")
-    ?.classList.remove("open");
-
-  document.body.style.overflow="";
-
-}
-
-
-/* =========================
-   PLACE ORDER
-========================= */
-
-async function submitOrder(event){
-
-  event.preventDefault();
-
-  if(!cart.length){
-
-    alert(
-      "Your cart is empty."
-    );
-
-    return;
-
-  }
-
-  const name=
-    $("#customerName")
-      .value.trim();
-
-  const phone=
-    $("#customerPhone")
-      .value.trim();
-
-  const address=
-    $("#customerAddress")
-      .value.trim();
-
-  const note=
-    $("#customerNote")
-      .value.trim();
-
-  if(!name || !phone || !address){
-
-    alert(
-      "Please complete your name, mobile number and delivery address."
-    );
-
-    return;
-
-  }
-
-  const button=
-    $("#placeOrderBtn");
-
-  const originalText=
-    button.textContent;
-
-  button.disabled=true;
-  button.textContent=
-    "Processing Order...";
-
-  const orderId=
-    generateOrderId();
-
-  const items=
-    cart.map(item=>({
-
-      productId:item.id,
-
-      name:item.name,
-
-      category:item.category || "",
-
-      quantity:Number(item.quantity || 1),
-
-      price:Number(item.price || 0),
-
-      lineTotal:
-        Number(item.price || 0) *
-        Number(item.quantity || 1)
-
-    }));
-
-  const payload={
-
-    orderId,
-
-    customerName:name,
-
-    phone,
-
-    address,
-
-    note,
-
-    items,
-
-    subtotal:cartSubtotal(),
-
-    total:cartSubtotal(),
-
-    status:"pending",
-
-    source:"website",
-
-    website:"AKHI Furniture"
-
-  };
-
-  const message=
-    buildWhatsAppMessage(
-      orderId,
-      {
-        name,
-        phone,
-        address,
-        note
-      }
-    );
-
-  const result=
-    await saveOrderToFirebase(
-      payload
-    );
-
-  button.disabled=false;
-  button.textContent=originalText;
-
-  /*
-    IMPORTANT:
-    Even if Firebase is temporarily unavailable,
-    the customer can still continue via WhatsApp.
-  */
-
-  if(result.saved){
-
-    cart=[];
-
-    saveCart();
-    renderCart();
-
-    closeCheckout();
-
-    showSuccess(
-      orderId,
-      message
-    );
-
-    return;
-
-  }
-
-  const shouldContinue=
-    confirm(
-      "Your order could not be saved automatically. Would you like to send the order directly through WhatsApp?"
-    );
-
-  if(shouldContinue){
-
-    window.open(
-      whatsappUrl(message),
-      "_blank",
-      "noopener"
-    );
-
-  }
-
-}
-
-
-/* =========================
-   SEARCH
-========================= */
-
-function searchProducts(query){
-
-  const results=
-    $("#searchResults");
-
-  if(!results) return;
-
-  const q=
-    query.trim().toLowerCase();
-
-  if(!q){
-
-    results.innerHTML=
-      `<div style="color:#777;font-size:12px">
-        Start typing to search furniture.
-      </div>`;
-
-    return;
-
-  }
-
-  const found=
-    PRODUCTS
-      .filter(product=>
-        [
-          product.name,
-          product.category,
-          product.type
-        ]
-        .join(" ")
-        .toLowerCase()
-        .includes(q)
-      )
-      .slice(0,8);
-
-  if(!found.length){
-
-    results.innerHTML=
-      `<div style="color:#777">
-        No furniture found.
-      </div>`;
-
-    return;
-
-  }
-
-  results.innerHTML=
-    found.map(product=>`
-
-      <button
-        class="search-result"
-        data-search-product="${esc(product.id)}"
-        style="width:100%;background:none;border:0;text-align:left">
-
-        <span>
-          ${esc(product.name)}
-        </span>
-
-        <strong>
-          ${
-            Number(product.price)
-              ? money(product.price)
-              : ""
-          }
-        </strong>
-
-      </button>
-
-    `).join("");
-
-}
-
-
-/* =========================
-   EVENTS
-========================= */
-
-/* product buttons */
-
-document.addEventListener(
-  "click",
-  event=>{
-
-    const addButton=
-      event.target.closest(
-        "[data-add-cart]"
-      );
-
-    if(addButton){
-
-      const product=
-        productById(
-          addButton.dataset.addCart
-        );
-
-      addToCart(product);
-
-      return;
-
-    }
-
-    const orderButton=
-      event.target.closest(
-        "[data-order-now]"
-      );
-
-    if(orderButton){
-
-      const product=
-        productById(
-          orderButton.dataset.orderNow
-        );
-
-      orderNow(product);
-
-      return;
-
-    }
-
-    const plus=
-      event.target.closest(
-        "[data-qty-plus]"
-      );
-
-    if(plus){
-
-      changeQuantity(
-        plus.dataset.qtyPlus,
-        1
-      );
-
-      return;
-
-    }
-
-    const minus=
-      event.target.closest(
-        "[data-qty-minus]"
-      );
-
-    if(minus){
-
-      changeQuantity(
-        minus.dataset.qtyMinus,
-        -1
-      );
-
-      return;
-
-    }
-
-    const remove=
-      event.target.closest(
-        "[data-remove-cart]"
-      );
-
-    if(remove){
-
-      removeCartItem(
-        remove.dataset.removeCart
-      );
-
-      return;
-
-    }
-
-    const searchProduct=
-      event.target.closest(
-        "[data-search-product]"
-      );
-
-    if(searchProduct){
-
-      const product=
-        productById(
-          searchProduct.dataset.searchProduct
-        );
-
-      if(product){
-
-        addToCart(product);
-
-        $("#searchPanel")
-          ?.classList.remove("open");
-
-      }
-
-    }
-
-  }
-);
-
-
-/* category */
-
-$$(".category").forEach(category=>{
-
-  category.addEventListener(
-    "click",
-    ()=>{
-
-      $$(".category")
-        .forEach(
-          item =>
-            item.classList.remove("active")
-        );
-
-      category.classList.add("active");
-
-      currentCategory=
-        category.dataset.category ||
-        "all";
-
-      renderProducts();
-
-      document
-        .querySelector("#collection")
-        ?.scrollIntoView({
-          behavior:"smooth",
-          block:"start"
-        });
-
-    }
-  );
-
-});
-
-
-/* cart */
-
-$("#cartBtn")
-  ?.addEventListener(
-    "click",
-    openCart
-  );
-
-$("#cartClose")
-  ?.addEventListener(
-    "click",
-    closeCart
-  );
-
-$("#cartOverlay")
-  ?.addEventListener(
-    "click",
-    event=>{
-
-      if(
-        event.target ===
-        $("#cartOverlay")
-      ){
-        closeCart();
-      }
-
-    }
-  );
-
-
-/* checkout */
-
-$("#checkoutBtn")
-  ?.addEventListener(
-    "click",
-    openCheckout
-  );
-
-$("#checkoutClose")
-  ?.addEventListener(
-    "click",
-    closeCheckout
-  );
-
-$("#checkoutOverlay")
-  ?.addEventListener(
-    "click",
-    event=>{
-
-      if(
-        event.target ===
-        $("#checkoutOverlay")
-      ){
-
-        closeCheckout();
-
-      }
-
-    }
-  );
-
-$("#checkoutForm")
-  ?.addEventListener(
-    "submit",
-    submitOrder
-  );
-
-
-/* checkout WhatsApp */
-
-$("#checkoutWhatsApp")
-  ?.addEventListener(
-    "click",
-    ()=>{
-
-      if(!cart.length){
-
-        alert(
-          "Your cart is empty."
-        );
-
-        return;
-
-      }
-
-      const orderId=
-        generateOrderId();
-
-      const customer={
-
-        name:
-          $("#customerName")
-            .value.trim() ||
-          "Customer",
-
-        phone:
-          $("#customerPhone")
-            .value.trim() ||
-          "Not provided",
-
-        address:
-          $("#customerAddress")
-            .value.trim() ||
-          "Not provided",
-
-        note:
-          $("#customerNote")
-            .value.trim()
-
-      };
-
-      const message=
-        buildWhatsAppMessage(
-          orderId,
-          customer
-        );
-
-      window.open(
-        whatsappUrl(message),
-        "_blank",
-        "noopener"
-      );
-
-    }
-  );
-
-
-/* search */
-
-$("#searchBtn")
-  ?.addEventListener(
-    "click",
-    ()=>{
-
-      $("#searchPanel")
-        ?.classList.add("open");
-
-      setTimeout(
-        ()=>{
-          $("#searchInput")?.focus();
-        },
-        100
-      );
-
-    }
-  );
-
-$("#searchClose")
-  ?.addEventListener(
-    "click",
-    ()=>{
-      $("#searchPanel")
-        ?.classList.remove("open");
-    }
-  );
-
-$("#searchInput")
-  ?.addEventListener(
-    "input",
-    event=>{
-      searchProducts(
-        event.target.value
-      );
-    }
-  );
-
-
-/* hero / CTA */
-
-function startOrderFromCTA(){
-
-  if(cart.length){
-
-    openCheckout();
-
-    return;
-
-  }
-
-  document
-    .querySelector("#collection")
-    ?.scrollIntoView({
-      behavior:"smooth"
-    });
-
-}
-
-$("#heroOrderBtn")
-  ?.addEventListener(
-    "click",
-    startOrderFromCTA
-  );
-
-$("#ctaOrderBtn")
-  ?.addEventListener(
-    "click",
-    startOrderFromCTA
-  );
-
-
-/* footer cart */
-
-$("#footerCart")
-  ?.addEventListener(
-    "click",
-    event=>{
-
-      event.preventDefault();
-
-      openCart();
-
-    }
-  );
-
-
-/* success */
-
-$("#successClose")
-  ?.addEventListener(
-    "click",
-    closeSuccess
-  );
-
-
-/* keyboard */
-
-document.addEventListener(
-  "keydown",
-  event=>{
-
-    if(event.key==="Escape"){
-
-      $("#searchPanel")
-        ?.classList.remove("open");
-
-      closeCart();
-      closeCheckout();
-      closeSuccess();
-
-    }
-
-  }
-);
-
-
-/* =========================
-   HEADER SCROLL
-========================= */
-
-function headerScroll(){
-
-  const header=
-    $("#siteHeader");
-
-  if(!header) return;
-
-  header.classList.toggle(
-    "scrolled",
-    window.scrollY > 20
-  );
-
-}
-
-window.addEventListener(
-  "scroll",
-  headerScroll,
-  {passive:true}
-);
-
-
-/* =========================
-   REVEAL
-========================= */
-
-const revealObserver=
-  "IntersectionObserver" in window
-    ? new IntersectionObserver(
-        entries=>{
-
-          entries.forEach(entry=>{
+    document.querySelectorAll(".reveal");
+
+  if(
+    "IntersectionObserver" in window &&
+    !window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches
+  ){
+
+    const observer =
+      new IntersectionObserver(
+        function(entries){
+
+          entries.forEach(function(entry){
 
             if(entry.isIntersecting){
 
-              entry.target
-                .classList
-                .add("visible");
+              entry.target.classList.add("visible");
 
-              revealObserver
-                .unobserve(entry.target);
+              observer.unobserve(
+                entry.target
+              );
 
             }
 
@@ -4073,134 +2312,46 @@ const revealObserver=
 
         },
         {
-          threshold:.08
-        }
-      )
-    : null;
-
-if(revealObserver){
-
-  $$(".reveal")
-    .forEach(
-      el =>
-        revealObserver.observe(el)
-    );
-
-}else{
-
-  $$(".reveal")
-    .forEach(
-      el =>
-        el.classList.add("visible")
-    );
-
-}
-
-
-/* =========================
-   YEAR
-========================= */
-
-$("#year").textContent=
-  new Date().getFullYear();
-
-
-/* =========================
-   INITIAL RENDER
-========================= */
-
-renderProducts();
-
-renderCart();
-
-renderCheckoutSummary();
-
-applyContactLinks();
-
-headerScroll();
-
-
-/* =========================
-   FAST FIRST PAINT
-========================= */
-
-requestAnimationFrame(()=>{
-
-  setTimeout(()=>{
-
-    $("#loader")
-      ?.classList.add("hide");
-
-  },120);
-
-});
-
-
-/* =========================
-   BACKGROUND FIREBASE
-   NEVER BLOCK FIRST PAINT
-========================= */
-
-if("requestIdleCallback" in window){
-
-  requestIdleCallback(
-    ()=>hydrateFromFirebase(),
-    {timeout:1800}
-  );
-
-}else{
-
-  setTimeout(
-    hydrateFromFirebase,
-    350
-  );
-
-}
-
-
-/* =========================
-   CONNECTION-AWARE IMAGE
-========================= */
-
-try{
-
-  const connection =
-    navigator.connection ||
-    navigator.mozConnection ||
-    navigator.webkitConnection;
-
-  if(
-    connection &&
-    (
-      connection.saveData ||
-      /2g/.test(connection.effectiveType)
-    )
-  ){
-
-    document
-      .querySelectorAll(
-        "img[loading='lazy']"
-      )
-      .forEach(
-        image=>{
-          image.loading="lazy";
+          threshold:.08,
+          rootMargin:"0px 0px -40px 0px"
         }
       );
 
+    items.forEach(function(item){
+      observer.observe(item);
+    });
+
+  }else{
+
+    items.forEach(function(item){
+      item.classList.add("visible");
+    });
+
   }
 
-}catch{}
 
+  /* CLOSE MOBILE MENU WITH ESC */
 
-/* =========================
-   BEFORE UNLOAD
-========================= */
+  document.addEventListener("keydown",function(e){
 
-window.addEventListener(
-  "beforeunload",
-  saveCart
-);
+    if(e.key === "Escape"){
 
+      if(menu){
+        menu.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+      }
+
+      if(nav && window.innerWidth <= 900){
+        nav.style.display = "none";
+      }
+
+    }
+
+  });
+
+})();
 </script>
 
 </body>
