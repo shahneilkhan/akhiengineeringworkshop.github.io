@@ -17,7 +17,9 @@ Extra admins: Admin panel > Admins > Create admin (email + password, min 10 char
 - Settings: business name, logo upload, phone, WhatsApp, email, address, footer
 - Homepage: hero title and text
 - Banners: slider images (upload) with title and text
-- Products: name, category, price, image (upload), Published on/off
+- Products: name, category, price, Hot/New badge, details, image (upload), Published on/off. Clicking a product on the site opens a detail window.
+- Homepage: About text and Services list appear on the site when filled.
+- Settings also has opening hours and a Google Maps link (shown in the footer).
 - Websites, Media, Activity log, Backup (export/import)
 
 ## Notes

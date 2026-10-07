@@ -21,10 +21,10 @@ function wire(fs){fs.filter(f=>f[2]=='i').forEach(f=>{const k=f[0],h=$('#f_'+k),
  $('#ur_'+k).oninput=e=>show(e.target.value.trim())})}
 const read=fs=>{const o={};fs.forEach(f=>{const v=$('#f_'+f[0]).value.trim();o[f[0]]=f[2]=='n'?(Number(v)||0):v});return o};
 const SV=firebase.firestore.FieldValue.serverTimestamp;
-const DOCS={homepage:{ref:'home',t:'Homepage',f:[['heroTitle','Hero title'],['heroDescription','Hero description','t']]},
-settings:{ref:'settings',t:'Site settings',f:[['name','Business name'],['logo','Logo (transparent PNG works best)','i','png',600],['email','Email'],['phone','Phone'],['whatsapp','WhatsApp'],['address','Address','t'],['facebook','Facebook URL'],['footer','Footer text']]}};
+const DOCS={homepage:{ref:'home',t:'Homepage',f:[['heroTitle','Hero title'],['heroDescription','Hero description','t'],['aboutTitle','About title'],['aboutText','About text','t'],['services','Services (one per line)','t']]},
+settings:{ref:'settings',t:'Site settings',f:[['name','Business name'],['logo','Logo (transparent PNG works best)','i','png',600],['email','Email'],['phone','Phone'],['whatsapp','WhatsApp'],['address','Address','t'],['hours','Opening hours (e.g. Sat-Thu 10:00 - 20:00)'],['maps','Google Maps link'],['facebook','Facebook URL'],['footer','Footer text']]}};
 const C={banners:{col:'banners',t:'Banners',s:'banner',list:'banners.html',edit:'banner-edit.html',pub:1,f:[['title','Title'],['description','Description','t'],['image','Banner image','i','',1600],['order','Order','n']]},
-projects:{col:'projects',t:'Products',s:'product',list:'projects.html',edit:'project-edit.html',pub:1,f:[['title','Product name'],['category','Category (e.g. Office chairs)'],['price','Price (number, e.g. 8500)'],['description','Description','t'],['image','Product image','i','',1000],['order','Order','n']]},
+projects:{col:'projects',t:'Products',s:'product',list:'projects.html',edit:'project-edit.html',pub:1,f:[['title','Product name'],['category','Category (e.g. Office chairs)'],['price','Price (number, e.g. 8500)'],['badge','Badge (Hot or New, optional)'],['description','Description','t'],['details','Details: size, material (one per line)','t'],['image','Product image','i','',1000],['order','Order','n']]},
 website:{col:'websites',t:'Websites',s:'website',list:'website.html',edit:'website-edit.html',pub:1,f:[['title','Website name'],['url','Website URL'],['description','Description','t'],['image','Website image','i','',1000],['order','Order','n']]},
 media:{col:'media',t:'Media',s:'media item',list:'media.html',edit:'media-edit.html',f:[['url','Image','i','',1200],['alt','Alt text'],['category','Category'],['source','Credit / source']]}};
 const KEYS=['siteContent','banners','projects','websites','media'];

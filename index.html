@@ -54,14 +54,25 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 .dev{background:#f1f1f1;border-top:1px solid var(--line);margin-top:60px}.dev .w{max-width:1300px;margin:auto;padding:18px 20px;display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;color:var(--mut);font-size:15px}
 .devb{display:inline-flex;gap:8px;align-items:center;background:#111;color:var(--acc);font-weight:700;padding:10px 22px;border-radius:999px;border:1px solid #111;transition:transform .2s}.devb:hover{transform:translateY(-2px);background:var(--acc);color:#111}.devb i{font-style:normal}
 footer{margin-top:0!important}
+.card{cursor:pointer}.bdg{background:var(--acc)!important;color:#111!important}
+.ab{background:#f6f6f6;padding:56px 20px;margin-top:50px}.abw{max-width:1300px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}.abw p{font-size:18px;color:#444;white-space:pre-line}
+.svc{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}.svc div{background:#fff;border:1px solid var(--line);border-left:4px solid var(--acc);padding:16px 18px;font-weight:600}
+.md{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:16px}.md[hidden]{display:none}
+.mp{position:relative;background:#fff;border-radius:10px;max-width:920px;width:100%;max-height:92vh;overflow:auto;display:grid;grid-template-columns:1fr 1fr}
+.mi{background:#f4f4f4;display:grid;place-items:center;min-height:280px}.mi img{width:100%;height:100%;object-fit:contain;max-height:70vh}
+.mb{padding:28px 26px;display:flex;flex-direction:column;gap:10px}.mb small{color:var(--accd);font-weight:600;letter-spacing:.05em;text-transform:uppercase}.mb h3{font-size:28px;line-height:1.15}.mpr{font-size:26px;font-weight:700}.mb p{color:#555}.mb ul{padding-left:18px;color:#333}
+.mbtn{margin-top:auto;display:inline-block;text-align:center;background:var(--acc);color:#111;font-weight:700;padding:13px 22px;border-radius:4px}
+.mx{position:absolute;top:10px;right:12px;z-index:2;width:38px;height:38px;border:0;border-radius:50%;background:#fff;font-size:26px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+@media(max-width:820px){.abw,.mp{grid-template-columns:1fr}.mi{min-height:220px}}
 </style></head><body>
 <header class="hd" id="hd"><a class="logo" href="#top" aria-label="Akhi Engineering Workshop"><img src="./logo.png" alt="Akhi Engineering Workshop" onerror="this.parentNode.classList.add('txt');this.parentNode.innerHTML='AKHI<small>ENGINEERING WORKSHOP</small>'"><span class="bn" id="bn">Akhi Engineering Workshop</span></a><nav class="nv" id="nv"></nav><div class="ic"><button id="sb" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button><a id="bag" href="#contact" aria-label="Order on WhatsApp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 11h10.2L20 7H6.2"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg></a><button class="mm" id="mm" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></header>
 <div class="sp" id="sp"><input id="q" type="search" placeholder="Search chairs, desks, tables…" aria-label="Search products"></div>
 <main id="top"><section class="hero"><div id="slides"></div><div class="dots" id="dots"></div></section>
 <section class="sh" id="shop"><div class="bc">Shop &nbsp;&gt;&nbsp; <b id="bc">All products</b></div><h2 class="tt"><span id="pt">All products</span></h2><div class="cats" id="cats"></div>
-<div class="res"><span id="rc"></span><span></span></div><div class="grid" id="grid"></div></section></main>
+<div class="res"><span id="rc"></span><span></span></div><div class="grid" id="grid"></div></section><section class="ab" id="about" hidden><div class="abw"><div><h2 class="tt" style="text-align:left;margin-top:0"><span id="abT">About us</span></h2><p id="abP"></p></div><div class="svc" id="svc"></div></div></section></main>
 <a class="call" id="call" href="#contact" style="display:none"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg><span id="callN"></span></a>
 <a class="chat" id="chat" href="#contact" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg viewBox="0 0 24 24"><path d="M4 4h16a1 1 0 011 1v11a1 1 0 01-1 1H9l-5 4V5a1 1 0 011-1z"/></svg></a>
+<div class="md" id="md" hidden><div class="mp"><button class="mx" id="mx" aria-label="Close">&times;</button><div class="mi"><img id="mImg" alt=""></div><div class="mb"><small id="mCat"></small><h3 id="mT"></h3><div class="mpr" id="mPr"></div><p id="mD"></p><ul id="mL"></ul><a class="mbtn" id="mWa" href="#" target="_blank" rel="noopener">Enquire on WhatsApp</a></div></div></div>
 <div class="dev"><div class="w"><span>Website designed &amp; developed by</span><a class="devb" href="https://shahneilkhan.github.io/" target="_blank" rel="noopener">Developer · SNK <i>↗</i></a></div></div>
 <footer id="contact"><div class="w"><div><h4 id="fN">Akhi Engineering Workshop</h4><p>Office chairs, desks and furniture for homes and workspaces.</p></div><div><h4>Categories</h4><ul id="fCats"></ul></div><div><h4>Contact</h4><ul id="fList"></ul></div></div><div class="fb"><span id="foot">© Akhi Engineering Workshop</span></div></footer>
 <script src="./firebase-config.js"></script>
@@ -84,7 +95,7 @@ const price=v=>/^\d+$/.test(String(v||'').trim())?'৳'+Number(v).toLocaleString
 const hello=wa('Hello '+NAME+', I want to enquire about your furniture.');$('#bag').href=hello;$('#chat').href=hello;
 if(S.phone){$('#call').style.display='flex';$('#callN').textContent=S.phone;$('#call').href='tel:'+S.phone.replace(/[^\d+]/g,'')}
 $('#foot').textContent=S.footer||('© '+NAME);
-$('#fList').innerHTML=[S.address,S.phone,S.email,S.facebook].filter(Boolean).map(x=>`<li>${esc(x)}</li>`).join('')||'<li>Dhaka, Bangladesh</li>';
+$('#fList').innerHTML=[S.address,S.hours,S.phone,S.email,S.facebook].filter(Boolean).map(x=>`<li>${esc(x)}</li>`).join('')+(/^https?:\/\//.test(S.maps||'')?`<li><a href="${esc(S.maps)}" target="_blank" rel="noopener">View on Google Maps &#8599;</a></li>`:'')||'<li>Dhaka, Bangladesh</li>';
 /* header */
 const hd=$('#hd'),sc=()=>hd.classList.toggle('solid',scrollY>60||$('#nv').classList.contains('on'));addEventListener('scroll',sc);sc();
 $('#sb').onclick=()=>{$('#sp').classList.toggle('on');$('#q').focus()};$('#mm').onclick=()=>{$('#nv').classList.toggle('on');sc()};
@@ -103,8 +114,17 @@ $('#fCats').innerHTML=cats.map(c=>`<li><a href="#shop" data-c="${esc(c)}">${esc(
 const cart='<svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 11h10.2L20 7H6.2"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg>';
 function draw(){const a=P.filter(x=>(cat=='All'||x.category==cat)&&(x.title+' '+(x.description||'')+' '+(x.category||'')).toLowerCase().includes(q));
  $('#pt').textContent=$('#bc').textContent=cat=='All'?'All products':cat;$('#rc').textContent=`Showing ${a.length} of ${P.length} results`;
- $('#grid').innerHTML=a.map(x=>`<article class="card"><div class="ph">${x.demo?'<i class="sm">Sample</i>':''}${x.image?`<img loading="lazy" src="${esc(x.image)}" alt="${esc(x.title)}" onerror="this.remove()">`:''}</div><h3>${esc(x.title)}</h3>${x.price?`<div class="pr">${esc(price(x.price))}</div>`:''}<a class="ad" href="${esc(wa('Hello '+NAME+', I want to know about: '+x.title))}" target="_blank" rel="noopener">${cart} Enquire</a></article>`).join('')||'<div class="empty">No products match your search.</div>'}
+ $('#grid').innerHTML=a.map(x=>`<article class="card" data-i="${P.indexOf(x)}"><div class="ph">${x.demo?'<i class="sm">Sample</i>':x.badge?`<i class="sm bdg">${esc(x.badge)}</i>`:''}${x.image?`<img loading="lazy" src="${esc(x.image)}" alt="${esc(x.title)}" onerror="this.remove()">`:''}</div><h3>${esc(x.title)}</h3>${x.price?`<div class="pr">${esc(price(x.price))}</div>`:''}<a class="ad" href="${esc(wa('Hello '+NAME+', I want to know about: '+x.title))}" target="_blank" rel="noopener">${cart} Enquire</a></article>`).join('')||'<div class="empty">No products match your search.</div>'}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b)return;cat=b.dataset.c;$('#nv').classList.remove('on');draw();$('#shop').scrollIntoView({behavior:'smooth'})});
 $('#q').oninput=e=>{q=e.target.value.trim().toLowerCase();draw();if(q)$('#shop').scrollIntoView({behavior:'smooth'})};draw();
+
+/* about + services */
+const svl=String(H.services||'').split('\n').map(t=>t.trim()).filter(Boolean);
+if(H.aboutText||svl.length){$('#about').hidden=false;$('#abT').textContent=H.aboutTitle||('About '+NAME);$('#abP').textContent=H.aboutText||'';$('#svc').innerHTML=svl.map(t=>`<div>${esc(t)}</div>`).join('');$('#nv').insertAdjacentHTML('beforeend','');const c=document.querySelector('#nv a[href="#contact"]');if(c)c.insertAdjacentHTML('beforebegin','<a href="#about">About</a>')}
+/* product detail */
+function openP(i){const x=P[i];if(!x)return;const im=$('#mImg');im.src=x.image||'';im.style.display=x.image?'':'none';$('#mCat').textContent=x.category||'';$('#mT').textContent=x.title;$('#mPr').textContent=x.price?price(x.price):'';$('#mD').textContent=x.description||'';$('#mL').innerHTML=String(x.details||'').split('\n').map(t=>t.trim()).filter(Boolean).map(t=>`<li>${esc(t)}</li>`).join('');$('#mWa').href=wa('Hello '+NAME+', I want to know about: '+x.title);$('#md').hidden=false;document.body.style.overflow='hidden'}
+const closeP=()=>{$('#md').hidden=true;document.body.style.overflow=''};
+$('#mx').onclick=closeP;$('#md').onclick=e=>{if(e.target.id=='md')closeP()};addEventListener('keydown',e=>{if(e.key=='Escape')closeP()});
+$('#grid').onclick=e=>{if(e.target.closest('a'))return;const c=e.target.closest('.card');if(c)openP(+c.dataset.i)};
 })();
 </script></body></html>
