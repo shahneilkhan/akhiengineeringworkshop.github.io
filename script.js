@@ -1,806 +1,1842 @@
 /* =========================================================
    AKHI ENGINEERING WORKSHOP
-   Main JavaScript
-   Compatible with current index.html + style.css
+   Production JavaScript
    ========================================================= */
 
 (() => {
+
   "use strict";
 
-  /* =========================================================
-     CONFIG
-     ========================================================= */
+  /* =======================================================
+     DOM HELPERS
+     ======================================================= */
 
-  const CONFIG = {
-    revealSelector: ".reveal",
-    mobileBreakpoint: 900,
-    parallaxStrength: 0.035,
-    cursorEnabled: true,
-    storageKey: "akhi_engineering_settings"
+  const $ = (selector, root = document) =>
+    root.querySelector(selector);
+
+  const $$ = (selector, root = document) =>
+    [...root.querySelectorAll(selector)];
+
+
+  /* =======================================================
+     SAFE HTML
+     ======================================================= */
+
+  const escapeHTML = value =>
+    String(value ?? "")
+      .replace(/[&<>"']/g, char => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+      }[char]));
+
+
+  /* =======================================================
+     IMAGE HELPERS
+     ======================================================= */
+
+  const unsplash = id =>
+    `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=1400&q=85`;
+
+
+  const IMAGE = {
+    living:"1555041469-a586c61ea9bc",
+    sofa:"1618221195710-dd6b41faaea6",
+    chair:"1616486338812-3dadae4b4ace",
+    bedroom:"1505693416388-ac5ce068fe85",
+    office:"1519710164239-da123dc03ef4",
+    chair2:"1540574163026-643ea20ade25",
+    table:"1598300042247-d088f8ab3a91"
   };
 
-  /* =========================================================
-     DOM HELPERS
-     ========================================================= */
 
-  const $ = (selector, parent = document) =>
-    parent.querySelector(selector);
+  /* =======================================================
+     DEMO PRODUCTS
+     Used only when Firebase has no products.
+     ======================================================= */
 
-  const $$ = (selector, parent = document) =>
-    [...parent.querySelectorAll(selector)];
+  const DEMO_PRODUCTS = [
+    {
+      title:"Modern Sofa Set",
+      category:"Living Room",
+      price:45000,
+      image:unsplash(IMAGE.living),
+      demo:true,
+      order:1
+    },
+    {
+      title:"Lounge Chair",
+      category:"Living Room",
+      price:12500,
+      image:unsplash(IMAGE.chair2),
+      demo:true,
+      order:2
+    },
+    {
+      title:"Living Room Set",
+      category:"Living Room",
+      price:68000,
+      image:unsplash(IMAGE.sofa),
+      demo:true,
+      order:3
+    },
+    {
+      title:"Cozy Armchair",
+      category:"Living Room",
+      price:9800,
+      image:unsplash(IMAGE.chair),
+      demo:true,
+      order:4
+    },
+    {
+      title:"Wooden Bed",
+      category:"Bedroom",
+      price:38000,
+      image:unsplash(IMAGE.bedroom),
+      demo:true,
+      order:5
+    },
+    {
+      title:"Bedroom Set",
+      category:"Bedroom",
+      price:72000,
+      image:unsplash(IMAGE.bedroom),
+      demo:true,
+      order:6
+    },
+    {
+      title:"Bedside Table",
+      category:"Bedroom",
+      price:6500,
+      image:unsplash(IMAGE.table),
+      demo:true,
+      order:7
+    },
+    {
+      title:"Dining Table Set",
+      category:"Dining",
+      price:52000,
+      image:unsplash(IMAGE.table),
+      demo:true,
+      order:8
+    },
+    {
+      title:"Dining Chair",
+      category:"Dining",
+      price:4800,
+      image:unsplash(IMAGE.chair2),
+      demo:true,
+      order:9
+    },
+    {
+      title:"Ergonomic Mesh Office Chair",
+      category:"Office",
+      price:6800,
+      image:unsplash(IMAGE.office),
+      demo:true,
+      order:10
+    },
+    {
+      title:"Executive Office Desk",
+      category:"Office",
+      price:18500,
+      image:unsplash(IMAGE.table),
+      demo:true,
+      order:11
+    },
+    {
+      title:"Visitor Chair",
+      category:"Office",
+      price:4300,
+      image:unsplash(IMAGE.chair2),
+      demo:true,
+      order:12
+    }
+  ];
 
-  /* =========================================================
+
+  /* =======================================================
+     DEMO BANNERS
+     ======================================================= */
+
+  const DEMO_BANNERS = [
+    {
+      title:"Furniture designed for better living.",
+      description:
+        "Premium furniture for homes, offices and modern workspaces.",
+      image:unsplash(IMAGE.chair)
+    },
+    {
+      title:"Make your workspace work better.",
+      description:
+        "Comfortable chairs and desks for focused working days.",
+      image:unsplash(IMAGE.office)
+    },
+    {
+      title:"Modern form. Everyday comfort.",
+      description:
+        "Thoughtful furniture built around real life.",
+      image:unsplash(IMAGE.bedroom)
+    }
+  ];
+
+
+  /* =======================================================
      STATE
-     ========================================================= */
+     ======================================================= */
 
   const state = {
-    scrollY: window.scrollY,
-    menuOpen: false,
-    cursorX: window.innerWidth / 2,
-    cursorY: window.innerHeight / 2,
-    targetCursorX: window.innerWidth / 2,
-    targetCursorY: window.innerHeight / 2
+    settings:{},
+    home:{},
+    products:[],
+    banners:[],
+
+    category:"All",
+    search:"",
+
+    slide:0,
+    slideTimer:null,
+
+    phone:"",
+
+    firebase:false
   };
 
-  /* =========================================================
-     INIT
-     ========================================================= */
 
-  function init() {
-    setupReveal();
-    setupSmoothScroll();
-    setupHeader();
-    setupButtons();
-    setupCards();
-    setupServices();
-    setupParallax();
-    setupTicker();
-    setupKeyboard();
-    setupMobileNavigation();
-    setupCursor();
-    setupScrollEffects();
-    setupContactLinks();
-    setupYear();
+  /* =======================================================
+     FIREBASE
+     ======================================================= */
 
-    console.log(
-      "%c AKHI ENGINEERING WORKSHOP ",
-      "background:#d6ff47;color:#090c0d;font-weight:800;padding:6px 12px;border-radius:4px;"
-    );
+  async function loadFirebase(){
 
-    console.log(
-      "%cPremium engineering interface initialized.",
-      "color:#96b52a;font-weight:600;"
-    );
-  }
+    try{
 
-  /* =========================================================
-     REVEAL ON SCROLL
-     ========================================================= */
+      const config =
+        window.AKI_FIREBASE_CONFIG;
 
-  function setupReveal() {
-    const elements = $$(CONFIG.revealSelector);
 
-    if (!elements.length) return;
+      if(
+        !config ||
+        !config.apiKey ||
+        String(config.apiKey)
+          .startsWith("YOUR_")
+      ){
 
-    if (!("IntersectionObserver" in window)) {
-      elements.forEach((element) => {
-        element.classList.add("is-visible");
-      });
+        throw new Error(
+          "Firebase configuration is missing."
+        );
 
-      return;
+      }
+
+
+      if(!window.firebase){
+
+        throw new Error(
+          "Firebase SDK is unavailable."
+        );
+
+      }
+
+
+      if(!firebase.apps.length){
+
+        firebase.initializeApp(config);
+
+      }
+
+
+      const db =
+        firebase.firestore();
+
+
+      const normalizeSnapshot =
+        snapshot =>
+
+          snapshot.docs
+
+            .map(doc => ({
+              id:doc.id,
+              ...doc.data()
+            }))
+
+            .filter(item =>
+              item.published !== false
+            )
+
+            .sort(
+              (a,b) =>
+                (a.order ?? 999) -
+                (b.order ?? 999)
+            );
+
+
+      const [
+        homeSnapshot,
+        settingsSnapshot,
+        productsSnapshot,
+        bannersSnapshot
+      ] = await Promise.all([
+
+        db
+          .collection("siteContent")
+          .doc("home")
+          .get(),
+
+        db
+          .collection("siteContent")
+          .doc("settings")
+          .get(),
+
+        db
+          .collection("projects")
+          .get(),
+
+        db
+          .collection("banners")
+          .get()
+
+      ]);
+
+
+      state.home =
+        homeSnapshot.exists
+          ? homeSnapshot.data()
+          : {};
+
+
+      state.settings =
+        settingsSnapshot.exists
+          ? settingsSnapshot.data()
+          : {};
+
+
+      state.products =
+        normalizeSnapshot(
+          productsSnapshot
+        );
+
+
+      state.banners =
+        normalizeSnapshot(
+          bannersSnapshot
+        );
+
+
+      state.firebase = true;
+
+
+    }catch(error){
+
+      console.warn(
+        "[AKHI] Firebase unavailable:",
+        error.message
+      );
+
+      state.firebase = false;
+
     }
 
-    const observer = new IntersectionObserver(
-      (entries, obs) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
+  }
 
-          entry.target.classList.add("is-visible");
 
-          obs.unobserve(entry.target);
-        });
-      },
+  /* =======================================================
+     BRAND
+     ======================================================= */
+
+  function setupBrand(){
+
+    const settings =
+      state.settings;
+
+
+    const name =
+      (
+        settings.name ||
+        "Akhi Engineering Workshop"
+      ).trim();
+
+
+    document.title =
+      `${name} | Premium Furniture`;
+
+
+    const footerName =
+      $("#footerName");
+
+    if(footerName){
+
+      footerName.textContent =
+        name;
+
+    }
+
+
+    const copyright =
+      $("#copyright");
+
+    if(copyright){
+
+      copyright.textContent =
+        settings.footer ||
+        `© ${name}`;
+
+    }
+
+
+    if(settings.logo){
+
+      const logo =
+        $("#logo");
+
+      if(logo){
+
+        logo.src =
+          settings.logo;
+
+        logo.alt =
+          name;
+
+      }
+
+
+      const favicon =
+        $('link[rel="icon"]');
+
+      if(favicon){
+
+        favicon.href =
+          settings.logo;
+
+      }
+
+    }
+
+  }
+
+
+  /* =======================================================
+     CONTACT / WHATSAPP
+     ======================================================= */
+
+  function setupContact(){
+
+    const settings =
+      state.settings;
+
+
+    let phone =
+      String(
+        settings.whatsapp ||
+        settings.phone ||
+        ""
+      )
+      .replace(/\D/g,"");
+
+
+    if(phone.startsWith("0")){
+
+      phone =
+        `880${phone.slice(1)}`;
+
+    }
+
+
+    state.phone =
+      phone;
+
+
+    const name =
+      settings.name ||
+      "Akhi Engineering Workshop";
+
+
+    const createWhatsAppURL =
+      message => {
+
+        if(phone){
+
+          return (
+            `https://wa.me/${phone}` +
+            `?text=${encodeURIComponent(message)}`
+          );
+
+        }
+
+
+        if(settings.email){
+
+          return (
+            `mailto:${settings.email}` +
+            `?subject=${encodeURIComponent(message)}`
+          );
+
+        }
+
+
+        return "#contact";
+
+      };
+
+
+    window.AKI_WHATSAPP =
+      createWhatsAppURL;
+
+
+    const generalMessage =
+      `Hello ${name}, I want to enquire about your furniture.`;
+
+
+    const whatsappButton =
+      $("#whatsappButton");
+
+    if(whatsappButton){
+
+      whatsappButton.href =
+        createWhatsAppURL(
+          generalMessage
+        );
+
+    }
+
+
+    const orderButton =
+      $("#orderButton");
+
+    if(orderButton){
+
+      orderButton.href =
+        createWhatsAppURL(
+          generalMessage
+        );
+
+    }
+
+
+    const phoneLink =
+      $("#phoneLink");
+
+
+    if(
+      phoneLink &&
+      settings.phone
+    ){
+
+      phoneLink.style.display =
+        "flex";
+
+      $("#phoneText").textContent =
+        settings.phone;
+
+
+      phoneLink.href =
+        `tel:${String(settings.phone)
+          .replace(/[^\d+]/g,"")}`;
+
+    }
+
+  }
+
+
+  /* =======================================================
+     FOOTER CONTACT
+     ======================================================= */
+
+  function renderFooter(){
+
+    const settings =
+      state.settings;
+
+
+    const contactItems = [
+
+      settings.address,
+
+      settings.phone,
+
+      settings.email,
+
+      settings.facebook
+
+    ].filter(Boolean);
+
+
+    const container =
+      $("#footerContact");
+
+
+    if(!container){
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      contactItems.length
+
+        ? contactItems
+            .map(
+              value =>
+                `<span>${escapeHTML(value)}</span>`
+            )
+            .join("")
+
+        : `
+          <span>
+            Moulvibazar, Bangladesh
+          </span>
+        `;
+
+  }
+
+
+  /* =======================================================
+     HERO
+     ======================================================= */
+
+  function getHeroSlides(){
+
+    if(state.banners.length){
+
+      return state.banners;
+
+    }
+
+
+    if(!state.products.length){
+
+      return DEMO_BANNERS;
+
+    }
+
+
+    return [
       {
-        threshold: 0.12,
-        rootMargin: "0px 0px -60px"
+        title:
+          state.home.heroTitle ||
+          "Furniture designed for better living.",
+
+        description:
+          state.home.heroDescription ||
+          "Premium furniture for homes, offices and modern workspaces."
+      }
+    ];
+
+  }
+
+
+  function renderHero(){
+
+    const slides =
+      getHeroSlides();
+
+
+    const slidesContainer =
+      $("#slides");
+
+
+    if(!slidesContainer){
+
+      return;
+
+    }
+
+
+    slidesContainer.innerHTML =
+      slides
+        .map(
+          (slide,index) => `
+
+            <article
+              class="slide ${
+                index === 0
+                  ? "active"
+                  : ""
+              }"
+            >
+
+              ${
+                slide.image
+                  ? `
+                    <img
+                      class="slide-image"
+                      src="${escapeHTML(slide.image)}"
+                      alt="${escapeHTML(
+                        slide.title ||
+                        "Akhi Engineering Workshop"
+                      )}"
+                      ${
+                        index
+                          ? 'loading="lazy"'
+                          : ""
+                      }
+                      onerror="
+                        this.style.display='none'
+                      "
+                    >
+                  `
+                  : ""
+              }
+
+            </article>
+
+          `
+        )
+        .join("");
+
+
+    renderHeroContent(
+      slides[0]
+    );
+
+
+    renderSliderControls(
+      slides.length
+    );
+
+
+    startSlider(
+      slides
+    );
+
+  }
+
+
+  function renderHeroContent(slide){
+
+    const heroText =
+      $("#heroText");
+
+
+    if(!heroText){
+
+      return;
+
+    }
+
+
+    heroText.innerHTML = `
+
+      <h1>
+        ${escapeHTML(
+          slide?.title ||
+          "Furniture designed for better living."
+        )}
+      </h1>
+
+      <p class="hero-description">
+        ${escapeHTML(
+          slide?.description ||
+          "Premium furniture for homes, offices and modern workspaces."
+        )}
+      </p>
+
+      <div class="hero-buttons">
+
+        <a
+          href="#shop"
+          class="primary-btn"
+        >
+          Explore Collection
+
+          <svg viewBox="0 0 24 24">
+            <path d="M5 12h13"></path>
+            <path d="M13 6l6 6-6 6"></path>
+          </svg>
+
+        </a>
+
+        <a
+          href="#contact"
+          class="secondary-btn"
+        >
+          Talk to us
+        </a>
+
+      </div>
+
+    `;
+
+  }
+
+
+  function renderSliderControls(count){
+
+    const controls =
+      $("#sliderControls");
+
+
+    if(!controls){
+
+      return;
+
+    }
+
+
+    if(count <= 1){
+
+      controls.innerHTML = "";
+
+      return;
+
+    }
+
+
+    controls.innerHTML =
+      Array
+        .from(
+          {length:count},
+          (_,index) => `
+
+            <button
+              class="slider-dot ${
+                index === 0
+                  ? "active"
+                  : ""
+              }"
+              data-slide="${index}"
+              aria-label="Go to slide ${
+                index + 1
+              }"
+            ></button>
+
+          `
+        )
+        .join("");
+
+  }
+
+
+  function changeSlide(index,slides){
+
+    state.slide =
+      index;
+
+
+    $$(".slide")
+      .forEach(
+        (slide,indexValue) => {
+
+          slide.classList.toggle(
+            "active",
+            indexValue === index
+          );
+
+        }
+      );
+
+
+    $$(".slider-dot")
+      .forEach(
+        (dot,indexValue) => {
+
+          dot.classList.toggle(
+            "active",
+            indexValue === index
+          );
+
+        }
+      );
+
+
+    renderHeroContent(
+      slides[index]
+    );
+
+  }
+
+
+  function startSlider(slides){
+
+    if(state.slideTimer){
+
+      clearInterval(
+        state.slideTimer
+      );
+
+      state.slideTimer =
+        null;
+
+    }
+
+
+    if(
+      slides.length <= 1 ||
+      window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches
+    ){
+
+      return;
+
+    }
+
+
+    state.slideTimer =
+      setInterval(
+        () => {
+
+          changeSlide(
+            (
+              state.slide + 1
+            ) % slides.length,
+
+            slides
+          );
+
+        },
+        6500
+      );
+
+  }
+
+
+  /* =======================================================
+     CATEGORIES
+     ======================================================= */
+
+  function getCategories(){
+
+    return [
+      ...new Set(
+        state.products
+          .map(
+            product =>
+              product.category
+          )
+          .filter(Boolean)
+      )
+    ];
+
+  }
+
+
+  function renderCategories(){
+
+    const categories =
+      getCategories();
+
+
+    const categoryGrid =
+      $("#categoryGrid");
+
+
+    if(categoryGrid){
+
+      categoryGrid.innerHTML =
+        categories.length
+
+          ? categories
+              .map(
+                (category,index) => {
+
+                  const product =
+                    state.products.find(
+                      item =>
+                        item.category ===
+                          category &&
+                        item.image
+                    );
+
+
+                  return `
+
+                    <button
+                      class="category"
+                      data-category="${escapeHTML(
+                        category
+                      )}"
+                    >
+
+                      <div class="category-image">
+
+                        ${
+                          product
+                            ? `
+                              <img
+                                src="${escapeHTML(
+                                  product.image
+                                )}"
+                                alt="${escapeHTML(
+                                  category
+                                )}"
+                                loading="lazy"
+                                onerror="
+                                  this.style.display='none'
+                                "
+                              >
+                            `
+                            : ""
+                        }
+
+                      </div>
+
+                      <div class="category-content">
+
+                        <div class="category-number">
+                          ${String(
+                            index + 1
+                          ).padStart(2,"0")}
+                        </div>
+
+                        <div class="category-title">
+                          ${escapeHTML(
+                            category
+                          )}
+                        </div>
+
+                      </div>
+
+                    </button>
+
+                  `;
+
+                }
+              )
+              .join("")
+
+          : `
+            <div class="empty">
+              Categories will appear here.
+            </div>
+          `;
+
+    }
+
+
+    const navCategories =
+      $("#navCategories");
+
+
+    if(navCategories){
+
+      navCategories.innerHTML =
+        categories
+          .slice(0,6)
+          .map(
+            category => `
+
+              <button
+                data-category="${escapeHTML(
+                  category
+                )}"
+              >
+                ${escapeHTML(
+                  category
+                )}
+              </button>
+
+            `
+          )
+          .join("");
+
+    }
+
+
+    const footerCategories =
+      $("#footerCategories");
+
+
+    if(footerCategories){
+
+      footerCategories.innerHTML =
+        categories
+          .map(
+            category => `
+
+              <a
+                href="#shop"
+                data-category="${escapeHTML(
+                  category
+                )}"
+              >
+                ${escapeHTML(
+                  category
+                )}
+              </a>
+
+            `
+          )
+          .join("");
+
+    }
+
+
+    const filter =
+      $("#productFilter");
+
+
+    if(filter){
+
+      filter.innerHTML =
+        [
+          "All",
+          ...categories
+        ]
+          .map(
+            category => `
+
+              <button
+                class="filter-btn ${
+                  category === "All"
+                    ? "active"
+                    : ""
+                }"
+                data-filter="${escapeHTML(
+                  category
+                )}"
+              >
+                ${
+                  category === "All"
+                    ? "All"
+                    : escapeHTML(
+                        category
+                      )
+                }
+              </button>
+
+            `
+          )
+          .join("");
+
+    }
+
+  }
+
+
+  /* =======================================================
+     PRICE
+     ======================================================= */
+
+  function formatPrice(value){
+
+    const text =
+      String(value ?? "")
+        .trim();
+
+
+    if(/^\d+$/.test(text)){
+
+      return (
+        "৳" +
+        Number(text)
+          .toLocaleString("en-US")
+      );
+
+    }
+
+
+    return text;
+
+  }
+
+
+  /* =======================================================
+     PRODUCT RENDERING
+     ======================================================= */
+
+  function getFilteredProducts(){
+
+    return state.products.filter(
+      product => {
+
+        const categoryMatch =
+          state.category === "All" ||
+          product.category ===
+            state.category;
+
+
+        const searchableText = (
+
+          product.title ||
+
+          ""
+
+        ) + " " + (
+
+          product.description ||
+
+          ""
+
+        ) + " " + (
+
+          product.category ||
+
+          "");
+
+
+        const searchMatch =
+          searchableText
+            .toLowerCase()
+            .includes(
+              state.search
+            );
+
+
+        return (
+          categoryMatch &&
+          searchMatch
+        );
+
       }
     );
 
-    elements.forEach((element) => {
-      observer.observe(element);
-    });
   }
 
-  /* =========================================================
-     SMOOTH SCROLL
-     ========================================================= */
 
-  function setupSmoothScroll() {
-    $$('a[href^="#"]').forEach((link) => {
-      link.addEventListener("click", (event) => {
-        const href = link.getAttribute("href");
+  function renderProducts(){
 
-        if (!href || href === "#") return;
+    const grid =
+      $("#productGrid");
 
-        const target = document.querySelector(href);
 
-        if (!target) return;
+    if(!grid){
 
-        event.preventDefault();
+      return;
 
-        closeMobileMenu();
+    }
 
-        target.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
 
-        history.replaceState(null, "", href);
-      });
-    });
+    const filtered =
+      getFilteredProducts();
+
+
+    const title =
+      $("#productTitle");
+
+
+    if(title){
+
+      title.textContent =
+        state.category === "All"
+          ? "All products"
+          : state.category;
+
+    }
+
+
+    const count =
+      $("#resultCount");
+
+
+    if(count){
+
+      count.textContent =
+        `Showing ${
+          filtered.length
+        } of ${
+          state.products.length
+        } products`;
+
+    }
+
+
+    if(!filtered.length){
+
+      grid.innerHTML = `
+
+        <div class="empty">
+
+          No products match your search.
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    grid.innerHTML =
+      filtered
+        .map(
+          product =>
+            renderProduct(
+              product
+            )
+        )
+        .join("");
+
   }
 
-  /* =========================================================
+
+  function renderProduct(product){
+
+    const name =
+      state.settings.name ||
+      "Akhi Engineering Workshop";
+
+
+    const message =
+      `Hello ${name}, I want to know about: ${product.title}`;
+
+
+    const href =
+      window.AKI_WHATSAPP
+        ? window.AKI_WHATSAPP(
+            message
+          )
+        : "#contact";
+
+
+    return `
+
+      <article class="product">
+
+        <div class="product-media">
+
+          ${
+            product.demo
+              ? `
+                <span class="sample">
+                  Sample
+                </span>
+              `
+              : ""
+          }
+
+          ${
+            product.image
+              ? `
+                <img
+                  src="${escapeHTML(
+                    product.image
+                  )}"
+                  alt="${escapeHTML(
+                    product.title
+                  )}"
+                  loading="lazy"
+                  onerror="
+                    this.style.display='none'
+                  "
+                >
+              `
+              : ""
+          }
+
+        </div>
+
+
+        <div class="product-info">
+
+          <div class="product-category">
+            ${escapeHTML(
+              product.category ||
+              "Furniture"
+            )}
+          </div>
+
+          <h3 class="product-name">
+            ${escapeHTML(
+              product.title ||
+              "Furniture"
+            )}
+          </h3>
+
+          <div class="product-bottom">
+
+            <div class="product-price">
+
+              ${
+                product.price
+                  ? escapeHTML(
+                      formatPrice(
+                        product.price
+                      )
+                    )
+                  : "Contact for price"
+              }
+
+            </div>
+
+            <a
+              class="enquire"
+              href="${escapeHTML(href)}"
+              target="_blank"
+              rel="noopener"
+            >
+
+              Enquire
+
+              <svg viewBox="0 0 24 24">
+                <path d="M5 12h13"></path>
+                <path d="M13 6l6 6-6 6"></path>
+              </svg>
+
+            </a>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    `;
+
+  }
+
+
+  /* =======================================================
      HEADER
-     ========================================================= */
+     ======================================================= */
 
-  function setupHeader() {
-    const navWrap = $(".nav-wrap");
+  function setupHeader(){
 
-    if (!navWrap) return;
+    const header =
+      $("#header");
 
-    const updateHeader = () => {
-      const scrolled = window.scrollY > 30;
 
-      navWrap.classList.toggle(
-        "is-scrolled",
-        scrolled
-      );
+    if(!header){
 
-      navWrap.style.boxShadow = scrolled
-        ? "0 12px 40px rgba(0,0,0,.18)"
-        : "none";
-    };
+      return;
 
-    updateHeader();
+    }
+
+
+    const navigation =
+      $("#nav");
+
+
+    const updateHeader =
+      () => {
+
+        header.classList.toggle(
+          "scrolled",
+          window.scrollY > 40
+        );
+
+      };
+
 
     window.addEventListener(
       "scroll",
       updateHeader,
-      { passive: true }
-    );
-  }
-
-  /* =========================================================
-     BUTTON MICRO INTERACTION
-     ========================================================= */
-
-  function setupButtons() {
-    const buttons = $$(".btn, .nav-cta");
-
-    buttons.forEach((button) => {
-      button.addEventListener("mouseenter", () => {
-        button.style.transform = "translateY(-2px)";
-      });
-
-      button.addEventListener("mouseleave", () => {
-        button.style.transform = "";
-      });
-
-      button.addEventListener("mousedown", () => {
-        button.style.transform =
-          "translateY(0) scale(.97)";
-      });
-
-      button.addEventListener("mouseup", () => {
-        button.style.transform =
-          "translateY(-2px)";
-      });
-    });
-  }
-
-  /* =========================================================
-     WORK CARDS
-     ========================================================= */
-
-  function setupCards() {
-    const cards = $$(".work-card");
-
-    cards.forEach((card) => {
-      const art = $(".work-art", card);
-
-      card.addEventListener("mousemove", (event) => {
-        if (window.innerWidth <= 900) return;
-
-        const rect = card.getBoundingClientRect();
-
-        const x =
-          (event.clientX - rect.left) /
-          rect.width -
-          0.5;
-
-        const y =
-          (event.clientY - rect.top) /
-          rect.height -
-          0.5;
-
-        card.style.transform =
-          `perspective(900px)
-           rotateX(${y * -2.5}deg)
-           rotateY(${x * 2.5}deg)
-           translateY(-4px)`;
-
-        if (art) {
-          art.style.transform =
-            `scale(1.015)
-             translate(${x * 5}px,${y * 5}px)`;
-        }
-      });
-
-      card.addEventListener("mouseleave", () => {
-        card.style.transform = "";
-
-        if (art) {
-          art.style.transform = "";
-        }
-      });
-
-      card.style.transition =
-        "transform .5s cubic-bezier(.2,.75,.2,1)";
-    });
-  }
-
-  /* =========================================================
-     SERVICE ROWS
-     ========================================================= */
-
-  function setupServices() {
-    const services = $$(".service");
-
-    services.forEach((service) => {
-      service.addEventListener("mouseenter", () => {
-        service.style.paddingLeft = "15px";
-
-        const arrow = $("b", service);
-
-        if (arrow) {
-          arrow.style.transform =
-            "translateX(5px)";
-        }
-      });
-
-      service.addEventListener("mouseleave", () => {
-        service.style.paddingLeft = "";
-
-        const arrow = $("b", service);
-
-        if (arrow) {
-          arrow.style.transform = "";
-        }
-      });
-
-      service.style.transition =
-        "padding .35s cubic-bezier(.2,.75,.2,1)";
-
-      const arrow = $("b", service);
-
-      if (arrow) {
-        arrow.style.transition =
-          "transform .35s cubic-bezier(.2,.75,.2,1)";
+      {
+        passive:true
       }
-    });
-  }
+    );
 
-  /* =========================================================
-     HERO PARALLAX
-     ========================================================= */
 
-  function setupParallax() {
-    const visual = $(".hero-visual");
-    const machine = $(".machine-card");
+    updateHeader();
 
-    if (!visual || !machine) return;
 
-    if (
-      window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches
-    ) {
-      return;
+    const menuButton =
+      $("#menuButton");
+
+
+    if(menuButton){
+
+      menuButton.addEventListener(
+        "click",
+        () => {
+
+          navigation?.classList.toggle(
+            "open"
+          );
+
+        }
+      );
+
     }
 
-    window.addEventListener(
-      "mousemove",
-      (event) => {
-        if (window.innerWidth <= 900) return;
 
-        const x =
-          event.clientX /
-            window.innerWidth -
-          0.5;
+    const searchButton =
+      $("#searchButton");
 
-        const y =
-          event.clientY /
-            window.innerHeight -
-          0.5;
 
-        machine.style.transform =
-          `translate3d(
-            ${x * 12}px,
-            ${y * 12}px,
-            0
-          )`;
-      },
-      { passive: true }
-    );
+    const searchPanel =
+      $("#searchPanel");
 
-    visual.addEventListener("mouseleave", () => {
-      machine.style.transform = "";
-    });
-  }
 
-  /* =========================================================
-     TICKER
-     ========================================================= */
+    if(
+      searchButton &&
+      searchPanel
+    ){
 
-  function setupTicker() {
-    const ticker = $(".ticker div");
+      searchButton.addEventListener(
+        "click",
+        () => {
 
-    if (!ticker) return;
+          searchPanel.classList.toggle(
+            "open"
+          );
 
-    /*
-      Pause ticker when hovered.
-    */
 
-    ticker.parentElement.addEventListener(
-      "mouseenter",
-      () => {
-        ticker.style.animationPlayState =
-          "paused";
-      }
-    );
+          if(
+            searchPanel.classList.contains(
+              "open"
+            )
+          ){
 
-    ticker.parentElement.addEventListener(
-      "mouseleave",
-      () => {
-        ticker.style.animationPlayState =
-          "running";
-      }
-    );
-  }
+            setTimeout(
+              () =>
+                $("#searchInput")?.focus(),
+              80
+            );
 
-  /* =========================================================
-     MOBILE NAVIGATION
-     ========================================================= */
+          }
 
-  function setupMobileNavigation() {
-    const nav = $(".nav");
+        }
+      );
 
-    if (!nav) return;
-
-    /*
-      Current HTML may not contain a mobile menu button.
-      If it does, this automatically supports:
-      .menu-toggle / .mobile-toggle
-    */
-
-    const toggle =
-      $(".menu-toggle") ||
-      $(".mobile-toggle") ||
-      $("[data-menu-toggle]");
-
-    if (!toggle) return;
-
-    toggle.addEventListener("click", () => {
-      state.menuOpen
-        ? closeMobileMenu()
-        : openMobileMenu();
-    });
-  }
-
-  function openMobileMenu() {
-    const nav = $(".nav");
-
-    if (!nav) return;
-
-    state.menuOpen = true;
-
-    nav.classList.add("mobile-open");
-
-    document.body.classList.add(
-      "mobile-menu-open"
-    );
-  }
-
-  function closeMobileMenu() {
-    const nav = $(".nav");
-
-    if (!nav) return;
-
-    state.menuOpen = false;
-
-    nav.classList.remove("mobile-open");
-
-    document.body.classList.remove(
-      "mobile-menu-open"
-    );
-  }
-
-  /* =========================================================
-     KEYBOARD
-     ========================================================= */
-
-  function setupKeyboard() {
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        closeMobileMenu();
-      }
-    });
-  }
-
-  /* =========================================================
-     CUSTOM CURSOR
-     ========================================================= */
-
-  function setupCursor() {
-    if (!CONFIG.cursorEnabled) return;
-
-    if (
-      !window.matchMedia(
-        "(pointer:fine)"
-      ).matches
-    ) {
-      return;
     }
 
-    /*
-      Do not create a cursor if the current HTML
-      already has its own custom cursor.
-    */
+  }
 
-    if (
-      $(".cursor-dot") ||
-      $(".cursor-ring")
-    ) {
-      return;
-    }
 
-    const dot =
-      document.createElement("div");
+  /* =======================================================
+     EVENT DELEGATION
+     ======================================================= */
 
-    const ring =
-      document.createElement("div");
-
-    dot.className =
-      "akhi-cursor-dot";
-
-    ring.className =
-      "akhi-cursor-ring";
-
-    Object.assign(dot.style, {
-      position: "fixed",
-      width: "6px",
-      height: "6px",
-      borderRadius: "50%",
-      background: "#d6ff47",
-      pointerEvents: "none",
-      zIndex: "9999",
-      transform: "translate(-50%,-50%)",
-      boxShadow: "0 0 18px rgba(214,255,71,.65)"
-    });
-
-    Object.assign(ring.style, {
-      position: "fixed",
-      width: "32px",
-      height: "32px",
-      borderRadius: "50%",
-      border: "1px solid rgba(214,255,71,.45)",
-      pointerEvents: "none",
-      zIndex: "9998",
-      transform: "translate(-50%,-50%)",
-      transition:
-        "width .25s ease,height .25s ease,border-color .25s ease"
-    });
-
-    document.body.appendChild(dot);
-    document.body.appendChild(ring);
+  function setupEvents(){
 
     document.addEventListener(
-      "mousemove",
-      (event) => {
-        state.targetCursorX =
-          event.clientX;
+      "click",
+      event => {
 
-        state.targetCursorY =
-          event.clientY;
+        const category =
+          event.target.closest(
+            "[data-category]"
+          );
 
-        dot.style.left =
-          `${state.targetCursorX}px`;
 
-        dot.style.top =
-          `${state.targetCursorY}px`;
-      },
-      { passive: true }
-    );
+        if(category){
 
-    function animateCursor() {
-      state.cursorX +=
-        (state.targetCursorX -
-          state.cursorX) *
-        0.14;
+          state.category =
+            category.dataset.category;
 
-      state.cursorY +=
-        (state.targetCursorY -
-          state.cursorY) *
-        0.14;
 
-      ring.style.left =
-        `${state.cursorX}px`;
+          renderProducts();
 
-      ring.style.top =
-        `${state.cursorY}px`;
 
-      requestAnimationFrame(
-        animateCursor
-      );
-    }
-
-    animateCursor();
-
-    const interactive = $$(
-      "a,button,.work-card,.service"
-    );
-
-    interactive.forEach((element) => {
-      element.addEventListener(
-        "mouseenter",
-        () => {
-          ring.style.width = "48px";
-          ring.style.height = "48px";
-          ring.style.borderColor =
-            "rgba(214,255,71,.75)";
-        }
-      );
-
-      element.addEventListener(
-        "mouseleave",
-        () => {
-          ring.style.width = "32px";
-          ring.style.height = "32px";
-          ring.style.borderColor =
-            "rgba(214,255,71,.45)";
-        }
-      );
-    });
-  }
-
-  /* =========================================================
-     SCROLL EFFECTS
-     ========================================================= */
-
-  function setupScrollEffects() {
-    let ticking = false;
-
-    function update() {
-      state.scrollY =
-        window.scrollY;
-
-      const hero = $(".hero");
-
-      if (hero && window.innerWidth > 900) {
-        const heroVisual =
-          $(".hero-visual", hero);
-
-        if (heroVisual) {
-          const movement =
-            Math.min(
-              state.scrollY * 0.06,
-              35
+          $("#nav")
+            ?.classList.remove(
+              "open"
             );
 
-          heroVisual.style.transform =
-            `translateY(${movement}px)`;
+
+          document
+            .querySelector("#shop")
+            ?.scrollIntoView({
+              behavior:
+                window.matchMedia(
+                  "(prefers-reduced-motion: reduce)"
+                ).matches
+                  ? "auto"
+                  : "smooth"
+            });
+
+
+          return;
+
         }
-      }
 
-      ticking = false;
-    }
 
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (ticking) return;
+        const filter =
+          event.target.closest(
+            "[data-filter]"
+          );
 
-        window.requestAnimationFrame(
-          update
-        );
 
-        ticking = true;
-      },
-      { passive: true }
-    );
-  }
+        if(filter){
 
-  /* =========================================================
-     CONTACT LINKS
-     ========================================================= */
+          state.category =
+            filter.dataset.filter;
 
-  function setupContactLinks() {
-    $$("a[href^='mailto:']").forEach(
-      (link) => {
-        link.addEventListener(
-          "click",
-          () => {
-            console.log(
-              "AKHI contact:",
-              link.getAttribute("href")
+
+          $$(".filter-btn")
+            .forEach(
+              button => {
+
+                button.classList.toggle(
+                  "active",
+                  button.dataset.filter ===
+                    state.category
+                );
+
+              }
             );
-          }
-        );
+
+
+          renderProducts();
+
+
+          return;
+
+        }
+
+
+        const slide =
+          event.target.closest(
+            "[data-slide]"
+          );
+
+
+        if(slide){
+
+          const slides =
+            getHeroSlides();
+
+
+          changeSlide(
+            Number(
+              slide.dataset.slide
+            ),
+            slides
+          );
+
+        }
+
       }
     );
+
   }
 
-  /* =========================================================
-     YEAR
-     ========================================================= */
 
-  function setupYear() {
-    const year =
-      $("#year") ||
-      $("[data-year]");
+  /* =======================================================
+     SEARCH
+     ======================================================= */
 
-    if (!year) return;
+  function setupSearch(){
 
-    year.textContent =
-      new Date().getFullYear();
-  }
+    const input =
+      $("#searchInput");
 
-  /* =========================================================
-     IMAGE LAZY LOAD SUPPORT
-     ========================================================= */
 
-  function setupLazyImages() {
-    const images = $$(
-      "img[data-src]"
-    );
-
-    if (!images.length) return;
-
-    if (
-      !("IntersectionObserver" in window)
-    ) {
-      images.forEach((img) => {
-        img.src =
-          img.dataset.src;
-      });
+    if(!input){
 
       return;
+
     }
+
+
+    input.addEventListener(
+      "input",
+      event => {
+
+        state.search =
+          event.target.value
+            .trim()
+            .toLowerCase();
+
+
+        renderProducts();
+
+      }
+    );
+
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        if(
+          event.key === "/" &&
+          document.activeElement !== input
+        ){
+
+          event.preventDefault();
+
+          $("#searchPanel")
+            ?.classList.add(
+              "open"
+            );
+
+          input.focus();
+
+        }
+
+
+        if(event.key === "Escape"){
+
+          $("#searchPanel")
+            ?.classList.remove(
+              "open"
+            );
+
+          $("#nav")
+            ?.classList.remove(
+              "open"
+            );
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     SCROLL REVEAL
+     ======================================================= */
+
+  function setupReveal(){
+
+    const elements =
+      $$(".reveal");
+
+
+    if(!elements.length){
+
+      return;
+
+    }
+
+
+    if(
+      !("IntersectionObserver" in window)
+    ){
+
+      elements.forEach(
+        element =>
+          element.classList.add(
+            "visible"
+          )
+      );
+
+      return;
+
+    }
+
 
     const observer =
       new IntersectionObserver(
-        (entries, obs) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting)
-              return;
+        entries => {
 
-            const image =
-              entry.target;
+          entries.forEach(
+            entry => {
 
-            image.src =
-              image.dataset.src;
+              if(
+                entry.isIntersecting
+              ){
 
-            image.removeAttribute(
-              "data-src"
-            );
+                entry.target.classList.add(
+                  "visible"
+                );
 
-            obs.unobserve(image);
-          });
+
+                observer.unobserve(
+                  entry.target
+                );
+
+              }
+
+            }
+          );
+
         },
         {
-          rootMargin: "200px"
+          threshold:.12,
+          rootMargin:"0px 0px -40px"
         }
       );
 
-    images.forEach((image) => {
-      observer.observe(image);
-    });
+
+    elements.forEach(
+      element =>
+        observer.observe(element)
+    );
+
   }
 
-  /* =========================================================
-     IMAGE ERROR HANDLING
-     ========================================================= */
 
-  function setupImageFallback() {
+  /* =======================================================
+     IMAGE ERROR HANDLING
+     ======================================================= */
+
+  function setupGlobalImageFallback(){
+
     document.addEventListener(
       "error",
-      (event) => {
-        const image =
-          event.target;
+      event => {
 
-        if (
-          !image ||
-          image.tagName !== "IMG"
-        ) {
+        if(
+          event.target.tagName !==
+          "IMG"
+        ){
+
           return;
+
         }
 
-        image.classList.add(
-          "image-failed"
+
+        event.target.classList.add(
+          "image-error"
         );
 
-        image.style.opacity = ".25";
       },
       true
     );
+
   }
 
-  /* =========================================================
-     REDUCED MOTION
-     ========================================================= */
 
-  function setupReducedMotion() {
-    const reduced =
-      window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
+  /* =======================================================
+     INIT
+     ======================================================= */
+
+  async function init(){
+
+    await loadFirebase();
+
+
+    if(!state.products.length){
+
+      state.products =
+        [...DEMO_PRODUCTS];
+
+    }
+
+
+    setupBrand();
+
+    setupContact();
+
+    renderFooter();
+
+    renderHero();
+
+    renderCategories();
+
+    renderProducts();
+
+    setupHeader();
+
+    setupEvents();
+
+    setupSearch();
+
+    setupReveal();
+
+    setupGlobalImageFallback();
+
+
+    document.documentElement
+      .classList.add(
+        "app-ready"
       );
 
-    if (!reduced.matches) return;
+  }
 
-    document.documentElement.classList.add(
-      "reduced-motion"
+
+  /* =======================================================
+     START
+     ======================================================= */
+
+  init()
+    .catch(
+      error => {
+
+        console.error(
+          "[AKHI] Application failed:",
+          error
+        );
+
+      }
     );
-  }
-
-  /* =========================================================
-     RESIZE
-     ========================================================= */
-
-  function setupResize() {
-    let resizeTimer;
-
-    window.addEventListener(
-      "resize",
-      () => {
-        clearTimeout(resizeTimer);
-
-        resizeTimer = setTimeout(() => {
-          if (
-            window.innerWidth >
-            CONFIG.mobileBreakpoint
-          ) {
-            closeMobileMenu();
-          }
-        }, 150);
-      },
-      { passive: true }
-    );
-  }
-
-  /* =========================================================
-     INITIALIZE
-     ========================================================= */
-
-  function boot() {
-    setupLazyImages();
-    setupImageFallback();
-    setupReducedMotion();
-    setupResize();
-    init();
-  }
-
-  if (
-    document.readyState ===
-    "loading"
-  ) {
-    document.addEventListener(
-      "DOMContentLoaded",
-      boot,
-      { once: true }
-    );
-  } else {
-    boot();
-  }
 
 })();
