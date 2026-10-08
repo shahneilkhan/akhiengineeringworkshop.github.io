@@ -1,0 +1,35 @@
+admin/pages.js - 6 small edits (find -> replace) for up to 4 product photos
+=========================================================================
+(Main photo stays in "image". Extra 3 photos go in a new "images" array, so nothing is stored twice and old products keep working.)
+
+EDIT 1 - shrink(): add a size-limit argument
+FIND:    const shrink=(file,maxW,type,q)=>new Promise(
+REPLACE: const shrink=(file,maxW,type,q,lim)=>new Promise(
+FIND:    if(d.length<700000||i==5)
+REPLACE: if(d.length<(lim||700000)||i==5)
+
+EDIT 2 - wire(): use the per-field limit (6th item) and wire the gallery
+FIND:    show(await shrink(fl,f[4]||1200,f[3]=='png'?'image/webp':'image/jpeg',.82));
+REPLACE: show(await shrink(fl,f[4]||1200,f[3]=='png'?'image/webp':'image/jpeg',.82,f[5]));
+FIND:    function wire(fs){fs.filter(f=>f[2]=='i')
+REPLACE: function wire(fs){fs.filter(f=>f[2]=='g').forEach(f=>drawGal(f[0]));fs.filter(f=>f[2]=='i')
+
+EDIT 3 - inp(): support the new gallery field type 'g'. Replace the whole line starting with "const inp=" by:
+const GAL={};
+const inp=(f,v)=>f[2]=='g'?(GAL[f[0]]=Array.isArray(v)?v.slice(0,3):[],`<label>${f[1]}</label><div id="gal_${f[0]}"></div>`):f[2]=='i'?imgw(f,v):`<label>${f[1]}</label>${f[2]=='t'?`<textarea id="f_${f[0]}">${esc(v)}</textarea>`:`<input id="f_${f[0]}" ${f[2]=='n'?'type="number"':''} value="${esc(v)}">`}`;
+const drawGal=k=>{const a=GAL[k],box=$('#gal_'+k);box.innerHTML='<div style="display:flex;gap:10px;flex-wrap:wrap">'+a.map((v,i)=>`<div style="position:relative"><img src="${esc(v)}" alt="" style="width:96px;height:96px;object-fit:cover;border-radius:6px;border:1px solid #ddd"><button type="button" class="btn del" data-gx="${i}" style="position:absolute;top:2px;right:2px;padding:2px 8px">×</button></div>`).join('')+(a.length<3?`<label class="btn" style="margin:0;align-self:center">+ Add photo<input type="file" id="gf_${k}" accept="image/*" multiple hidden></label>`:'')+'</div><small>Up to 3 extra photos (4 in total with the main image).</small>';
+ box.querySelectorAll('[data-gx]').forEach(b=>b.onclick=()=>{a.splice(+b.dataset.gx,1);drawGal(k)});
+ const fi=$('#gf_'+k);if(fi)fi.onchange=async e=>{try{for(const fl of [...e.target.files]){if(a.length>=3)break;msg('Processing image…');a.push(await shrink(fl,900,'image/jpeg',.82,210000))}msg('Photos ready. Press Save.');drawGal(k)}catch(x){msg(x.message,1)}}};
+(Put "const GAL" etc. right where the old "const inp=" line was. Keep the "const shrink" line below it as is.)
+
+EDIT 4 - read(): handle the gallery
+FIND:    const read=fs=>{const o={};fs.forEach(f=>{const v=
+REPLACE: const read=fs=>{const o={};fs.forEach(f=>{if(f[2]=='g'){o[f[0]]=GAL[f[0]]||[];return}const v=
+
+EDIT 5 - Products fields in "const C": replace the product image item and add the gallery item
+FIND:    ['image','Product image','i','',1000],['order','Order','n']]},
+REPLACE: ['image','Main product image','i','',900,210000],['images','More photos','g'],['order','Order','n']]},
+
+EDIT 6 - editPage(): stop saving if the photos are too big for one Firestore document (1 MB)
+FIND:    const o={...read(c.f),updatedAt:SV()};if(c.pub)o.published=$('#pub').checked;
+REPLACE: const o={...read(c.f),updatedAt:SV()};if(c.pub)o.published=$('#pub').checked;if(JSON.stringify(o).length>980000)throw Error('Photos are too large together. Remove one photo or upload smaller images.');
